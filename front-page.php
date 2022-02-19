@@ -1,9 +1,13 @@
+<?/* Template Name: Front-page */?>
+
 <?php get_header();?>
 
-<div class="container">
+    <h3>FRONT-PAGE.PHP</h3>
 
-    <?php get_template_part('sections/include','front-contents');?>
+    <?php get_template_part('include/component','contents-before'); ?>
 
-</div>
+
+    <?php get_template_part('include/component','contents-after'); ?>
+
 
 <?php get_footer();?>

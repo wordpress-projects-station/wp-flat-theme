@@ -1,7 +1,9 @@
 
-    <?php get_template_part('sections/include','page-ending');?>    
+    <footer>
+        <?php get_template_part('include/model','ending');?>    
+    </footer>
 
-    <?php /*loadscriptandmore*/ wp_footer();?>
+    <?php wp_footer();?>
     
 </body>
 </html>

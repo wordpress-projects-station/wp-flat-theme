@@ -1,4 +1,14 @@
 /**
-Theme Name: Zero
-Author: Bertz - https://bertz.tech
+Theme Name:   WP-FLAT-THEME
+Theme URI:    https://github.com/wordpress-projects-station/wp-flat-theme
+Author:       Alberto Marà aka bertz
+Author URI:   https://bertz.tech/
+Text Domain:  bertz.tech
+Description:  A simple basic and free starter kit for make a wordpres customizable theme (gutenberg & woocommerce compatible).
+Version:      0.X-beta
+Tested up to: 5.8.0
+Requires PHP: 5.8.0
+License:      MIT - It's full opened exemple
+License URI:  https://github.com/wordpress-projects-station/wp-flat-theme/blob/main/LICENSE
+Tags:         beta, theme-options, editor-style, gutenberg, blog, woocommerce
 **/

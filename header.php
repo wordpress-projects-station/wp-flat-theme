@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <?php /*loadmetaandmore*/ wp_head();?>
+    <?php wp_head();?>
 
 </head>
 <body>
 
-    <?php get_template_part('sections/include','page-heading');?>
+    <?php get_template_part('include/model','heading');?>
