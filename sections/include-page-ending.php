@@ -1,0 +1,1 @@
+<p>PAGE FOOTER TYPE</p>
