@@ -1,0 +1,3 @@
+<div class="mt-4 mb-4">
+    <b>In date : <?php echo get_post_field('post_date', $post->ID); ?></b>  &nbsp;&nbsp;⋮&nbsp;&nbsp;<b>Categories :&nbsp;&nbsp;</b> <?php $categories = get_the_category(); foreach ($categories as $cat) {echo '<span class="car"><a class="btn btn-outline-info btn-sm" href="'.get_category_link($cat->term_id).'"> '.$cat->name.' </a></span>&nbsp; ';}?> &nbsp;&nbsp;⋮&nbsp;&nbsp;<b>Arguments :&nbsp;</b> <?php $tags = get_the_tags(); foreach ($tags as $tag) {echo '<span class="category"><a class="btn btn-info btn-sm" href="'.get_tag_link($tag->term_id).'"> '.$tag->name.' </a></span>&nbsp; ';}?>
+</div>

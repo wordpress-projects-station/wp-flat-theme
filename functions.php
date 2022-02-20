@@ -1,7 +1,7 @@
 <?php
 
     //enqueue assets
-    function add_theme_assets() {
+    // function add_theme_assets() {
 
         // load bootstrap
         wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', null, false, 'all'); 
@@ -14,12 +14,19 @@
         // load customizable style
         wp_enqueue_style('custom-css', get_stylesheet_directory_uri() . 'style.css', null, false, 'all');
 
-    } add_action('wp_enqueue_scripts', 'add_theme_assets');
+    // } add_action('wp_enqueue_scripts', 'add_theme_assets');
 
 
-    //add navigations: bootstrap coverter
-    require_once get_template_directory() . '/adds/class-wp-bootstrap-navwalker.php';
-    
+    //bootstrap coverter: add comments 
+    // function add_bootstrap_comments() { add_theme_support( 'html5', array('comment-list') ); }
+    // add_action( 'after_setup_theme', 'add_bootstrap_comments' );
+    // require get_template_directory() . '/adds/class-wp-bootstrap-commentswalker.php';
+    require get_template_directory() . '/adds/class-wp-bootstrap-comments.php';
+
+    //bootstrap coverter: add navigations
+    require get_template_directory() . '/adds/class-wp-bootstrap-navwalker.php';
+
+
     //add navigations in wordpress
     add_theme_support('menus');
     register_nav_menus([
