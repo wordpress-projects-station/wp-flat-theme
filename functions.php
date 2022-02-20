@@ -42,6 +42,22 @@
 
 
     
-    
+    // add social profiles for users
+    function add_to_author_profile( $socialprofile ) {
+        $socialprofile['rss_url_link'] = 'RSS URL';
+        $socialprofile['google_profile_link'] = 'Google Profile URL';
+        $socialprofile['youtube_profile_link'] = 'Youtube Profile URL';
+        $socialprofile['pinterest_profile_link'] = 'Pinterest Profile URL';
+        $socialprofile['twitter_profile_link'] = 'Twitter Profile URL';
+        $socialprofile['facebook_profile_link'] = 'Facebook Profile URL';
+        $socialprofile['linkedin_profile_link'] = 'Linkedin Profile URL';
+        $socialprofile['instagram_profile_link'] = 'Instagram Profile URL';
+        $socialprofile['whatsapp_number_link'] = 'Whatsapp Number';
+        
+        return $socialprofile;
+    }
+
+    add_filter( 'user_contactmethods', 'add_to_author_profile', 10, 1);
+
 
 ?>

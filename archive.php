@@ -1,14 +1,29 @@
-<?/* Template Name: Blog&Archives */?>
+<?/* Template Name: Blogroll */?>
 
 <?php get_header();?>
 
     <h2>ARCHIVE.PHP</h2>
+    <p>It's cateory or tag blogroll</p>
 
     <?php get_template_part('include/component','contents-before'); ?>
+
+    <? if( is_category() && !is_category('blog') ) { ?>
+        
+        <p class="h1">Category Posts :</p>
+
+    <? } else if( is_tag() ) { ?>
+
+        <p class="h1">Posts whit Tag :</p>
+            
+    <? } else  { ?> 
+
+        <p class="h1">Posts of Blog</p>
+
+    <?php } ?>
     
     <?php if ( have_posts() ){ ?>
-        
-            <div class="row -sm">
+
+        <div class="row -sm">
                 <?php while ( have_posts() ) : the_post(); ?>
 
                     <div class="col-sm-4 mb-4">
