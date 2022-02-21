@@ -45,7 +45,21 @@
 
     <div id="page-heading-title">
         <div class="container">
-            <h1><?php get_the_title();?></h1>
+
+            <?php if ( get_option( 'your_theme_logo' ) ) { ?>
+                <img src="<?php echo get_option( 'your_theme_logo' ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" >
+            <?php } ?>
+
+            <h1>
+                <?php
+                    if( !empty(get_option('blogname')) ) echo get_option( 'blogname' ); else get_the_title();
+                ?>
+            </h1>
+
+            <?php
+                if( !empty(get_option( 'blogdescription' )) ) echo '<h2>'.get_option( 'blogdescription' ).'</h2>'; 
+            ?>
+
         </div>
     </div>
 

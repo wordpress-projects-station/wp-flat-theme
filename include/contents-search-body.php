@@ -1,20 +1,7 @@
 <div>
 
     <div class="mb-5 border-bottom border-dark">
-        <? if( is_category() && !is_category('blog') ) { ?>
-            
-            <p class="h1">Category Posts :</p>
-
-        <? } else if( is_tag() ) { ?>
-
-            <p class="h1">Posts whit Tag :</p>
-                
-        <? } else  { ?> 
-
-            <p class="h1">Posts of Blog</p>
-
-        <?php } ?>
-
+        <p class="h1">Ricerca per: <b>"<?php echo the_search_query(); ?>"</b></p>
     </div>
 
     <div class="row">
@@ -34,10 +21,13 @@
                         <div class="card-body">
 
                             <h2 class="card-title"><?php the_title();?></h2>
+
                             <p class="card-date"><?php get_the_date();?></p>
+
                             <div class="card-text" style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">
                                 <p><?php the_excerpt();?></p>
                             </div>
+
                             <a class="btn card-link" href="<?php the_permalink();?>">Read now ...</a>
 
                         </div>
