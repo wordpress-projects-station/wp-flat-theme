@@ -1,4 +1,4 @@
-<h3><?php echo ($post->comment_count>0) ? "{$post->comment_count} Comments" : "Very first comment";; ?></h3>
+<h3><?php echo ($post->comment_count>0) ? "{$post->comment_count} Commenti":null; ?></h3>
 
 <ol>
 
