@@ -1,30 +1,53 @@
 <?php
 
-    //enqueue assets
-    // function add_theme_assets() {
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-        // load bootstrap
-        wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', null, false, 'all'); 
-        wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css', null, false, 'all'); 
-        wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', null, false, 'all');
+    // loop contents
+    add_action( 'wp_head', 'loop_contents' );
+    function loop_contents(){
+      if ( have_posts() ) {
 
-        // load static theme
-        wp_enqueue_style('theme-css', get_stylesheet_directory_uri() . '/theme/theme.css', null, false, 'all');
+          if( ! $post->post_password ) {
+              return true;
+          } else {
+              include 'include/layout-no-accessible.php';
+              return false;
+          }
 
-        // load customizable style
-        wp_enqueue_style('custom-css', get_stylesheet_directory_uri() . 'style.css', null, false, 'all');
+      } else {
+          include 'include/layout-no-contents.php'; 
+          return false;
+      }
+    }
 
-    // } add_action('wp_enqueue_scripts', 'add_theme_assets');
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    // load bootstrap
+    wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', null, false, 'all'); 
+    wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css', null, false, 'all'); 
+    wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', null, false, 'all');
+
+    // load static theme
+    wp_enqueue_style('theme-css', get_stylesheet_directory_uri() . '/theme/theme.css', null, false, 'all');
+
+    // load customizable style
+    wp_enqueue_style('custom-css', get_stylesheet_directory_uri() . 'style.css', null, false, 'all');
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
     //bootstrap coverter: add comments 
-    // function add_bootstrap_comments() { add_theme_support( 'html5', array('comment-list') ); }
-    // add_action( 'after_setup_theme', 'add_bootstrap_comments' );
-    // require get_template_directory() . '/adds/class-wp-bootstrap-commentswalker.php';
     require get_template_directory() . '/adds/class-wp-bootstrap-comments.php';
 
     //bootstrap coverter: add navigations
     require get_template_directory() . '/adds/class-wp-bootstrap-navwalker.php';
+    
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
     //add navigations in wordpress
@@ -39,8 +62,15 @@
 
     ]);
 
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
     //add featured images
     add_theme_support( 'post-thumbnails' );
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
     //set max excerpt length
@@ -48,7 +78,9 @@
     add_filter('excerpt_length', 'max_excerpt_length');
 
 
-    
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
     // add social profiles for users
     function add_to_author_profile( $socialprofile ) {
         $socialprofile['rss_url_link'] = 'RSS URL';
@@ -66,5 +98,28 @@
 
     add_filter( 'user_contactmethods', 'add_to_author_profile', 10, 1);
 
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    // add_theme_support( 'title-tag' );
+    // add_theme_support( 'custom-logo', array(
+    //     'height' => 480,
+    //     'width'  => 720,
+    // ) );
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    //add widgets slots support
+    add_theme_support( 'widgets' );
+
+    function page_side_right(){
+      register_sidebar([ 'name' => 'page_side_right','id' => 'page_side_right' ]);
+    } add_action('init','page_side_right');
+
+    function page_side_left(){
+      register_sidebar([ 'name' => 'page_side_left', 'id' => 'page_side_left' ]);
+    } add_action('init','page_side_left');
 
 ?>

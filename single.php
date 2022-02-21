@@ -1,42 +1,29 @@
-<?php get_header();?>
+<?php get_header(); ?>
 
 <h3>SINGLE.PHP</h3>
 
-<?php include 'include/component-contents-before.php'; ?>
+<?php include 'include/layout-wrap-start.php'; ?>
 
-    <?php if ( have_posts() ) { ?>
+    <?php if( loop_contents($post) ) { ?>
 
-        <!-- <pre><?php//print_r($post);?></pre> -->
+        <?php include 'include/contents-post-body.php'; ?>
 
-        <?php if( ! $post->post_password ) { ?>
+        <hr>
 
-            <?php include 'include/component-post-contents.php' ?>
+        <?php include 'include/contents-post-meta.php'; ?>
 
-            <hr>
+        <hr>
 
-            <?php include 'include/component-post-meta.php' ?>
+        <?php include 'include/contents-post-author.php'; ?>
 
-            <hr>
+        <hr>
 
-            <?php include 'include/component-post-author.php' ?>
-
-            <hr>
-
-            <?php include 'include/component-post-comments.php' ?>
-
-        <?php } else { ?>
-
-            <?php include 'include/component-no-accessible.php' ?>
-
-        <?php } ?>
-
-    <?php } else { ?>
-
-        <?php include 'include/component-no-contents.php' ?>
-
-    <?php } ?>
-
-<?php include 'include/component-contents-after.php'; ?>
+        <?php include 'include/contents-post-comments.php'; ?>
 
 
-<?php get_footer();?>
+    <?php }?>
+
+<?php include 'include/layout-wrap-end.php'; ?>
+
+
+<?php get_footer(); ?>
