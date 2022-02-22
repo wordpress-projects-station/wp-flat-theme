@@ -1,51 +1,74 @@
 
 <?php
 
-    // function moveNAV( \WP_Customize_Manager $wp_customize )
-    // {
-    //     $wp_customize->add_section( 'nav_menus_custom', array(
-    //         'title' => __( 'Custom Section Title', 'nssra' ),
-    //         'panel' => 'nav_menus'
-    //     ) );
-    
-    //     // add "menu primary flex" checkbox setting
-    //     $wp_customize->add_setting( 'menu_primary_flex', array(
-    //         'capability'        => 'edit_theme_options',
-    //         'default'           => '1',
-    //         'sanitize_callback' => 'nssra_sanitize_checkbox',
-    //     ) );
-    
-    //     // add 'menu primary flex' checkbox control
-    //     $wp_customize->add_control( 'menu_primary_flex', array(
-    //         'label'    => __( 'Stretch the primary menu to fill the available space.', 'nssra' ),
-    //         'section'  => 'nav_menus_custom',
-    //         'settings' => 'menu_primary_flex',
-    //         'std'      => '1',
-    //         'type'     => 'checkbox',
-    //         'priority' => 1,
-    //     ));
 
-    // }
-    // add_action( 'customize_register', 'moveNAV' );
+    // mre info: https://developer.wordpress.org/themes/customize-api/
 
-    //Create Logo Setting and Upload Control
-    function customizer_settings($wp_customize) {
+
+
+   ;
+
+    
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    // add_theme_support( 'title-tag' );
+    add_theme_support( 'custom-logo',[
+        'width'  => 512,
+        'flex-height' => true,
+        'priority' => '5'
+    ]);
+    
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    add_action('customize_register', function( $wp_customize ) {
+
+        $wp_customize->remove_panel( 'widgets' );
+
+    },20);
+
+
+    // add_action('customize_register', function( $wp_customize ) {
+
+    //     $wp_customize->get_control( 'custom_logo' )->priority = '2';
+
+    // },20);
+
+    
+    
+    add_action('customize_register', function( $wp_customize ) {
+
+        $wp_customize->get_panel( 'nav_menus' )->title = 'Menu del sito';
+        $wp_customize->get_panel( 'nav_menus' )->priority = '2';
+
+        $wp_customize->get_section( 'menu_locations' )->title = 'Modifica posizioni';
+        $wp_customize->get_section( 'menu_locations' )->priority = '0';
+
+
+    },100);
+
+    add_action('customize_register', function( $wp_customize ) {
+
+        $wp_customize->get_section('title_tagline')->title = 'Dati principali';
+        $wp_customize->get_section('title_tagline')->priority = '1';
+
+    },100);
+
+
+    add_action('customize_register', function( $wp_customize ) {
+
 
 
         // ADD PANEL "Design Options"
-
-        $wp_customize->add_panel('options_panel',[
-            'title'=>'Design Options',
-            'description'=> 'Collection of themes options',
-            'priority'=> 10,
-        ]);
             
             // "Design Options" > "tab_1"
 
             $wp_customize->add_section('tab_1',[
-                'panel'=>'options_panel',
                 'priority'=>10,
                 'title'=>'TAB 1',
+                'heading'=>'TESTER!'
             ]);
 
                 // "Design Options" > "tab_1" > ...
@@ -95,25 +118,21 @@
             
 
 
-        // $wp_customize->add_section( 'nav_menus_custom', array(
-        //     'title'       => __( 'Custom Section Title', 'nssra' ),
-        //     'panel'       => 'nav_menus',
-        //     'description' => __( 'Section description goes here.', 'nssra' ),
-        //     'priority'    => 5
-        // ) );
-
         // remove widget tab
         // $wp_customize->get_section('title_tagline')->panel = 'options_panel';
-        $wp_customize->remove_panel( 'widgets' );
+        
+
+        // $wp_customize->get_section('nav_menus')->title = 'Posizione Menu';
+        // $wp_customize->get_section('nav_menus')->priority = 2;
+
+
 
         // // echo get_template_directory_uri().'/favico.png';
-        $wp_customize->add_setting( 'site_icon' ,[
-            'default' => get_template_directory_uri().'/favico.png',
-        ]);
-    }
+        // $wp_customize->add_setting( 'site_icon' ,[
+        //     'default' => get_template_directory_uri().'/favico.png',
+        // ]);
 
-    add_action('customize_register', 'customizer_settings');
-
+    },100);
 
 
 ?>

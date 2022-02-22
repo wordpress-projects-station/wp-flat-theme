@@ -25,7 +25,7 @@
 
                 ]);
 
-                //original wp:
+                // original wp:
                 // wp_nav_menu( [
                 //    'theme_location' => 'desktop-site-menu',
                 //    'menu_id' => 'primary-menu',
@@ -46,9 +46,12 @@
     <div id="page-heading-title">
         <div class="container">
 
-            <?php if ( get_option( 'your_theme_logo' ) ) { ?>
-                <img src="<?php echo get_option( 'your_theme_logo' ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" >
-            <?php } ?>
+            <?php 
+                $custom_logo_id = get_theme_mod( 'custom_logo' );
+                $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+                if ( has_custom_logo() ) echo '<img src="'.esc_url( $logo[0] ).'" alt=" ... ">';
+            ?>
+                <!-- <img src="<?php// echo the_custom_logo(); ?>" alt="..." > -->
 
             <h1>
                 <?php

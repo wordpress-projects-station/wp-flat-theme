@@ -48,17 +48,6 @@
 
     add_filter( 'user_contactmethods', 'add_to_author_profile', 10, 1);
 
-
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
-
-    // add_theme_support( 'title-tag' );
-    // add_theme_support( 'custom-logo', array(
-    //     'height' => 480,
-    //     'width'  => 720,
-    // ) );
-
-
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
@@ -77,17 +66,17 @@
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
     // fix wp ico support types
-    add_filter('upload_mimes', 'myfile_upload');
-    function myfile_upload( $mimes ) {
+    // add_filter('upload_mimes', 'myfile_upload');
+    // function myfile_upload( $mimes ) {
 
-        if ( !current_user_can( 'administrator' ) ) return $mimes;
+    //     if ( !current_user_can( 'administrator' ) ) return $mimes;
 
-        $mimes['ico'] = 'image/vnd.microsoft.icon';
-        $mimes['ico'] = 'image/x-icon';
-        $mimes['ico'] = 'mage/ico';
+    //     $mimes['ico'] = 'image/vnd.microsoft.icon';
+    //     $mimes['ico'] = 'image/x-icon';
+    //     $mimes['ico'] = 'mage/ico';
 
-        return $mimes;
-    }
+    //     return $mimes;
+    // }
 
 
 ?>
