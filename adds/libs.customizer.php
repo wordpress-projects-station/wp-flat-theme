@@ -64,23 +64,23 @@
 
         // thumbnail
 
-        $wp_customize->add_setting('pages_banner_settings',[ 'default'=>'false' ]);
-        $wp_customize->add_control('pages_banner_data',[
+        $wp_customize->add_setting('page_banner_settings',[ 'default'=>'false' ]);
+        $wp_customize->add_control('page_banner_data',[
             'section'=>'design_of_page',
             'label'=>'Show/hide top banner',
             'type'=>'checkbox',
-            'settings'=>'pages_banner_settings',
+            'settings'=>'page_banner_settings',
         ]);
 
 
         // sidebar small
 
-        $wp_customize->add_setting( 'pages_small_side_settings', ['default'=>'left-dynamic'] );
-        $wp_customize->add_control( 'pages_small_side_data', [
+        $wp_customize->add_setting( 'page_small_side_settings', ['default'=>'dynamic-left'] );
+        $wp_customize->add_control( 'page_small_side_data', [
             'section'   => 'design_of_page',
             'label'     => 'Small Sidebar position',
             'type'      => 'radio',
-            'settings'  => 'pages_small_side_settings',  
+            'settings'  => 'page_small_side_settings',  
             'choices'   => [
                 'off'  => 'OFF',
                 'static-left'  => 'STATIC-LEFT',
@@ -92,12 +92,12 @@
 
         // sidebar big
 
-        $wp_customize->add_setting( 'pages_big_side_settings', ['default'=>'right-static'] );
-        $wp_customize->add_control( 'pages_big_side_data', [
+        $wp_customize->add_setting( 'page_big_side_settings', ['default'=>'dynamic-right'] );
+        $wp_customize->add_control( 'page_big_side_data', [
             'section'  => 'design_of_page',
             'label'    => 'Big Sidebar position',
             'type'     => 'radio',
-            'settings' => 'pages_big_side_settings',
+            'settings' => 'page_big_side_settings',
             'choices'  => [
                 'off'  => 'OFF',
                 'static-left'  => 'STATIC-LEFT',
@@ -143,7 +143,7 @@
 
         // sidebar small
 
-        $wp_customize->add_setting( 'post_small_side_settings', ['default'=>'left-dynamic'] );
+        $wp_customize->add_setting( 'post_small_side_settings', ['default'=>'dynamic-left'] );
         $wp_customize->add_control( 'post_small_side_data', [
             'section'   => 'design_of_post',
             'label'     => 'Small Sidebar position',
@@ -160,7 +160,7 @@
 
         // sidebar big
 
-        $wp_customize->add_setting( 'post_big_side_settings', ['default'=>'right-static'] );
+        $wp_customize->add_setting( 'post_big_side_settings', ['default'=>'dynamic-right'] );
         $wp_customize->add_control( 'post_big_side_data', [
             'section'  => 'design_of_post',
             'label'    => 'Big Sidebar position',
