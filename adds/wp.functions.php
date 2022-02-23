@@ -12,6 +12,20 @@
 
     ]);
 
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    //add random post url
+    add_filter( 'pre_get_posts', 'random_post' );
+    function random_post( $query ) {
+      if ( 'random-post' == $query->get( 'name' ) ) {
+        global $wpdb;
+        if ( $post_id = $wpdb->get_var( "SELECT ID from $wpdb->posts WHERE post_type LIKE 'post' AND post_status LIKE 'publish' ORDER BY RAND() LIMIT 1;" ) ) {
+            $post = get_post( $post_id );
+            $query->set( 'name', $post->post_name );
+          }
+        }
+      }
+
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
@@ -61,22 +75,6 @@
     function page_side_left(){
       register_sidebar([ 'name' => 'page_side_left', 'id' => 'page_side_left' ]);
     } add_action('init','page_side_left');
-
-
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
-    // fix wp ico support types
-    // add_filter('upload_mimes', 'myfile_upload');
-    // function myfile_upload( $mimes ) {
-
-    //     if ( !current_user_can( 'administrator' ) ) return $mimes;
-
-    //     $mimes['ico'] = 'image/vnd.microsoft.icon';
-    //     $mimes['ico'] = 'image/x-icon';
-    //     $mimes['ico'] = 'mage/ico';
-
-    //     return $mimes;
-    // }
 
 
 ?>
