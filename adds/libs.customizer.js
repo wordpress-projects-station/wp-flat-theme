@@ -1,7 +1,6 @@
 
 ///https://www.usablewp.com/learn-wordpress/wordpress-customizer/using-active-callback-on-a-control/
 
-alert("... _customize-refresher 15.3");
 wp.customize.bind("ready", () => {
 
 	wp.customize.control( 'button_open_random_post',  function (control) {
@@ -11,7 +10,7 @@ wp.customize.bind("ready", () => {
 			// window.open(refresh, '');
 			wp.customize.previewer.previewUrl.set( refresh );
 		});
-	} );
+	});
 	
 });
 

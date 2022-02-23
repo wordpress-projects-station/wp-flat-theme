@@ -1,22 +1,26 @@
-<h3><?php echo ($post->comment_count>0) ? "{$post->comment_count} Commenti":null; ?></h3>
+<h3>
+    <?php echo ($post->comment_count>0) ? "{$post->comment_count} Commenti":null; ?>
+</h3>
 
 <ol>
 
-
     <?php 
+
         $comments = get_comments(array(
             'post_id' => $post->ID,
             'status' => 'approve'
-        ));   
+        ));
+
         wp_list_comments( array(
             'style'      => 'ul',
             'short_ping' => true,
             'callback' => 'bootstrap_comments'
         ),$comments );
+
+        echo'<li>';
+
     ?>
 
-    
-    </li>
 </ol>
 
 <?php the_comments_navigation(); ?>

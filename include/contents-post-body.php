@@ -3,16 +3,18 @@
     <?php echo $post->post_title ?>
 </h2>
 
-<?php $post_banner_url = get_the_post_thumbnail_url( $post->ID ); ?>
+<?php 
+    if( get_theme_mod( 'post_banner_settings') ) {
 
-<?php if($post_banner_url!=''){ ?>
+        $post_banner_url = get_the_post_thumbnail_url( $post->ID );
 
-    <div style="height:40vh; background: url(<?php echo $post_banner_url;?>) center/cover;"></div>
+        if($post_banner_url)
+        echo '<div style="height:40vh; background: url('.$post_banner_url.') center/cover;"></div>';
 
-<?php } else { ?>
+        else
+        echo '<div style="height:40vh; background: url('.bloginfo('template_directory').'/adds/404IMAGE.PNG) center/cover;"></div>';
 
-    <div style="height:40vh; background: url(<?php bloginfo('template_directory'); ?>/adds/404IMAGE.PNG) center/cover;"></div>
-
-<?php } ?>
+    }
+?>
 
 <?php echo get_post_field('post_content', $post->ID); ?>
