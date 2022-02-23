@@ -1,21 +1,28 @@
-<?php get_header();?>
+<?php
 
-<p>THIS IS HOME.PHP</p>
+    $pagetype='home';
 
-<?php if ( have_posts() ){ ?>
-    <?php while ( have_posts() ) : the_post(); ?>
+    get_header();
 
-     <?php echo get_post_field('post_content', $post->ID); ?>
+    if( contents_access($post) ) {
 
-    <?php $tags = get_the_tags(); foreach ($tags as $tag){?>
-        <a class="tag_link badge" href="<?php echo get_tag_link($tag->term_id);?>"> <?php echo $tag->term_name;?> </a>
-    <?php}?>
+        while ( have_posts() ) {
 
-    <?php $categories = get_the_category(); foreach ($categories as $cat){?>
-        <a class="category_link badge" href="<?php echo get_cat_link($cat->term_id);?>"> <?php echo $cat->term_name;?> </a>
-    <?php}?>
+            the_post();
 
-    <?php endwhile; ?>
-<?php } ?>
+            echo get_post_field('post_content', $post->ID);
 
-<?php get_footer();?>
+            $tags = get_the_tags();
+            foreach ($tags as $tag)
+            echo '<a class="tag_link badge" href="'. get_tag_link($tag->term_id) .'">'.$tag->term_name-'</a>';
+
+            $categories = get_the_category();
+            foreach ($categories as $cat)
+            echo '<a class="category_link badge" href="'.get_cat_link($cat->term_id).'">'.$cat->term_name.'</a>';
+
+        }
+    }
+
+    get_footer();
+
+?>

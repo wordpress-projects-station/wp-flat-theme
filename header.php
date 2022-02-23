@@ -11,12 +11,6 @@
 
 
 </head>
-<body>
-
-    <?php
-        if( is_single() )           $layout_target = 'post';
-        elseif ( is_archive() )     $layout_target = 'archive';
-        else                        $layout_target = 'page';
-    ?>
+<body class="p-1">
 
     <?php get_template_part('include/model','heading');?>

@@ -42,31 +42,31 @@
     // set Design of the pages
     add_action( 'customize_register', function( $wp_customize ) {
 
-        $wp_customize->add_section('design_of_pages',[
+        $wp_customize->add_section('design_of_page',[
             'priority' => 10,
             'title'    => 'Design of pages',
         ]);
 
-        $wp_customize->add_control( 'button_open_random_pages', [
-            'section'   => 'design_of_pages',
+        $wp_customize->add_control( 'button_open_random_page', [
+            'section'   => 'design_of_page',
             'priority'  => 0,
             'settings'  => [],
             'type'      => 'button',
             'input_attrs' => [
-                'value' => 'Open the customized page',
+                'value' => 'Open the sample page',
                 'class' => 'button button-border button-primary',
                 'data-url' => admin_url( 'customize.php?url='.get_site_url().'/sample-page/' ),
                 'data-urlshort' => get_site_url().'/sample-pages/',
             ],
         ]);
 
-        $wp_customize->add_control('blank', [ 'label'=> '&#8206;', 'section'=>'design_of_pages', 'type'=>'hidden', 'settings' => [] ]);
+        $wp_customize->add_control('blank', [ 'label'=> '&#8206;', 'section'=>'design_of_page', 'type'=>'hidden', 'settings' => [] ]);
 
         // thumbnail
 
         $wp_customize->add_setting('pages_banner_settings',[ 'default'=>'false' ]);
         $wp_customize->add_control('pages_banner_data',[
-            'section'=>'design_of_pages',
+            'section'=>'design_of_page',
             'label'=>'Show/hide top banner',
             'type'=>'checkbox',
             'settings'=>'pages_banner_settings',
@@ -77,7 +77,7 @@
 
         $wp_customize->add_setting( 'pages_small_side_settings', ['default'=>'left-dynamic'] );
         $wp_customize->add_control( 'pages_small_side_data', [
-            'section'   => 'design_of_pages',
+            'section'   => 'design_of_page',
             'label'     => 'Small Sidebar position',
             'type'      => 'radio',
             'settings'  => 'pages_small_side_settings',  
@@ -94,7 +94,7 @@
 
         $wp_customize->add_setting( 'pages_big_side_settings', ['default'=>'right-static'] );
         $wp_customize->add_control( 'pages_big_side_data', [
-            'section'  => 'design_of_pages',
+            'section'  => 'design_of_page',
             'label'    => 'Big Sidebar position',
             'type'     => 'radio',
             'settings' => 'pages_big_side_settings',

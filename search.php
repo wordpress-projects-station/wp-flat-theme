@@ -1,15 +1,21 @@
-<?php get_header(); ?>
+<?php 
 
-    <h2>SEARCH.PHP</h2>
+    $pagetype='archive';
 
-    <?php include 'include/layout-wrap-start.php'; ?>
+    get_header();
+    
+    include 'include/layout-wrap-start.php';
+    
+        echo '<h3>SEARCH.PHP</h3>';
 
-    <?php if( loop_contents($post) ) { ?>
+        if( contents_access($post) ) {
 
-        <?php include 'include/contents-search-body.php'; ?>
+            include 'include/contents-search-body.php';
 
-    <?php } ?>
+        }
 
-    <?php include 'include/layout-wrap-end.php'; ?>
+    include 'include/layout-wrap-end.php';
 
-<?php get_footer(); ?>
+    get_footer();
+
+?>

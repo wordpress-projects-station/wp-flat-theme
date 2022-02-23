@@ -1,15 +1,19 @@
-<?php get_header(); ?>
+<?php
 
-    <h2>ARCHIVE.PHP</h2>
+    $pagetype='archive';
 
-    <?php include 'include/layout-wrap-start.php'; ?>
+    get_header();
 
-    <?php if( loop_contents($post) ) { ?>
+    include 'include/layout-wrap-start.php';
 
-        <?php include 'include/contents-archive-body.php'; ?>
+        if( contents_access($post) ) {
 
-    <?php } ?>
+            include 'include/contents-archive-body.php';
 
-    <?php include 'include/layout-wrap-end.php'; ?>
+        }
 
-<?php get_footer(); ?>
+    include 'include/layout-wrap-end.php';
+
+    get_footer();
+
+?>

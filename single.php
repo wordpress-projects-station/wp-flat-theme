@@ -1,29 +1,32 @@
-<?php get_header(); ?>
 
-<h3>SINGLE.PHP</h3>
+<?php
 
-<?php include 'include/layout-wrap-start.php'; ?>
+    $pagetype='post';
+    
+    get_header();
 
-    <?php if( loop_contents($post) ) { ?>
+    include 'include/layout-wrap-start.php';
 
-        <?php include 'include/contents-post-body.php'; ?>
+        if( contents_access($post) ) {
 
-        <hr>
+            include 'include/contents-post-body.php';
 
-        <?php include 'include/contents-post-meta.php'; ?>
+            echo '<hr>';
 
-        <hr>
+            include 'include/contents-post-meta.php';
 
-        <?php include 'include/contents-post-author.php'; ?>
+            echo '<hr>';
 
-        <hr>
+            include 'include/contents-post-author.php';
 
-        <?php include 'include/contents-post-comments.php'; ?>
+            echo '<hr>';
 
+            include 'include/contents-post-comments.php';
 
-    <?php }?>
+        }
 
-<?php include 'include/layout-wrap-end.php'; ?>
+    include 'include/layout-wrap-end.php'; 
 
+    get_footer();
 
-<?php get_footer(); ?>
+?>

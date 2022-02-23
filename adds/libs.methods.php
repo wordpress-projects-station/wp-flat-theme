@@ -1,21 +1,23 @@
 <?php
 
     // check contents looped
-    add_action( 'wp_head', 'loop_contents' );
-    function loop_contents(){
-      if ( have_posts() ) {
+    add_action( 'wp_head', 'contents_access' );
+    function contents_access(){
 
-          if( ! $post->post_password ) {
-              return true;
-          } else {
-              include 'include/layout-no-accessible.php';
-              return false;
-          }
+        if ( have_posts() ) {
 
-      } else {
-          include 'include/layout-no-contents.php'; 
-          return false;
-      }
+            if( ! $post->post_password ) {
+                return true;
+            } else {
+                include 'include/contents-not-accessible.php';
+                return false;
+            }
+
+        } else {
+            include 'include/contents-not-in-database.php'; 
+            return false;
+        }
+
     }
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/

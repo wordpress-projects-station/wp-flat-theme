@@ -1,15 +1,19 @@
-<?php get_header(); ?>
+<?php
 
-    <h3>PAGE.PHP</h3>
+    $pagetype='page';
 
-    <?php include 'include/layout-wrap-start.php'; ?>
-
-        <?php if( loop_contents($post) ) { ?>
-
-            <?php include 'include/contents-page-body.php'; ?>
-
-        <?php } ?>
+    get_header();
     
-    <?php include 'include/layout-wrap-end.php'; ?>
+    include 'include/layout-wrap-start.php';
 
-<?php get_footer(); ?>
+        if( contents_access($post) ){
+
+            include 'include/contents-page-body.php';
+
+        }
+    
+    include 'include/layout-wrap-end.php';
+
+    get_footer();
+
+?>
