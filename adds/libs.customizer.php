@@ -63,9 +63,30 @@
         $customizer->add_setting('topmenu_status_settings',[ 'default'=>'true' ]);
         $customizer->add_control('topmenu_status_data',[
             'section'=>'design_of_top_menu',
-            'label'=>'Show/hide top main menu',
+            'label'=>'[Show/hide] top main menu',
             'type'=>'checkbox',
             'settings'=>'topmenu_status_settings',
+        ]);
+
+        $customizer->add_setting('topmenu_search_settings',[ 'default'=>'true' ]);
+        $customizer->add_control('topmenu_search_data',[
+            'section'=>'design_of_top_menu',
+            'label'=>'[show/hide] search bar',
+            'settings'=>'topmenu_search_settings',
+            'type'=>'checkbox',
+        ]);
+
+        $customizer->add_setting('topmenu_alignment_settings',[ 'default'=>'left' ]);
+        $customizer->add_control('topmenu_alignment_data',[
+            'section'=>'design_of_top_menu',
+            'label'=>'menu list alignment',
+            'settings'=>'topmenu_alignment_settings',
+            'type'     => 'radio',
+            'choices'  => [
+                'left'   => 'align left',
+                'center' => 'align center',
+                'right'  => 'align right',
+            ],
         ]);
 
         $customizer->add_setting('topmenu_layout_settings',[ 'default'=>'relative' ]);
@@ -79,14 +100,6 @@
                 'framed'  => 'framed menu',
                 'wide'   => 'wided menu',
             ],
-        ]);
-
-        $customizer->add_setting('topmenu_search_settings',[ 'default'=>'true' ]);
-        $customizer->add_control('topmenu_search_data',[
-            'section'=>'design_of_top_menu',
-            'label'=>'show/hide search in top main menu',
-            'settings'=>'topmenu_search_settings',
-            'type'=>'checkbox',
         ]);
 
     } , 100 );
