@@ -11,6 +11,4 @@
 
 
 </head>
-<body class="p-1">
-
-    <?php get_template_part('include/model','heading');?>
+<body>

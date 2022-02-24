@@ -13,3 +13,19 @@ label[for=_customize-input-blank]+div+input{
     display: none;
     pointer-events: none;
 }
+
+
+#accordion-section-design_of_top_menu{
+    margin-top: 45px;
+    position: relative;
+}
+
+#accordion-section-design_of_top_menu::before{
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: -25px;
+    border-top: 1px dashed #ccc;
+    height: 1px;
+    width: 100%;
+}
