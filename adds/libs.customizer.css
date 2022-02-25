@@ -1,9 +1,11 @@
 .customize-control-title.customize-section-title-nav_menus-heading{
     display: none;
 }
+
 #accordion-section-menu_locations{
     margin-bottom: 15px !important;
 }
+
 label[for=_customize-input-blank]{
     border-bottom: 1px dashed #d4d4d4;
     padding: 0 15px !important;
@@ -14,6 +16,10 @@ label[for=_customize-input-blank]+div+input{
     pointer-events: none;
 }
 
+.customize-control .customize-inside-control-row{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
 
 #accordion-section-design_of_top_menu{
     margin-top: 45px;

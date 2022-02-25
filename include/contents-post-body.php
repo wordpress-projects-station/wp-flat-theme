@@ -4,12 +4,12 @@
 </h2>
 
 <?php 
-    if( get_theme_mod( 'post_banner_settings') ) {
+    if( str_contains( get_theme_mod( $pagetype.'_banner_settings' ),'in-body' ) ) {
 
-        $post_banner_url = get_the_post_thumbnail_url( $post->ID );
+        $banner_url = get_the_post_thumbnail_url( $post->ID );
 
-        if($post_banner_url)
-        echo '<div style="height:40vh; background: url('.$post_banner_url.') center/cover;"></div>';
+        if($banner_url)
+        echo '<div style="height:40vh; background: url('.$banner_url.') center/cover;"></div>';
 
         else
         echo '<div style="height:40vh; background: url('.bloginfo('template_directory').'/adds/404IMAGE.PNG) center/cover;"></div>';

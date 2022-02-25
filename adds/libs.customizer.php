@@ -32,7 +32,7 @@
         $customizer->get_section('title_tagline')->priority = '1';
 
         $customizer->get_panel( 'nav_menus' )->title = 'Menu controller';
-        $customizer->get_panel( 'nav_menus' )->priority = '2';
+        $customizer->get_panel( 'nav_menus' )->priority = '3';
 
         $customizer->get_section( 'menu_locations' )->title = 'Change positions';
         $customizer->get_section( 'menu_locations' )->priority = '0';
@@ -63,7 +63,7 @@
         $customizer->add_setting('topmenu_status_settings',[ 'default'=>'true' ]);
         $customizer->add_control('topmenu_status_data',[
             'section'=>'design_of_top_menu',
-            'label'=>'[Show/hide] top main menu',
+            'label'=>'[show/hide] top main menu',
             'type'=>'checkbox',
             'settings'=>'topmenu_status_settings',
         ]);
@@ -104,35 +104,33 @@
 
     } , 100 );
 
-    // set Design of the pages
 
-    // add_action( 'customize_register', function( $customizer ) {
+    add_action( 'customize_register', function( $customizer ) {
 
-    //     // tab-title
+        // tab-title
 
-    //     $customizer->add_section('design_of_header',[
-    //         'priority' => 3,
-    //         'title'    => 'Header Controller',
-    //     ]);
+        $customizer->add_section('site_settings',[
+            'priority' => 2,
+            'title'    => 'Site settings',
+        ]);
 
-    //     // tab-action
+        $customizer->add_setting('site_warning_status_settings',[ 'default'=>'false' ]);
+        $customizer->add_control('site_warning_status_data',[
+            'section'  => 'site_settings',
+            'label'    => 'Warning message',
+            'settings' => 'site_warning_status_settings',
+            'type'     => 'checkbox',
+        ]);
 
-    //     $customizer->add_control( 'button_open_random_page', [
-    //         'section'   => 'design_of_header',
-    //         'priority'  => 0,
-    //         'settings'  => [],
-    //         'type'      => 'button',
-    //         'input_attrs' => [
-    //             'value' => 'Open the sample page',
-    //             'class' => 'button button-border button-primary',
-    //             'data-url' => get_site_url().'/sample-pages/',
-    //         ],
-    //     ]);
+        $customizer->add_setting('site_warning_message_settings',[ 'default'=>'- WARNING! THIS SITE IS A DEMO SITE! <b>DO NOT BUY OR USE IT!</b> -' ]);
+        $customizer->add_control('site_warning_message_data',[
+            'section'  => 'site_settings',
+            'settings' => 'site_warning_message_settings',
+            'type'     => 'text',
+        ]);
 
-    //     $customizer->add_control('blank', [ 'label'=> '&#8206;', 'section'=>'design_of_header', 'type'=>'hidden', 'settings' => [] ]);
 
-    // } , 100 );
-
+    } , 100 );
 
     // set Design of the pages
 
@@ -164,24 +162,29 @@
 
         // thumbnail
 
-        $customizer->add_setting('page_banner_settings',[ 'default'=>'false' ]);
+        $customizer->add_setting('page_banner_settings',[ 'default'=>'in-head' ]);
         $customizer->add_control('page_banner_data',[
-            'section'=>'design_of_page',
-            'label'=>'Show/hide top banner',
-            'type'=>'checkbox',
-            'settings'=>'page_banner_settings',
+            'section'   => 'design_of_page',
+            'label'     => 'Main banner status',
+            'settings'  => 'page_banner_settings',
+            'type'      => 'radio',
+            'choices'   => [
+                'off'      => 'OFF',
+                'in-head'  => 'in head',
+                'in-body'  => 'in body',
+            ],
         ]);
-        
+
         // thumbnail-stle
 
         $customizer->add_setting('page_header_style_settings',[ 'default'=>'framed-big' ]);
         $customizer->add_control('page_header_style_data',[
             'section'  => 'design_of_page',
             'label'    => 'Header style',
-            'type'     => 'radio',
             'settings' => 'page_header_style_settings',
+            'type'     => 'radio',
             'choices'  => [
-                'off'  => 'OFF',
+                'off'         => 'OFF',
                 'framed-slim' => 'framed slim',
                 'framed-big'  => 'framed big',
                 'wide-slim'   => 'wide slim',
@@ -257,12 +260,17 @@
 
         // thumbnail
 
-        $customizer->add_setting('archive_banner_settings',[ 'default'=>'false' ]);
+        $customizer->add_setting('archive_banner_settings',[ 'default'=>'in-head' ]);
         $customizer->add_control('archive_banner_data',[
-            'section'=>'design_of_archive',
-            'label'=>'Show/hide top banner',
-            'type'=>'checkbox',
-            'settings'=>'archive_banner_settings',
+            'section'   =>'design_of_archive',
+            'label'     =>'Main banner status',
+            'settings'  =>'archive_banner_settings',
+            'type'      => 'radio',
+            'choices'   => [
+                'off'      => 'OFF',
+                'in-head'  => 'in head',
+                'in-body'  => 'in body',
+            ],
         ]);
 
         // thumbnail-stle
@@ -274,7 +282,7 @@
             'type'     => 'radio',
             'settings' => 'archive_header_style_settings',
             'choices'  => [
-                'off'  => 'OFF',
+                'off'         => 'OFF',
                 'framed-slim' => 'framed slim',
                 'framed-big'  => 'framed big',
                 'wide-slim'   => 'wide slim',
@@ -349,12 +357,17 @@
 
         // thumbnail
 
-        $customizer->add_setting('post_banner_settings',[ 'default'=>'false' ]);
+        $customizer->add_setting('post_banner_settings',[ 'default'=>'in-head' ]);
         $customizer->add_control('post_banner_data',[
-            'section'=>'design_of_post',
-            'label'=>'Show/hide top banner',
-            'type'=>'checkbox',
-            'settings'=>'post_banner_settings',
+            'section'   => 'design_of_post',
+            'label'     => 'Main banner status',
+            'settings'  => 'post_banner_settings',
+            'type'      => 'radio',
+            'choices'   => [
+                'off'      => 'OFF',
+                'in-head'  => 'in head',
+                'in-body'  => 'in body',
+            ],
         ]);
         
         // thumbnail-stle
@@ -363,10 +376,10 @@
         $customizer->add_control('post_header_style_data',[
             'section'  => 'design_of_post',
             'label'    => 'Header style',
-            'type'     => 'radio',
             'settings' => 'post_header_style_settings',
+            'type'     => 'radio',
             'choices'  => [
-                'off'  => 'OFF',
+                'off'         => 'OFF',
                 'framed-slim' => 'framed slim',
                 'framed-big'  => 'framed big',
                 'wide-slim'   => 'wide slim',
