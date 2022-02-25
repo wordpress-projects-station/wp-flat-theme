@@ -107,12 +107,23 @@
 
     add_action( 'customize_register', function( $customizer ) {
 
-        // tab-title
 
         $customizer->add_section('site_settings',[
             'priority' => 2,
             'title'    => 'Site settings',
         ]);
+
+        
+
+        $customizer->add_setting('site_debug_line_settings',[ 'default'=>'true' ]);
+        $customizer->add_control('site_debug_line_data',[
+            'section'     => 'site_settings',
+            'label'       => 'Small debug line',
+            'descriptino' => 'Active/hide the editor line for page information',
+            'settings'    => 'site_debug_line_settings',
+            'type'        => 'checkbox',
+        ]);
+
 
         $customizer->add_setting('site_warning_status_settings',[ 'default'=>'false' ]);
         $customizer->add_control('site_warning_status_data',[

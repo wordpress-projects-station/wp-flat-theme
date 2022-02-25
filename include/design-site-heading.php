@@ -1,10 +1,16 @@
-<?php if(get_theme_mod( 'site_warning_status_settings' )) { ?>
+<?php 
+    if ( get_theme_mod( 'site_debug_line_settings' ) && isset( $wp_customize ) ) {
+        echo'<p style="background:#8b8b8b;font-size:10px;margin:0;padding:2px 5px;">you are in : <b>'.basename($template).'</b> / option type : <b>'.$pagetype.' / ... </b></p></div>';
+    }
+?>
+
+<?php if( get_theme_mod( 'site_warning_status_settings' ) ) { ?>
     <div class="bg-warning text-center">
         <p class="p-2 m-0"><?php echo get_theme_mod( 'site_warning_message_settings' ); ?></p>
     </div>
 <?php } ?>
 
-<header id="page-heading-standard bg-light">
+<header class="bg-light">
 
     <?php
 
