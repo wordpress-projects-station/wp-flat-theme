@@ -34,7 +34,9 @@
                     </div>
 
                     <div class="col-6 sm-12 align-self-center">
-                        RIGHT
+
+                    RIGHT
+
                     </div>
 
                 </div>

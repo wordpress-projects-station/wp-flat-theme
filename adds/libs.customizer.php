@@ -39,7 +39,13 @@
         
         $customizer->get_section( 'static_front_page' )->panel = 'design_controller';
         $customizer->get_section( 'static_front_page' )->title = 'Design of home';
+        $customizer->get_section( 'static_front_page' )->description = null;
         $customizer->get_section( 'static_front_page' )->priority = '4';
+
+        $customizer->get_control( 'show_on_front' )->choices = ['posts' => 'Theme Home', 'page' => 'Custom Home'];
+        $customizer->get_control( 'show_on_front' )->description = 'suggest: use static custom.';
+        $customizer->get_control( 'page_on_front' )->description = 'Make your custom gutenberg page contents and select it (printed via front-page.php). If blank you print empty maintence message (home.php). ';
+        $customizer->get_control( 'page_for_posts' )->description = 'It\'s good role rename in "Blog" the main category of posts (and blank this). In alternative: select a customized page for you posts archive contents.';
 
         $customizer->get_panel( 'woocommerce' )->title = 'Store options';
 
@@ -113,8 +119,6 @@
             'title'    => 'Site settings',
         ]);
 
-        
-
         $customizer->add_setting('site_debug_line_settings',[ 'default'=>'true' ]);
         $customizer->add_control('site_debug_line_data',[
             'section'     => 'site_settings',
@@ -123,7 +127,6 @@
             'settings'    => 'site_debug_line_settings',
             'type'        => 'checkbox',
         ]);
-
 
         $customizer->add_setting('site_warning_status_settings',[ 'default'=>'false' ]);
         $customizer->add_control('site_warning_status_data',[

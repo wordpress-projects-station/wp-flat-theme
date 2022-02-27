@@ -1,6 +1,8 @@
 <?php
 
-    $pagetype='home';
+    echo '<hr><h3>YOU ARE IN SHOP<h3><hr>';
+
+    $pagetype='shop';
 
     get_header();
 
@@ -8,10 +10,10 @@
 
     include 'include/design-wrap-start.php';
 
-    echo "this is home";
-    if( contents_access($post) ) {
+    if(is_woocommerce()){
 
-        //     include 'include/contents-page-body.php';
+        echo '<p><b>woo condition...</b></p>';
+        woocommerce_content();
 
     }
 

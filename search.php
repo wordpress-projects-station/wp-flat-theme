@@ -1,5 +1,7 @@
 <?php 
 
+    echo '<hr><h3>YOU ARE IN SEARCH<h3><hr>';
+
     $pagetype='archive';
 
     get_header();
@@ -8,8 +10,6 @@
 
     include 'include/design-wrap-start.php';
     
-        echo '<h3>SEARCH.PHP</h3>';
-
         if( contents_access($post) ) {
 
             include 'include/contents-search-body.php';

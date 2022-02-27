@@ -1,4 +1,3 @@
-
 <h2 class="h2">
     <?php echo $post->post_title ?>
 </h2>
