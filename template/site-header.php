@@ -14,8 +14,12 @@
     
         wp_head();
 
-        $pagetype = ( is_woocommerce() || is_shop() || is_product_taxonomy() || is_product_category() || is_product_tag()) ? 'shop' : get_post_type();
         $filename = basename($template);
+
+        if(is_woocommerce() && !is_shop() || is_product())  $pagetype = 'shop-product';
+        else if(is_woocommerce() || is_shop() )             $pagetype = 'shop-page';
+        else if(is_archive() || is_category() )             $pagetype = 'archive';
+        else                                                $pagetype = get_post_type();
 
     ?>
 

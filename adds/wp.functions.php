@@ -1,6 +1,6 @@
 <?php 
 
-    //add navigations in wordpress
+    // add navigations in wordpress
     add_theme_support('menus');
     register_nav_menus([
 
@@ -16,7 +16,7 @@
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    //add random post url
+    // add random post url
     add_filter( 'pre_get_posts', 'random_post' );
     function random_post( $query ) {
 
@@ -37,14 +37,14 @@
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    //add featured images
+    // add featured images
     add_theme_support( 'post-thumbnails' );
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    //set max excerpt length
+    // set max excerpt length
     add_filter('excerpt_length', 'max_excerpt_length');
     function max_excerpt_length($length){ return 35; }
 
@@ -74,19 +74,20 @@
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    //add widgets slots support
+    // add widgets slots support
     add_theme_support( 'widgets' );
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    //add sides slots support
+    // add sides slots support
     add_action('init','page_side_small');
     function page_side_small(){ register_sidebar([ 'name' => 'page_side_small', 'id' => 'page_side_small' ]); } 
 
     add_action('init','page_side_big');
     function page_side_big(){ register_sidebar([ 'name' => 'page_side_big','id' => 'page_side_big' ]); }
+
 
 
 ?>

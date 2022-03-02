@@ -1,24 +1,26 @@
 <?php
 
     // check contents looped
-    add_action( 'wp_head', 'contents_access' );
-    function contents_access(){
 
-        if ( have_posts() ) {
+    // add_action( 'wp_head', 'have_contents' );
+    // function have_contents(){
+    //     if ( have_posts() ) {
+    //         return true;
+    //     } else {
+    //         include 'include/contents-not-in-database.php'; 
+    //         return false;
+    //     }
+    // }
 
-            if( ! $post->post_password ) {
-                return true;
-            } else {
-                include 'include/contents-not-accessible.php';
-                return false;
-            }
-
-        } else {
-            include 'include/contents-not-in-database.php'; 
-            return false;
-        }
-
-    }
+    // add_action( 'wp_head', 'contents_access' );
+    // function contents_access($content){
+    //     if( ! $content->post_password ) {
+    //         return true;
+    //     } else {
+    //         include 'include/contents-not-accessible.php';
+    //         return false;
+    //     }
+    // }
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
