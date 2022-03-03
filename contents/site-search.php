@@ -13,7 +13,7 @@
 
                     <div class="archivie-post card mx-auto">
 
-                        <?php 
+                        <?php
                             $bkgUrl = get_the_post_thumbnail_url( get_the_ID() );
                             if($bkgUrl){
                                 echo '<div style="height:200px; background: url('.$bkgUrl.') center/cover;"></div>';

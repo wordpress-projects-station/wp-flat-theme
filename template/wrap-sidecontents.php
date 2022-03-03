@@ -5,105 +5,107 @@
 
     <?php
 
-        echo '<h3>you are in : '.$filename.' / '.$pagetype.'</h3>';
+        echo '<h3 style="border:2px solid orange; padding:20px; margin:20px auto;">you are in : '.$filename.'<br>file: '.$pagetype['mode'].'-'.$pagetype['type'].'<br> path: <i>'.$pagetype['path'].'</i></h3>';
+
+        $pagepath = __dir__.$pagetype['path'];
+
+        if (!include($pagepath)) { 
+           
+            if( $pagetype['mode']=='site' || $pagetype['type']=='home' || $pagetype['type']=='cart' )
+            the_content(); 
+            else
+            woocommerce_content();
+        
+        } else { include $pagepath; }
 
 
-        switch($pagetype) {
 
-            case 'archive' : 
 
-                include __DIR__.'/../contents/archive-body.php';
+        // if( $pagetype['mode']=='site' || $pagetype['type']=='cart' || $pagetype['type']=='home' ) {
 
-            case 'post' : 
+        //     if (!include($pagepath)) { the_content(); } else { include $pagepath; }
 
-                include __DIR__.'/../contents/post-body.php';
-                include __DIR__.'/../contents/post-meta.php';
-                include __DIR__.'/../contents/post-author.php';
-                include __DIR__.'/../contents/post-comments.php';
+        // }
 
-                break;
+        // elseif($pagetype['mode']=='shop') {
+
+        //     if (!include($pagepath)) { woocommerce_content(); } else { include $pagepath; }
+
+        // }
+
+        // switch($pagetype['model']) {
+
+        //     case 'archive' :
+
+        //         if (!include($pagepath)) { the_content(); } else { include $pagepath; }
+        //         // include __DIR__.'/../contents/archive-body.php';
+
+        //     case 'post' : 
+
+        //         if (!include($pagepath)) { the_content(); } else { include $pagepath; }
+
+        //         // include __DIR__.'/../contents/post-body.php';
+        //         // include __DIR__.'/../contents/post-meta.php';
+        //         // include __DIR__.'/../contents/post-author.php';
+        //         // include __DIR__.'/../contents/post-comments.php';
+
+        //         break;
     
-            case 'page' : 
+        //     case 'page' : 
 
-                include __DIR__.'/../contents/page-body.php';
+        //         if (!include($pagepath)) { the_content(); } else { include $pagepath; }
                 
-                break;
+        //         break;
                 
-            case 'shop-page' : 
+        //     case 'shop-home' : 
                     
-                echo 'SEMPLICE PAGINA, HOMEPAGE DELLO STORE, FORSE CART';
-                include __DIR__.'/../contents/shop-body.php';
+        //         if (!include($pagepath)) { the_content(); } else { include $pagepath; }
 
-            case 'shop-product' : 
+        //         break;
 
-                echo 'split: <b>shop elements</b><hr>';
-                $contents = woocommerce_content();
+        //     case 'shop-page' : 
+                    
+        //         if (!include($pagepath)) { woocommerce_content(); } else { include $pagepath; }
 
-                ?><pre> THE CONTENT CALLED: <?php
-                var_dump($contents);
-                ?><pre><?php
+        //         break;
+
+        //     case 'shop-categories-list' :
+
+        //         if (!include($pagepath)){ woocommerce_content(); }else{ include $pagepath; }
+
+        //         break;
+
+        //     case 'shop-category' :
+
+        //         if (!include($pagepath)){ woocommerce_content(); }else{ include $pagepath; }
+
+        //         break;
+
+        //     case 'shop-product' : 
+
+        //         if (!include($pagepath)){ woocommerce_content(); }else{ include $pagepath; }
+
+        //         break;
+
+        //     case 'shop-cart' : 
+
+        //         if (!include($pagepath)){ the_content(); }else{ include $pagepath; }
+
+        //     case 'shop-checkout' : 
+
+        //         if (!include($pagepath)){ woocommerce_content(); }else{ include $pagepath; }
+
+        //         break;
 
 
-                ?>
-                    <hr>
-                    <div style="border:2px solid orange; padding:10px;">
-                        <?php
 
-                            if( is_product_category( 'shop' ) ){
-                                echo '<h1>EXELLENT, ITS MAIN OF SHOP</h1>';
-                            }
+        //     default : 
 
-                            if( is_product_category() ){
+        //         echo 'split: <b>undefined page type</b><hr>';
 
-                                echo '<h1>EXELLENT, ITS MAIN OF CATEGORY</h1>';
-                                // $cat = get_query_var('cat');
-                                // echo 'THE CAT: '.$cat;
-                                // $category = get_category($cat);
-                                // if( $category->parent == 0 ) {
-                                //     echo '<h1>'.$wp_query->category->ID.' EXELLENT, ITS CATEGORY LIST</h1>';
-                                // } else {
-                                //     echo '<h1>'.$wp_query->category->ID.' EXELLENT, ITS PRODUCT CATEGORY</h1>';
-                                // };
-                                
+        //         break;
 
-                                // if( $wp_query->category->ID == 0){
-                                //     echo '<h1>'.$wp_query->category->ID.' EXELLENT, ITS CATEGORY LIST</h1>';
-                                // }
-                                // else{
-                                //     echo '<h1>'.$wp_query->category->ID.' EXELLENT, ITS PRODUCT CATEGORY</h1>';
-                                // }
-                            }
-
-                            if( is_product() ) {
-                                echo '<h1>EXELLENT, ITS PRODUCT PAGE!</h1>';
-                            }
-
-                            if( is_cart() ){
-                                echo '<h1>EXELLENT, ITS CART!</h1>';
-                            }
-
-                            if( is_checkout() ){
-                                echo '<h1>EXELLENT, ITS CHECKOUT!</h1>';
-                            }
-
-                            if( is_account_page() ){
-                                echo '<h1>EXELLENT, ITS ACCOUNT PAGE!</h1>';
-                            }
-
-                        ?>
-
-                    </div>
-                <?php
-    
-                break;
-
-            default : 
-
-                echo 'split: <b>undefined page type</b><hr>';
-
-                break;
-
-        };
+        // };
 
 
     ?>

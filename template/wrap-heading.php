@@ -85,8 +85,8 @@
 
                 <?php if( $topmenu_searcher ) { ?>
                     <div class="col d-none d-sm-none d-md-block" style="max-width: 300px;">
-                        <form class="form-inline my-2 my-lg-0" style="display:flex;gap:10px;" role="search" method="get" id="searchform" action="<?php home_url( '/' ) ?>" >
-                            <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="text" value="<?php get_search_query(); ?>" name="s" id="s" />
+                        <form class="form-inline my-2 my-lg-0" style="display:flex;gap:10px;" role="search" method="get" id="searchform" action="<?php echo get_bloginfo('url').'/search/'.get_search_query(); ?>" >
+                            <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="text" value="<?php echo get_bloginfo('url').'/search/'.get_search_query(); ?>" name="s" id="s" />
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="searchsubmit"><i class="bi bi-search"></i></button>
                         </form>
                     </div>

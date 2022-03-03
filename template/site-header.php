@@ -15,11 +15,7 @@
         wp_head();
 
         $filename = basename($template);
-
-        if(is_woocommerce() && !is_shop() || is_product())  $pagetype = 'shop-product';
-        else if(is_woocommerce() || is_shop() )             $pagetype = 'shop-page';
-        else if(is_archive() || is_category() )             $pagetype = 'archive';
-        else                                                $pagetype = get_post_type();
+        $pagetype = loop_page_type();
 
     ?>
 
