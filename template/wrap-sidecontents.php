@@ -9,104 +9,27 @@
 
         $pagepath = __dir__.$pagetype['path'];
 
-        if (!include($pagepath)) { 
-           
-            if( $pagetype['mode']=='site' || $pagetype['type']=='home' || $pagetype['type']=='cart' )
-            the_content(); 
-            else
-            woocommerce_content();
-        
-        } else { include $pagepath; }
+        if ( ! include( $pagepath ) ) { 
+
+            if(strlen($post->post_content)==0){
+
+                if(isset($wp_customize))
+                echo '<div style="display:grid;width:100%;height:100%;min-height:50vh;align-self:center;align-items:center;text-align:center;"><div><h3>MAKE YOUR GUTENBERG PAGE OR CONNECT THIS TYPEPAGE TO CONTENT IN THEME.</h3><p>You can build your own custom page with the internal editor.<br>Once you\'ve built some content of that page, it will appear here. In alternative of this you can make a custom '.$pagetype['mode'].'-'.$pagetype['type'].' php file and connect it inside "wrap-sideconetnts.php" </p></div></div>';
+            
+                else
+                echo '<div style="display:grid;width:100%;height:100%;min-height:50vh;align-self:center;align-items:center;text-align:center;"><div><h3>PAGE CURRENTLY UNDER MAINTENANCE</h3><p>At this specific time the content is not ready or reachable. Please try again in a few hours.</p></div></div>';
+
+            } else {
+
+                if( $pagetype['mode']=='site' || $pagetype['type']=='home' || $pagetype['type']=='cart' )
+                echo the_content(); 
+                else
+                echo woocommerce_content();
+
+            }
 
 
-
-
-        // if( $pagetype['mode']=='site' || $pagetype['type']=='cart' || $pagetype['type']=='home' ) {
-
-        //     if (!include($pagepath)) { the_content(); } else { include $pagepath; }
-
-        // }
-
-        // elseif($pagetype['mode']=='shop') {
-
-        //     if (!include($pagepath)) { woocommerce_content(); } else { include $pagepath; }
-
-        // }
-
-        // switch($pagetype['model']) {
-
-        //     case 'archive' :
-
-        //         if (!include($pagepath)) { the_content(); } else { include $pagepath; }
-        //         // include __DIR__.'/../contents/archive-body.php';
-
-        //     case 'post' : 
-
-        //         if (!include($pagepath)) { the_content(); } else { include $pagepath; }
-
-        //         // include __DIR__.'/../contents/post-body.php';
-        //         // include __DIR__.'/../contents/post-meta.php';
-        //         // include __DIR__.'/../contents/post-author.php';
-        //         // include __DIR__.'/../contents/post-comments.php';
-
-        //         break;
-    
-        //     case 'page' : 
-
-        //         if (!include($pagepath)) { the_content(); } else { include $pagepath; }
-                
-        //         break;
-                
-        //     case 'shop-home' : 
-                    
-        //         if (!include($pagepath)) { the_content(); } else { include $pagepath; }
-
-        //         break;
-
-        //     case 'shop-page' : 
-                    
-        //         if (!include($pagepath)) { woocommerce_content(); } else { include $pagepath; }
-
-        //         break;
-
-        //     case 'shop-categories-list' :
-
-        //         if (!include($pagepath)){ woocommerce_content(); }else{ include $pagepath; }
-
-        //         break;
-
-        //     case 'shop-category' :
-
-        //         if (!include($pagepath)){ woocommerce_content(); }else{ include $pagepath; }
-
-        //         break;
-
-        //     case 'shop-product' : 
-
-        //         if (!include($pagepath)){ woocommerce_content(); }else{ include $pagepath; }
-
-        //         break;
-
-        //     case 'shop-cart' : 
-
-        //         if (!include($pagepath)){ the_content(); }else{ include $pagepath; }
-
-        //     case 'shop-checkout' : 
-
-        //         if (!include($pagepath)){ woocommerce_content(); }else{ include $pagepath; }
-
-        //         break;
-
-
-
-        //     default : 
-
-        //         echo 'split: <b>undefined page type</b><hr>';
-
-        //         break;
-
-        // };
-
+        } else { include_once $pagepath; }
 
     ?>
 

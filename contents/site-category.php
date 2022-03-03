@@ -5,15 +5,15 @@
 
         <? if ( is_category() && !is_category('blog') ) { ?>
             
-            <p class="h1">Category Posts :</p>
+            <p class="h1">Posts in archive :</p>
 
         <? } else if ( is_tag() ) { ?>
 
-            <p class="h1">Posts whit Tag :</p>
+            <p class="h1">Tag in archive :</p>
                 
         <? } else  { ?> 
 
-            <p class="h1">Posts of Blog</p>
+            <p class="h1">All in Blog</p>
 
         <?php } ?>
 

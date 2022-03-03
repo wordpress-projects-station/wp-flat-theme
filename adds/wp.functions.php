@@ -1,20 +1,11 @@
 <?php 
 
-    // add navigations in wordpress
-    add_theme_support('menus');
-    register_nav_menus([
-
-        'desktop-site-menu' => 'Desktop site menu',
-        'desktop-social-menu' => 'Desktop social menu',
-
-        'mobile-site-menu' => 'Mobile site menu', 
-        'mobile-social-menu' => 'Mobile social menu',
-
-    ]);
-
+    add_action( 'wp_head', 'empty_content' );
+    function empty_content($str) {
+        return trim(str_replace('&nbsp;','',strip_tags($str))) == '';
+    }
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
 
     // add random post url
     add_filter( 'pre_get_posts', 'random_post' );
@@ -33,7 +24,6 @@
 
     }
 
-
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
@@ -46,7 +36,7 @@
 
     // set max excerpt length
     add_filter('excerpt_length', 'max_excerpt_length');
-    function max_excerpt_length($length){ return 35; }
+    function max_excerpt_length($length){ return 100; }
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -88,6 +78,21 @@
     add_action('init','page_side_big');
     function page_side_big(){ register_sidebar([ 'name' => 'page_side_big','id' => 'page_side_big' ]); }
 
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    // add navigations in wordpress
+    add_theme_support('menus');
+    register_nav_menus([
+
+        'desktop-site-menu' => 'Desktop site menu',
+        'desktop-social-menu' => 'Desktop social menu',
+
+        'mobile-site-menu' => 'Mobile site menu', 
+        'mobile-social-menu' => 'Mobile social menu',
+
+    ]);
 
 
 ?>
