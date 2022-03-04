@@ -23,6 +23,7 @@
 
                 if( $pagetype['mode']=='site' || $pagetype['type']=='home' || $pagetype['type']=='cart' )
                 echo the_content(); 
+
                 else
                 echo woocommerce_content();
 

@@ -1,5 +1,7 @@
 <?php 
 
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
     // add_theme_support( 'woocommerce', array(
     //     'thumbnail_image_width' => 1100,
     //     'single_image_width' => 1100,

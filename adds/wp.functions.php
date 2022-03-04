@@ -1,10 +1,5 @@
 <?php 
 
-    add_action( 'wp_head', 'empty_content' );
-    function empty_content($str) {
-        return trim(str_replace('&nbsp;','',strip_tags($str))) == '';
-    }
-
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
     // add random post url
@@ -23,6 +18,28 @@
         }
 
     }
+
+
+    function shortcode_user_avatar() {
+
+        if(is_user_logged_in()) {
+            global $current_user;
+            get_currentuserinfo();
+            $url = get_avatar_url( $current_user -> ID, 120 );            
+        }
+        
+        if(!is_user_logged_in() || str_starts_with($url, 'https://secure.gravatar.com/') ) {
+
+            $url = get_template_directory_uri().'/adds/404IMAGE.PNG';
+
+        }
+
+        return '<div class="rounded-3" style="text-align:right; aspect-ratio: 1; min-height:350px; width:100%; background: url('.$url.') center/cover;"></div>';
+
+    }
+
+    add_shortcode('display-user-avatar','shortcode_user_avatar');
+        
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
