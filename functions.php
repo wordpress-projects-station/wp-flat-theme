@@ -2,23 +2,27 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-    require_once get_template_directory().'/adds/libs.methods.php';
-    
+    include_once __DIR__.'/adds/libs.methods.php';
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    include_once __DIR__.'/adds/libs.woocommerce.php';
+
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
     
-    require_once get_template_directory().'/adds/wp.functions.php';
+    include_once __DIR__.'/adds/wp.functions.php';
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-    require_once get_template_directory().'/adds/libs.customizer.php';
+    include_once __DIR__.'/adds/libs.customizer.php';
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-    require_once get_template_directory().'/adds/libs.bootstrap.php';
+    include_once __DIR__.'/adds/libs.bootstrap.php';
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-    require_once get_template_directory().'/adds/wp.style.php';
+    include_once __DIR__.'/adds/wp.style.php';
 
     
 ?>
