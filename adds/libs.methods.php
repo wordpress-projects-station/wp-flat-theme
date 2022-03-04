@@ -5,40 +5,40 @@
 
         if( is_product() ) {
 
-            $of = 'wooc';
+            $origin = 'wooc';
             $type = 'product';
 
         }
 
         elseif( is_tax( 'product_cat' ) || is_product_category() || is_product_category( 'all-categories' ) || is_page( 'all-categories' ) ) {
 
-            $of = 'wooc';
+            $origin = 'wooc';
             $type = get_queried_object()->parent > 0 ? 'category' : 'categories-list' ;
 
         }
 
-        elseif( !is_woocommerce() && is_shop() ) {
+        elseif( is_page() && is_shop() ) {
 
-            $of = 'wooc';
+            $origin = 'wooc';
             $type = 'home';
 
         }
         elseif( is_shop() && is_woocommerce() ) {
 
-            $of = 'wooc';
+            $origin = 'wooc';
             $type = 'page';
 
         }
         
         elseif( is_cart() ) {
 
-            $of = 'wooc';
+            $origin = 'wooc';
             $type = 'cart';
 
         }
         elseif( is_checkout() ) {
 
-            $of = 'wooc';
+            $origin = 'wooc';
             $type = 'checkout';
 
         }
@@ -46,49 +46,50 @@
         elseif( is_account_page() || is_page('account') )
         {
 
-            $of = 'wprs';
+            $origin = 'wprs';
             $type = 'account';
 
         }
+        
+        elseif( is_page() || is_singular() ) {
+
+            $origin = 'wprs';
+            $type = 'page';
+
+        }
+
+        elseif( is_single() || is_post() ) {
+
+            $origin = 'wprs';
+            $type = 'post';
+
+        }
+
         elseif( is_archive() || is_category() ) {
 
-            $of = 'wprs';
+            $origin = 'wprs';
             $type = 'category';
 
         }
 
         elseif( is_search() || is_tag() ) {
 
-            $of = 'wprs';
+            $origin = 'wprs';
             $type = 'search';
-
-        }
-
-        elseif( is_page() ) {
-
-            $of = 'wprs';
-            $type = 'page';
-
-        }
-
-        elseif( is_post() ) {
-
-            $of = 'wprs';
-            $type = 'post';
 
         }
 
         else {
 
             // return the pages unkonwed page type
-            $of = 'wprs';
+            $origin = 'wprs';
             $type = get_post_type();
 
         }
 
-        $path = '/../contents/'.$mode.'-'.$type.'.php';
+        $path = str_replace('adds/','', (__DIR__.'/contents/'.$origin.'-'.$type.'.php') );
 
-        return ['mode'=>$mode,'type'=>$type,'path'=>$path];
+        return ['origin'=>$origin,'type'=>$type,'path'=>$path];
 
     }
 

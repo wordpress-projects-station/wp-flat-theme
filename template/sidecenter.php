@@ -5,11 +5,9 @@
 
     <?php
 
-        // echo '<h3 style="border:2px solid orange; padding:20px; margin:20px auto;">you are in : '.$filename.'<br>file: '.$pagetype['target'].'-'.$pagetype['type'].'<br> path: <i>'.$pagetype['path'].'</i></h3>';
+        echo '<h3 style="border:2px solid orange; padding:20px; margin:20px auto;">you are in : '.$filename.'<br>file: '.$pagetype['target'].'-'.$pagetype['type'].'<br> path: <i>'.$pagetype['path'].'</i></h3>';
 
-        $pagepath = __dir__.$pagetype['path'];
-
-        if ( ! include( $pagepath ) ) { 
+        if ( ! include( $pagetype['path'] ) ) { 
 
             if(strlen($post->post_content)==0) {
 
@@ -21,7 +19,7 @@
 
             } else {
 
-                if( $pagetype['mode']=='site' || $pagetype['type']=='home' || $pagetype['type']=='cart' )
+                if( $pagetype['mode']=='site' || in_array($pagetype['type'],['home','cart','account']) )
                 echo the_content(); 
 
                 else
@@ -30,7 +28,7 @@
             }
 
 
-        } else { include_once $pagepath; }
+        } else { include_once $pagetype['path']; }
 
     ?>
 
