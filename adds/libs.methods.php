@@ -5,40 +5,40 @@
 
         if( is_product() ) {
 
-            $mode = 'shop';
+            $of = 'wooc';
             $type = 'product';
 
         }
 
         elseif( is_tax( 'product_cat' ) || is_product_category() || is_product_category( 'all-categories' ) || is_page( 'all-categories' ) ) {
 
-            $mode = 'shop';
+            $of = 'wooc';
             $type = get_queried_object()->parent > 0 ? 'category' : 'categories-list' ;
 
         }
 
         elseif( !is_woocommerce() && is_shop() ) {
 
-            $mode = 'shop';
+            $of = 'wooc';
             $type = 'home';
 
         }
         elseif( is_shop() && is_woocommerce() ) {
 
-            $mode = 'shop';
+            $of = 'wooc';
             $type = 'page';
 
         }
         
         elseif( is_cart() ) {
 
-            $mode = 'shop';
+            $of = 'wooc';
             $type = 'cart';
 
         }
         elseif( is_checkout() ) {
 
-            $mode = 'shop';
+            $of = 'wooc';
             $type = 'checkout';
 
         }
@@ -46,34 +46,34 @@
         elseif( is_account_page() || is_page('account') )
         {
 
-            $mode = 'site';
+            $of = 'wprs';
             $type = 'account';
 
         }
         elseif( is_archive() || is_category() ) {
 
-            $mode = 'site';
+            $of = 'wprs';
             $type = 'category';
 
         }
 
         elseif( is_search() || is_tag() ) {
 
-            $mode = 'site';
+            $of = 'wprs';
             $type = 'search';
 
         }
 
         elseif( is_page() ) {
 
-            $mode = 'site';
+            $of = 'wprs';
             $type = 'page';
 
         }
 
         elseif( is_post() ) {
 
-            $mode = 'site';
+            $of = 'wprs';
             $type = 'post';
 
         }
@@ -81,7 +81,7 @@
         else {
 
             // return the pages unkonwed page type
-            $mode = 'site';
+            $of = 'wprs';
             $type = get_post_type();
 
         }

@@ -1,23 +1,11 @@
-
 <div>
 
     <div class="mb-5 border-bottom border-dark">
 
-        <? if ( is_category() && !is_category('blog') ) { ?>
-            
-            <p class="h1">Posts in archive :</p>
-
-        <? } else if ( is_tag() ) { ?>
-
-            <p class="h1">Tag in archive :</p>
-                
-        <? } else  { ?> 
-
-            <p class="h1">All in Blog</p>
-
-        <?php } ?>
+        <p class="h1">Result for : <b>"<?php echo the_search_query(); ?>"</b></p>
 
     </div>
+
 
     <div class="row">
 
@@ -56,9 +44,9 @@
 
                 </div>
 
-            <?php } else { include 'include/contents-not-accessible.php'; } ?>
+            <?php } else { include 'include/not-accessible.php'; } ?>
 
-        <?php } } else { include 'include/contents-not-in-database.php'; } ?>
+        <?php } } else { include 'include/not-in-database.php'; } ?>
 
     </div>
 
