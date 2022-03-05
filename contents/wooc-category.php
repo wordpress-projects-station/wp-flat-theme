@@ -1,34 +1,8 @@
-<?php 
+<?php global $wp_query; $category = $wp_query->get_queried_object(); ?>
 
-    global $wp_query; $category = $wp_query->get_queried_object();
-
-    // global $post;
-    // $args  = array( 'taxonomy' => 'product_cat' );
-    // $terms = wp_get_post_terms($post->ID, 'product_cat', $args);
-
-    // foreach ($terms as $term) {
-    //    echo '<p>'.$term->name.'</p>';
-    //    echo '<p>'.$term->description.'</p>';
-    // }
-
-    // global $post; $terms = get_the_terms( $post->ID, 'product_cat' ); var_dump($terms);
-
-    // $page_slug = get_post_field( 'post_name' );
-    // $loop = new WP_Query( array(
-    //     'post_type' => 'product',
-    //     'post_status' => 'publish',
-    //     'posts_per_page' => 12,
-    //     'tax_query' => array( array(
-    //         'taxonomy'         => 'product_cat',
-    //         'field'            => $page_slug, 
-    //         'terms'            => get_query_var( 'product_cat' ),
-    //         // 'include_children' => false // or true (optional)
-    //     )),
-    //     'orderby' => 'rand'
-    // ) );
-
-    // var_dump($loop) 
-?>
+<!--
+---- MINI HEAD OF CATEOGRY
+--->
 
 <div class="row">
 
@@ -56,8 +30,12 @@
         </div>
     </div>
 
+
 </div>
 
+<!--
+---- BREADCRUMP AND SELECTORS
+--->
 
 <div class="row mt-4 mb-4">
 
@@ -101,6 +79,10 @@
     </div>
 
 </div>
+
+<!--
+---- PRODUCT LIST
+--->
 
 <div class="row">
 
@@ -251,16 +233,24 @@
 
         <?php }} ?>
 
-        <div class="mt-4">
-            <nav aria-label="...">
-                <ul class="pagination pagination-lg">
-                    <li class="page-item active" aria-current="page">
-                    <span class="page-link">1</span>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                </ul>
-            </nav>
-        </div>
+</div>
 
+<!--
+---- PAGINATION
+--->
+ONLY HTML:
+<div class="mt-4">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
 </div>
