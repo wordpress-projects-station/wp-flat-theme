@@ -80,7 +80,7 @@
     add_action( 'wp_footer', 'end_mod_html_inWooEditAccount' );
  
 
-    //: B regual walker of fields arguments for add the class
+    //: B) regual walker of fields arguments for add the class
 
     add_filter('woocommerce_form_field_args','woo_bootstrap_input_classes',10,3);
     function woo_bootstrap_input_classes( $args, $key, $value = null  ) {
@@ -171,16 +171,16 @@
     // Mod Form field of woocommerce for remove required
     */
 
-    add_filter( 'woocommerce_form_field_args', 'no_requireds_custom_field', 10, 3 );
-    function no_requireds_custom_field( $args, $key, $value ){
+    // add_filter( 'woocommerce_form_field_args', 'no_requireds_custom_field', 10, 3 );
+    // function no_requireds_custom_field( $args, $key, $value ){
 
-        if( is_wc_endpoint_url( 'edit-account' ) ) return $args;
+    //     if( is_wc_endpoint_url( 'edit-account' ) ) return $args;
 
-        $args['class'] = array('form-input-group');
-        $args['required'] = false;
+    //     $args['class'] = array('form-input-group');
+    //     $args['required'] = false;
 
-        return $args;
-    }
+    //     return $args;
+    // }
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - - */

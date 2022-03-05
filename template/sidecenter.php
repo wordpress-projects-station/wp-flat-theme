@@ -20,10 +20,10 @@
             } else {
 
                 if( $pagetype['mode']=='site' || in_array($pagetype['type'],['home','cart','account']) )
-                echo the_content(); 
+                the_content(); 
 
                 else
-                echo woocommerce_content();
+                woocommerce_content();
 
             }
 
