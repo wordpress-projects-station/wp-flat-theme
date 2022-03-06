@@ -1,4 +1,35 @@
-<?php global $wp_query; $category = $wp_query->get_queried_object(); ?>
+<? global $wp_query; $category = $wp_query->get_queried_object(); ?>
+
+<?
+
+
+    // set session page id
+    // $SID = $category->term_id;
+
+    // save in session params
+
+    // if( isset($_POST['page_size']) )                    { $_SESSION[$SID.'_page_size'] = $_POST['page_size']; }
+    // if( isset($_POST['page_active']) )                  { $_SESSION[$SID.'_page_active'] = $_POST['page_active']; }
+    // if($_POST['page_sorting'] == 'byprice')             { $_SESSION[$SID.'_page_sorting'] = 'byprice'; }
+    // elseif($_POST['page_sorting'] == 'pricereverse')    { $_SESSION[$SID.'_page_sorting'] = 'pricereverse'; }
+    // elseif($_POST['page_sorting'] == 'alphabetical')    { $_SESSION[$SID.'_page_sorting'] = 'alphabetical'; }
+    // elseif($_POST['page_sorting'] == 'byid')            { $_SESSION[$SID.'_page_sorting'] = 'byid'; }
+
+    // // transfer from session params
+
+    // $page_active  =  $_SESSION[$SID.'_page_active'] ?: '1';
+    // $page_size    =  $_SESSION[$SID.'_page_size'] ?: '24';
+    // $page_sorting =  $_SESSION[$SID.'_page_sorting'] ?: 'byid';
+
+    $page_active  =  $_POST['page_active'] ?: '1';
+    $page_size    =  $_POST['page_size'] ?: '1';
+    $page_sorting =  $_POST['page_sorting'] ?: 'byid';
+    print '<p>page_active: '.$page_active.'</p>';
+    print '<p>page_size:'.$page_size.'</p>';
+    print '<p>page_sorting:'.$page_sorting.'</p>';
+
+?>
+
 
 <!--
 ---- MINI HEAD OF CATEOGRY
@@ -8,25 +39,20 @@
 
     <div class="col-lg-6 col-md-12">
 
-        <?php
+        <?
         
-            $bkgId = get_term_meta( $category->term_id, 'thumbnail_id', true ); 
-            $bkgUrl = wp_get_attachment_url( $bkgId );
+            $bkgId  = get_term_meta( $category->term_id, 'thumbnail_id', true ); 
+            $bkgUrl = wp_get_attachment_url( $bkgId ) ?: bloginfo('template_directory').'/adds/404IMAGE.PNG';
+            print '<div style="height:250px; background: url('.$bkgUrl.') center/cover;"></div>';
 
-            if($bkgUrl)
-            echo '<div style="height:250px; background: url('.$bkgUrl.') center/cover;"></div>';
-
-            else
-            echo '<div style="height:250px; background: url('.bloginfo('template_directory').'/adds/404IMAGE.PNG) center/cover;"></div>';
-        
         ?>
 
     </div>
 
     <div class="col-lg-6 col-md-6">
         <div>
-            <h2 class="display-2"><?php echo $category->name;?></h2>
-            <p><?php echo $category->description;?></p>
+            <h2 class="display-2"><?= $category->name; ?></h2>
+            <p><?= $category->description; ?></p>
         </div>
     </div>
 
@@ -39,40 +65,42 @@
 
 <div class="row mt-4 mb-4">
 
-    <div class="col-lg-9 col-md-12">
+    <div class="col-lg-8 col-md-12">
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?php echo 'https://'.$_SERVER['SERVER_NAME'].'/'; ?>">Home</a></li>
-            <li class="breadcrumb-item"><a href="<?php echo 'https://'.$_SERVER['SERVER_NAME'].'/shop/'; ?>">Shop</a></li>
-            <li class="breadcrumb-item"><a href="<?php echo 'https://'.$_SERVER['SERVER_NAME'].'/shop/all-categories/'; ?>"> ... </a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="<?php echo 'https://'.$_SERVER['SERVER_NAME'].'/shop/all-categories/'.$category->name.'/'; ?>"> <?php echo $category->name?> </a></li>
+            <? $baseurl = 'https://'.$_SERVER['SERVER_NAME']; ?>
+            <li class="breadcrumb-item"><a href="<?= $baseurl.'/'; ?>">Home</a></li>
+            <li class="breadcrumb-item"><a href="<?= $baseurl.'/shop/'; ?>">Shop</a></li>
+            <li class="breadcrumb-item"><a href="<?= $baseurl.'/shop/all-categories/'; ?>"> ... </a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="<?= $baseurl.'/shop/all-categories/'.$category->name.'/'; ?>"> <?= $category->name?> </a></li>
         </ol>
     </nav>
 
     </div>
 
-    <div class="col-lg-3 col-md-12">
+    <div class="col-lg-4 col-md-12">
 
-            <form method="POST" class="btn-group" style="width:100%;">
+            <form method="post" class="btn-group" style="width:100%;">
 
-                <?php
-
-                    $selected = 'byid';
-                    if($_POST['sortingtype'] == 'forprice') { $selected = 'forprice'; }
-                    elseif($_POST['sortingtype'] == 'pricereverse') { $selected = 'pricereverse'; }
-                    elseif($_POST['sortingtype'] == 'alphabetical') { $selected = 'alphabetical'; }
-
-                ?>
-
-                <select class="custom-select" name="sortingtype" style="width:70%;">
-                    <option <?php if($selected=='byid') echo 'selected'; ?> value="byid">Classic</option>
-                    <option <?php if($selected=='forprice') echo 'selected'; ?> value="forprice">For price</option>
-                    <option <?php if($selected=='pricereverse') echo 'selected'; ?> value="pricereverse">Decreasing price</option>
-                    <option <?php if($selected=='alphabetical') echo 'selected'; ?> value="alphabetical">Alphabetical</option>
+                <select class="custom-select" name="page_size" style="width:35%;">
+                    <option <? if($page_size=='1') echo 'selected'; ?> value="1">1 per page</option>
+                    <option <? if($page_size=='2') echo 'selected'; ?> value="2">2 per page</option>
+                    <option <? if($page_size=='12') echo 'selected'; ?> value="12">12 per page</option>
+                    <option <? if($page_size=='24') echo 'selected'; ?> value="24">24 per page</option>
+                    <option <? if($page_size=='48') echo 'selected'; ?> value="48">48 per page</option>
+                    <option <? if($page_size=='96') echo 'selected'; ?> value="96">96 per page</option>
+                    <option <? if($page_size=='192') echo 'selected'; ?> value="192">192 per page</option>
                 </select>
-    
-                <button name="sortselector" type="submit" class="btn btn-outline-secondary" >OK</button>
+
+                <select class="custom-select" name="page_sorting" style="width:45%;">
+                    <option <? if($page_sorting=='byid') echo 'selected'; ?> value="byid">Classic order</option>
+                    <option <? if($page_sorting=='byprice') echo 'selected'; ?> value="byprice">Ordered for price</option>
+                    <option <? if($page_sorting=='pricereverse') echo 'selected'; ?> value="pricereverse">By decreasing price</option>
+                    <option <? if($page_sorting=='alphabetical') echo 'selected'; ?> value="alphabetical">Alphabetical order</option>
+                </select>
+
+                <button type="submit" class="btn btn-outline-secondary" >OK</button>
         
             </form>
 
@@ -86,8 +114,9 @@
 
 <div class="row">
 
-    <?php
+    <?
 
+        // query products id
 
         $category_products_ids = get_posts([
             'post_type' => 'product',
@@ -102,8 +131,9 @@
             ]]
         ]);
 
+        // query that id, make a product abstract inside a list
 
-        $productslist = [];
+        $products_list = [];
 
         class product_abstract 
         {
@@ -127,86 +157,96 @@
 
         $c=0; foreach ( $category_products_ids as $product_id ) {
         
-            $productdata = wc_get_product( $product_id );
+            $product_data = wc_get_product( $product_id );
 
             $abstract =  new product_abstract();
 
-            $abstract->status         = $productdata->status=='publish'&&$productdata->catalog_visibility=='visible'?true:false;
+            $abstract->status         = $product_data->status=='publish'&&$product_data->catalog_visibility=='visible'?true:false;
             $abstract->id             = $product_id;
-            $abstract->name           = $productdata->name;
-            $abstract->excerpt        = $productdata->short_description;
+            $abstract->name           = $product_data->name;
+            $abstract->excerpt        = $product_data->short_description;
             $abstract->link           = get_permalink($product_id);
-            $abstract->normal_price   = $productdata->regular_price;
-            $abstract->sales_price    = $productdata->sale_price;
-            $abstract->standard_price = $productdata->price;
-            $abstract->stock_remain   = $productdata->stock_quantity;
-            $abstract->stock_limit    = $productdata->low_stock_amount;
-            $abstract->is_virtual     = $productdata->virtual;
-            $abstract->down_limit     = $productdata->download_limit;
-            $abstract->downloadable   = $productdata->downloadable;
-            $abstract->image          = wp_get_attachment_url( $productdata->image_id ) ; //_thumbnail_id
+            $abstract->normal_price   = $product_data->regular_price;
+            $abstract->sales_price    = $product_data->sale_price;
+            $abstract->standard_price = $product_data->price;
+            $abstract->stock_remain   = $product_data->stock_quantity;
+            $abstract->stock_limit    = $product_data->low_stock_amount;
+            $abstract->is_virtual     = $product_data->virtual;
+            $abstract->down_limit     = $product_data->download_limit;
+            $abstract->downloadable   = $product_data->downloadable;
+            $abstract->image          = wp_get_attachment_url( $product_data->image_id ) ; //_thumbnail_id
             $abstract->love           = "none";
             $abstract->cartlink       = "none";
 
 
-            $productslist[$c] = $abstract;
+            $products_list[$c] = $abstract;
 
-            unset($productdata); // memory clean
+            unset($product_data); // memclean
             $c++;
 
         }
 
-        unset($category_products_ids); // memory clean
+        unset($category_products_ids); // memclean
 
+        // sort abstract list
 
         function byid($a, $b) { return strcmp($a->id, $b->id); }
-        function forprice($a, $b) { return strcmp($a->normal_price, $b->normal_price); }
+        function byprice($a, $b) { return strcmp($a->normal_price, $b->normal_price); }
         function pricereverse($a, $b) { return strcmp($b->normal_price, $a->normal_price); }
         function alphabetical($a, $b) { return strcmp($a->name, $b->name); }
 
         switch ($selected) {
 
-            case 'forprice':
-                usort($productslist,'forprice');
+            case 'byprice':
+                usort($products_list,'byprice');
                 break;
             case 'pricereverse':
-                usort($productslist,'pricereverse');
+                usort($products_list,'pricereverse');
                 break;
             case 'alphabetical':
-                usort($productslist,'alphabetical');
+                usort($products_list,'alphabetical');
                 break;
             default:
-                usort($productslist,'byid');
+                usort($products_list,'byid');
                 break;
         }
 
-        usort($productslist, );
+        // paginate list
 
-        
-        foreach ( $productslist as $product ) { if($product->status) { ?>
+        function paginate($array, $size, $active) {
+            $allpages = array_chunk($array, $size);
+            return $active > sizeof($allpages) ? [] : $allpages[$active - 1];
+        }
+
+
+        $pagelist = paginate($products_list, $page_size, $page_active);
+
+        // loop page
+
+        foreach ( $pagelist as $product ) { if($product->status) { ?>
 
 
             <div class="col-lg-4 col-md-12">
 
                 <div class="border border-2 mb-4">
 
-                    <div style="height:250px; background: url(<?php if ($product->image) { echo $product->image; } else { echo bloginfo('template_directory').'/adds/404IMAGE.PNG'; }?> ) center/cover;">
+                    <div style="height:250px; background: url(<? if ($product->image) { echo $product->image; } else { echo bloginfo('template_directory').'/adds/404IMAGE.PNG'; }?> ) center/cover;">
                         <div class="badge position-absolute top-0 start-0 translate-middle">Hot</div>
-                        <div class="badge position-absolute top-0 start-100 translate-middle"><?php// echo $id; ?></div>
+                        <div class="badge position-absolute top-0 start-100 translate-middle"><?// echo $id; ?></div>
                     </div>
                         
                     <div class="border-top border-2 p-2">
 
                         <h3 class="card-text display-6 text-center">
-                            <?php echo $product->name; ?>
+                            <?= $product->name; ?>
                         </h3>
             
                         <p class="card-text display-5 text-center">
-                            <b><?php echo $product->normal_price; ?></b>
+                            <b><?= $product->normal_price; ?></b>
                         </p>
             
                         <p class="card-text text-justify" style="display:-webkit-box;-webkit-line-clamp: 3;-webkit-box-orient:vertical;overflow:hidden;">
-                            <?php echo $product->excerpt; ?>
+                            <?= $product->excerpt; ?>
                         </p>
 
                     </div>
@@ -215,12 +255,12 @@
 
                         <div class="row">
                             <div class="col-lg-8 col-md-12">
-                                <a class="btn btn-secondary" href="<?php echo $product->link; ?>">DETAILS</a>
+                                <a class="btn btn-secondary" href="<?= $product->link; ?>">DETAILS</a>
                             </div>
                             <div class="col-lg-4 col-md-12">
                                 <span class="btn-group" style="float:right">
                                     <a class="btn btn-info" href=""><i class="bi bi-bookmark-heart-fill"></i></a>
-                                    <a class="btn btn-info" href="<?php echo 'https://'.$_SERVER['SERVER_NAME'].'/shop/cart/?add-to-cart='.$product->id.'&quantity=1'; ?>"><i class="bi bi-cart-plus-fill"></i></a>
+                                    <a class="btn btn-info" href="<?= 'https://'.$baseurl.'/shop/cart/?add-to-cart='.$product->id.'&quantity=1'; ?>"><i class="bi bi-cart-plus-fill"></i></a>
                                 </span>
                             </div>
                         </div>
@@ -231,26 +271,35 @@
 
             </div>
 
-        <?php }} ?>
+        <? }} ?>
 
 </div>
 
-<!--
----- PAGINATION
---->
-ONLY HTML:
-<div class="mt-4">
-    <nav aria-label="Page navigation example">
+<!-- PAGINATION DISPLAY -->
+
+<form method="post" class="mt-4"> 
+
+    <? $page_count = (count($products_list)/$page_size); ?>
+    
+    <input type="hidden" name="page_size"  value="<?= $page_size; ?>" />
+    <input type="hidden" name="page_sorting" value="<?= $page_sorting?>" />
+
+    <nav>
         <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+
             <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <button name="page_active" type="submit" value="<?= $page_active-1; ?>" class="page-link" <?= $page_active==1?'style="opacity:.33" disabled':''; ?>>Previous</button>
             </li>
+    
+            <? for ($p=1; $p < $page_count+1; $p++) if( $page_active>=$page_active-3 && $page_active<=$page_active+3 ) print '<li class="page-item '.($p==$page_active?'active':'').'"><button name="page_active" type="submit" class="page-link" value="'.$p.'">'.$p.'</button></li>'; ?>
+            <li class="page-item">
+                <button style="color:gray" class="page-link" disabled> of <?= $page_count; ?></button>
+            </li>
+            <li class="page-item">
+                <button name="page_active" type="submit" value="<?= $page_active+1; ?>" class="page-link" <?= $page_active==$page_count?'style="opacity:.33" disabled':''; ?>>Next</button>
+            </li>
+
         </ul>
     </nav>
-</div>
+
+</form>
