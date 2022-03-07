@@ -1,4 +1,4 @@
-<?php
+<?
 
     add_action( 'wp_head', 'loop_page_type' );
     function loop_page_type(){
@@ -10,10 +10,10 @@
 
         }
 
-        elseif( is_tax( 'product_cat' ) || is_product_category() || is_product_category( 'all-categories' ) || is_page( 'all-categories' ) ) {
+        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'shop-categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/ ) {
 
             $origin = 'wooc';
-            $type = get_queried_object()->parent > 0 ? 'category' : 'categories-list' ;
+            $type = get_queried_object()->parent == 0 || is_page( 'shop-categories' ) || is_page( 'product-category' ) ? 'categories-list' : 'category' ;
 
         }
 

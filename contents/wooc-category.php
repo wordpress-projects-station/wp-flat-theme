@@ -1,32 +1,13 @@
+<?= 'IN CATEGORY CONTENT';?>
 <? global $wp_query; $category = $wp_query->get_queried_object(); ?>
 
 <?
 
-
-    // set session page id
-    // $SID = $category->term_id;
-
-    // save in session params
-
-    // if( isset($_POST['page_size']) )                    { $_SESSION[$SID.'_page_size'] = $_POST['page_size']; }
-    // if( isset($_POST['page_active']) )                  { $_SESSION[$SID.'_page_active'] = $_POST['page_active']; }
-    // if($_POST['page_sorting'] == 'byprice')             { $_SESSION[$SID.'_page_sorting'] = 'byprice'; }
-    // elseif($_POST['page_sorting'] == 'pricereverse')    { $_SESSION[$SID.'_page_sorting'] = 'pricereverse'; }
-    // elseif($_POST['page_sorting'] == 'alphabetical')    { $_SESSION[$SID.'_page_sorting'] = 'alphabetical'; }
-    // elseif($_POST['page_sorting'] == 'byid')            { $_SESSION[$SID.'_page_sorting'] = 'byid'; }
-
-    // // transfer from session params
-
-    // $page_active  =  $_SESSION[$SID.'_page_active'] ?: '1';
-    // $page_size    =  $_SESSION[$SID.'_page_size'] ?: '24';
-    // $page_sorting =  $_SESSION[$SID.'_page_sorting'] ?: 'byid';
-
     $page_active  =  $_POST['page_active'] ?: '1';
     $page_size    =  $_POST['page_size'] ?: '1';
     $page_sorting =  $_POST['page_sorting'] ?: 'byid';
-    print '<p>page_active: '.$page_active.'</p>';
-    print '<p>page_size:'.$page_size.'</p>';
-    print '<p>page_sorting:'.$page_sorting.'</p>';
+
+    var_dump($category);
 
 ?>
 
@@ -72,8 +53,8 @@
             <? $baseurl = 'https://'.$_SERVER['SERVER_NAME']; ?>
             <li class="breadcrumb-item"><a href="<?= $baseurl.'/'; ?>">Home</a></li>
             <li class="breadcrumb-item"><a href="<?= $baseurl.'/shop/'; ?>">Shop</a></li>
-            <li class="breadcrumb-item"><a href="<?= $baseurl.'/shop/all-categories/'; ?>"> ... </a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="<?= $baseurl.'/shop/all-categories/'.$category->name.'/'; ?>"> <?= $category->name?> </a></li>
+            <li class="breadcrumb-item"><a href="<?= $baseurl.'/shop-categories/'; ?>"> ... </a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a href="<?= parse_url($_SERVER['REQUEST_URI'])['path']; ?>"> <?= $category->name?> </a></li>
         </ol>
     </nav>
 
@@ -84,8 +65,6 @@
             <form method="post" class="btn-group" style="width:100%;">
 
                 <select class="custom-select" name="page_size" style="width:35%;">
-                    <option <? if($page_size=='1') echo 'selected'; ?> value="1">1 per page</option>
-                    <option <? if($page_size=='2') echo 'selected'; ?> value="2">2 per page</option>
                     <option <? if($page_size=='12') echo 'selected'; ?> value="12">12 per page</option>
                     <option <? if($page_size=='24') echo 'selected'; ?> value="24">24 per page</option>
                     <option <? if($page_size=='48') echo 'selected'; ?> value="48">48 per page</option>
@@ -156,7 +135,9 @@
         }
 
         $c=0; foreach ( $category_products_ids as $product_id ) {
-        
+
+            //moreinfo:https://www.businessbloomer.com/woocommerce-easily-get-product-info-title-sku-desc-product-object/
+
             $product_data = wc_get_product( $product_id );
 
             $abstract =  new product_abstract();
@@ -165,7 +146,7 @@
             $abstract->id             = $product_id;
             $abstract->name           = $product_data->name;
             $abstract->excerpt        = $product_data->short_description;
-            $abstract->link           = get_permalink($product_id);
+            $abstract->link           = get_post_permalink($product_id);
             $abstract->normal_price   = $product_data->regular_price;
             $abstract->sales_price    = $product_data->sale_price;
             $abstract->standard_price = $product_data->price;
@@ -178,6 +159,7 @@
             $abstract->love           = "none";
             $abstract->cartlink       = "none";
 
+            echo get_post_permalink( $product_id );
 
             $products_list[$c] = $abstract;
 
@@ -288,15 +270,17 @@
         <ul class="pagination justify-content-center">
 
             <li class="page-item">
-                <button name="page_active" type="submit" value="<?= $page_active-1; ?>" class="page-link" <?= $page_active==1?'style="opacity:.33" disabled':''; ?>>Previous</button>
-            </li>
-    
-            <? for ($p=1; $p < $page_count+1; $p++) if( $page_active>=$page_active-3 && $page_active<=$page_active+3 ) print '<li class="page-item '.($p==$page_active?'active':'').'"><button name="page_active" type="submit" class="page-link" value="'.$p.'">'.$p.'</button></li>'; ?>
-            <li class="page-item">
-                <button style="color:gray" class="page-link" disabled> of <?= $page_count; ?></button>
+                <button name="page_active" type="submit" value="<?= $page_active-1; ?>" class="page-link" <?= $page_active==1?'style="opacity:.33" disabled':''; ?>><i class="bi bi-arrow-left"></i></button>
             </li>
             <li class="page-item">
-                <button name="page_active" type="submit" value="<?= $page_active+1; ?>" class="page-link" <?= $page_active==$page_count?'style="opacity:.33" disabled':''; ?>>Next</button>
+                <button style="color:gray" class="page-link" value="1">first...</button>
+            </li>
+            <? for ($p=2; $p < $page_count; $p++) if( $page_active>=$page_active-3 && $page_active<=$page_active+3 ) print '<li class="page-item '.($p==$page_active?'active':'').'"><button name="page_active" type="submit" class="page-link" value="'.$p.'">'.$p.'</button></li>'; ?>
+            <li class="page-item">
+                <button class="page-link" value="<?= $page_count; ?>"> ...of <?= $page_count; ?></button>
+            </li>
+            <li class="page-item">
+                <button name="page_active" type="submit" value="<?= $page_active+1; ?>" class="page-link" <?= $page_active==$page_count?'style="opacity:.33" disabled':''; ?>><i class="bi bi-arrow-right"></i></button>
             </li>
 
         </ul>

@@ -6,7 +6,7 @@
                 <h5 class="mb-3 text-center flex-center">::: Follow on socials :::</h5>
 
                 <div class="mb-5 text-center flex-center">
-                    <?php
+                    <?
                         wp_nav_menu([
 
                             'theme_location'  => 'desktop-social-menu',

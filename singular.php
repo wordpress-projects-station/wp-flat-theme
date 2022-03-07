@@ -1,4 +1,4 @@
-<?php
+<?
     
     include __DIR__.'/template/start.php';
     include __DIR__.'/template/heading.php';
