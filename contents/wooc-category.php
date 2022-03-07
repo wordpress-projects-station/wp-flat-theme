@@ -1,13 +1,11 @@
-<?= 'IN CATEGORY CONTENT';?>
-<? global $wp_query; $category = $wp_query->get_queried_object(); ?>
+<? 
 
-<?
+    global $wp_query; $category = $wp_query->get_queried_object();
 
+    $baseurl      = 'https://'.$_SERVER['SERVER_NAME'];
     $page_active  =  $_POST['page_active'] ?: '1';
-    $page_size    =  $_POST['page_size'] ?: '1';
+    $page_size    =  $_POST['page_size'] ?: '12';
     $page_sorting =  $_POST['page_sorting'] ?: 'byid';
-
-    var_dump($category);
 
 ?>
 
@@ -21,11 +19,8 @@
     <div class="col-lg-6 col-md-12">
 
         <?
-        
             $bkgId  = get_term_meta( $category->term_id, 'thumbnail_id', true ); 
-            $bkgUrl = wp_get_attachment_url( $bkgId ) ?: bloginfo('template_directory').'/adds/404IMAGE.PNG';
-            print '<div style="height:250px; background: url('.$bkgUrl.') center/cover;"></div>';
-
+            print '<div style="height:250px; background: url('.( wp_get_attachment_url( $bkgId ) ?: bloginfo('template_directory').'/adds/404IMAGE.PNG' ).') center/cover;"></div>';
         ?>
 
     </div>
@@ -50,10 +45,9 @@
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <? $baseurl = 'https://'.$_SERVER['SERVER_NAME']; ?>
             <li class="breadcrumb-item"><a href="<?= $baseurl.'/'; ?>">Home</a></li>
             <li class="breadcrumb-item"><a href="<?= $baseurl.'/shop/'; ?>">Shop</a></li>
-            <li class="breadcrumb-item"><a href="<?= $baseurl.'/shop-categories/'; ?>"> ... </a></li>
+            <li class="breadcrumb-item"><a href="<?= $baseurl.'/shop/categories/'; ?>"> ... </a></li>
             <li class="breadcrumb-item active" aria-current="page"><a href="<?= parse_url($_SERVER['REQUEST_URI'])['path']; ?>"> <?= $category->name?> </a></li>
         </ol>
     </nav>
@@ -79,7 +73,7 @@
                     <option <? if($page_sorting=='alphabetical') echo 'selected'; ?> value="alphabetical">Alphabetical order</option>
                 </select>
 
-                <button type="submit" class="btn btn-outline-secondary" >OK</button>
+                <button type="submit" class="btn btn-outline-secondary" >SET IT</button>
         
             </form>
 
@@ -105,7 +99,7 @@
             'tax_query' => [[
                 'taxonomy' => 'product_cat',
                 'field' => 'slug',
-                'terms' => $category->name, /*category name*/
+                'terms' => $category->name,
                 'operator' => 'IN',
             ]]
         ]);
@@ -159,8 +153,6 @@
             $abstract->love           = "none";
             $abstract->cartlink       = "none";
 
-            echo get_post_permalink( $product_id );
-
             $products_list[$c] = $abstract;
 
             unset($product_data); // memclean
@@ -200,7 +192,6 @@
             return $active > sizeof($allpages) ? [] : $allpages[$active - 1];
         }
 
-
         $pagelist = paginate($products_list, $page_size, $page_active);
 
         // loop page
@@ -212,9 +203,9 @@
 
                 <div class="border border-2 mb-4">
 
-                    <div style="height:250px; background: url(<? if ($product->image) { echo $product->image; } else { echo bloginfo('template_directory').'/adds/404IMAGE.PNG'; }?> ) center/cover;">
+                    <div style="height:250px; background: url(<?= $product->image ?: bloginfo('template_directory').'/adds/404IMAGE.PNG'; ?>) center/cover;">
                         <div class="badge position-absolute top-0 start-0 translate-middle">Hot</div>
-                        <div class="badge position-absolute top-0 start-100 translate-middle"><?// echo $id; ?></div>
+                        <div class="badge position-absolute top-0 start-100 translate-middle"><?= $id; ?></div>
                     </div>
                         
                     <div class="border-top border-2 p-2">
@@ -259,31 +250,62 @@
 
 <!-- PAGINATION DISPLAY -->
 
-<form method="post" class="mt-4"> 
+<? 
+    $page_count = (count($products_list)/$page_size);
+    if ($page_count>=1) {
+?>
 
-    <? $page_count = (count($products_list)/$page_size); ?>
-    
-    <input type="hidden" name="page_size"  value="<?= $page_size; ?>" />
-    <input type="hidden" name="page_sorting" value="<?= $page_sorting?>" />
+    <form method="post" class="mt-4"> 
 
-    <nav>
-        <ul class="pagination justify-content-center">
+        
+        <input type="hidden" name="page_size"  value="<?= $page_size; ?>" />
+        <input type="hidden" name="page_sorting" value="<?= $page_sorting?>" />
 
-            <li class="page-item">
-                <button name="page_active" type="submit" value="<?= $page_active-1; ?>" class="page-link" <?= $page_active==1?'style="opacity:.33" disabled':''; ?>><i class="bi bi-arrow-left"></i></button>
-            </li>
-            <li class="page-item">
-                <button style="color:gray" class="page-link" value="1">first...</button>
-            </li>
-            <? for ($p=2; $p < $page_count; $p++) if( $page_active>=$page_active-3 && $page_active<=$page_active+3 ) print '<li class="page-item '.($p==$page_active?'active':'').'"><button name="page_active" type="submit" class="page-link" value="'.$p.'">'.$p.'</button></li>'; ?>
-            <li class="page-item">
-                <button class="page-link" value="<?= $page_count; ?>"> ...of <?= $page_count; ?></button>
-            </li>
-            <li class="page-item">
-                <button name="page_active" type="submit" value="<?= $page_active+1; ?>" class="page-link" <?= $page_active==$page_count?'style="opacity:.33" disabled':''; ?>><i class="bi bi-arrow-right"></i></button>
-            </li>
+        <nav>
+            <ul class="pagination justify-content-center">
 
-        </ul>
-    </nav>
+                <li class="page-item">
+                    <button name="page_active" type="submit" value="<?= $page_active-1; ?>" class="page-link" <?= $page_active==1?'style="opacity:.33" disabled':''; ?>>
+                        <i class="bi bi-arrow-left"></i>
+                    </button>
+                </li>
 
-</form>
+                <li class="page-item">
+                    <button style="color:gray" class="page-link" value="1">
+                        first...
+                    </button>
+                </li>
+
+                <? for ($p=2; $p<$page_count; $p++) print $page_active>=$page_active-3 && $page_active<=$page_active+3 ? '<li class="page-item '.($p==$page_active?'active':'').'"><button name="page_active" type="submit" class="page-link" value="'.$p.'">'.$p.'</button></li>' : null; ?>
+
+                <li class="page-item">
+                    <button class="page-link" value="<?= $page_count; ?>">
+                        ...of <?= $page_count; ?>
+                    </button>
+                </li>
+
+                <li class="page-item">
+                    <button name="page_active" type="submit" value="<?= $page_active+1; ?>" class="page-link" <?= $page_active==$page_count?'style="opacity:.33" disabled':''; ?>>
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </li>
+
+            </ul>
+        </nav>
+
+    </form>
+
+<?}else{?>
+
+    <div class="mt-4"> 
+
+        <div class="pagination justify-content-center">
+            <span class="page-item">
+                <button class="page-link disabled" disabled>
+                    <i class="bi bi-hand-thumbs-up"></i> No other pages for now
+                </button>
+            </span>
+        </div>
+
+    </div>
+<?}?>

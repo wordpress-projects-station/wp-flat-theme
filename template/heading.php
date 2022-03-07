@@ -13,11 +13,12 @@
     <?
 
         // top menu options
+
         $topmenu_status_settings = get_theme_mod( 'topmenu_status_settings' );
-        $topmenu_status   = $topmenu_status_settings == 'true'?true:false;
+        $topmenu_status   = $topmenu_status_settings == 'true' ? true : false;
 
         $topmenu_search_settings = get_theme_mod( 'topmenu_search_settings' );
-        $topmenu_searcher = $topmenu_search_settings=='true'?true:false;
+        $topmenu_searcher = $topmenu_search_settings=='true' ? true : false;
 
         $topmenu_layout_settings = get_theme_mod( 'topmenu_layout_settings' );
         $topmenu_layout   = $topmenu_layout_settings=='relative' ? false : $topmenu_layout_settings;

@@ -10,10 +10,10 @@
 
         }
 
-        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'shop-categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/ ) {
+        elseif( is_tax( 'product_cat' ) || is_product_category() ||  is_page( 'categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/ ) {
 
             $origin = 'wooc';
-            $type = get_queried_object()->parent == 0 || is_page( 'shop-categories' ) || is_page( 'product-category' ) ? 'categories-list' : 'category' ;
+            $type =  is_page( 'categories' ) || is_page( 'product-category' ) ? 'categories-list' : 'category' ; //if main cat is first cat: get_queried_object()->parent == 0 ||
 
         }
 
@@ -23,6 +23,7 @@
             $type = 'home';
 
         }
+
         elseif( is_shop() && is_woocommerce() ) {
 
             $origin = 'wooc';
@@ -36,6 +37,7 @@
             $type = 'cart';
 
         }
+
         elseif( is_checkout() ) {
 
             $origin = 'wooc';
