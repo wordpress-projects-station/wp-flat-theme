@@ -2,7 +2,7 @@
 
     global $wp_query; $category = $wp_query->get_queried_object();
 
-    $baseurl      = 'https://'.$_SERVER['SERVER_NAME'];
+    $baseurl      =  (isset($_SERVER['HTTPS'])&&!empty($_SERVER['HTTPS'])?'https://':'http://').$_SERVER['SERVER_NAME'];
     $page_active  =  $_POST['page_active'] ?: '1';
     $page_size    =  $_POST['page_size'] ?: '12';
     $page_sorting =  $_POST['page_sorting'] ?: 'byid';
@@ -42,16 +42,7 @@
 <div class="row mt-4 mb-4">
 
     <div class="col-lg-8 col-md-12">
-
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?= $baseurl.'/'; ?>">Home</a></li>
-            <li class="breadcrumb-item"><a href="<?= $baseurl.'/shop/'; ?>">Shop</a></li>
-            <li class="breadcrumb-item"><a href="<?= $baseurl.'/shop/categories/'; ?>"> ... </a></li>
-            <li class="breadcrumb-item active" aria-current="page"><a href="<?= parse_url($_SERVER['REQUEST_URI'])['path']; ?>"> <?= $category->name?> </a></li>
-        </ol>
-    </nav>
-
+        <? bootsrapped_breadcrumb(); ?>
     </div>
 
     <div class="col-lg-4 col-md-12">

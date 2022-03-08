@@ -1,3 +1,4 @@
+<?= 'SEI SULLA SEARCH'; ?>
 <?
 
     include __DIR__.'/template/start.php';

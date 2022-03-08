@@ -39,8 +39,8 @@
     }
 
     add_shortcode('display-user-avatar','shortcode_user_avatar');
-        
 
+    
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 

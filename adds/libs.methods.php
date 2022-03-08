@@ -52,6 +52,15 @@
             $type = 'account';
 
         }
+
+        elseif( is_search() || is_tag() ) {
+
+            echo "INSIDE SEARCH";
+
+            $origin = 'wprs';
+            $type = 'search';
+
+        }
         
         elseif( is_page() || is_singular() ) {
 
@@ -74,13 +83,6 @@
 
         }
 
-        elseif( is_search() || is_tag() ) {
-
-            $origin = 'wprs';
-            $type = 'search';
-
-        }
-
         else {
 
             // return the pages unkonwed page type
@@ -90,8 +92,80 @@
         }
 
         $path = str_replace('adds/','', (__DIR__.'/contents/'.$origin.'-'.$type.'.php') );
+        echo $path;
 
         return ['origin'=>$origin,'type'=>$type,'path'=>$path];
+
+    }
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    // add_filter( 'wp_head', 'bootsrapped_breadcrumb' );
+    function bootsrapped_breadcrumb() {
+
+        function crumps($link,$label){ return '<li class="breadcrumb-item"><a href="'.$link.'">'.$label.'</a></li>'; }
+        function iswrong($s){ return empty($s)||!$s?true:false; }
+
+        // 1. get www.mysites.com/possiblesubdomain
+        // 2. get /possiblesubdomain/otherpagespaths
+        // 3. filter /possiblesubdomain/ fo get only usable paths
+
+        $homepath = explode('/', home_url());
+        $urlpaths = explode('/', preg_replace('/\?.*/', '', $_SERVER['REQUEST_URI']));
+        $urlslugs = array_diff($urlpaths,$homepath);
+
+        // 4. print home an loop printable paths
+
+        $output .= '<nav aria-label="breadcrumb"><ol class="breadcrumb">';
+
+            $output .= crumps( home_url(), 'home' );
+
+            foreach ($urlslugs as $slug )
+            {
+
+                $slugurl = get_permalink( $slug ) ?: false;
+
+                if ( iswrong($slugurl) )
+                { 
+                    
+                    $slugurl = get_page_by_path( $slug )->guid ?: false;
+
+                    if( iswrong($slugurl) )
+                    {
+
+                        $cID = get_term_by('slug', $slug, 'product_cat')->term_id | get_term_by('slug', $slug, 'category')->ID; if($cID == 0);
+                        $slugurl = $cID>0 ? get_category_link($cID) : false ;
+                    
+                        if( iswrong($slugurl) )
+                        {
+
+                            global $wpdb; $pID = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_name = %s", $slug));
+                            $slugurl = get_permalink( $pID ) ?: false;
+                            
+                            if( iswrong($slugurl) )
+                            {
+
+                                $slugurl =  NULL; echo ''.$slug.': fail in last... WHAT TYPE IS IT? <br>';
+
+                                if( iswrong($slugurl) )
+                                {
+    
+                                    $slugurl = home_url().'/404/';
+                                    echo $slug.': not fineded<br>';
+    
+                                }
+                            }    
+                        }
+                    }
+                }
+
+                $output .= crumps( $slugurl , $slug );
+
+            }
+
+        $output .= '</ol></nav>';
+
+        print $output;
 
     }
 
