@@ -55,8 +55,6 @@
 
         elseif( is_search() || is_tag() ) {
 
-            echo "INSIDE SEARCH";
-
             $origin = 'wprs';
             $type = 'search';
 
@@ -92,7 +90,6 @@
         }
 
         $path = str_replace('adds/','', (__DIR__.'/contents/'.$origin.'-'.$type.'.php') );
-        echo $path;
 
         return ['origin'=>$origin,'type'=>$type,'path'=>$path];
 

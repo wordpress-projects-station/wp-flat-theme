@@ -1,5 +1,1 @@
-<?php 
-
-    the_content($post->ID);
-
-?>
+<?= the_content($post->ID); ?>

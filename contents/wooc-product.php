@@ -1,13 +1,10 @@
 <?
 
-    $product = wc_get_product( $post->ID );
+    global $post; $product = wc_get_product( $post->ID );
 
-    
-    ?><pre><?//var_dump($product);?></pre><?
-    
-    if($product->status =='publish' && $product->catalog_visibility == 'visible' && !$product->post_password)
-    {
-
+    // echo '<pre>'.var_dump($product).'</pre>';
+    // if($product->status =='publish' && $product->catalog_visibility == 'visible' && !$product->post_password) { }
+   
 ?>
 
 
@@ -96,7 +93,6 @@
 
     <div>
         <? 
-
             foreach( $product->gallery_image_ids as $img_id ) {
                 $imgurl = wp_get_attachment_url( $img_id );
                 print '<span><img width="200" src="'.$imgurl.'" alt=" ... "/></span>';
@@ -145,8 +141,6 @@
                 'callback' => 'bootstrap_comments'
             ),$comments );
 
-            echo'<li>';
-
         ?>
 
     </ol>
@@ -184,9 +178,6 @@
             comment_form($args);
         ?>
 
-    <? } ?>
+    <? }  ?>
 
 </section>
-
-
-<? } ?>

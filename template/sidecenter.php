@@ -2,9 +2,18 @@
 
     <?
 
-        // echo '<h3 style="border:2px solid orange; padding:20px; margin:20px auto;">you are in : '.$filename.'<br>file: '.$pagetype['target'].'-'.$pagetype['type'].'<br> path: <i>'.$pagetype['path'].'</i></h3>';
+        ! file_exists($pagetype['path']) ? print_classic_theme($pagetype) : print_file_check($pagetype) ;
 
-        file_exists($pagetype['path']) ? include_once $pagetype['path'] : print_classic_theme($pagetype);
+        function print_file_check($pagetype){
+
+            echo 'including: '.$pagetype['path'];
+            ob_start();
+            include $pagetype['path'];
+            $output = ob_get_flush();
+
+            if( empty($output) ) { print_classic_theme($pagetype); };
+
+        }
 
         function print_classic_theme($pagetype) {
 
@@ -20,7 +29,6 @@
             }else{
 
                 // contents are gutenberg or classic wordpress
-                // print '<p><small style="text-align:center;">⚠️ THIS IS A COURTESY SYSTEM PAGE - QUESTA E\' UNA PAGINA DI CORTESIA </small></p>';
                 print $pagetype['origin']=='wprs' || in_array( $pagetype['type'], ['home','cart','account'] ) ? the_content() : woocommerce_content() ;
 
             }
