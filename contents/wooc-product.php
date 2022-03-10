@@ -20,6 +20,7 @@
     
     $wc_product = wc_get_product( $post->ID );
 
+    
     class basedata {};
     
     $abstract = new basedata();
@@ -58,24 +59,31 @@
     // on end, we clean mem relative to original variantsion vars and use only the abstract.
     */
 
-
     if( ! empty( $wc_product->attributes ) ) {
+
 
         class variationdata {};
 
         $n=1; $wc_product_variants = $wc_product->get_available_variations();
 
+
         foreach ( $wc_product_variants as $variants_index => $variant ) { 
  
+        // echo'<pre>';print_r($wc_product_variants);echo'</pre>';
+
             $abstract = new variationdata();
  
                 $abstract->id = $variant["variation_id"];
-                foreach ($variant['attributes'] as $type => $name) empty($name) ?: $abstract->name = $name ;
+
+                foreach ( $variant['attributes'] as $type => $name) { $abstract->name .= $name.'-'; };
+                $abstract->name = rtrim($abstract->name,'-');
+
                 $abstract->normal_price = $variant["display_regular_price"];
                 $abstract->sales_price = $variant["display_sales_price"];
                 $abstract->standard_price = $variant["display_price"];
                 $abstract->bannersrc = $variant['image']['src'];
                 $abstract->bannerid = $variant['image_id'];
+                $abstract->link = get_the_permalink($variant["variation_id"]);
 
                 $product_atlas[$n] = $abstract;
 
@@ -91,15 +99,18 @@
 
     unset($wc_product);
 
+
     /*
     // now have a complete atlas:
-    // print it in php: print_r($product_atlas)
+    // print it in php: echo'<pre>';print_r($product_atlas);echo'</pre>';
     // use it in js: $json_atlas = json_encode($product_atlas);
     // use it in php: $MYVAR = $product_atlas[INDEX_ZERO_FOR_PRODUCT_OTHER_FOR_VARIATIONS_DATA];
     */
 
     // re assign product for ($bpd is abbreviation)
     $bpd = $baseporductdata = $product_atlas[0];
+
+
 
 ?>
 
@@ -152,22 +163,42 @@
 
                 <div>
                     <?
+                        if(count($product_atlas)>0){
+
+                            foreach ($product_atlas as $variant) {
+
+                                // if($variant->id==$bpd->id){
+                                //     echo '<b>'.$variant->id.' : '.$variant->name.'</b>; ';
+                                // }
+
+                                echo '<a href="'.get_the_permalink($variant->id).'" target="_blank">'.$variant->id.' : '.$variant->name.'</a><br>';
+
+                            }
+
+                        }
+                    ?>
+
+
+                    <?
+                    
+
+
                         //https://www.forumming.com/question/19169/woocommerce-variable-product-get-variation-name
                         //https://stackoverflow.com/questions/41393797/get-and-display-the-values-for-product-attribute-in-woocommerce
 
                         // need to loop the variant. that abstract is necessary for connect options with product view.
 
-                        // if( ! empty( $bpd->attributes ) ) {
+                        // if( ! empty( $product->attributes ) ) {
                 
                         //     echo '<ul class="product_attributes">';
  
-                        //     foreach ( $bpd->attributes as $attribute_label => $attribute_contents ) {
+                        //     foreach ( $product->attributes as $attribute_label => $attribute_contents ) {
                                     
                         //         echo '<li>'.$attribute_label;
 
                         //             $attribute_data = $attribute_contents->get_data();
 
-                        //             $default = $bpd->default_attributes[$attribute_label];
+                        //             $default = $product->default_attributes[$attribute_label];
 
                         //             if($attribute_data['visible']) {
 
@@ -197,8 +228,8 @@
                         // }
 
 
-                        // if(!empty($bpd->attributes)) {
-                        //     foreach ( $bpd->attributes as $attribute ){
+                        // if(!empty($product->attributes)) {
+                        //     foreach ( $product->attributes as $attribute ){
 
                         //         $attribute = $attribute->get_data();
 
