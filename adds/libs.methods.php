@@ -97,7 +97,6 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-    // add_filter( 'wp_head', 'bootsrapped_breadcrumb' );
     function bootsrapped_breadcrumb() {
 
         function crumps($link,$label){ return '<li class="breadcrumb-item"><a href="'.$link.'">'.$label.'</a></li>'; }
@@ -204,8 +203,5 @@
     //     // ])
 
     // }
-
-
-
 
 ?>
