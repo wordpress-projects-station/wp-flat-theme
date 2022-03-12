@@ -1,11 +1,11 @@
 <?
 
-
     /*
     // MADE PRODUCT ABSTACT
     // Atlas is the container list of all getted property and extra of this product.
     // Atlas[0] is the product, other index is the relative variations
     */
+
 
     $product_atlas = [];
 
@@ -17,15 +17,15 @@
     */
 
     global $post;
-    
+
     $wc_product = wc_get_product( $post->ID );
 
-    
     class basedata {};
     
     $abstract = new basedata();
 
         $abstract->id             = $post->ID;
+        $abstract->actual_variant = null;
         $abstract->status         = $wc_product->status=='publish'&&$wc_product->catalog_visibility=='visible'?true:false;
         $abstract->name           = $wc_product->name;
         $abstract->excerpt        = $wc_product->short_description;
@@ -39,18 +39,30 @@
         $abstract->is_virtual     = $wc_product->virtual;
         $abstract->down_limit     = $wc_product->download_limit;
         $abstract->downloadable   = $wc_product->downloadable;
-        $abstract->banner         = wp_get_attachment_url( $wc_product->image_id ); //_thumbnail_id
+        $abstract->gallery        = $wc_product->gallery_image_ids;
+        $abstract->bannerid       = $wc_product->image_id; //_thumbnail_id
+        $abstract->bannersrc      = wp_get_attachment_url( $wc_product->image_id ); 
         $abstract->date           = get_post_field('post_date', $post->ID);
+ 
+        foreach ( $wc_product->tag_ids as $tid ) { $abstract->tags[] .= get_term($tid)->name; }
 
-        $taglist=[]; $t=0; foreach ( $wc_product->tag_ids as $tid ) { $taglist[$t] = get_term($tid)->name; $t++; }
-        $abstract->tags = $taglist;
-
-        // $abstract->love           = "none";
-        // $abstract->cartlink       = "none";
+        function get_attr_data_list ( $postid, $wc_attrs ) {
+            function extractfromslug ( $postid, $slugname ) {
+                $wcpt = wc_get_product_terms( $postid, $slugname );
+                $data=[];foreach ($wcpt as $terms => $t){ $data[$n|0]=[ $t->term_id , $t->name , $t->slug ]; $n++;}
+                return $data;
+            }
+            foreach ( $wc_attrs as $wc_data ) { $datalist[$n|0] = [ $wc_data['name'] , extractfromslug( $postid, $wc_data['name'] ) ]; $n++; }
+            return $datalist;
+        }
+        
+        
+        $abstract->attributes = get_attr_data_list($post->ID,$wc_product->attributes);
 
         $product_atlas[0] = $abstract;
 
         unset($abstract);
+
 
 
     /*
@@ -69,13 +81,12 @@
 
         foreach ( $wc_product_variants as $variants_index => $variant ) { 
  
-        // echo'<pre>';print_r($wc_product_variants);echo'</pre>';
 
             $abstract = new variationdata();
  
                 $abstract->id = $variant["variation_id"];
 
-                foreach ( $variant['attributes'] as $type => $name) { $abstract->name .= $name.'-'; };
+                foreach ( $variant['attributes'] as $type => $name) { $abstract->atrl[] .= $name; $abstract->name .= $name.'-'; };
                 $abstract->name = rtrim($abstract->name,'-');
 
                 $abstract->normal_price = $variant["display_regular_price"];
@@ -83,7 +94,7 @@
                 $abstract->standard_price = $variant["display_price"];
                 $abstract->bannersrc = $variant['image']['src'];
                 $abstract->bannerid = $variant['image_id'];
-                $abstract->link = get_the_permalink($variant["variation_id"]);
+                $abstract->permalink = get_the_permalink($variant["variation_id"]);
 
                 $product_atlas[$n] = $abstract;
 
@@ -99,6 +110,30 @@
 
     unset($wc_product);
 
+    /*
+    // MADE PRODUCT VARIATED
+    // Get params from url and override normal product with correct variation data.
+    */
+
+    $queryStrings = explode('&',$_SERVER['QUERY_STRING']);
+    foreach ($queryStrings as $queryblock) str_contains($queryblock,'attribute_pa') ? $queryAttr[] .= explode('=',$queryblock)[1] : null;
+
+    
+    foreach ($product_atlas as $variation) {
+        if( count(array_diff($queryAttr,$variation->atrl))==0 ) { 
+
+            $product_atlas[0]->id               = $variation->id;
+            $product_atlas[0]->actual_variant   = $variation->name;
+            $product_atlas[0]->normal_price     = $variation->normal_price;
+            $product_atlas[0]->sales_price      = $variation->sales_price;
+            $product_atlas[0]->standard_price   = $variation->standard_price;
+            $product_atlas[0]->bannersrc        = $variation->bannersrc;
+            $product_atlas[0]->bannerid         = $variation->bannerid;
+            $product_atlas[0]->permalink        = $variation->permalink;
+
+        }
+    }
+
 
     /*
     // now have a complete atlas:
@@ -108,12 +143,16 @@
     */
 
     // re assign product for ($bpd is abbreviation)
-    $bpd = $baseporductdata = $product_atlas[0];
-
-
+    $bpd = $baseproductdata = $product_atlas[0];
 
 ?>
 
+
+<?
+    // get quantity
+    $queryqnt=  str_contains($_SERVER['QUERY_STRING'],'quant%5B1%5D=') ? explode('quant%5B1%5D=',$_SERVER['QUERY_STRING'])[1] : 1;
+
+?>
 
 <!-- 
 ---- MAIN CONTENS BOX
@@ -128,15 +167,17 @@
     <div class="row">
 
         <div class="col-lg-5 col-md-12">
-
-            <?= '<div style="height:250px; min-height: 100%; background: url('.( $bpd->banner ?: bloginfo('template_directory').'/adds/404IMAGE.PNG' ).') center/cover;"></div>'; ?>
-
+            <a class="img-magnifier-container" href="'.( $bpd->bannersrc ?: bloginfo('template_directory').'/adds/404IMAGE.PNG' ).'" target="_blank">
+                <?= '<img class="zoomed" id="'.$bpd->bannerid.'" src="'.( $bpd->bannersrc ?: bloginfo('template_directory').'/adds/404IMAGE.PNG' ).'" alt=" ... " />'; ?>
+            </a>
         </div>
 
         <div class="col-lg-7 col-md-6">
             <div>
 
                 <h2 class="display-3 fw-bolder"><?= $bpd->name; ?></h2>
+
+                <?= empty($bpd->actual_variant) ?: '<div class="mb-2 mt-2"><a class="class="display-7 fw-bold" href="'.$bpd->link.'" target="_blank">Actual variant selected: '.$bpd->id.' : '.$bpd->actual_variant.'</a></div>'; ?>
 
                 <? if( $bpd->stock_status=='instock' && $bpd->stock_quantity>0) { ?>
                     <? if( (int)$bpd->stock_quantity <= (int)$bpd->low_stock_amount) {?>
@@ -150,120 +191,79 @@
         
                 <div>
                     <? if(!empty($bpd->sale_price)) { ?>
-                        <p>FROM: <s><?= $bpd->regular_price; ?></s></p>
+                        <p>FROM: <s><?= ($bpd->regular_price*$queryqnt); ?></s></p>
                         <div class="bd-light p-2">
-                            <p class="fw-bold text-success"><?= $bpd->sale_price; ?> €</p>
+                            <p class="fw-bold text-success"><?= ($bpd->sale_price*$queryqnt); ?> €</p>
                         </div>
                     <? } else { ?>
                         <div class="bd-light p-2">
-                            <p class="display-5 text-info">Price: <b class="fw-bold"><?= $bpd->price; ?> €</b></p>
+                            <p class="display-5 text-info">Price: <b class="fw-bold"><?= ($bpd->standard_price*$queryqnt); ?> €</b></p>
                         </div>
                     <? } ?>
                 </div>
 
-                <div>
+                <form name="product_customizator">
+                    
                     <?
-                        if(count($product_atlas)>0){
+                    
+                        //https://www.forumming.com/question/19169/woocommerce-variable-product-get-variation-name
+                        //https://stackoverflow.com/questions/41393797/get-and-display-the-values-for-product-attribute-in-woocommerce
+                        //https://stackoverflow.com/questions/33202678/woocommerce-how-to-link-to-product-variation
 
-                            foreach ($product_atlas as $variant) {
+                        if( ! empty( $bpd->attributes ) ) {
+    
+                            //<input type="hidden" id="queryurl" value="?attribute_pa_color=white&attribute_pa_design=type-02"/>
+                            echo '<p> AVAILABLE OPTIONS:</p>';
 
-                                // if($variant->id==$bpd->id){
-                                //     echo '<b>'.$variant->id.' : '.$variant->name.'</b>; ';
-                                // }
+                            foreach ( $bpd->attributes as $asset ) {
 
-                                echo '<a href="'.get_the_permalink($variant->id).'" target="_blank">'.$variant->id.' : '.$variant->name.'</a><br>';
+                                $attribute_slug = $asset[0];
+                                $attribute_data = $asset[1];
+
+                                $iscolor = $attribute_slug=='pa_color'?true:false;
+
+                                
+                                if($iscolor) echo '<div><div class="btn-group" role="group" aria-label="Basic radio toggle button group">';
+                                else echo '<div><select name="attribute_'.$attribute_slug.'" class="form-select" aria-label="Default select example">';
+
+                                foreach ( $attribute_data as $datalist => $data ) {
+
+                                    $id = $data[0];
+                                    $label = $data[1];
+                                    $slug = $data[2];
+
+                                    if( $iscolor ) {
+                                        $color = get_term_meta($id)['color'][0];
+                                        echo '<input type="radio" autocomplete="off" class="btn-check" name="attribute_'.$attribute_slug.'" id="'.$id.'" data-mainslug="'.$attribute_slug.'" value="'.$slug.'"><label for="'.$id.'" style="height:40px;width:40px;margin:-7px 3px; border:2px solid gray; border-radius:5px; background:'.$color.';"></label>';
+                                    } else {
+                                        echo '<option id="'.$id.'" data-mainslug="'.$attribute_slug.'" value="'.$slug.'">'.$label.'</option>';
+                                    }
+
+                                }
+
+                                if($iscolor) echo '</div>';
+                                else echo '</select>';
+
+                                echo '</div><div class="m-3"></div>';
 
                             }
 
+                            // echo '<input type="submit" value="test"/>';
+
                         }
+
+
                     ?>
 
+                    <div class="btn-group" style="width:150px">
+                        <a class="btn btn-dark quantity-minus"><i class="bi bi-dash-circle"></i></a>
+                        <input type="text" name="quant[1]" class="form-control input-number quantity-number" value="<?= $queryqnt; ?>" min="1" max="10">
+                        <a class="btn btn-dark quantity-plus" ><i class="bi bi-plus-circle"></i></a>
+                    </div>
 
-                    <?
-                    
+                </form>
 
-
-                        //https://www.forumming.com/question/19169/woocommerce-variable-product-get-variation-name
-                        //https://stackoverflow.com/questions/41393797/get-and-display-the-values-for-product-attribute-in-woocommerce
-
-                        // need to loop the variant. that abstract is necessary for connect options with product view.
-
-                        // if( ! empty( $product->attributes ) ) {
-                
-                        //     echo '<ul class="product_attributes">';
- 
-                        //     foreach ( $product->attributes as $attribute_label => $attribute_contents ) {
-                                    
-                        //         echo '<li>'.$attribute_label;
-
-                        //             $attribute_data = $attribute_contents->get_data();
-
-                        //             $default = $product->default_attributes[$attribute_label];
-
-                        //             if($attribute_data['visible']) {
-
-                        //                 echo'<p><b> ID:'.$attribute_data['id'].'</b> is variation: '.($attribute_data['is_variation']?'true':'false').'<br>';
-
-                        //                 $thumb_id = get_term_meta($attribute_data['id']);
-                        //                 $img_src = wp_get_attachment_url($thumb_id);
-                        //                 var_dump($img_src);
-
-                        //                 // echo 'the thumb is:'.$thumbnail_id.'<br>';
-                        //                 foreach ( $attribute_data['options'] as $attr_value ) {
-
-                        //                     if( $attr_value == $default )
-                        //                     echo '<b>'.$attr_value.';</b>&nbsp;';
-                        //                     else
-                        //                     echo $attr_value.';&nbsp;';
-
-                        //                 }
-
-                        //                 echo'</p>';
-                        //             }
-                    
-                        //         echo '</li>';
-
-                        //     }
-                        //     echo '</ul>';
-                        // }
-
-
-                        // if(!empty($product->attributes)) {
-                        //     foreach ( $product->attributes as $attribute ){
-
-                        //         $attribute = $attribute->get_data();
-
-                        //         echo '<b> type of mod: "'.$attribute['name'].'"</b><ul>';
-                        //         foreach ( $attribute['options'] as $loop_list => $term_id )
-                        //         {
-                        //             $attribute = get_term($term_id);
-                        //             if($attribute->term_id){
-
-                        //                 // var_dump($attribute);
-                        //                 echo '<li>
-                        //                     <p>terms Id: '.$attribute->term_id.'</p>
-                        //                     <p>terms name: '.$attribute->name.'</p>
-                        //                     <p>terms slug: '.$attribute->slug.'</p>
-                        //                     <p>terms taxonomy id: '.$attribute->term_taxonomy_id.'</p>
-                        //                     <p>terms taxonomy: '.$attribute->taxonomy.'</p>
-                        //                 </li>';
-                        //             }
-
-                        //         } 
-                        //         echo '</ul>';
-
-                        //     }
-                        // }
-                    ?>
-                </div>
-
-                <div class="btn-group" style="width:150px">
-                    <a class="btn btn-dark" ><i class="bi bi-dash-circle"></i></a>
-                    <input type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="10">
-                    <a class="btn btn-dark" ><i class="bi bi-plus-circle"></i></a>
-                </div>
-                &nbsp;&nbsp;⋮&nbsp;&nbsp;
-                <a class="btn btn-primary" href="'<?= get_home_url().'?add-to-cart='.$bpd->id.'&quantity=1'?>">Add to cart <i class="bi bi-cart-check"></i></a>
+                <a class="btn btn-primary" href="'<?= $bpd->$permalink.'?add-to-cart='.$bpd->id.'&quantity='.$queryqnt; ?>">Add to cart <i class="bi bi-cart-check"></i></a>
 
             </div>
         </div>
@@ -291,10 +291,9 @@
 
     <div>
         <? 
-            // foreach( $bpd->gallery_image_ids as $img_id ) {
-            //     $imgurl = wp_get_attachment_url( $img_id );
-            //     print '<span><b>id:'.$img_id.'<b><img id="'.$img_id.'" width="200" src="'.$imgurl.'" alt=" ... "/></span>';
-            // }
+            foreach( $bpd->gallery as $imgid ) {
+                echo '<span><img id="'.$imgid.'" width="200" src="'.wp_get_attachment_url( $imgid ).'" alt=" ... "/></span>';
+            }
         ?>
     </div>
 
@@ -379,3 +378,138 @@
     <? }  ?>
 
 </section>
+
+
+<style>
+
+    .img-magnifier-container {
+        position: relative;
+        overflow:hidden;
+        display:grid;
+        align-items:center;
+        height:100%;
+        width:100%;
+    }
+    .img-magnifier-container img{
+        min-height:100%;
+        min-width:100%;
+        object-fit: cover
+    }
+
+    .img-magnifier-container:hover .img-magnifier-glass{
+        opacity: 1;
+        transition: opacity .5s;
+    }
+    
+    .img-magnifier-glass {
+        transition: opacity .25s;
+        opacity: 0;
+        position: absolute;
+        border: 8px solid rgba(0,0,0,.3);
+        border-radius: 50%;
+        cursor: none;
+        width: 200px;
+        height: 200px;
+    }
+
+</style>
+<script>
+
+window.addEventListener("load", () =>{
+
+    //customizator for update customization
+    function submitter(time){
+        setTimeout(() => {
+                customizer.submit();
+        },(time));
+    }
+
+    const customizer = document.querySelectorAll('[name="product_customizator"]')[0];
+    customizer.querySelectorAll('[type="radio"], select, .quantity-number').forEach( el => {
+        el.addEventListener('change',()=>{ submitter(0) },true);
+    })
+
+    var qnt_field = customizer.querySelectorAll('.quantity-number')[0],
+        plus_trig = customizer.querySelectorAll('.quantity-plus')[0],
+        minus_trig = customizer.querySelectorAll('.quantity-minus')[0];
+
+    plus_trig.onclick = ()=>{
+        qnt_field.value < <?= $bpd->stock_remain ? :'10'; ?>
+            ? (qnt_field.setAttribute('value',qnt_field.value++), submitter(1300))
+            : alert("Non puoi ordinare più di quanto abbiamo in magazzino o più di 10 pezzi per ordine");
+    }
+
+    minus_trig.onclick = ()=>{
+        qnt_field.value>1 ? (qnt_field.setAttribute('value',qnt_field.value--), submitter(1300)) :null;
+    }
+
+    //zoom featured
+
+    function magnify(imgID, zoom) {
+
+        var img, glass, w, h, bw;
+        img = document.getElementById(imgID);
+
+        /* Create magnifier glass: */
+        glass = document.createElement("DIV");
+        glass.setAttribute("class", "img-magnifier-glass");
+
+        /* Insert magnifier glass: */
+        img.parentElement.insertBefore(glass, img);
+
+        /* Set background properties for the magnifier glass: */
+        glass.style.backgroundImage = "url('" + img.src + "')";
+        glass.style.backgroundRepeat = "no-repeat";
+        glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+        bw = 3;
+        w = glass.offsetWidth / 2;
+        h = glass.offsetHeight / 2;
+
+        /* Execute a function when someone moves the magnifier glass over the image: */
+        glass.addEventListener("mousemove", moveMagnifier);
+        img.addEventListener("mousemove", moveMagnifier);
+
+        /*and also for touch screens:*/
+        glass.addEventListener("touchmove", moveMagnifier);
+        img.addEventListener("touchmove", moveMagnifier);
+
+        function moveMagnifier(e) {
+            var pos, x, y;
+            /* Prevent any other actions that may occur when moving over the image */
+            e.preventDefault();
+            /* Get the cursor's x and y positions: */
+            pos = getCursorPos(e);
+            x = pos.x;
+            y = pos.y;
+            /* Prevent the magnifier glass from being positioned outside the image: */
+            if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+            if (x < w / zoom) {x = w / zoom;}
+            if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
+            if (y < h / zoom) {y = h / zoom;}
+            /* Set the position of the magnifier glass: */
+            glass.style.left = (x - w) + "px";
+            glass.style.top = (y - h) + "px";
+            /* Display what the magnifier glass "sees": */
+            glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+        }
+
+        function getCursorPos(e) {
+            var a, x = 0, y = 0;
+            e = e || window.event;
+            /* Get the x and y positions of the image: */
+            a = img.getBoundingClientRect();
+            /* Calculate the cursor's x and y coordinates, relative to the image: */
+            x = e.pageX - a.left;
+            y = e.pageY - a.top;
+            /* Consider any page scrolling: */
+            x = x - window.pageXOffset;
+            y = y - window.pageYOffset;
+            return {x : x, y : y};
+        }
+    }
+    var zoomer = document.querySelectorAll('.zoomed');
+    for(let i=0; i<zoomer.length; i++) magnify( zoomer[i].id, 2)
+
+
+});
+</script>
