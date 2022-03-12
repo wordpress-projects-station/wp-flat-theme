@@ -1,5 +1,14 @@
 <?
 
+    // TO DO:   https://www.sitoedominio.com/test/shop/elettronica/lexar-memory-sd/
+    //          https://www.sitoedominio.com/test/wp-admin/post.php?post=1338&action=edit
+    //          problem name vs slug if attrubute retriver
+    //          change, if can, in the spitted "2Gb | 8Gb | 16Gb | 32Gb | 64Gb | 128gb | 256Gb | 500Gb"
+
+    // TO DO:   https://www.sitoedominio.com/test/shop/elettronica/my-bundle/?add-to-cart=1232&quantity=1
+    //          https://www.sitoedominio.com/test/wp-admin/post.php?post=2537&action=edit
+    //          group whit variant product go in error
+
     /*
     // MADE PRODUCT ABSTACT
     // Atlas is the container list of all getted property and extra of this product.
@@ -20,11 +29,18 @@
 
     $wc_product = wc_get_product( $post->ID );
 
+    // $isbundle = $wc_product->is_type('bundle');
+    // echo'<pre> USPELLING:';print_r($wc_product);echo'</pre>';
+    // echo'<pre> PRODUCT BUNDLE:';print_r($wc_product);echo'</pre>';
+
+
     class basedata {};
-    
+
     $abstract = new basedata();
 
         $abstract->id             = $post->ID;
+        $abstract->type           = get_the_terms( $post->ID,'product_type')[0]->slug;
+        $abstract->pack           = $wc_product->children ?:'empty';
         $abstract->actual_variant = null;
         $abstract->status         = $wc_product->status=='publish'&&$wc_product->catalog_visibility=='visible'?true:false;
         $abstract->name           = $wc_product->name;
@@ -43,14 +59,21 @@
         $abstract->bannerid       = $wc_product->image_id; //_thumbnail_id
         $abstract->bannersrc      = wp_get_attachment_url( $wc_product->image_id ); 
         $abstract->date           = get_post_field('post_date', $post->ID);
- 
+
         foreach ( $wc_product->tag_ids as $tid ) { $abstract->tags[] .= get_term($tid)->name; }
 
         function get_attr_data_list ( $postid, $wc_attrs ) {
             function extractfromslug ( $postid, $slugname ) {
                 $wcpt = wc_get_product_terms( $postid, $slugname );
+
+                if(empty($wcpt) ){
+                    echo'<pre>';print_r($wcpt);echo'</pre>';
+                    $wcpt = wc_get_product_terms( $postid, $slugname );
+                }
+
                 $data=[];foreach ($wcpt as $terms => $t){ $data[$n|0]=[ $t->term_id , $t->name , $t->slug ]; $n++;}
                 return $data;
+
             }
             foreach ( $wc_attrs as $wc_data ) { $datalist[$n|0] = [ $wc_data['name'] , extractfromslug( $postid, $wc_data['name'] ) ]; $n++; }
             return $datalist;
@@ -59,10 +82,43 @@
         
         $abstract->attributes = get_attr_data_list($post->ID,$wc_product->attributes);
 
+        // echo'<pre>';print_r($abstract->attributes);echo'</pre>';
+
         $product_atlas[0] = $abstract;
 
         unset($abstract);
 
+
+
+    /*
+    // MADE PRODUCT GROUP ABSTACT
+    // is a summary of all product inside a bundle.
+    */
+
+    if( $product_atlas[0]->pack != 'empty' ){
+
+        class packdata {};
+
+        $n=1; foreach ( $product_atlas[0]->pack as $in_pack_id ) { 
+
+            $wc_product_in_pack = wc_get_product( $in_pack_id );
+
+            $abstract = new packdata();
+
+            $abstract->id        = $in_pack_id;
+            $abstract->name      = $wc_product_in_pack->name;
+            $abstract->excerpt   = $wc_product_in_pack->short_description;
+            $abstract->price     = $wc_product_in_pack->price;
+            $abstract->permalink = get_post_permalink($in_pack_id);
+            $abstract->banner    = wp_get_attachment_url( $wc_product_in_pack->image_id );
+
+            $product_atlas[$n] = $abstract; $n++;
+ 
+            unset($abstract);
+
+        }
+    
+    }
 
 
     /*
@@ -71,15 +127,13 @@
     // on end, we clean mem relative to original variantsion vars and use only the abstract.
     */
 
-    if( ! empty( $wc_product->attributes ) ) {
-
+    if( $product_atlas[0]->pack == 'empty' && ! empty( $wc_product->attributes ) ) {
 
         class variationdata {};
 
-        $n=1; $wc_product_variants = $wc_product->get_available_variations();
+        $wc_product_variants = $wc_product->get_available_variations();
 
-
-        foreach ( $wc_product_variants as $variants_index => $variant ) { 
+        $n=1; foreach ( $wc_product_variants as $variants_index => $variant ) { 
  
 
             $abstract = new variationdata();
@@ -96,11 +150,10 @@
                 $abstract->bannerid = $variant['image_id'];
                 $abstract->permalink = get_the_permalink($variant["variation_id"]);
 
-                $product_atlas[$n] = $abstract;
+                $product_atlas[$n] = $abstract; $n++;
 
                 unset($abstract);
 
-            $n++;
 
         }
 
@@ -150,7 +203,7 @@
 
 <?
     // get quantity
-    $queryqnt=  str_contains($_SERVER['QUERY_STRING'],'quant%5B1%5D=') ? explode('quant%5B1%5D=',$_SERVER['QUERY_STRING'])[1] : 1;
+    $queryqnt = str_contains($_SERVER['QUERY_STRING'],'quantity=') ? explode('quantity=',$_SERVER['QUERY_STRING'])[1] : 1;
 
 ?>
 
@@ -167,8 +220,9 @@
     <div class="row">
 
         <div class="col-lg-5 col-md-12">
-            <a class="img-magnifier-container" href="'.( $bpd->bannersrc ?: bloginfo('template_directory').'/adds/404IMAGE.PNG' ).'" target="_blank">
-                <?= '<img class="zoomed" id="'.$bpd->bannerid.'" src="'.( $bpd->bannersrc ?: bloginfo('template_directory').'/adds/404IMAGE.PNG' ).'" alt=" ... " />'; ?>
+            <? $IMAGE404 = get_template_directory_uri().'/adds/404IMAGE.PNG'; ?>
+            <a class="img-magnifier-container" href="<?= ( $bpd->bannersrc ?: $IMAGE404  ); ?>" target="_blank">
+                <?= '<img class="zoomed" id="'.$bpd->bannerid.'" src="'.( $bpd->bannersrc ?: $IMAGE404 ).'" alt=" ... " />'; ?>
             </a>
         </div>
 
@@ -189,6 +243,34 @@
         
                 <p><?= $bpd->excerpt; ?><br><a href="#productdetails"> ... More details <i class="bi bi-arrow-down-right-circle-fill"></i></a></p>
         
+                <?
+                    if( $product_atlas[0]->pack != 'empty' ){
+
+                        echo '<hr class="mt-3 mb-3">';
+
+                        foreach ($product_atlas as $inpack) {
+                            if($inpack!=$product_atlas[0]){
+
+                                ?>
+                                <div>
+                                    <div style=" background: url(<?= $inpack->banner; ?>) center/cover; height:45px; width:45px"></div>
+                                    <p><?= $inpack->id; ?></p>
+                                    <h3 class="display-6 fw-bold"><?= $inpack->name; ?></h3>
+                                    <!-- <div>
+                                        <?= $inpack->excerpt; ?>
+                                    </div> -->
+                                    <p> Price: <?= $inpack->price; ?> </p>
+                                    <a href="<?= $inpack->permalink; ?>" target="_blank">[ see out of pack <i class="bi bi-arrow-up-right-square"></i> ]</a>
+                                </div>
+                                <?
+                            }
+                        }
+
+                        echo '<hr class="mt-3 mb-3">';
+
+                    }
+                ?>
+
                 <div>
                     <? if(!empty($bpd->sale_price)) { ?>
                         <p>FROM: <s><?= ($bpd->regular_price*$queryqnt); ?></s></p>
@@ -201,69 +283,74 @@
                         </div>
                     <? } ?>
                 </div>
+                
+                <div style="position:relative;">
+                    <div class="spinner-loading d-none"></div>
+                    <form name="product_customizator">
+                        
+                        <?
+                        
+                            // https://www.businessbloomer.com/woocommerce-custom-add-cart-urls-ultimate-guide/
+                            // https://www.forumming.com/question/19169/woocommerce-variable-product-get-variation-name
+                            // https://stackoverflow.com/questions/41393797/get-and-display-the-values-for-product-attribute-in-woocommerce
+                            // https://stackoverflow.com/questions/33202678/woocommerce-how-to-link-to-product-variation
 
-                <form name="product_customizator">
-                    
-                    <?
-                    
-                        //https://www.forumming.com/question/19169/woocommerce-variable-product-get-variation-name
-                        //https://stackoverflow.com/questions/41393797/get-and-display-the-values-for-product-attribute-in-woocommerce
-                        //https://stackoverflow.com/questions/33202678/woocommerce-how-to-link-to-product-variation
+                            if( ! empty( $bpd->attributes ) ) {
+        
+                                //<input type="hidden" id="queryurl" value="?attribute_pa_color=white&attribute_pa_design=type-02"/>
+                                echo '<p> AVAILABLE OPTIONS:</p>';
 
-                        if( ! empty( $bpd->attributes ) ) {
-    
-                            //<input type="hidden" id="queryurl" value="?attribute_pa_color=white&attribute_pa_design=type-02"/>
-                            echo '<p> AVAILABLE OPTIONS:</p>';
+                                foreach ( $bpd->attributes as $asset ) {
 
-                            foreach ( $bpd->attributes as $asset ) {
+                                    $attribute_slug = $asset[0];
+                                    $attribute_data = $asset[1];
 
-                                $attribute_slug = $asset[0];
-                                $attribute_data = $asset[1];
+                                    $iscolor = $attribute_slug=='pa_color'?true:false;
 
-                                $iscolor = $attribute_slug=='pa_color'?true:false;
+                                    
+                                    if($iscolor) echo '<div><div class="btn-group" role="group" aria-label="Basic radio toggle button group">';
+                                    else echo '<div><select name="attribute_'.$attribute_slug.'" class="form-select" aria-label="Default select example">';
 
-                                
-                                if($iscolor) echo '<div><div class="btn-group" role="group" aria-label="Basic radio toggle button group">';
-                                else echo '<div><select name="attribute_'.$attribute_slug.'" class="form-select" aria-label="Default select example">';
+                                    foreach ( $attribute_data as $datalist => $data ) {
 
-                                foreach ( $attribute_data as $datalist => $data ) {
+                                        $id = $data[0];
+                                        $label = $data[1];
+                                        $slug = $data[2];
 
-                                    $id = $data[0];
-                                    $label = $data[1];
-                                    $slug = $data[2];
+                                        if( $iscolor ) {
+                                            $color = get_term_meta($id)['color'][0];
+                                            echo '<input type="radio" autocomplete="off" class="btn-check" name="attribute_'.$attribute_slug.'" id="'.$id.'" data-mainslug="'.$attribute_slug.'" value="'.$slug.'"><label for="'.$id.'" style="height:40px;width:40px;margin:-7px 3px; border:2px solid gray; border-radius:5px; background:'.$color.';"></label>';
+                                        } else {
+                                            echo '<option id="'.$id.'" data-mainslug="'.$attribute_slug.'" value="'.$slug.'">'.$label.'</option>';
+                                        }
 
-                                    if( $iscolor ) {
-                                        $color = get_term_meta($id)['color'][0];
-                                        echo '<input type="radio" autocomplete="off" class="btn-check" name="attribute_'.$attribute_slug.'" id="'.$id.'" data-mainslug="'.$attribute_slug.'" value="'.$slug.'"><label for="'.$id.'" style="height:40px;width:40px;margin:-7px 3px; border:2px solid gray; border-radius:5px; background:'.$color.';"></label>';
-                                    } else {
-                                        echo '<option id="'.$id.'" data-mainslug="'.$attribute_slug.'" value="'.$slug.'">'.$label.'</option>';
                                     }
+
+                                    if($iscolor) echo '</div>';
+                                    else echo '</select>';
+
+                                    echo '</div><div class="m-3"></div>';
 
                                 }
 
-                                if($iscolor) echo '</div>';
-                                else echo '</select>';
-
-                                echo '</div><div class="m-3"></div>';
+                                // echo '<input type="submit" value="test"/>';
 
                             }
 
-                            // echo '<input type="submit" value="test"/>';
 
-                        }
+                        ?>
 
+                        <div class="btn-group" style="width:150px">
+                            <a class="btn btn-dark quantity-minus"><i class="bi bi-dash-circle"></i></a>
+                            <input type="text" name="quantity" data-standard="<?= $queryqnt; ?>" class="form-control input-number quantity-number" value="<?= $queryqnt; ?>" min="1" max="10">
+                            <a class="btn btn-dark quantity-plus" ><i class="bi bi-plus-circle"></i></a>
+                        </div>
 
-                    ?>
+                    </form>
+                    <!-- preg_replace('/\?.*/','',$bpd->permalink). -->
+                    <a class="btn btn-primary linktocart" href="<?= '?add-to-cart='.$bpd->id.'&quantity='.$queryqnt; ?>">Add to cart <i class="bi bi-cart-check"></i></a>
 
-                    <div class="btn-group" style="width:150px">
-                        <a class="btn btn-dark quantity-minus"><i class="bi bi-dash-circle"></i></a>
-                        <input type="text" name="quant[1]" class="form-control input-number quantity-number" value="<?= $queryqnt; ?>" min="1" max="10">
-                        <a class="btn btn-dark quantity-plus" ><i class="bi bi-plus-circle"></i></a>
-                    </div>
-
-                </form>
-
-                <a class="btn btn-primary" href="'<?= $bpd->$permalink.'?add-to-cart='.$bpd->id.'&quantity='.$queryqnt; ?>">Add to cart <i class="bi bi-cart-check"></i></a>
+                </div>
 
             </div>
         </div>
@@ -412,36 +499,78 @@
         height: 200px;
     }
 
+    .woocommerce-message{
+        /* position: absolute;
+        left: 50%;
+        transform: translate3d(-50%,50%,0);
+        top: 50%;
+        z-index: 99999;
+        border-radius: 5px; */
+        box-shadow: 0 10px 20px rgb(0 0 0 / 30%);
+        margin: 0;
+    }
+
+    .spinner-loading{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 9999;
+        background: #fafafa66 url(<?=bloginfo('template_directory').'/adds/spinner.gif';?>) no-repeat center;
+    }
+
 </style>
 <script>
 
 window.addEventListener("load", () =>{
 
-    //customizator for update customization
-    function submitter(time){
-        setTimeout(() => {
-                customizer.submit();
-        },(time));
-    }
-
-    const customizer = document.querySelectorAll('[name="product_customizator"]')[0];
-    customizer.querySelectorAll('[type="radio"], select, .quantity-number').forEach( el => {
-        el.addEventListener('change',()=>{ submitter(0) },true);
-    })
-
-    var qnt_field = customizer.querySelectorAll('.quantity-number')[0],
+    var customizer = document.querySelectorAll('[name="product_customizator"]')[0],
+        linktocart = document.querySelectorAll('.linktocart')[0],
+        qnt_field = customizer.querySelectorAll('.quantity-number')[0],
         plus_trig = customizer.querySelectorAll('.quantity-plus')[0],
         minus_trig = customizer.querySelectorAll('.quantity-minus')[0];
 
-    plus_trig.onclick = ()=>{
-        qnt_field.value < <?= $bpd->stock_remain ? :'10'; ?>
-            ? (qnt_field.setAttribute('value',qnt_field.value++), submitter(1300))
-            : alert("Non puoi ordinare più di quanto abbiamo in magazzino o più di 10 pezzi per ordine");
-    }
 
-    minus_trig.onclick = ()=>{
-        qnt_field.value>1 ? (qnt_field.setAttribute('value',qnt_field.value--), submitter(1300)) :null;
-    }
+        // new quantity
+
+        const run_checks = setInterval( ()=>{ qnt_field.dataset.standard!=qnt_field.value && !qnt_field.classList.contains('underclick') ? refresh() : null }, 1000 );
+
+        plus_trig.onclick = ()=> {
+            qnt_field.classList.add('underclick');
+            if ( qnt_field.value < <?= $bpd->stock_remain ? :'10'; ?> ) {
+                qnt_field.setAttribute('value',qnt_field.value++)
+                setTimeout( () => { 
+                    qnt_field.classList.remove('underclick');
+                }, 1100); 
+            }else{
+                alert("Non puoi ordinare più di quanto abbiamo in magazzino o più di 10 pezzi per ordine");
+            }
+        }
+
+        minus_trig.onclick = ()=> {
+            qnt_field.classList.add('underclick');
+            if ( qnt_field.value>1 ) {
+                qnt_field.setAttribute('value',qnt_field.value--);
+                setTimeout( () => { 
+                    qnt_field.classList.remove('underclick');
+                }, 1100); 
+            }
+        }
+
+
+        // customizator for update customization
+
+        customizer.querySelectorAll('[type="radio"], [type="checkbox"], select')
+        .forEach( el => { el.addEventListener('input',()=>{ refresh() },false); });
+
+        function refresh(){
+            clearTimeout(run_checks)
+            document.querySelectorAll('.spinner-loading')[0].classList.remove('d-none');
+            customizer.disabled = true
+            linktocart.classList.add('disabled')
+            linktocart.disabled = true
+            linktocart.classList.add('disabled')
+            customizer.submit()
+        }
 
     //zoom featured
 
