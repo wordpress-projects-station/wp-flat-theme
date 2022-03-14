@@ -201,18 +201,21 @@
             array_unique($labels);
         }
 
-        foreach ( $product_atlas[0]->attributes as $asset ) {
+        $a=0; $assembly = []; foreach ( $product_atlas[0]->attributes as $asset ) {
 
-            foreach ( $asset[2] as $datarow => $datavalue)
-                if( ! in_array($datavalue[1],$labels) && ! in_array($datavalue[2],$labels) )
+            foreach ( $asset[2] as $datarow => $datavalue) {
+                if( ! in_array($datavalue[1],$labels) && ! in_array($datavalue[2],$labels) ){
                     unset($asset[2][$datarow]);
+                }
+            }
 
-            $product_atlas[0]->attributes = [$asset];
+            array_push($assembly,$asset);
 
         }
+
+        $product_atlas[0]->attributes = $assembly;
         
     }
-
 
 
     /*
