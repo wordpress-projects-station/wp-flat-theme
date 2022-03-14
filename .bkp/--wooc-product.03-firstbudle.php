@@ -29,14 +29,10 @@
 
     $wc_product = wc_get_product( $post->ID );
 
-
-    // echo'<pre> PRODUCT:';print_r($wc_product);echo'</pre>';
-
-    
-
     // $isbundle = $wc_product->is_type('bundle');
     // echo'<pre> USPELLING:';print_r($wc_product);echo'</pre>';
     // echo'<pre> PRODUCT BUNDLE:';print_r($wc_product);echo'</pre>';
+
 
     class basedata {};
 
@@ -66,44 +62,27 @@
 
         foreach ( $wc_product->tag_ids as $tid ) { $abstract->tags[] .= get_term($tid)->name; }
 
+        function get_attr_data_list ( $postid, $wc_attrs ) {
+            function extractfromslug ( $postid, $slugname ) {
+                $wcpt = wc_get_product_terms( $postid, $slugname );
 
-        $attributeslist=[]; foreach ($wc_product->attributes as $terms => $asset) {
-
-            $indata = (object) $asset->get_data();
-
-            if($indata->is_visible && $indata->is_variation) {
-
-                $wca_terms = get_the_terms( $post->ID, $indata->name );
-
-                $d = [];
-
-                if( !empty($wca_terms->errors) ) { 
-
-                    for ($i=1;$i<count($indata->options);$i++) array_push($d,[false,$indata->options[$i],false]);
-
-                    array_push( $attributeslist, [
-                        $indata->name,
-                        'ca_'.$indata->name,
-                        $d
-                    ]);
-
-                } else {
-
-                    foreach($wca_terms as $t=>$v) array_push($d,[$v->term_id,$v->name,$v->slug]);
-
-                    array_push( $attributeslist, [
-                        $indata->name,
-                        'attribute_'.$indata->name,
-                        $d
-                    ]);
-
+                if(empty($wcpt) ){
+                    echo'<pre>';print_r($wcpt);echo'</pre>';
+                    $wcpt = wc_get_product_terms( $postid, $slugname );
                 }
 
-            }
-            
-        }
+                $data=[];foreach ($wcpt as $terms => $t){ $data[$n|0]=[ $t->term_id , $t->name , $t->slug ]; $n++;}
+                return $data;
 
-        $abstract->attributes = $attributeslist;
+            }
+            foreach ( $wc_attrs as $wc_data ) { $datalist[$n|0] = [ $wc_data['name'] , extractfromslug( $postid, $wc_data['name'] ) ]; $n++; }
+            return $datalist;
+        }
+        
+        
+        $abstract->attributes = get_attr_data_list($post->ID,$wc_product->attributes);
+
+        // echo'<pre>';print_r($abstract->attributes);echo'</pre>';
 
         $product_atlas[0] = $abstract;
 
@@ -161,10 +140,8 @@
  
                 $abstract->id = $variant["variation_id"];
 
-                foreach ( $variant['attributes'] as $type => $name) { 
-                    $abstract->label[] .= $name;
-                    $abstract->name .= $name.'-';
-                };  $abstract->name = rtrim($abstract->name,'-');
+                foreach ( $variant['attributes'] as $type => $name) { $abstract->atrl[] .= $name; $abstract->name .= $name.'-'; };
+                $abstract->name = rtrim($abstract->name,'-');
 
                 $abstract->normal_price = $variant["display_regular_price"];
                 $abstract->sales_price = $variant["display_sales_price"];
@@ -177,6 +154,7 @@
 
                 unset($abstract);
 
+
         }
 
         unset($wc_product_variants);
@@ -185,48 +163,17 @@
 
     unset($wc_product);
 
-
-    /*
-    // CLEAN ATTRIBUTE NOT IN VARIANTS
-    // If attribute isn't usable, remove it from list.
-    */
-
-    if( ! empty( $product_atlas[0]->attributes ) ) {
-
-        $labels = [];
-
-        for ($i=1;$i<count($product_atlas);$i++) { 
-            $var = $product_atlas[$i];
-            foreach ( $var->label as $label ) $labels[].=$label;
-            array_unique($labels);
-        }
-
-        foreach ( $product_atlas[0]->attributes as $asset ) {
-
-            foreach ( $asset[2] as $datarow => $datavalue)
-                if( ! in_array($datavalue[1],$labels) && ! in_array($datavalue[2],$labels) )
-                    unset($asset[2][$datarow]);
-
-            $product_atlas[0]->attributes = [$asset];
-
-        }
-        
-    }
-
-
-
     /*
     // MADE PRODUCT VARIATED
     // Get params from url and override normal product with correct variation data.
     */
 
-
     $queryStrings = explode('&',$_SERVER['QUERY_STRING']);
-    foreach ($queryStrings as $queryblock) str_contains($queryblock,'attribute_') || str_contains($queryblock,'ca_') ? $queryAttr[] .= explode('=',$queryblock)[1] : null;
+    foreach ($queryStrings as $queryblock) str_contains($queryblock,'attribute_pa') ? $queryAttr[] .= explode('=',$queryblock)[1] : null;
 
-
+    
     foreach ($product_atlas as $variation) {
-        if( count(array_diff($queryAttr,$variation->label))==0 ) { 
+        if( count(array_diff($queryAttr,$variation->atrl))==0 ) { 
 
             $product_atlas[0]->id               = $variation->id;
             $product_atlas[0]->actual_variant   = $variation->name;
@@ -355,36 +302,31 @@
 
                                 foreach ( $bpd->attributes as $asset ) {
 
-                                    $type  = $asset[0];
-                                    $query = $asset[1];
+                                    $attribute_slug = $asset[0];
+                                    $attribute_data = $asset[1];
 
-                                    if( $type=='pa_color' ) echo '<div><div class="btn-group" role="group" aria-label="Basic radio toggle button group">';
-                                    else echo '<div><select name="'.$query.'" class="form-select" aria-label="Default select example">';
+                                    $iscolor = $attribute_slug=='pa_color'?true:false;
+
                                     
-                                    foreach ( $asset[2] as $datarow => $datavalue) {
+                                    if($iscolor) echo '<div><div class="btn-group" role="group" aria-label="Basic radio toggle button group">';
+                                    else echo '<div><select name="attribute_'.$attribute_slug.'" class="form-select" aria-label="Default select example">';
 
-                                        $id    = $datavalue[0];
-                                        $label = $datavalue[1];
-                                        $slug  = $datavalue[2];
+                                    foreach ( $attribute_data as $datalist => $data ) {
 
-                                        $checked = in_array($slug,$queryAttr) || in_array($label,$queryAttr) ? true : false;
+                                        $id = $data[0];
+                                        $label = $data[1];
+                                        $slug = $data[2];
 
-                                        if( $type=='pa_color' ) {
-
+                                        if( $iscolor ) {
                                             $color = get_term_meta($id)['color'][0];
-                                            echo '<input type="radio" autocomplete="off" class="btn-check" id="'.$id.'" name="'.$query.'" value="'.$slug.'" '.(!$checked?:'checked').'>
-                                                    <label for="'.$id.'" style="height:40px;width:40px;margin:-7px 3px; border:2px solid gray; border-radius:5px; background:'.$color.';">
-                                                 </label>';
-
+                                            echo '<input type="radio" autocomplete="off" class="btn-check" name="attribute_'.$attribute_slug.'" id="'.$id.'" data-mainslug="'.$attribute_slug.'" value="'.$slug.'"><label for="'.$id.'" style="height:40px;width:40px;margin:-7px 3px; border:2px solid gray; border-radius:5px; background:'.$color.';"></label>';
                                         } else {
-
-                                            echo '<option id="'.$id.'" value="'.($slug?:$label).'" '.(!$checked?:'selected').'>'.$label.'</option>';
-
+                                            echo '<option id="'.$id.'" data-mainslug="'.$attribute_slug.'" value="'.$slug.'">'.$label.'</option>';
                                         }
 
                                     }
 
-                                    if( $type=='pa_color' ) echo '</div>';
+                                    if($iscolor) echo '</div>';
                                     else echo '</select>';
 
                                     echo '</div><div class="m-3"></div>';
@@ -566,10 +508,6 @@
         border-radius: 5px; */
         box-shadow: 0 10px 20px rgb(0 0 0 / 30%);
         margin: 0;
-    }
-
-    .btn-check:checked+label{
-        border: 8px solid rgba(0,0,0,.3) !important;
     }
 
     .spinner-loading{
