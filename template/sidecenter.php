@@ -2,6 +2,8 @@
 
     <?
 
+        echo '<h1>'.$pagetype['path'].'</h1>';
+
         ! file_exists($pagetype['path']) ? print_classic_theme($pagetype) : print_file_check($pagetype) ;
 
         function print_file_check($pagetype){

@@ -102,6 +102,21 @@
         function crumps($link,$label){ return '<li class="breadcrumb-item"><a href="'.$link.'">'.$label.'</a></li>'; }
         function iswrong($s){ return empty($s)||!$s?true:false; }
 
+        function getGuid($s) {
+            $list = (array)get_page_by_path($s);
+            foreach ($list as $k => $v){if($k=='guid'){return $v;}}
+        }
+
+        function getTermID($s) {
+            $list = (array)get_term_by('slug', $s, 'product_cat');
+            foreach ($list as $k => $v){if($k=='term_id'){return $v;}}
+        }
+
+        function getCatID($s) {
+            $list = (array)get_term_by('slug', $s, 'category');
+            foreach ($list as $k => $v){if($k=='ID'){return $v;}}
+        }
+
         // 1. get www.mysites.com/possiblesubdomain
         // 2. get /possiblesubdomain/otherpagespaths
         // 3. filter /possiblesubdomain/ fo get only usable paths
@@ -111,6 +126,7 @@
         $urlslugs = array_diff($urlpaths,$homepath);
 
         // 4. print home an loop printable paths
+        $output = '';
 
         $output .= '<nav aria-label="breadcrumb"><ol class="breadcrumb">';
 
@@ -123,13 +139,13 @@
 
                 if ( iswrong($slugurl) )
                 { 
-                    
-                    $slugurl = get_page_by_path( $slug )->guid ?: false;
+
+                    $slugurl = getGuid($slug)?:false;
 
                     if( iswrong($slugurl) )
                     {
 
-                        $cID = get_term_by('slug', $slug, 'product_cat')->term_id | get_term_by('slug', $slug, 'category')->ID; if($cID == 0);
+                        $cID = getTermID($slug) | getCatID($slug); if($cID == 0);
                         $slugurl = $cID>0 ? get_category_link($cID) : false ;
                     
                         if( iswrong($slugurl) )

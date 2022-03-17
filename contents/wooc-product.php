@@ -1,217 +1,55 @@
 <?
 
-    // TO DO:   https://www.sitoedominio.com/test/shop/elettronica/my-bundle/?add-to-cart=1232&quantity=1
-    //          https://www.sitoedominio.com/test/wp-admin/post.php?post=2537&action=edit
-    //          group whit variant product go in error
-
-    /*
-    // MADE PRODUCT ABSTACT
-    // Atlas is the container list of all getted property and extra of this product.
-    // Atlas[0] is the product, other index is the relative variations
-    */
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
 
 
-    $product_atlas = [];
+    $queryStrings = explode('&',$_SERVER['QUERY_STRING']); $querydata = [];
+    foreach ($queryStrings as $queryblock) str_contains($queryblock,'attribute_') || str_contains($queryblock,'ca_') ?  array_push( $querydata,explode('=',$queryblock)[1] ) : null;
 
+    $queryqnt = str_contains($_SERVER['QUERY_STRING'],'quantity=') ? explode('quantity=',$_SERVER['QUERY_STRING'])[1] : 1;
 
-    /*
-    // MADE PRODUCT ABSTACT
-    // is a summary of all product data getted.
-    // on end, we clean mem relative to original product vars and use only the abstract.
-    */
 
     global $post;
 
-    $wc_product = wc_get_product( $post->ID );
+    $baseproduct = generate_base($post->ID);
 
+    if( $baseproduct->pack != 'empty' ) {
 
-    // echo'<pre> PRODUCT:';print_r($wc_product);echo'</pre>';
+        $baseproduct->pack = generate_pack($baseproduct->pack);
 
-    
+        for ($i=0;$i<count($baseproduct->pack);$i++){
 
-    // $isbundle = $wc_product->is_type('bundle');
-    // echo'<pre> USPELLING:';print_r($wc_product);echo'</pre>';
-    // echo'<pre> PRODUCT BUNDLE:';print_r($wc_product);echo'</pre>';
-
-    class basedata {};
-
-    $abstract = new basedata();
-
-        $abstract->id             = $post->ID;
-        $abstract->type           = get_the_terms( $post->ID,'product_type')[0]->slug;
-        $abstract->pack           = $wc_product->children ?:'empty';
-        $abstract->actual_variant = null;
-        $abstract->status         = $wc_product->status=='publish'&&$wc_product->catalog_visibility=='visible'?true:false;
-        $abstract->name           = $wc_product->name;
-        $abstract->excerpt        = $wc_product->short_description;
-        $abstract->description    = $wc_product->description;
-        $abstract->permalink      = get_post_permalink($post->ID);
-        $abstract->normal_price   = $wc_product->regular_price;
-        $abstract->sales_price    = $wc_product->sale_price;
-        $abstract->standard_price = $wc_product->price;
-        $abstract->stock_remain   = $wc_product->stock_quantity ;
-        $abstract->stock_limit    = $wc_product->low_stock_amount;
-        $abstract->is_virtual     = $wc_product->virtual;
-        $abstract->down_limit     = $wc_product->download_limit;
-        $abstract->downloadable   = $wc_product->downloadable;
-        $abstract->gallery        = $wc_product->gallery_image_ids;
-        $abstract->bannerid       = $wc_product->image_id; //_thumbnail_id
-        $abstract->bannersrc      = wp_get_attachment_url( $wc_product->image_id ); 
-        $abstract->date           = get_post_field('post_date', $post->ID);
-
-        foreach ( $wc_product->tag_ids as $tid ) { $abstract->tags[] .= get_term($tid)->name; }
-
-        $attributeslist=[]; foreach ($wc_product->attributes as $terms => $asset) {
-
-            $indata = (object) $asset->get_data();
-
-            if($indata->is_visible && $indata->is_variation) {
-
-                $wca_terms = get_the_terms( $post->ID, $indata->name );
-
-                $d = [];
-
-                if( !empty($wca_terms->errors) ) { 
-
-                    for ($i=1;$i<count($indata->options);$i++) array_push($d,[false,$indata->options[$i],false]);
-
-                    array_push( $attributeslist, [
-                        $indata->name,
-                        'ca_'.$indata->name,
-                        $d
-                    ]);
-
-                } else {
-
-                    foreach($wca_terms as $t=>$v) array_push($d,[$v->term_id,$v->name,$v->slug]);
-
-                    array_push( $attributeslist, [
-                        $indata->name,
-                        'attribute_'.$indata->name,
-                        $d
-                    ]);
-
-                }
-
-            }
-            
-        }
-
-        $abstract->attributes = $attributeslist;
-
-        $product_atlas[0] = $abstract;
-
-        unset($abstract);
-
-
-
-    /*
-    // MADE PRODUCT GROUP ABSTACT
-    // is a summary of all product inside a bundle.
-    */
-
-    if( $product_atlas[0]->pack != 'empty' ){
-
-        class packdata {};
-
-        $n=1; foreach ( $product_atlas[0]->pack as $in_pack_id ) { 
-
-            $wc_product_in_pack = wc_get_product( $in_pack_id );
-
-            $abstract = new packdata();
-
-            $abstract->id        = $in_pack_id;
-            $abstract->name      = $wc_product_in_pack->name;
-            $abstract->excerpt   = $wc_product_in_pack->short_description;
-            $abstract->price     = $wc_product_in_pack->price;
-            $abstract->permalink = get_post_permalink($in_pack_id);
-            $abstract->banner    = wp_get_attachment_url( $wc_product_in_pack->image_id );
-
-            $product_atlas[$n] = $abstract; $n++;
- 
-            unset($abstract);
+            $baseproduct->pack[$i]->variations = generate_variations($baseproduct->pack[$i]->id);
 
         }
-    
+
+        for ($i=0;$i<count($baseproduct->pack);$i++) {
+
+            $attributeslist = $baseproduct->pack[$i]->attributes;
+            $variationslist = $baseproduct->pack[$i]->variations;
+            $baseproduct->pack[$i]->attributes = clean_attributes($attributeslist,$variationslist);
+
+        }
+
     }
+    
+    if( $baseproduct->pack == 'empty' && ! empty( $baseproduct->attributes ) ) {
 
-
-    /*
-    // MADE PRODUCT VARIATION ABSTRACT
-    // is a summary of all product variation generated by woocommerce.
-    // on end, we clean mem relative to original variantsion vars and use only the abstract.
-    */
-
-    if( $product_atlas[0]->pack == 'empty' && ! empty( $wc_product->attributes ) ) {
-
-        class variationdata {};
-
-        $wc_product_variants = $wc_product->get_available_variations();
-
-        $n=1; foreach ( $wc_product_variants as $variants_index => $variant ) { 
- 
-
-            $abstract = new variationdata();
- 
-                $abstract->id = $variant["variation_id"];
-
-                foreach ( $variant['attributes'] as $type => $name) { 
-                    $abstract->label[] .= $name;
-                    $abstract->name .= $name.'-';
-                };  $abstract->name = rtrim($abstract->name,'-');
-
-                $abstract->normal_price = $variant["display_regular_price"];
-                $abstract->sales_price = $variant["display_sales_price"];
-                $abstract->standard_price = $variant["display_price"];
-                $abstract->bannersrc = $variant['image']['src'];
-                $abstract->bannerid = $variant['image_id'];
-                $abstract->permalink = get_the_permalink($variant["variation_id"]);
-
-                $product_atlas[$n] = $abstract; $n++;
-
-                unset($abstract);
-
-        }
-
-        unset($wc_product_variants);
+        $baseproduct->variations = generate_variations($post->ID);
 
     }
 
-    unset($wc_product);
-
-
-    /*
-    // CLEAN ATTRIBUTES LIST VIA VARIANTS
-    // if not exist variant with that attribute, that attribute is 
-    // full out of stock so... remove it from list.
-    */
-
+    
     if( ! empty( $product_atlas[0]->attributes ) ) {
 
-        $labels = [];
-
-        for ($i=1;$i<count($product_atlas);$i++) { 
-            $var = $product_atlas[$i];
-            foreach ( $var->label as $label ) $labels[].=$label;
-            array_unique($labels);
-        }
-
-        $a=0; $assembly = []; foreach ( $product_atlas[0]->attributes as $asset ) {
-
-            foreach ( $asset[2] as $datarow => $datavalue) {
-                if( ! in_array($datavalue[1],$labels) && ! in_array($datavalue[2],$labels) ){
-                    unset($asset[2][$datarow]);
-                }
-            }
-
-            array_push($assembly,$asset);
-
-        }
-
-        $product_atlas[0]->attributes = $assembly;
+        $attributeslist = $baseproduct->attributes;
+        $variationslist = $baseproduct->variations;
+        $baseproduct->attributes = clean_attributes($attributeslist,$variationslist);
         
     }
-
+    
 
     /*
     // OVERRIDE BASE PRODUCT WITH VARIATION
@@ -219,103 +57,120 @@
     */
 
 
-    $queryStrings = explode('&',$_SERVER['QUERY_STRING']);
-    foreach ($queryStrings as $queryblock) str_contains($queryblock,'attribute_') || str_contains($queryblock,'ca_') ? $queryAttr[] .= explode('=',$queryblock)[1] : null;
+    if( $baseproduct->pack == 'empty' && count($querydata)>0 ) {
 
+        foreach ($baseproduct->variations as $variation) {
+            if( count( array_diff( $querydata, $variation->label ) )==0 ) { 
 
-    foreach ($product_atlas as $variation) {
-        if( count(array_diff($queryAttr,$variation->label))==0 ) { 
+                $baseproduct->id              = $variation->id;
+                $baseproduct->variationnow    = $variation->name;
+                $baseproduct->normal_price    = $variation->normal_price;
+                // $baseproduct->sales_price     = $variation->sales_price;
+                $baseproduct->standard_price  = $variation->standard_price;
+                $baseproduct->bannersrc       = $variation->bannersrc;
+                $baseproduct->bannerid        = $variation->bannerid;
+                $baseproduct->permalink       = $variation->permalink;
 
-            $product_atlas[0]->id               = $variation->id;
-            $product_atlas[0]->actual_variant   = $variation->name;
-            $product_atlas[0]->normal_price     = $variation->normal_price;
-            $product_atlas[0]->sales_price      = $variation->sales_price;
-            $product_atlas[0]->standard_price   = $variation->standard_price;
-            $product_atlas[0]->bannersrc        = $variation->bannersrc;
-            $product_atlas[0]->bannerid         = $variation->bannerid;
-            $product_atlas[0]->permalink        = $variation->permalink;
-
+            }
         }
+
     }
 
+    // echo '<code><pre>'; print_r($baseproduct); echo '</pre></code>';
 
-    /*
-    // now have a complete atlas:
-    // print it in php: echo'<pre>';print_r($product_atlas);echo'</pre>';
-    // use it in js: $json_atlas = json_encode($product_atlas);
-    // use it in php: $MYVAR = $product_atlas[INDEX_ZERO_FOR_PRODUCT_OTHER_FOR_VARIATIONS_DATA];
-    */
-
-    // re assign product for ($bpd is abbreviation)
-    $bpd = $baseproductdata = $product_atlas[0];
-
+    $bp = $baseproduct;
 
 ?>
 
-
-<?
-    // get quantity
-    $queryqnt = str_contains($_SERVER['QUERY_STRING'],'quantity=') ? explode('quantity=',$_SERVER['QUERY_STRING'])[1] : 1;
-?>
 
 <!-- 
 ---- MAIN CONTENS BOX
 --->
+
 <section>
 
 
-    <!--
-    ---- MINI HEAD OF CATEOGRY
-    --->
+    <!-- MINI HEAD OF CATEOGRY --->
 
     <div class="row">
 
         <div class="col-lg-5 col-md-12">
+
             <? $IMAGE404 = get_template_directory_uri().'/adds/404IMAGE.PNG'; ?>
-            <a class="img-magnifier-container" href="<?= ( $bpd->bannersrc ?: $IMAGE404  ); ?>" target="_blank">
-                <?= '<img class="zoomed" id="'.$bpd->bannerid.'" src="'.( $bpd->bannersrc ?: $IMAGE404 ).'" alt=" ... " />'; ?>
+            <a class="img-magnifier-container" href="<?= ( $bp->bannersrc ?: $IMAGE404  ); ?>" target="_blank">
+                <?= '<img class="zoomed" id="'.$bp->bannerid.'" src="'.( $bp->bannersrc ?: $IMAGE404 ).'" alt=" ... " />'; ?>
             </a>
+    
         </div>
 
         <div class="col-lg-7 col-md-6">
+
             <div>
 
-                <h2 class="display-3 fw-bolder"><?= $bpd->name; ?></h2>
+                <h2 class="display-3 fw-bolder"><?= $bp->name; ?></h2>
 
-                <?= empty($bpd->actual_variant) ?: '<div class="mb-2 mt-2"><a class="class="display-7 fw-bold" href="'.$bpd->link.'" target="_blank">Actual variant selected: '.$bpd->id.' : '.$bpd->actual_variant.'</a></div>'; ?>
+                <?= empty($bp->variantionnow) ?: '<div class="mb-2 mt-2"><a class="class="display-7 fw-bold" href="'.$bp->link.'" target="_blank">Actual variant selected: '.$bp->id.' : '.$bp->variantionnow.'</a></div>'; ?>
 
-                <? if( $bpd->stock_status=='instock' && $bpd->stock_quantity>0) { ?>
-                    <? if( (int)$bpd->stock_quantity <= (int)$bpd->low_stock_amount) {?>
-                        <p><span class="border border-2 border-warning">Only <?= $bpd->stock_quantity; ?> left in stock.</span></p>
-                    <? } else { ?>
-                        <p class="border border-2">>The product is ready for shipment in our warehouses. (qnt: <?= $bpd->stock_quantity; ?>).</p>
-                    <? } ?>
-                <? } ?>
+                <? 
+                    if($bp->is_stocked) {
+                        
+                        if((int)$bp->stock_remain <= (int)$bp->stock_limit)
+                        echo '<p><span class="border border-2 border-warning">Only '.$bp->stock_remain.' left in stock.</span></p>';
+                        
+                        else
+                        echo '<p class="border border-2">>The product is ready for shipment in our warehouses. (qnt: '.$bp->stock_remain.').</p>';
+
+                    }
+                ?>
         
-                <p><?= $bpd->excerpt; ?><br><a href="#productdetails"> ... More details <i class="bi bi-arrow-down-right-circle-fill"></i></a></p>
+                <p>
+                    <?= $bp->excerpt; ?>
+                    <br>
+                    <a href="#productdetails"> 
+                        ... More details <i class="bi bi-arrow-down-right-circle-fill"></i>
+                    </a>
+                </p>
         
                 <?
-                    if( $product_atlas[0]->pack != 'empty' ){
+                    if( $baseproduct->pack != 'empty' ){
 
+                        // echo'<pre>'; print_r($baseproduct->pack); echo'</pre>'; 
                         echo '<hr class="mt-3 mb-3">';
 
-                        foreach ($product_atlas as $inpack) {
-                            if($inpack!=$product_atlas[0]){
+                        foreach ($baseproduct->pack as $subproduct) { if($subproduct->id!=$baseproduct->id) {
 
                                 ?>
-                                <div>
-                                    <div style=" background: url(<?= $inpack->banner; ?>) center/cover; height:45px; width:45px"></div>
-                                    <p><?= $inpack->id; ?></p>
-                                    <h3 class="display-6 fw-bold"><?= $inpack->name; ?></h3>
-                                    <!-- <div>
-                                        <?= $inpack->excerpt; ?>
-                                    </div> -->
-                                    <p> Price: <?= $inpack->price; ?> </p>
-                                    <a href="<?= $inpack->permalink; ?>" target="_blank">[ see out of pack <i class="bi bi-arrow-up-right-square"></i> ]</a>
-                                </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <div style=" background: url(<?= $subproduct->banner; ?>) center/cover; width:100%; min-height:75px; aspect-ration:1/1;"></div>
+                                        </div>
+
+                                        <div class="col-md-10">
+
+                                            <div>
+
+                                                <p><?= $subproduct->id; ?></p>
+                                                <h3 class="display-6 fw-bold"><?= $subproduct->name; ?></h3>
+                                                <!--<div><?= $subproduct->excerpt; ?></div> -->
+                                                <p> Price: <?= $subproduct->price; ?> </p>
+                                                <a href="<?= $subproduct->permalink; ?>" target="_blank">[ see out of pack <i class="bi bi-arrow-up-right-square"></i> ]</a>
+    
+                                            </div>
+
+                                            <div class="mt-3">
+                                                <p>options</p>
+                                            </div>
+    
+                                        </div>
+                                        <div class="col-md-12"></div>
+
+                                    </div>
+                                    <hr>
+
                                 <?
-                            }
-                        }
+                        }}
 
                         echo '<hr class="mt-3 mb-3">';
 
@@ -323,35 +178,42 @@
                 ?>
 
                 <div>
-                    <? if(!empty($bpd->sale_price)) { ?>
-                        <p>FROM: <s><?= ($bpd->regular_price*$queryqnt); ?></s></p>
+
+                    <? if(!empty($bp->sale_price)) { ?>
+
+                        <p>FROM: <s><?= $bp->regular_price*$queryqnt; ?></s></p>
                         <div class="bd-light p-2">
-                            <p class="fw-bold text-success"><?= ($bpd->sale_price*$queryqnt); ?> €</p>
+                            <p class="fw-bold text-success"><?= $bp->sale_price*$queryqnt; ?> €</p>
                         </div>
+
                     <? } else { ?>
+
                         <div class="bd-light p-2">
-                            <p class="display-5 text-info">Price: <b class="fw-bold"><?= ($bpd->standard_price*$queryqnt); ?> €</b></p>
+                            <p class="display-5 text-info">Price: <b class="fw-bold"><?= $bp->standard_price*$queryqnt; ?> €</b></p>
                         </div>
+
                     <? } ?>
+    
                 </div>
                 
                 <div style="position:relative;">
+
                     <div class="spinner-loading d-none"></div>
+
                     <form name="product_customizator">
                         
                         <?
-                        
                             // https://www.businessbloomer.com/woocommerce-custom-add-cart-urls-ultimate-guide/
                             // https://www.forumming.com/question/19169/woocommerce-variable-product-get-variation-name
                             // https://stackoverflow.com/questions/41393797/get-and-display-the-values-for-product-attribute-in-woocommerce
                             // https://stackoverflow.com/questions/33202678/woocommerce-how-to-link-to-product-variation
 
-                            if( ! empty( $bpd->attributes ) ) {
+                            if( ! empty( $bp->attributes ) ) {
         
                                 //<input type="hidden" id="queryurl" value="?attribute_pa_color=white&attribute_pa_design=type-02"/>
                                 echo '<p> AVAILABLE OPTIONS:</p>';
 
-                                foreach ( $bpd->attributes as $asset ) {
+                                foreach ( $bp->attributes as $asset ) {
 
                                     $type  = $asset[0];
                                     $query = $asset[1];
@@ -365,7 +227,7 @@
                                         $label = $datavalue[1];
                                         $slug  = $datavalue[2];
 
-                                        $checked = in_array($slug,$queryAttr) || in_array($label,$queryAttr) ? true : false;
+                                        $checked = in_array($slug,$querydata) || in_array($label,$querydata) ? true : false;
 
                                         if( $type=='pa_color' ) {
 
@@ -389,10 +251,7 @@
 
                                 }
 
-                                // echo '<input type="submit" value="test"/>';
-
                             }
-
 
                         ?>
 
@@ -403,8 +262,9 @@
                         </div>
 
                     </form>
-                    <!-- preg_replace('/\?.*/','',$bpd->permalink). -->
-                    <a class="btn btn-primary linktocart" href="<?= '?add-to-cart='.$bpd->id.'&quantity='.$queryqnt; ?>">Add to cart <i class="bi bi-cart-check"></i></a>
+
+                    <!-- <a class="btn btn-primary mt-3 linktocart" rel="nofollow" href="<?//= '?add-to-cart='.$bp->id.'&quantity='.$queryqnt; ?>">Add to cart <i class="bi bi-cart-check"></i></a> -->
+                    <a class="btn btn-primary mt-3 linktocart" rel="nofollow" href="<?= '?add-to-cart='.$bp->id.'&quantity['.$bp->id.']='.$queryqnt; ?>">Add to cart <i class="bi bi-cart-check"></i></a>
 
                 </div>
 
@@ -413,9 +273,7 @@
 
     </div>
 
-    <!--
-    ---- BREADCRUMP AND SELECTORS
-    --->
+    <!-- BREADCRUMP AND SELECTORS --->
 
     <hr class="mt-4 mb-4">
 
@@ -423,24 +281,24 @@
 
     <hr class="mt-2 mb-4">
 
-    <!--
-    ---- PRODUCT CONTENTS
-    --->
+    <!-- PRODUCT CONTENTS --->
 
 
     <div id="productdetails">
-        <p><?= $bpd->short_description; ?></p>
+        <p><?= $bp->excerpt; ?></p>
     </div>
 
-    <div>
-        <? 
-            foreach( $bpd->gallery as $imgid ) {
+    <? if($bp->gallery>0) {?>
+        <div>
+            <? 
+                foreach( $bp->gallery as $imgid )
                 echo '<span><img id="'.$imgid.'" width="200" src="'.wp_get_attachment_url( $imgid ).'" alt=" ... "/></span>';
-            }
-        ?>
-    </div>
+            ?>
+        </div>
+    <?}?>
 
-    <?= $bpd->description; ?>
+
+    <?= $bp->description; ?>
 
 </section>
 
@@ -451,7 +309,7 @@
 <section>
 
     <div class="mt-4 mb-4">
-        <b>In date : <?= $bpd->date; ?></b> &nbsp;&nbsp;⋮&nbsp;&nbsp;<b>Arguments :&nbsp;</b> <? foreach ($bpd->tags as $tag) { echo '<span class="tag"><a class="btn btn-info btn-sm" href="'.home_url().'/search/?s='.$tag.'"> '.$tag.' </a></span>&nbsp; ';} ?>
+        <b>In date : <?= $bp->date; ?></b> &nbsp;&nbsp;⋮&nbsp;&nbsp;<b>Arguments :&nbsp;</b> <? foreach ($bp->tags as $tag) { echo '<span class="tag"><a class="btn btn-info btn-sm" href="'.home_url().'/search/?s='.$tag.'"> '.$tag.' </a></span>&nbsp; ';} ?>
     </div>
 
 </section>
@@ -532,6 +390,7 @@
         align-items:center;
         height:100%;
         width:100%;
+        max-height: 550px;
     }
     .img-magnifier-container img{
         min-height:100%;
@@ -555,6 +414,7 @@
         height: 200px;
     }
 
+    .woocommerce-error,
     .woocommerce-message{
         /* position: absolute;
         left: 50%;
@@ -579,126 +439,377 @@
     }
 
 </style>
+
 <script>
+    window.addEventListener("load", () =>{
 
-window.addEventListener("load", () =>{
-
-    var customizer = document.querySelectorAll('[name="product_customizator"]')[0],
-        linktocart = document.querySelectorAll('.linktocart')[0],
-        qnt_field = customizer.querySelectorAll('.quantity-number')[0],
-        plus_trig = customizer.querySelectorAll('.quantity-plus')[0],
-        minus_trig = customizer.querySelectorAll('.quantity-minus')[0];
+        var customizer = document.querySelectorAll('[name="product_customizator"]')[0],
+            linktocart = document.querySelectorAll('.linktocart')[0],
+            qnt_field = customizer.querySelectorAll('.quantity-number')[0],
+            plus_trig = customizer.querySelectorAll('.quantity-plus')[0],
+            minus_trig = customizer.querySelectorAll('.quantity-minus')[0];
 
 
-        // new quantity
+            // new quantity
 
-        const run_checks = setInterval( ()=>{ qnt_field.dataset.standard!=qnt_field.value && !qnt_field.classList.contains('underclick') ? refresh() : null }, 1000 );
+            const run_checks = setInterval( ()=>{ qnt_field.dataset.standard!=qnt_field.value && !qnt_field.classList.contains('underclick') ? refresh() : null }, 1000 );
 
-        plus_trig.onclick = ()=> {
-            qnt_field.classList.add('underclick');
-            if ( qnt_field.value < <?= $bpd->stock_remain ? :'10'; ?> ) {
-                qnt_field.setAttribute('value',qnt_field.value++)
-                setTimeout( () => { 
-                    qnt_field.classList.remove('underclick');
-                }, 1100); 
-            }else{
-                alert("Non puoi ordinare più di quanto abbiamo in magazzino o più di 10 pezzi per ordine");
+            plus_trig.onclick = ()=> {
+                qnt_field.classList.add('underclick');
+                if ( qnt_field.value < <?= $bp->stock_remain ? :'10'; ?> ) {
+                    qnt_field.setAttribute('value',qnt_field.value++)
+                    setTimeout( () => { 
+                        qnt_field.classList.remove('underclick');
+                    }, 1100); 
+                }else{
+                    alert("Non puoi ordinare più di quanto abbiamo in magazzino o più di 10 pezzi per ordine");
+                }
+            }
+
+            minus_trig.onclick = ()=> {
+                qnt_field.classList.add('underclick');
+                if ( qnt_field.value>1 ) {
+                    qnt_field.setAttribute('value',qnt_field.value--);
+                    setTimeout( () => { 
+                        qnt_field.classList.remove('underclick');
+                    }, 1100); 
+                }
+            }
+
+
+            // customizator for update customization
+
+            customizer.querySelectorAll('[type="radio"], [type="checkbox"], select')
+            .forEach( el => { el.addEventListener('input',()=>{ refresh() },false); });
+
+            function refresh(){
+                clearTimeout(run_checks)
+                document.querySelectorAll('.spinner-loading')[0].classList.remove('d-none');
+                customizer.disabled = true
+                linktocart.classList.add('disabled')
+                linktocart.disabled = true
+                linktocart.classList.add('disabled')
+                customizer.submit()
+            }
+
+        //zoom featured
+
+        function magnify(imgID, zoom) {
+
+            var img, glass, w, h, bw;
+            img = document.getElementById(imgID);
+
+            /* Create magnifier glass: */
+            glass = document.createElement("DIV");
+            glass.setAttribute("class", "img-magnifier-glass");
+
+            /* Insert magnifier glass: */
+            img.parentElement.insertBefore(glass, img);
+
+            /* Set background properties for the magnifier glass: */
+            glass.style.backgroundImage = "url('" + img.src + "')";
+            glass.style.backgroundRepeat = "no-repeat";
+            glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+            bw = 3;
+            w = glass.offsetWidth / 2;
+            h = glass.offsetHeight / 2;
+
+            /* Execute a function when someone moves the magnifier glass over the image: */
+            glass.addEventListener("mousemove", moveMagnifier);
+            img.addEventListener("mousemove", moveMagnifier);
+
+            /*and also for touch screens:*/
+            glass.addEventListener("touchmove", moveMagnifier);
+            img.addEventListener("touchmove", moveMagnifier);
+
+            function moveMagnifier(e) {
+                var pos, x, y;
+                /* Prevent any other actions that may occur when moving over the image */
+                e.preventDefault();
+                /* Get the cursor's x and y positions: */
+                pos = getCursorPos(e);
+                x = pos.x;
+                y = pos.y;
+                /* Prevent the magnifier glass from being positioned outside the image: */
+                if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+                if (x < w / zoom) {x = w / zoom;}
+                if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
+                if (y < h / zoom) {y = h / zoom;}
+                /* Set the position of the magnifier glass: */
+                glass.style.left = (x - w) + "px";
+                glass.style.top = (y - h) + "px";
+                /* Display what the magnifier glass "sees": */
+                glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+            }
+
+            function getCursorPos(e) {
+                var a, x = 0, y = 0;
+                e = e || window.event;
+                /* Get the x and y positions of the image: */
+                a = img.getBoundingClientRect();
+                /* Calculate the cursor's x and y coordinates, relative to the image: */
+                x = e.pageX - a.left;
+                y = e.pageY - a.top;
+                /* Consider any page scrolling: */
+                x = x - window.pageXOffset;
+                y = y - window.pageYOffset;
+                return {x : x, y : y};
             }
         }
-
-        minus_trig.onclick = ()=> {
-            qnt_field.classList.add('underclick');
-            if ( qnt_field.value>1 ) {
-                qnt_field.setAttribute('value',qnt_field.value--);
-                setTimeout( () => { 
-                    qnt_field.classList.remove('underclick');
-                }, 1100); 
-            }
-        }
+        var zoomer = document.querySelectorAll('.zoomed');
+        for(let i=0; i<zoomer.length; i++) magnify( zoomer[i].id, 2)
 
 
-        // customizator for update customization
-
-        customizer.querySelectorAll('[type="radio"], [type="checkbox"], select')
-        .forEach( el => { el.addEventListener('input',()=>{ refresh() },false); });
-
-        function refresh(){
-            clearTimeout(run_checks)
-            document.querySelectorAll('.spinner-loading')[0].classList.remove('d-none');
-            customizer.disabled = true
-            linktocart.classList.add('disabled')
-            linktocart.disabled = true
-            linktocart.classList.add('disabled')
-            customizer.submit()
-        }
-
-    //zoom featured
-
-    function magnify(imgID, zoom) {
-
-        var img, glass, w, h, bw;
-        img = document.getElementById(imgID);
-
-        /* Create magnifier glass: */
-        glass = document.createElement("DIV");
-        glass.setAttribute("class", "img-magnifier-glass");
-
-        /* Insert magnifier glass: */
-        img.parentElement.insertBefore(glass, img);
-
-        /* Set background properties for the magnifier glass: */
-        glass.style.backgroundImage = "url('" + img.src + "')";
-        glass.style.backgroundRepeat = "no-repeat";
-        glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
-        bw = 3;
-        w = glass.offsetWidth / 2;
-        h = glass.offsetHeight / 2;
-
-        /* Execute a function when someone moves the magnifier glass over the image: */
-        glass.addEventListener("mousemove", moveMagnifier);
-        img.addEventListener("mousemove", moveMagnifier);
-
-        /*and also for touch screens:*/
-        glass.addEventListener("touchmove", moveMagnifier);
-        img.addEventListener("touchmove", moveMagnifier);
-
-        function moveMagnifier(e) {
-            var pos, x, y;
-            /* Prevent any other actions that may occur when moving over the image */
-            e.preventDefault();
-            /* Get the cursor's x and y positions: */
-            pos = getCursorPos(e);
-            x = pos.x;
-            y = pos.y;
-            /* Prevent the magnifier glass from being positioned outside the image: */
-            if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
-            if (x < w / zoom) {x = w / zoom;}
-            if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
-            if (y < h / zoom) {y = h / zoom;}
-            /* Set the position of the magnifier glass: */
-            glass.style.left = (x - w) + "px";
-            glass.style.top = (y - h) + "px";
-            /* Display what the magnifier glass "sees": */
-            glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
-        }
-
-        function getCursorPos(e) {
-            var a, x = 0, y = 0;
-            e = e || window.event;
-            /* Get the x and y positions of the image: */
-            a = img.getBoundingClientRect();
-            /* Calculate the cursor's x and y coordinates, relative to the image: */
-            x = e.pageX - a.left;
-            y = e.pageY - a.top;
-            /* Consider any page scrolling: */
-            x = x - window.pageXOffset;
-            y = y - window.pageYOffset;
-            return {x : x, y : y};
-        }
-    }
-    var zoomer = document.querySelectorAll('.zoomed');
-    for(let i=0; i<zoomer.length; i++) magnify( zoomer[i].id, 2)
-
-
-});
+    });
 </script>
+
+
+
+
+<?
+
+    /*
+    // LIBS
+    */
+
+    class basedata {};
+    function generate_base($ID) { 
+
+        /*
+        // MADE A COMPLETE PRODUCT ABSTACT
+        // is a summary of all data getted of a product.
+        // on end, we clean mem relative to original product vars and use only the abstract.
+        */
+
+        $wc_product = wc_get_product( $ID );
+        echo '<code><pre>'; print_r($wc_product); echo '</pre></code>';
+
+            $abstract = new basedata();
+        
+                $abstract->id             = $wc_product->id;
+                $abstract->type           = get_the_terms( $ID,'product_type')[0]->slug;
+                $abstract->pack           = $wc_product->children?:'empty';
+                $abstract->name           = $wc_product->name;
+                $abstract->status         = $wc_product->status=='publish'&&$wc_product->catalog_visibility=='visible'?true:false;
+                $abstract->excerpt        = $wc_product->short_description;
+                $abstract->description    = $wc_product->description;
+                $abstract->permalink      = get_post_permalink($ID);
+                $abstract->normal_price   = $wc_product->regular_price;
+                $abstract->sales_price    = $wc_product->sale_price;
+                $abstract->standard_price = $wc_product->price;
+                
+                $abstract->is_stocked     = $wc_product->stock_status=='instock'&&$wc_product->stock_quantity>0?true:false;
+                $abstract->stock_remain   = $wc_product->stock_quantity;
+                $abstract->stock_limit    = $wc_product->low_stock_amount;
+
+                $abstract->is_virtual     = $wc_product->virtual;
+                $abstract->downloadable   = $wc_product->downloadable;
+                $abstract->download_limit = $wc_product->download_limit;
+
+                $abstract->gallery        = $wc_product->gallery_image_ids;
+                $abstract->bannerid       = $wc_product->image_id; //_thumbnail_id
+                $abstract->bannersrc      = wp_get_attachment_url( $wc_product->image_id ); 
+                
+                $abstract->date           = get_post_field('post_date', $ID);
+                $abstract->attributes     = generate_attributes_list($wc_product,$ID);
+                
+                $abstract->tags           = []; foreach ( $wc_product->tag_ids as $tid ) { $abstract->tags[] .= get_term($tid)->name; }
+
+                $abstract->variationnow   = null;
+                $abstract->variations     = [];
+
+                unset($wc_product);
+
+                return $abstract;
+    }
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+    class packdata {};
+    function generate_pack($list) {
+
+        /*
+        // MADE A SUB PRODUCT ABSTACT
+        // It's a summary of all data getted of a product inside a pack.
+        */
+            
+        $packaged = [];
+
+        foreach ( $list as $id ) { 
+
+            $wc_product = wc_get_product( $id );
+
+            $abstract = new packdata();
+
+                $abstract->id           = $id;
+                $abstract->name         = $wc_product->name;
+                $abstract->variationow  = $wc_product->name;
+                $abstract->variations   = [];
+                $abstract->excerpt      = $wc_product->short_description;
+                $abstract->price        = $wc_product->price;
+                $abstract->permalink    = get_post_permalink($id);
+                $abstract->banner       = wp_get_attachment_url( $wc_product->image_id );
+                $abstract->attributes   = generate_attributes_list($wc_product,$id);
+
+
+            array_push($packaged,$abstract);
+
+            unset($wc_product);
+            unset($abstract);
+
+        }
+
+        return $packaged;
+
+    }
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+    class variationdata {};
+    function generate_variations($id) {
+
+        /*
+        // POLUPATE PRODUCT VARIANT (ABSTACT)
+        // It's a summary of all data getted of a product variations.
+        */
+
+        $wc_product = wc_get_product( $id );
+
+        $collection = [];
+
+        $wc_product_variants = false;
+
+        try { $wc_product_variants = $wc_product->get_available_variations(); } catch (Throwable $e) { null; }
+        
+        if($wc_product_variants){        
+
+            
+            foreach ( $wc_product_variants as $variant ) { // $variants_index => 
+                
+                $abstract = new variationdata();
+
+                    $abstract->id = $variant["variation_id"];
+
+                    $abstract->label = [];
+                    $abstract->name = '';
+                    foreach ( $variant['attributes'] as $type => $name) { 
+                        array_push($abstract->label, $name);
+                        $abstract->name .= $name.'-';
+                    };  $abstract->name = rtrim($abstract->name,'-');
+
+
+                    $abstract->normal_price = $variant["display_regular_price"];
+                    // $abstract->sales_price = $variant["display_sales_price"];
+                    $abstract->standard_price = $variant["display_price"];
+                    $abstract->bannersrc = $variant['image']['src'];
+                    $abstract->bannerid = $variant['image_id'];
+                    $abstract->permalink = get_the_permalink($variant["variation_id"]);
+
+
+                array_push($collection,$abstract);
+
+                unset($abstract);
+
+            }
+        
+        }
+        
+        unset($wc_product_variants);
+        unset($wc_product);
+
+        return $collection;
+
+    }
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+    function generate_attributes_list($wc_product_object,$post_id){
+
+        /*
+        // FUSED ATTRIBUTES
+        // generate a (uncleaned) fused list from attributes and custom attributes.
+        */
+
+        $attributeslist=[];
+
+        if ( count($wc_product_object->attributes)>0 ) {
+
+            foreach ($wc_product_object->attributes as $terms => $asset) {
+            
+                $values = (object) $asset->get_data();
+
+                if($values->is_visible && $values->is_variation) {
+
+                    $wca_terms = get_the_terms( $post_id, $values->name );
+
+                    $d = [];
+
+                    if( !empty($wca_terms->errors) ) { 
+
+                        for ($o=0;$o<count($values->options);$o++) array_push($d,[false,$values->options[$o],false]);
+
+                        array_push( $attributeslist, [
+                            $values->name,
+                            'ca_'.$values->name,
+                            $d
+                        ]);
+
+                    } else {
+
+                        foreach($wca_terms as $t=>$v) array_push($d,[$v->term_id,$v->name,$v->slug]);
+
+                        array_push( $attributeslist, [
+                            $values->name,
+                            'attribute_'.$values->name,
+                            $d
+                        ]);
+
+                    }
+
+                }
+
+            }
+        }
+
+        unset($wc_product_object);
+
+        return $attributeslist;
+
+    }
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+    function clean_attributes($attributeslist,$variants){
+
+        /*
+        // CLEAN ATTRIBUTES LIST VIA VARIANTS
+        // if it does not coincide in any... remove it from the list.
+        */
+
+       $cleanlist = []; // unique attr
+       $labels = []; // unique labels
+       
+        if(!empty($attributeslist)&&!empty($variants)){
+
+            foreach ( $variants as $v ) {
+                foreach ( $v->label as $label ) $labels[].=$label;
+                array_unique($labels);
+            }
+
+            foreach ( $attributeslist as $asset ) {
+
+                foreach ( $asset[2] as $datarow => $datavalue)
+                    if( ! in_array($datavalue[1],$labels) && ! in_array($datavalue[2],$labels) )
+                        unset($asset[2][$datarow]);
+
+                array_push($cleanlist,$asset);
+
+            }
+
+        } 
+
+        return $cleanlist;
+
+    }
+
+?>

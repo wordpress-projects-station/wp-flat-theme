@@ -14,7 +14,7 @@
 ---- MINI HEAD OF CATEOGRY
 --->
 
-<div class="row">
+<header class="row">
 
     <div class="col-lg-6 col-md-12">
 
@@ -33,7 +33,7 @@
     </div>
 
 
-</div>
+</header>
 
 <!--
 ---- BREADCRUMP AND SELECTORS

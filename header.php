@@ -1,5 +1,4 @@
-
-<?php
+<?
     if (! defined ( 'ABSPATH' )) exit (); // Exit if accessed directly
     wc_print_notices ();
 ?>
@@ -16,7 +15,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <?php 
+    <?
     
         wp_head();
 
@@ -27,3 +26,7 @@
 
 </head>
 <body>
+
+    <? include __DIR__.'/template/heading.php'; ?>
+
+    <div class="container p-3">
