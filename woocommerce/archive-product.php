@@ -21,7 +21,7 @@
 
 		?>
 
-			<header class="row woocommerce-products-header">
+			<header class="row">
 
 				<div class="col-lg-6 col-md-12">
 
@@ -34,7 +34,7 @@
 
 					<div>
 						<? if ( apply_filters( 'woocommerce_show_page_title', true ) ) { ?>
-							<h1 class="display-2 woocommerce-products-header__title page-title"><?=$title;?></h1>
+							<h1 class="display-2"><?=$title;?></h1>
 						<? } ?>
 						<? do_action( 'woocommerce_archive_description' ); ?>
 					</div>

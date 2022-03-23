@@ -15,4 +15,13 @@
     // load (bootstrap) theme
     wp_enqueue_style('theme-css', get_stylesheet_directory_uri() . 'theme.css', null, false, 'all');
 
+        ?>
+        <style>
+            .table.borderless.collapsed tr th,
+            .table.borderless.collapsed tr td {
+                border: none !important;
+                padding: 0px !important;
+            }
+        </style>
+        <?php
 ?>
