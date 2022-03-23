@@ -99,7 +99,7 @@
 
     function bootsrapped_breadcrumb() {
 
-        function crumps($link,$label){ return '<li class="breadcrumb-item"><a href="'.$link.'">'.$label.'</a></li>'; }
+        function crumps($link,$label,$mute){ return '<li class="breadcrumb-item"><a class="text-decoration-none '.$mute.'" href="'.$link.'">'.$label.'</a></li>'; }
         function iswrong($s){ return empty($s)||!$s?true:false; }
 
         function getGuid($s) {
@@ -124,15 +124,17 @@
         $homepath = explode('/', home_url());
         $urlpaths = explode('/', preg_replace('/\?.*/', '', $_SERVER['REQUEST_URI']));
         $urlslugs = array_diff($urlpaths,$homepath);
+        $slugsqnt = count($urlslugs);
 
         // 4. print home an loop printable paths
         $output = '';
 
         $output .= '<nav aria-label="breadcrumb"><ol class="breadcrumb">';
 
-            $output .= crumps( home_url(), 'home' );
+            $muted = '';
+            $output .= crumps( home_url(), 'home', $muted);
 
-            foreach ($urlslugs as $slug )
+            $i=0; foreach ($urlslugs as $slug )
             {
 
                 $slugurl = get_permalink( $slug ) ?: false;
@@ -163,21 +165,24 @@
                                 {
     
                                     $slugurl = home_url().'/404/';
-                                    echo $slug.': not fineded<br>';
+                                    echo $slug.'undefined';
     
                                 }
                             }    
                         }
                     }
                 }
+                
+                if(++$i==$slugsqnt){$muted='text-muted';}
 
-                $output .= crumps( $slugurl , $slug );
+                $output .= crumps( $slugurl , $slug , $muted);
 
             }
 
         $output .= '</ol></nav>';
 
-        print $output;
+        echo $output;
+
 
     }
 

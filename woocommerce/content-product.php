@@ -33,6 +33,6 @@
 		<div class="card-footer">
 			<a href="<?=$link?>" class="btn btn-primary">OPEN DETAILS</a>
 		</div>
-			
+
 	</div>
 </div>
