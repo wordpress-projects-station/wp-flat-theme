@@ -45,15 +45,16 @@
 					paginate_comments_links(
 						apply_filters(
 							'woocommerce_comment_pagination_args',
-							array(
+							[
 								'prev_text' => is_rtl() ? '&rarr;' : '&larr;',
 								'next_text' => is_rtl() ? '&larr;' : '&rarr;',
 								'type'      => 'list',
-							)
+							]
 						)
 					);
 					echo '</nav>';
 				}
+
 			?>
 
 		<? }else{ ?>
@@ -150,14 +151,14 @@
 						'
 							<div class="rating-system">
 								<label for="rating">' . esc_html__( 'Your rating', 'woocommerce' ) . ( wc_review_ratings_required() ? '&nbsp;<span class="required">*</span>' : '' ) . '</label>
-								<input type="hidden" name="rating" value="3">
+								<input type="hidden" name="rating" value="3" />
 								<fieldset>
 									<i class="bi bi-star-fill" data-textflag="'.esc_html__( 'Very poor', 'woocommerce' ).'"></i>
 									<i class="bi bi-star-fill" data-textflag="'.esc_html__( 'Not that bad', 'woocommerce' ).'"></i>
 									<i class="bi bi-star-fill" data-textflag="'.esc_html__( 'Average', 'woocommerce' ).'"></i>
 									<i class="bi bi-star" data-textflag="'.esc_html__( 'Good', 'woocommerce' ).'"></i>
 									<i class="bi bi-star" data-textflag="'.esc_html__( 'Perfect', 'woocommerce' ).'"></i>
-								</div>
+								</fieldset>
 							</div>
 						';
 
@@ -177,6 +178,7 @@
 
 			</div>
 		</div>
+
 		<script>
 			document.addEventListener("DOMContentLoaded", ()=>{
 				var rating = document.querySelectorAll('.rating-system')
@@ -197,13 +199,10 @@
 			})
 		</script>
 
-
 	<?php } else { ?>
 
 		<p class="woocommerce-verification-required"><? esc_html_e( 'Only logged in customers who have purchased this product may leave a review.', 'woocommerce' ); ?></p>
 
 	<?php }; ?>
-
-	<div class="clear"></div>
 
 </div>

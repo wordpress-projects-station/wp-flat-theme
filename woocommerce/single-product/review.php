@@ -1,6 +1,6 @@
 <? if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<div class="card"<? //comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
+<div class="card"<? //comment_class(); ?> id="comment-<?php comment_ID(); ?>">
 
 	<div id="comment-<?php comment_ID(); ?>" class="row comment_container">
 
@@ -22,3 +22,5 @@
 		</div>
 
 	</div>
+
+</div><!-- the neasting is "not closed div" -->

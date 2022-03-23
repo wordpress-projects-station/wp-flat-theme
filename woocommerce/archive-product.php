@@ -3,7 +3,7 @@
 <? 
 	get_header( 'shop' );
 	
-	//overrided: do_action( 'woocommerce_before_main_content' );
+	// overrided: do_action( 'woocommerce_before_main_content' );
 	echo '<div class="row">';
 
 	echo str_contains(get_theme_mod( $pagetype.'_small_side_settings' ),'left') ? '<aside class="'.( str_contains( get_theme_mod( $pagetype.'_small_side_settings' ), 'dynamic') ? 'col-1 d-none d-md-block d-lg-none d-xl-none':'col-1' ).'">'.dynamic_sidebar('page_side_small').'</aside>':null;
@@ -14,37 +14,36 @@
 	$bannerid = get_term_meta( $wp_query_data->term_id, 'thumbnail_id', true );
 	$title = $wp_query_data->name;
 
-?>
 
-	<main class="col">
+	echo '<main class="col">';
 
-		<? bootsrapped_breadcrumb(); ?>
+		bootsrapped_breadcrumb().'<hr class="mb-5">';
 
-		<hr class="mb-5">
+		?>
 
-		<header class="row woocommerce-products-header">
+			<header class="row woocommerce-products-header">
 
-			<div class="col-lg-6 col-md-12">
+				<div class="col-lg-6 col-md-12">
 
-				<?$banner = (wp_get_attachment_url( $bannerid ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');?>
-				<img style="height:15vw;object-fit:cover;" class="card-img-top" src="<?=$banner?>" alt=" ... " />
+					<?$banner = (wp_get_attachment_url( $bannerid ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');?>
+					<img style="height:15vw;object-fit:cover;" class="card-img-top" src="<?=$banner?>" alt=" ... " />
 
-			</div>
-
-			<div class="col-lg-6 col-md-6 d-flex align-items-center ">
-
-				<div>
-					<? if ( apply_filters( 'woocommerce_show_page_title', true ) ) { ?>
-						<h1 class="display-2 woocommerce-products-header__title page-title"><?=$title;?></h1>
-					<? } ?>
-					<? do_action( 'woocommerce_archive_description' ); ?>
 				</div>
 
-			</div>
+				<div class="col-lg-6 col-md-6 d-flex align-items-center ">
 
-		</header>
-		
-		<hr class="mt-5 mb-5">
+					<div>
+						<? if ( apply_filters( 'woocommerce_show_page_title', true ) ) { ?>
+							<h1 class="display-2 woocommerce-products-header__title page-title"><?=$title;?></h1>
+						<? } ?>
+						<? do_action( 'woocommerce_archive_description' ); ?>
+					</div>
+
+				</div>
+
+			</header>
+			
+			<hr class="mt-5 mb-5">
 		
 		<?
 
@@ -80,13 +79,10 @@
 				do_action( 'woocommerce_no_products_found' );
 
 			}
-		?>
 
-	</main>
+	echo '</main>';
 	
-<?
-
-	//overrided: do_action( 'woocommerce_after_main_content' );
+	// overrided: do_action( 'woocommerce_after_main_content' );
 
 	if(get_theme_mod( $pagetype.'_small_side_settings' )) {
 	    echo str_contains( get_theme_mod( $pagetype.'_small_side_settings' ), 'right' ) ? '<aside class="'.( str_contains(get_theme_mod( $pagetype.'_small_side_settings' ), 'dynamic') ? 'col-1 d-none d-md-block d-lg-none d-xl-none':'col-1' ).'">'.dynamic_sidebar('page_side_small').'</aside>':null;

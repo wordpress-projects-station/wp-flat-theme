@@ -3,45 +3,41 @@
 <?
 
 	get_header( 'shop' );
-
-	//overrided: do_action( 'woocommerce_before_main_content' );
+	
+	// overrided: do_action( 'woocommerce_before_main_content' );
 	echo '<div class="row">';
 
-	echo str_contains(get_theme_mod( $pagetype.'_small_side_settings' ),'left') ? '<aside class="'.( str_contains( get_theme_mod( $pagetype.'_small_side_settings' ), 'dynamic') ? 'col-1 d-none d-md-block d-lg-none d-xl-none':'col-1' ).'">'.dynamic_sidebar('page_side_small').'</aside>':null;
-	echo str_contains(get_theme_mod( $pagetype.'_big_side_settings' ),'left') ? '<aside class="'.( str_contains( get_theme_mod( $pagetype.'_big_side_settings' ), 'dynamic') ? 'col-3 d-none d-lg-block':'col-3' ).'">'.dynamic_sidebar('page_side_big').'</aside>':null;
-?>
-	<main class="col-9">
+		echo str_contains(get_theme_mod( $pagetype.'_small_side_settings' ),'left') ? '<aside class="'.( str_contains( get_theme_mod( $pagetype.'_small_side_settings' ), 'dynamic') ? 'col-1 d-none d-md-block d-lg-none d-xl-none':'col-1' ).'">'.dynamic_sidebar('page_side_small').'</aside>':null;
+		echo str_contains(get_theme_mod( $pagetype.'_big_side_settings' ),'left') ? '<aside class="'.( str_contains( get_theme_mod( $pagetype.'_big_side_settings' ), 'dynamic') ? 'col-3 d-none d-lg-block':'col-3' ).'">'.dynamic_sidebar('page_side_big').'</aside>':null;
 
-		<? bootsrapped_breadcrumb(); ?>
+		echo '<main class="col">';
 
-		<hr class="mb-5">
+			bootsrapped_breadcrumb().'<hr class="mb-5">';
 
-		<?
-			while ( have_posts() ) : the_post();
+			echo '<hr class="mb-5">';
 
+			while ( have_posts() ) {
+				the_post();
 				wc_get_template_part( 'content', 'single-product' );
+			}
 
-			endwhile;
-		?>
+		echo '</main>';
+	
+		// overrided: do_action( 'woocommerce_after_main_content' );
 
-	</main>
+		if(get_theme_mod( $pagetype.'_small_side_settings' )) {
+		    echo str_contains( get_theme_mod( $pagetype.'_small_side_settings' ), 'right' ) ? '<aside class="'.( str_contains(get_theme_mod( $pagetype.'_small_side_settings' ), 'dynamic') ? 'col-1 d-none d-md-block d-lg-none d-xl-none':'col-1' ).'">'.dynamic_sidebar('page_side_small').'</aside>':null;
+		}
 
-<?
-	//overrided: do_action( 'woocommerce_after_main_content' );
+		if(get_theme_mod( $pagetype.'_big_side_settings' )) {
+		    $isright=str_contains( get_theme_mod( $pagetype.'_big_side_settings' ), 'right' );
+		    $ct = str_contains( get_theme_mod( $pagetype.'_big_side_settings' ), 'dynamic') ? 'col-3 d-none d-lg-block':'col-3';
+		    echo $isright ? '<aside class="'.$ct.'">'.dynamic_sidebar('page_side_big').'</aside>':null;
+		}
 
-	if(get_theme_mod( $pagetype.'_small_side_settings' )) {
-	    echo str_contains( get_theme_mod( $pagetype.'_small_side_settings' ), 'right' ) ? '<aside class="'.( str_contains(get_theme_mod( $pagetype.'_small_side_settings' ), 'dynamic') ? 'col-1 d-none d-md-block d-lg-none d-xl-none':'col-1' ).'">'.dynamic_sidebar('page_side_small').'</aside>':null;
-	}
-
-	if(get_theme_mod( $pagetype.'_big_side_settings' )) {
-	    $isright=str_contains( get_theme_mod( $pagetype.'_big_side_settings' ), 'right' );
-	    $ct = str_contains( get_theme_mod( $pagetype.'_big_side_settings' ), 'dynamic') ? 'col-3 d-none d-lg-block':'col-3';
-	    echo $isright ? '<aside class="'.$ct.'">'.dynamic_sidebar('page_side_big').'</aside>':null;
-	}
-
-	?><aside class="col-3"><?
-		do_action( 'woocommerce_sidebar' );
-	?></aside><?
+		echo '<aside class="col-3">';
+			do_action( 'woocommerce_sidebar' );
+		echo '</aside>';
 
 	echo '</div>';
 

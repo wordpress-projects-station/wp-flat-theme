@@ -28,16 +28,6 @@
 	echo '</td></tr></tbody></table>';
 	echo '<div class="mt-3 mb-3 border border-1 border-clear"></div>';
 
-	ob_start(); 
-		do_action( 'woocommerce_product_additional_information', $product );
-		$html = ob_get_clean();
-		$html = preg_replace(['/\>[^\S ]+/s','/[^\S ]+\</s','/(\s)+/s'],['>','<','\\1'],$html);
-		$html = preg_replace('/woocommerce-product-attributes shop_attributes/', 'table class="table table-borderless', $html);
-		$html = preg_replace('/woocommerce-product-attributes-item__label/', '', $html);
-		$html = preg_replace('/woocommerce-product-attributes-item__value/', '', $html);
-		$html = preg_replace('/<th/', '<th width="250"', $html);
-		$html = preg_replace('/<p>/', '<p class="m-0">', $html);
-	echo $html;
-	ob_end_flush(); 
+	do_action( 'woocommerce_product_additional_information', $product );
 
 ?>

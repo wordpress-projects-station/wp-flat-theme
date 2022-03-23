@@ -13,7 +13,7 @@ if ( ! empty( $product_tabs ) ) { ?>
 
 				<? 
 					foreach ( $product_tabs as $key => $product_tab ) {
-					$first=array_key_last($product_tabs) == $key ?'active':'';
+					$first=array_key_first($product_tabs) == $key ?'active':'';
 				?>
 					<button
 						class="nav-link <?=$first?>"
@@ -36,34 +36,33 @@ if ( ! empty( $product_tabs ) ) { ?>
 
 			<? 
 				foreach ( $product_tabs as $key => $product_tab ) {
-				$first=array_key_last($product_tabs) == $key ?'show active':'';
+				$setshow=array_key_first($product_tabs) == $key ?'show active':'';
 			?>
-				<div class="tab-pane <?=$first?>" id="nav-<?= esc_attr( $key ); ?>" role="tabpanel" aria-labelledby="nav-<?= esc_attr( $key ); ?>-tab">
-					<? if ( isset( $product_tab['callback'] ) ) call_user_func( $product_tab['callback'], $key, $product_tab ); ?>
+				<div class="tab-pane <?=$setshow?>" id="nav-<?= esc_attr( $key ); ?>" role="tabpanel" aria-labelledby="nav-<?= esc_attr( $key ); ?>-tab">
+					<? if ( isset( $product_tab['callback'] ) ) { call_user_func( $product_tab['callback'], $key, $product_tab ); } ?>
 				</div>
 
-			<? }; ?>
+			<? } ?>
 
 		</div>
 
-
-		<script>
-			document.addEventListener("DOMContentLoaded", ()=>{
-
-				var triggerTabList = [].slice.call(document.querySelectorAll('#tab-product'))
-
-				triggerTabList.forEach(function (triggerEl) {
-					var tabTrigger = new bootstrap.Tab(triggerEl)
-					triggerEl.addEventListener('click', function (event) {
-						event.preventDefault()
-						tabTrigger.show()
-					})
-				})
-
-			});
-		</script>
-
 	</div>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", ()=>{
+
+			var triggerTabList = [].slice.call(document.querySelectorAll('#tab-product'))
+
+			triggerTabList.forEach(function (triggerEl) {
+				var tabTrigger = new bootstrap.Tab(triggerEl)
+				triggerEl.addEventListener('click', function (event) {
+					event.preventDefault()
+					tabTrigger.show()
+				})
+			})
+
+		});
+	</script>
 
 	<? do_action( 'woocommerce_product_after_tabs' ); ?>
 
