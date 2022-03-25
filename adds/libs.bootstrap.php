@@ -13,15 +13,6 @@
     wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', null, false, 'all');
     
     // load (bootstrap) theme
-    wp_enqueue_style('theme-css', get_stylesheet_directory_uri() . 'theme.css', null, false, 'all');
+    wp_enqueue_style('theme-css', get_template_directory_uri().'/theme.css', null, false, 'all');
 
-        ?>
-        <style>
-            .table.borderless.collapsed tr th,
-            .table.borderless.collapsed tr td {
-                border: none !important;
-                padding: 0px !important;
-            }
-        </style>
-        <?php
 ?>

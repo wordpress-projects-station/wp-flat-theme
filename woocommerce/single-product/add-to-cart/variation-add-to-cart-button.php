@@ -1,47 +1,32 @@
 <? defined( 'ABSPATH' ) || exit; ?>
 
-<?
-	global $product;
-?>
+<? global $product; ?>
 
 <div class="woocommerce-variation-add-to-cart variations_button">
 
 	<? 
 		do_action( 'woocommerce_before_add_to_cart_button' );
-
 		do_action( 'woocommerce_before_add_to_cart_quantity' );
-
 	?>
-	<table class="table borderless collapsed">
-		<tbody>
-			<tr>
-				<th width="200">&nbsp;</th>
-				<td>
-				<?
-					woocommerce_quantity_input([
-							'class'		  => 'form-control',
-							'min_value'   => apply_filters( 'woocommerce_quantity_input_min', $product->get_min_purchase_quantity(), $product ),
-							'max_value'   => apply_filters( 'woocommerce_quantity_input_max', $product->get_max_purchase_quantity(), $product ),
-							'input_value' => isset( $_POST['quantity'] ) ? wc_stock_amount( wp_unslash( $_POST['quantity'] ) ) : $product->get_min_purchase_quantity(), // WPCS: CSRF ok, input var ok.
-					]);
-				?>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+
+	<div class="row">
+		<div class="col-sm-12 col-md-3"><label class="btn" for="pa_design">Quantity</label></div>
+		<div class="col-sm-12 col-md-2">
+			<?
+				woocommerce_quantity_input([
+					'classes'	  => 'form-control',
+					'min_value'   => apply_filters( 'woocommerce_quantity_input_min', $product->get_min_purchase_quantity(), $product ),
+					'max_value'   => apply_filters( 'woocommerce_quantity_input_max', $product->get_max_purchase_quantity(), $product ),
+					'input_value' => isset( $_POST['quantity'] ) ? wc_stock_amount( wp_unslash( $_POST['quantity'] ) ) : $product->get_min_purchase_quantity(), // WPCS: CSRF ok, input var ok.
+				]);
+			?>
+		</div>
+		<div class="col-sm-12 col-md-7">&nbsp;</div>
+	</div>
 
 	<? do_action( 'woocommerce_after_add_to_cart_quantity' ); ?>
-
-	<table class="table borderless collapsed">
-		<tbody>
-			<tr>
-				<th width="200">&nbsp;</th>
-				<td>
-					<button type="submit" class="btn btn-primary single_add_to_cart_button button alt"><?= esc_html( $product->single_add_to_cart_text() ); ?></button>
-				</td>
-			</tr>
-		</tbody>
-	</table>		
+		
+	<button type="submit" class="mt-3 btn btn-primary single_add_to_cart_button button alt"><?= esc_html( $product->single_add_to_cart_text() ); ?></button>
 
 	<? do_action( 'woocommerce_after_add_to_cart_button' ); ?>
 

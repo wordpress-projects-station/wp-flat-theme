@@ -2,22 +2,20 @@
 
 <?
 
-// Note: `wc_get_gallery_image_html` was added in WC 3.3.2 and did not exist prior. This check protects against theme overrides being used on older versions of WC.
-if ( ! function_exists( 'wc_get_gallery_image_html' ) ) { return; }
+	global $product;
 
-global $product;
+	$columns           = apply_filters( 'woocommerce_product_thumbnails_columns', 4 );
+	$post_thumbnail_id = $product->get_image_id();
+	$wrapper_classes   = apply_filters(
+							'woocommerce_single_product_image_gallery_classes',
+							[
+								'woocommerce-product-gallery',
+								'woocommerce-product-gallery--' . ( $post_thumbnail_id ? 'with-images' : 'without-images' ),
+								'woocommerce-product-gallery--columns-' . absint( $columns ),
+								'images',
+							]
+						);
 
-$columns           = apply_filters( 'woocommerce_product_thumbnails_columns', 4 );
-$post_thumbnail_id = $product->get_image_id();
-$wrapper_classes   = apply_filters(
-						'woocommerce_single_product_image_gallery_classes',
-						[
-							'woocommerce-product-gallery',
-							'woocommerce-product-gallery--' . ( $post_thumbnail_id ? 'with-images' : 'without-images' ),
-							'woocommerce-product-gallery--columns-' . absint( $columns ),
-							'images',
-						]
-					);
 ?>
 
 <div class="<?= esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?= esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">

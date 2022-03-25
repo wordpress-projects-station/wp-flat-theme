@@ -2,101 +2,115 @@
 
     // if ( class_exists( 'WooCommerce' ) ) {
 
-        function support_woo_override() {
-            add_theme_support( 'woocommerce' );
-            add_theme_support( 'wc-product-gallery-zoom' );
-            add_theme_support( 'wc-product-gallery-lightbox' );
-            add_theme_support( 'wc-product-gallery-slider' );
-        }
-        add_action( 'after_setup_theme', 'support_woo_override' );
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
+
+        // remove standard woo css
         add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
 
+
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+        // add custom woo theme
+        add_theme_support( 'woocommerce' );
+
+
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+        // add product image zoom
+        add_theme_support( 'wc-product-gallery-zoom' );
+
+
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+        // add product image lightbox
+        add_theme_support( 'wc-product-gallery-lightbox' );
+
+
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+        // add product image slider
+        add_theme_support( 'wc-product-gallery-slider' );
+
+        // set OFF the thumbnail inside the slider
+        function rm_woocommerce_remove_featured_image( $html, $attachment_id ) {
+            global $post, $product;
+            $attachment_ids = $product->get_gallery_image_ids();
+            if ( ! $attachment_ids ) { return $html; }
+            $featured_image = get_post_thumbnail_id( $post->ID );
+            if ( is_product() && $attachment_id === $featured_image ) { $html = ''; }
+            return $html;
+        }
+        add_filter( 'woocommerce_single_product_image_thumbnail_html', 'rm_woocommerce_remove_featured_image', 10, 2 );
+
+        // set ON the arrows of slider
+        add_filter( 'woocommerce_single_product_carousel_options', function($options){
+            $options['directionNav'] = true; return $options;
+        });
+
+        // set N woo product image columns
+        // add_action( 'woocommerce_product_thumbnails_columns', function () { return 4; } );
+
+
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
 
         function support_parent_style() {    
             wp_enqueue_style( 'parent-style', get_template_directory_uri().'/style.css' );
         }
         add_action( 'wp_enqueue_scripts', 'support_parent_style' );
 
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
-        // function reset_woo_support() {
-        //     remove_theme_support( 'woocommerce');
-        //     remove_theme_support( 'wc-product-gallery-zoom' );
-        //     remove_theme_support( 'wc-product-gallery-lightbox' );
-        //     remove_theme_support( 'wc-product-gallery-slider' );
-        // }
-        // add_action( 'after_setup_theme', 'reset_woo_support', 100 );
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
+        // set OFF the page title
         // add_filter( 'woocommerce_show_page_title', '__return_false' );
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
-        // function woo_posts_per_page( $cols ) {
-        //     return 12;
-        // }
-        // add_filter( 'loop_shop_per_page', 'woo_posts_per_page' );
 
-
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
- 
-
-        // function woo_product_thumbnails_columns() {
-        //     return 4;
-        // }
-        // add_action( 'woocommerce_product_thumbnails_columns', 'woo_product_thumbnails_columns' );
+        // set N woo product per page
+        // add_filter( 'loop_shop_per_page', function( $cols ) { return 12; } );
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
-
-        // function woo_related_posts_per_page( $args ) {
-        //     $args['posts_per_page'] = 4;
-        //     return $args;
-        // }
-        // add_filter( 'woocommerce_output_related_products_args', 'woo_related_posts_per_page' );
+        // set qnt of related posts
+        add_filter( 'woocommerce_output_related_products_args', function ( $args ) { $args['posts_per_page'] = 2; return $args; } );
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
-
-        // function woo_shop_columns( $columns ) {
-        //     return 4;
-        // }
-        // function woo_shop_columns_body_class( $classes ) {
-        //     if ( is_shop() || is_product_category() || is_product_tag() ) {
-        //         $classes[] = 'columns-4';
-        //     }
-        //     return $classes;
-        // }
-        // add_filter( 'loop_shop_columns', 'woo_shop_columns' );
-        // add_filter( 'body_class', 'woo_shop_columns_body_class' );
+        // set shop columns
+        // add_filter( 'loop_shop_columns', function ( $columns ) { return 4; } );
+        // add_filter( 'body_class', function ( $classes ) {
+        //     if ( is_shop() || is_product_category() || is_product_tag() ) { $classes[] = 'columns-4'; } return $classes;
+        // } );
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
-
-        // function woo_pagination_args( $args ) {
-        //     $args['prev_text'] = '<i class="bi bi-arrow-left-short"></i>';
-        //     $args['next_text'] = '<i class="bi bi-arrow-right-short"></i>';
-        //     return $args;
-        // }
-        // add_filter( 'woocommerce_pagination_args', 'woo_pagination_args' );
+        //? set woo pagination        
+        //? add_filter( 'woocommerce_pagination_args', function ( $args ) {
+        //?     $args['prev_text'] = '<i class="bi bi-arrow-left-short"></i>';
+        //?     $args['next_text'] = '<i class="bi bi-arrow-right-short"></i>';
+        //?     return $args;
+        //? });
         
         
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
 
-        // function woo_sale_flash() {
-        //     return '<span class="onsale">' . esc_html__( 'Sale', 'woocommerce' ) . '</span>';
-        // }
-        // add_filter( 'woocommerce_sale_flash', 'woo_sale_flash' );
+        //? function woo_sale_flash() {
+        //?     return '<span class="onsale">' . esc_html__( 'Sale', 'woocommerce' ) . '</span>';
+        //? }
+        //? add_filter( 'woocommerce_sale_flash', 'woo_sale_flash' );
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
@@ -131,22 +145,22 @@
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
-        // function bootstrap_products_grid_start() {
-        //     ob_start(); 
-        // }
-        // function bootstrap_products_grid_loop() {
-        //     $html = ob_get_clean();
-        //     $html = preg_replace(['/\>[^\S ]+/s','/[^\S ]+\</s','/(\s)+/s'],['>','<','\\1'],$html);
-        //     $html = preg_replace('/<ul class="/', '<div class="row mt-3 mb-3 ', $html ,1);
-        //     $html = preg_replace('/ul>/', 'div>', $html ,1);
-        //     echo $html;
-        // }
-        // function bootstrap_products_grid_end() {
-        //     ob_end_flush(); 
-        // }
-        // add_filter( 'woocommerce_before_shop_loop', 'bootstrap_products_grid_start' );
-        // add_action( 'woocommerce_after_shop_loop', 'bootstrap_products_grid_loop' );
-        // add_filter( 'woocommerce_after_shop_loop', 'bootstrap_products_grid_end' );
+        //? function bootstrap_products_grid_start() {
+        //?     ob_start(); 
+        //? }
+        //? function bootstrap_products_grid_loop() {
+        //?     $html = ob_get_clean();
+        //?     $html = preg_replace(['/\>[^\S ]+/s','/[^\S ]+\</s','/(\s)+/s'],['>','<','\\1'],$html);
+        //?     $html = preg_replace('/<ul class="/', '<div class="row mt-3 mb-3 ', $html ,1);
+        //?     $html = preg_replace('/ul>/', 'div>', $html ,1);
+        //?     echo $html;
+        //? }
+        //? function bootstrap_products_grid_end() {
+        //?     ob_end_flush(); 
+        //? }
+        //? add_filter( 'woocommerce_before_shop_loop', 'bootstrap_products_grid_start' );
+        //? add_action( 'woocommerce_after_shop_loop', 'bootstrap_products_grid_loop' );
+        //? add_filter( 'woocommerce_after_shop_loop', 'bootstrap_products_grid_end' );
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
@@ -162,14 +176,14 @@
         // info: https://nuomiphp.com/a/stackoverflow/en/62196e0866630118d6380851.html
         */
 
-        //: A) expand the form to allow image upload
+        //: A ➔ expand the form to allow image upload
 
         add_action( 'woocommerce_edit_account_form_tag', 'account_form_in_multipart' );
         function account_form_in_multipart() {
             echo 'enctype="multipart/form-data"';
         } 
 
-        //: B) add profile image field in edit account 
+        //: B ➔ add profile image field in edit account 
 
         add_action( 'woocommerce_edit_account_form_start', 'edit_account_image_field' );
         function edit_account_image_field() {
@@ -181,14 +195,14 @@
             <?php
         }
 
-        //: C)  Validate image file
+        //: C ➔  Validate image file
 
         add_action( 'woocommerce_save_account_details_errors','check_errors_of_image', 10, 1 );
         function check_errors_of_image( $args ){
             if ( isset($_POST['image']) && empty($_POST['image']) ) $args->add( 'image_error', __( 'Please provide a valid image', 'woocommerce' ) );
         }
 
-        //: D) Save the data
+        //: D ➔ Save the data
 
         add_action( 'woocommerce_save_account_details', 'save_account_details_with_the_image', 10, 1 );
         function save_account_details_with_the_image( $user_id ) {  
