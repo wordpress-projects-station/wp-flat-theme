@@ -43,7 +43,7 @@
             $attachment_ids = $product->get_gallery_image_ids();
             if ( ! $attachment_ids ) { return $html; }
             $featured_image = get_post_thumbnail_id( $post->ID );
-            if ( is_product() && $attachment_id === $featured_image ) { $html = ''; }
+            if ( is_product() && $attachment_id === $featured_image ) { var_dump($html); $html = ''; }
             return $html;
         }
         add_filter( 'woocommerce_single_product_image_thumbnail_html', 'rm_woocommerce_remove_featured_image', 10, 2 );

@@ -4,9 +4,11 @@
 
 	global $product;
 
+
 	$attribute_keys  = array_keys( $attributes );
 	$variations_json = wp_json_encode( $available_variations );
 	$variations_attr = function_exists( 'wc_esc_json' ) ? wc_esc_json( $variations_json ) : _wp_specialchars( $variations_json, ENT_QUOTES, 'UTF-8', true );
+
 
 	do_action( 'woocommerce_before_add_to_cart_form' );
 
@@ -125,10 +127,11 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", () => {
 
+			
+
 			// hide variation price
 
 			document.querySelectorAll('.woocommerce-variation.single_variation')[0].classList.add('d-hidden')
-
 
 			// update price preview via quantity
 
@@ -156,7 +159,6 @@
 						} else {
 
 							static_price.forEach( (p,i) => {
-								console.log("p",p);
 								price_bdi[i].innerHTML = parseFloat(nfv*p).toFixed(2)+'&nbsp;'+'<?=get_woocommerce_currency_symbol()?>'
 								i++
 							})
@@ -172,7 +174,16 @@
 
 			document.querySelectorAll('.variations_form .variations').forEach( row => {
 
-				var selectbox = row.querySelectorAll('select')[0];
+				var selectbox = row.querySelectorAll('select')[0],
+					selectval = selectbox.value
+
+				selectbox.addEventListener('click',()=>{
+					if(selectval!=selectbox.value){
+						selectval=selectbox.value
+						selectbox.dispatchEvent( new Event("change") )
+						document.querySelectorAll('.variations_form [name=variation_id]')[0].dispatchEvent( new Event("change") )
+					}
+				});
 
 				row.querySelectorAll('.option-data').forEach( (trigger,i) => {
 
@@ -186,13 +197,13 @@
 						options.forEach( o => o.removeAttribute('selected') )
 						options[i].setAttribute('selected','selected')
 
-						// this is trigger for update woocomerce form after selection, woo change the final variant id
+						selectbox.setAttribute('value', options[i].value )
+						selectbox.dispatchEvent( new Event("change") )
 
-						let selectEvent = new Event("change")
-						selectbox.dispatchEvent(selectEvent)
+						// this is trigger for update gallery 
+						document.querySelectorAll('.variations_form [name=variation_id]')[0].dispatchEvent( new Event("change") )
 
-						// original woo trigger:
-						// jQuery(selectbox).trigger('change');
+						jQuery(selectbox).trigger('change');
 
 					}
 
@@ -203,6 +214,59 @@
 			})
 
 
+			// transfer json gallery
+
+			<?
+				$galleryItems = [];
+				for($i=0;$i<sizeof($available_variations);$i++){
+					$variant_id = $product->get_children()[$i];
+					$banner_src = $available_variations[$i]['image']['src'];
+					array_push($galleryItems, [$banner_src,$variant_id]);
+				}
+				$variations_gallery_json = wp_json_encode( $galleryItems );
+			?>
+
+
+			// var gallerydata = JSON.parse(<?//=$variations_gallery_json?>),
+			var	variationtarget = document.querySelectorAll('.variations_form [name=variation_id]')[0],
+				galleryfigure = document.querySelectorAll('.woocommerce-product-gallery__wrapper')[0],
+				gallerylens = document.querySelectorAll('.woocommerce-product-gallery__trigger')[0]
+
+			var variationdata =  JSON.parse(document.querySelectorAll(".variations_form")[0].dataset.product_variations, null, 2)
+
+			window.onload = () => { if(variationtarget) document.querySelectorAll(".flex-control-thumbs li:first-child")[0].classList.add('d-hidden') }
+			
+			variationtarget.addEventListener( 'change', () => { setTimeout(() => {
+
+				let variationtargetid= document.querySelectorAll(".variations_form .variation_id")[0].value;
+				
+				variationdata.forEach( variation => {
+
+					if(variation['variation_id']==variationtarget.value){
+
+
+						galleryfigure.querySelectorAll('div>img')[0].src=variation['image']['src']
+						galleryfigure.querySelectorAll('div>a')[0].href=variation['image']['src']
+						galleryfigure.querySelectorAll('div>a>img')[0].src=variation['image']['src']
+						galleryfigure.querySelectorAll('div>a>img')[0].srcset=variation['image']['srcset']
+						galleryfigure.querySelectorAll('div')[0].dataset.thumb = variation['image']['thumb_src'] 
+
+						document.querySelectorAll('.flex-control-nav.flex-control-thumbs>li').forEach( (el,i) => {
+							i==0 ? el.firstChild.classList.add('flex-active')
+								 : el.firstChild.classList.remove('flex-active');
+							i++
+						})
+						
+						console.log("!",variationtarget.value)
+						
+						galleryfigure.style.transform = 'translate3d(0px, 0px, 0px)';
+						galleryfigure.style.webkitTransform = 'translate3d(0px, 0px, 0px)';
+
+					}
+				
+				})
+
+			},500) })
 		})
 	</script>
 

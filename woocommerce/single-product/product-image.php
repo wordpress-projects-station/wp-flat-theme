@@ -4,21 +4,20 @@
 
 	global $product;
 
+	// echo'<code><pre>'; print_r($product); echo'</pre></code>';
+
 	$columns           = apply_filters( 'woocommerce_product_thumbnails_columns', 4 );
 	$post_thumbnail_id = $product->get_image_id();
-	$wrapper_classes   = apply_filters(
-							'woocommerce_single_product_image_gallery_classes',
-							[
+	$wrapper_classes   = apply_filters( 'woocommerce_single_product_image_gallery_classes',[
 								'woocommerce-product-gallery',
 								'woocommerce-product-gallery--' . ( $post_thumbnail_id ? 'with-images' : 'without-images' ),
 								'woocommerce-product-gallery--columns-' . absint( $columns ),
 								'images',
-							]
-						);
+						]);
 
 ?>
 
-<div class="<?= esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?= esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
+<div class="ashdgjahsdgasjhdg <?= esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?= esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
 	<figure class="woocommerce-product-gallery__wrapper">
 		<?
 
