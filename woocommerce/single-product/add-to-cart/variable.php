@@ -4,11 +4,9 @@
 
 	global $product;
 
-
 	$attribute_keys  = array_keys( $attributes );
 	$variations_json = wp_json_encode( $available_variations );
 	$variations_attr = function_exists( 'wc_esc_json' ) ? wc_esc_json( $variations_json ) : _wp_specialchars( $variations_json, ENT_QUOTES, 'UTF-8', true );
-
 
 	do_action( 'woocommerce_before_add_to_cart_form' );
 
@@ -50,9 +48,11 @@
 										'product'   => $product,
 									]);
 
-									$attribute_terms = get_terms(['taxonomy'=>$attribute_name,'hide_empty'=>false]);
-									foreach ($attribute_terms as $term)
-									echo'<span class="option-data colordot" style="background-color:'.get_term_meta($term->term_id)["color"][0].';"></span>';
+									// for variation swatch 
+									// $attribute_terms = get_terms(['taxonomy'=>$attribute_name,'hide_empty'=>false]);
+									// foreach ($attribute_terms as $term) echo'<span class="option-data colordot" style="background-color:'.get_term_meta($term->term_id)["color"][0].';"></span>';
+
+									foreach ($values as $slugcolor) echo'<span class="option-data colordot" style="background-color:#'.$slugcolor.';"></span>';
 
 								}
 
@@ -95,9 +95,8 @@
 										'product'   => $product,
 									]);
 
-									if( end( $attribute_keys ) === $attribute_name ) {
-										echo '<span>'; wp_kses_post( apply_filters( 'woocommerce_reset_variations_link', '<a style="text-decoration:none;" class="reset_variations btn muted" href="#">🗙</a>' ) ); echo '</span>';
-									}
+									if( end( $attribute_keys ) === $attribute_name )
+									echo '<span>',(wp_kses_post( apply_filters( 'woocommerce_reset_variations_link', '<a style="text-decoration:none;" class="reset_variations btn muted" href="#">🗙</a>' ) )),'</span>';
 
 								}
 
@@ -113,9 +112,9 @@
 			do_action( 'woocommerce_after_variations_table' ); 
 			
 			echo '<div class="single_variation_wrap">';
-			do_action( 'woocommerce_before_single_variation' );
-			do_action( 'woocommerce_single_variation' );
-			do_action( 'woocommerce_after_single_variation' );
+				do_action( 'woocommerce_before_single_variation' );
+				do_action( 'woocommerce_single_variation' );
+				do_action( 'woocommerce_after_single_variation' );
 			echo '</div>';
 
 		} 
@@ -127,22 +126,24 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", () => {
 
-			
-
 			// hide variation price
 
 			document.querySelectorAll('.woocommerce-variation.single_variation')[0].classList.add('d-hidden')
 
+
 			// update price preview via quantity
 
-			var number_field = document.querySelectorAll('[id^="product-"] [type=number]')[0],
-				price_display = document.querySelectorAll('[id^="product-"] .price')[0],
-				price_bdi = price_display.querySelectorAll('.woocommerce-Price-amount.amount bdi')
+			var number_field 	= document.querySelectorAll('[id^="product-"] [type=number]')[0],
+				price_display 	= document.querySelectorAll('[id^="product-"] .price')[0],
+				price_bdi 		= price_display.querySelectorAll('.woocommerce-Price-amount.amount bdi'),
+				form_selectors 	= document.querySelectorAll('[id^="product-"] input, select'),
+				static_price 	= []
 
-			var static_price = []; price_bdi.forEach( el => { static_price.push( parseFloat(el.innerText.replace(/\s/g,'').replace(/\,/g, '.')) ) })
+			price_bdi.forEach( bdi => { static_price.push( parseFloat(bdi.innerText.replace(/\s/g,'').replace(/\,/g, '.')) ) })
 
-			document.querySelectorAll('[id^="product-"] input, select').forEach( f => {
-				f.addEventListener( 'change', () => {
+			form_selectors.forEach( selector => {
+
+				selector.addEventListener( 'change', () => {
 
 					setTimeout(() => {
 
@@ -165,25 +166,30 @@
 
 						}
 
-					}, 500)
+					}, 200)
 
-				},true)				
+				},true)
+
 			})
 
-			// update price preview via variation
 
-			document.querySelectorAll('.variations_form .variations').forEach( row => {
+			// update previews via variation id
 
-				var selectbox = row.querySelectorAll('select')[0],
-					selectval = selectbox.value
+			var variation_rows = document.querySelectorAll('.variations_form .variations'),
+				variation_id_field = document.querySelectorAll('.variations_form [name=variation_id]')[0]
 
-				selectbox.addEventListener('click',()=>{
-					if(selectval!=selectbox.value){
-						selectval=selectbox.value
-						selectbox.dispatchEvent( new Event("change") )
-						document.querySelectorAll('.variations_form [name=variation_id]')[0].dispatchEvent( new Event("change") )
+			variation_rows.forEach( row => {
+
+				var select = row.querySelectorAll('select')[0],
+					ex_value = select.value
+
+				select.addEventListener('click',()=>{
+					if(ex_value!=select.value){
+						ex_value=select.value
+						select.dispatchEvent( new Event("change") )
+						variation_id_field.dispatchEvent( new Event("change") )
 					}
-				});
+				})
 
 				row.querySelectorAll('.option-data').forEach( (trigger,i) => {
 
@@ -192,18 +198,16 @@
 						row.querySelectorAll('.option-data').forEach( t => t.classList.remove('active') )
 						trigger.classList.add('active')
 
-						let options = selectbox.querySelectorAll('option')
+						let options = select.querySelectorAll('option')
 
 						options.forEach( o => o.removeAttribute('selected') )
 						options[i].setAttribute('selected','selected')
 
-						selectbox.setAttribute('value', options[i].value )
-						selectbox.dispatchEvent( new Event("change") )
-
-						// this is trigger for update gallery 
-						document.querySelectorAll('.variations_form [name=variation_id]')[0].dispatchEvent( new Event("change") )
-
-						jQuery(selectbox).trigger('change');
+						// triggers for update all
+						select.setAttribute('value', options[i].value )
+						select.dispatchEvent( new Event("change") )
+						variation_id_field.dispatchEvent( new Event("change") )
+						jQuery(select).trigger('change');
 
 					}
 
@@ -216,57 +220,49 @@
 
 			// transfer json gallery
 
-			<?
-				$galleryItems = [];
-				for($i=0;$i<sizeof($available_variations);$i++){
-					$variant_id = $product->get_children()[$i];
-					$banner_src = $available_variations[$i]['image']['src'];
-					array_push($galleryItems, [$banner_src,$variant_id]);
-				}
-				$variations_gallery_json = wp_json_encode( $galleryItems );
-			?>
+			<?	// variationdata is already printed in form html data-product_variations
+				// $galleryItems = [];
+				// for($i=0;$i<sizeof($available_variations);$i++){
+				// 	$variant_id = $product->get_children()[$i];
+				// 	$banner_src = $available_variations[$i]['image']['src'];
+				// 	array_push($galleryItems, [$banner_src,$variant_id]);
+				// }
+				// $variations_gallery_json = wp_json_encode( $galleryItems );
+			?>  // var gallerydata = JSON.parse(<?//=$variations_gallery_json?>)
 
 
-			// var gallerydata = JSON.parse(<?//=$variations_gallery_json?>),
-			var	variationtarget = document.querySelectorAll('.variations_form [name=variation_id]')[0],
-				galleryfigure = document.querySelectorAll('.woocommerce-product-gallery__wrapper')[0],
-				gallerylens = document.querySelectorAll('.woocommerce-product-gallery__trigger')[0]
-
-			var variationdata =  JSON.parse(document.querySelectorAll(".variations_form")[0].dataset.product_variations, null, 2)
-
+			var	variationdata 	= JSON.parse(document.querySelectorAll(".variations_form")[0].dataset.product_variations/*, null, 2*/),
+				variationtarget = document.querySelectorAll('.variations_form [name=variation_id]')[0],
+				galleryfigure 	= document.querySelectorAll('.woocommerce-product-gallery__wrapper')[0],
+				gallerylens 	= document.querySelectorAll('.woocommerce-product-gallery__trigger')[0]
+				
 			window.onload = () => { if(variationtarget) document.querySelectorAll(".flex-control-thumbs li:first-child")[0].classList.add('d-hidden') }
 			
 			variationtarget.addEventListener( 'change', () => { setTimeout(() => {
 
-				let variationtargetid= document.querySelectorAll(".variations_form .variation_id")[0].value;
-				
+				let gallerytarget = document.querySelectorAll('.flex-control-thumbs>li>img')[0]
+					gallerytarget.dispatchEvent(new MouseEvent("click",{bubbles: true, cancellable: true}));
+
+				document.querySelectorAll('.flex-control-nav.flex-control-thumbs>li').forEach( (el,i) => {
+					i==0 ? el.firstChild.classList.add('flex-active')
+						 : el.firstChild.classList.remove('flex-active')
+					i++
+				})
+
 				variationdata.forEach( variation => {
 
-					if(variation['variation_id']==variationtarget.value){
-
-
-						galleryfigure.querySelectorAll('div>img')[0].src=variation['image']['src']
-						galleryfigure.querySelectorAll('div>a')[0].href=variation['image']['src']
-						galleryfigure.querySelectorAll('div>a>img')[0].src=variation['image']['src']
-						galleryfigure.querySelectorAll('div>a>img')[0].srcset=variation['image']['srcset']
-						galleryfigure.querySelectorAll('div')[0].dataset.thumb = variation['image']['thumb_src'] 
-
-						document.querySelectorAll('.flex-control-nav.flex-control-thumbs>li').forEach( (el,i) => {
-							i==0 ? el.firstChild.classList.add('flex-active')
-								 : el.firstChild.classList.remove('flex-active');
-							i++
-						})
-						
-						console.log("!",variationtarget.value)
-						
-						galleryfigure.style.transform = 'translate3d(0px, 0px, 0px)';
-						galleryfigure.style.webkitTransform = 'translate3d(0px, 0px, 0px)';
-
+					if(variation['variation_id']==variationtarget.value) {
+						galleryfigure.querySelectorAll('div>img')[0].src		= variation['image']['src']
+						galleryfigure.querySelectorAll('div>a')[0].href			= variation['image']['src']
+						galleryfigure.querySelectorAll('div>a>img')[0].src		= variation['image']['src']
+						galleryfigure.querySelectorAll('div>a>img')[0].srcset	= variation['image']['srcset']
+						galleryfigure.querySelectorAll('div')[0].dataset.thumb 	= variation['image']['thumb_src'] 
 					}
 				
 				})
 
-			},500) })
+
+			},0) })
 		})
 	</script>
 
