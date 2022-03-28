@@ -38,23 +38,20 @@
         add_theme_support( 'wc-product-gallery-slider' );
 
         // set OFF the thumbnail inside the slider
-        function rm_woocommerce_remove_featured_image( $html, $attachment_id ) {
-            global $post, $product;
-            $attachment_ids = $product->get_gallery_image_ids();
-            if ( ! $attachment_ids ) { return $html; }
-            $featured_image = get_post_thumbnail_id( $post->ID );
-            if ( is_product() && $attachment_id === $featured_image ) { var_dump($html); $html = ''; }
-            return $html;
-        }
-        add_filter( 'woocommerce_single_product_image_thumbnail_html', 'rm_woocommerce_remove_featured_image', 10, 2 );
+        // function rm_woocommerce_remove_featured_image( $html, $attachment_id ) {
+        //     global $post, $product;
+        //     $attachment_ids = $product->get_gallery_image_ids();
+        //     if ( ! $attachment_ids ) { return $html; }
+        //     $featured_image = get_post_thumbnail_id( $post->ID );
+        //     if ( is_product() && $attachment_id === $featured_image ) { $html = ''; }
+        //     return $html;
+        // }
+        // add_filter( 'woocommerce_single_product_image_thumbnail_html', 'rm_woocommerce_remove_featured_image', 10, 2 );
 
         // set ON the arrows of slider
         add_filter( 'woocommerce_single_product_carousel_options', function($options){
             $options['directionNav'] = true; return $options;
         });
-
-        // set N woo product image columns
-        // add_action( 'woocommerce_product_thumbnails_columns', function () { return 4; } );
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
@@ -102,7 +99,6 @@
         //?     $args['next_text'] = '<i class="bi bi-arrow-right-short"></i>';
         //?     return $args;
         //? });
-        
         
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 

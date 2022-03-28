@@ -17,7 +17,7 @@
 
 	<div class="row">
 
-		<div class="col-5">
+		<div class="col-sm-12 col-md-12 col-lg-5">
 			<? 
 				// contains:
 				// - image gallery ecc
@@ -25,7 +25,7 @@
 			?>
 		</div>
 
-		<div class="col-7">
+		<div class="col-sm-12 col-md-12 col-lg-7">
 			<?
 				// contains:
 				// - single-product title

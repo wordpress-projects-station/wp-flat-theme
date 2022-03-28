@@ -13,7 +13,7 @@
             include $pagetype['path'];
             $output = ob_get_flush();
 
-            if( empty($output) ) { echo 'has empy'; print_classic_theme($pagetype); }; 
+            if( empty($output) ) { echo 'template file content not exist'; print_classic_theme($pagetype); }; 
 
         }
 
