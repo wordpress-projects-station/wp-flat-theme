@@ -152,10 +152,10 @@
 						if ( document.querySelectorAll('.woocommerce-variation-price bdi')[0] ) {
 
 							var subprice = parseFloat(document.querySelectorAll('.woocommerce-variation-price bdi')[0].innerHTML.split('&nbsp;')[0].replace(/\,/g, '.')),
-								pricesymbol = document.querySelectorAll('.woocommerce-Price-currencySymbol')[0].innerHTML,
-								pricetax = document.querySelectorAll('.woocommerce-price-suffix')[0].innerHTML
+								pricesymbol = document.querySelectorAll('.woocommerce-Price-currencySymbol')[0],
+								pricetax = document.querySelectorAll('.woocommerce-price-suffix')[0]
 
-								price_display.innerHTML = '<span class="fw-bold">'+(nfv*parseFloat(subprice)).toFixed(2)+'</span>'+'&nbsp;'+pricesymbol+'&nbsp;<span><sup><small>'+pricetax+'</small></sup></span>'
+								price_display.innerHTML = '<span class="fw-bold">'+(nfv*parseFloat(subprice)).toFixed(2)+'</span>'+'&nbsp;'+(pricesymbol?pricesymbol.innerHTML:' €')+'&nbsp;<span><sup><small>'+(pricetax?pricetax.innerHTML:'')+'</small></sup></span>'
 
 						} else {
 
@@ -235,31 +235,38 @@
 				variationtarget = document.querySelectorAll('.variations_form [name=variation_id]')[0],
 				galleryfigure 	= document.querySelectorAll('.woocommerce-product-gallery__wrapper')[0],
 				gallerylens 	= document.querySelectorAll('.woocommerce-product-gallery__trigger')[0]
-				
-			window.onload = () => { if(variationtarget) document.querySelectorAll(".flex-control-thumbs li:first-child")[0].classList.add('d-hidden') }
+
+			window.onload = () => { 
+				let thumbnail = document.querySelectorAll(".flex-control-thumbs li:first-child")[0]
+				if ( variationtarget && thumbnail ) thumbnail.classList.add('d-hidden')
+			}
 			
 			variationtarget.addEventListener( 'change', () => { setTimeout(() => {
 
 				let gallerytarget = document.querySelectorAll('.flex-control-thumbs>li>img')[0]
+
+				if ( gallerytarget ) {
+
 					gallerytarget.dispatchEvent(new MouseEvent("click",{bubbles: true, cancellable: true}));
 
-				document.querySelectorAll('.flex-control-nav.flex-control-thumbs>li').forEach( (el,i) => {
-					i==0 ? el.firstChild.classList.add('flex-active')
-						 : el.firstChild.classList.remove('flex-active')
-					i++
-				})
+					document.querySelectorAll('.flex-control-nav.flex-control-thumbs>li').forEach( (el,i) => {
+						i==0 ? el.firstChild.classList.add('flex-active')
+							: el.firstChild.classList.remove('flex-active')
+						i++
+					})
 
-				variationdata.forEach( variation => {
+					variationdata.forEach( variation => {
 
-					if(variation['variation_id']==variationtarget.value) {
-						galleryfigure.querySelectorAll('div>img')[0].src		= variation['image']['src']
-						galleryfigure.querySelectorAll('div>a')[0].href			= variation['image']['src']
-						galleryfigure.querySelectorAll('div>a>img')[0].src		= variation['image']['src']
-						galleryfigure.querySelectorAll('div>a>img')[0].srcset	= variation['image']['srcset']
-						galleryfigure.querySelectorAll('div')[0].dataset.thumb 	= variation['image']['thumb_src'] 
-					}
-				
-				})
+						if(variation['variation_id']==variationtarget.value) {
+							galleryfigure.querySelectorAll('div>img')[0].src		= variation['image']['src']
+							galleryfigure.querySelectorAll('div>a')[0].href			= variation['image']['src']
+							galleryfigure.querySelectorAll('div>a>img')[0].src		= variation['image']['src']
+							galleryfigure.querySelectorAll('div>a>img')[0].srcset	= variation['image']['srcset']
+							galleryfigure.querySelectorAll('div')[0].dataset.thumb 	= variation['image']['thumb_src'] 
+						}
+					
+					})
+				}
 
 
 			},0) })
