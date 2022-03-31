@@ -52,7 +52,8 @@
 									// $attribute_terms = get_terms(['taxonomy'=>$attribute_name,'hide_empty'=>false]);
 									// foreach ($attribute_terms as $term) echo'<span class="option-data colordot" style="background-color:'.get_term_meta($term->term_id)["color"][0].';"></span>';
 
-									foreach ($values as $slugcolor) echo'<span class="option-data colordot" style="background-color:#'.$slugcolor.';"></span>';
+									foreach ($values as $slugcolor)
+									echo'<span class="option-data colordot" style="background-color:#'.$slugcolor.';"></span>';
 
 								}
 
@@ -81,7 +82,7 @@
 
 									$variations = $product->get_available_variations();
 									foreach ( $variations as $variant)
-									echo'<span class="option-data designdot" data-variant="'.$variant['variation_id'].'" style="background:url('.$variant['image']['src'].') center / 200% no-repeat;"></span>';
+									echo '<span class="option-data designdot" data-variant="'.$variant['variation_id'].'" style="background:url('.$variant['image']['src'].') center / 200% no-repeat;"></span>';
 
 								}
 
@@ -95,8 +96,8 @@
 										'product'   => $product,
 									]);
 
-									if( end( $attribute_keys ) === $attribute_name )
-									echo '<span>',(wp_kses_post( apply_filters( 'woocommerce_reset_variations_link', '<a style="text-decoration:none;" class="reset_variations btn muted" href="#">🗙</a>' ) )),'</span>';
+									// if( end( $attribute_keys ) === $attribute_name )
+									// echo '<span>',(wp_kses_post( apply_filters( 'woocommerce_reset_variations_link', '<a style="text-decoration:none;" class="reset_variations btn muted" href="#">🗙</a>' ) )),'</span>';
 
 								}
 
@@ -241,7 +242,7 @@
 				if ( variationtarget && thumbnail ) thumbnail.classList.add('d-hidden')
 			}
 			
-			variationtarget.addEventListener( 'change', () => { setTimeout(() => {
+			variationtarget.addEventListener( 'change', () => { 
 
 				let gallerytarget = document.querySelectorAll('.flex-control-thumbs>li>img')[0]
 
@@ -269,7 +270,7 @@
 				}
 
 
-			},0) })
+			})
 		})
 	</script>
 

@@ -39,7 +39,8 @@
 
         // set ON the arrows of slider
         add_filter( 'woocommerce_single_product_carousel_options', function($options){
-            $options['directionNav'] = true; return $options;
+            $options['directionNav'] = true;
+            return $options;
         });
 
 
@@ -180,7 +181,7 @@
                 <label class="custom-file-label" for="image"><?php esc_html_e( 'Image', 'woocommerce' ); ?>&nbsp;<span class="required">*</span></label>
                 <input type="file" class="fwoocommerce-Input custom-file-input" name="image" accept="image/x-png,image/gif,image/jpeg">
             </div>
-            <?php
+            <?
         }
 
         //: C ➔  Validate image file
