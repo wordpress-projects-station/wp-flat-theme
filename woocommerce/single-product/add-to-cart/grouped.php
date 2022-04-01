@@ -7,6 +7,7 @@
 
 
 <?
+
 	global $product, $post;
 
 	do_action( 'woocommerce_before_add_to_cart_form' );
@@ -20,19 +21,19 @@
 				<?
 
 					$quantites_required      = false;
-					$previous_post           = $post;
+					// $previous_post           = $post;
 
 					$show_add_to_cart_button = false;
 
 					foreach ( $grouped_products as $grouped_product_child ) {
 
-						$post_object = get_post( $grouped_product_child->get_id() );
-						$post = $post_object;
-						
-						setup_postdata( $post );
-						
+						// $post_object = get_post( $grouped_product_child->get_id() );
+						// $post = $post_object;
+
+						// setup_postdata( $post );
+
 						$isoutofstock 			= $grouped_product_child->get_data()['stock_status'];
-						$ispurchasable 			= $grouped_product_child->is_purchasable() && floatval($grouped_product_child->get_price())>0 ? true : false;
+						$haveaprice 			= $grouped_product_child->is_purchasable() && floatval($grouped_product_child->get_price())>0 ? true : false;
 
 						$haveAttributes 		= false;
 						$haveDefaultAttribute 	= count($grouped_product_child->get_data()['default_attributes'])>1 ? true : false;
@@ -183,9 +184,9 @@
 																			'product'   => $sub_product,
 																		]);
 
-																		$variations = $product->get_available_variations();
-																		foreach ( $variations as $variant)
-																		echo'<span class="option-data designdot" data-variant="'.$variant['variation_id'].'" style="background:url('.$variant['image']['src'].') center / 200% no-repeat;"></span>';
+																		$design_variations = $sub_product->get_available_variations();
+																		foreach ( $design_variations as $design_data)
+																		echo'<span class="option-data designdot" data-variant="'.$design_data['variation_id'].'" style="background:url('.$design_data['image']['src'].') center / 200% no-repeat;"></span>';
 
 																	}
 
@@ -265,7 +266,7 @@
 															</div>
 															<div id="warningsbox">
 																<?=
-																	$ispurchasable
+																	$haveaprice
 																	? '<span class="badge bg-warning text-dark'.($isoutofstock=='outofstock'?'':' d-none').'"><p class="m-0">'.($haveDefaultAttribute?'You need to select a variation of this product.':'The version chosen is out of stock.').'</p></span>'
 																	: '<span class="badge bg-warning text-dark"><p class="m-0">'.($haveAttributes?'You need to select a variation of this product .':'This product not have an available price.').'</p></span>';
 																?>
@@ -297,8 +298,8 @@
 
 					}
 
-					$post = $previous_post;
-					setup_postdata( $post );
+					// $post = $previous_post;
+					// setup_postdata( $post );
 
 				?>
 
