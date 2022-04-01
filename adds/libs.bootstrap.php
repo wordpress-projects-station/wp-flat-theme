@@ -11,7 +11,17 @@
     wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', null, false, 'all'); 
     wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css', null, false, 'all'); 
     wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', null, false, 'all');
-    
+  
+    ?>
+    <script>
+        window.onload = () =>{
+        jQuery('#modal-success').modal('show');
+        jQuery('#modal-warning').modal('show');
+        jQuery('#modal-notice').modal('show');
+    }
+    </script>
+    <?
+
     // load (bootstrap) theme
     wp_enqueue_style('theme-css', get_template_directory_uri().'/theme.css', null, false, 'all');
 

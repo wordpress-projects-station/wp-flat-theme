@@ -20,7 +20,11 @@
 		
 		if ( empty( $available_variations ) && false !== $available_variations ) {
 
-			echo '<p class="stock out-of-stock">'.esc_html( apply_filters( 'woocommerce_out_of_stock_message', __( 'This product is currently out of stock and unavailable.', 'woocommerce' ) ) ).'</p>';
+			?>
+				<p class="stock out-of-stock">
+					<?= esc_html( apply_filters( 'woocommerce_out_of_stock_message', __( 'This product is currently out of stock and unavailable.', 'woocommerce' ) ) ); ?>
+				</p>
+			<?
 
 		} else { 
 			

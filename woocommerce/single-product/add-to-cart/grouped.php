@@ -8,7 +8,7 @@
 
 <?
 
-	global $product, $post;
+	global $product;
 
 	do_action( 'woocommerce_before_add_to_cart_form' );
 
@@ -20,17 +20,8 @@
 	
 				<?
 
-					$quantites_required      = false;
-					// $previous_post           = $post;
-
-					$show_add_to_cart_button = false;
-
 					foreach ( $grouped_products as $grouped_product_child ) {
 
-						// $post_object = get_post( $grouped_product_child->get_id() );
-						// $post = $post_object;
-
-						// setup_postdata( $post );
 
 						$isoutofstock 			= $grouped_product_child->get_data()['stock_status'];
 						$haveaprice 			= $grouped_product_child->is_purchasable() && floatval($grouped_product_child->get_price())>0 ? true : false;
@@ -74,7 +65,6 @@
 	
 							$json_variation_asset = htmlspecialchars(json_encode($variations_abstract), ENT_QUOTES, 'UTF-8');
 						}
-						// echo '<code><pre>'; print_r($variation_datas); echo '</pre></code>';
 
 						echo '<div id="product-'.esc_attr( $grouped_product_child->get_id() ).'" data-default-attributes="'.($haveDefaultAttribute?$defaultAttribute:'false').'" data-variation="'.$json_variation_asset.'" class="woocommerce-grouped-product-list-item '.esc_attr( implode( ' ', wc_get_product_class( '', $grouped_product_child ) ) ).'">';
 
@@ -298,24 +288,18 @@
 
 					}
 
-					// $post = $previous_post;
-					// setup_postdata( $post );
-
 				?>
 
 		</div>
 
 		<input type="hidden" name="add-to-cart" value="<?= esc_attr( $product->get_id() ); ?>" />
 
-		<? //if ( $quantites_required && $show_add_to_cart_button ) { ?>
+		<? do_action( 'woocommerce_before_add_to_cart_button' ); ?>
 
-			<? do_action( 'woocommerce_before_add_to_cart_button' ); ?>
+		<button type="submit" class="btn btn-primary single_add_to_cart_button button alt"><?= esc_html( $product->single_add_to_cart_text() ); ?></button>
 
-			<button type="submit" class="btn btn-primary single_add_to_cart_button button alt"><?= esc_html( $product->single_add_to_cart_text() ); ?></button>
+		<? do_action( 'woocommerce_after_add_to_cart_button' ); ?>
 
-			<? do_action( 'woocommerce_after_add_to_cart_button' ); ?>
-
-		<? //} ?>
 	</form>
 
 <? do_action( 'woocommerce_after_add_to_cart_form' ); ?>
@@ -327,24 +311,27 @@
 
 		var variations = document.querySelectorAll('.variations')
 
+		
 		variations.forEach( selectorsgroup => {
-
+			
 			var productwrapper 	= selectorsgroup.parentNode.parentNode,
+				variationdata 	= productwrapper.dataset.variation ? JSON.parse(productwrapper.dataset.variation) : false,
 				pricecontainer 	= productwrapper.querySelectorAll('.woocommerce-grouped-product-list-item__price')[0],
 				pricebox 		= productwrapper.querySelectorAll('#pricebox')[0],
 				warning 		= productwrapper.querySelectorAll('#warningsbox>span')[0],
-				idfield 		= selectorsgroup.querySelectorAll('[type=number]')[0]
+				idfield 		= selectorsgroup.querySelectorAll('[type=number]')[0],
+				numberfield		= idfield
+			
 
 			idfield.setAttribute('value',1)
-								
+
 			!pricebox.innerHTML&&!warning.innerHTML
 				? pricecontainer.classList.style='height:0'
 				: pricecontainer.classList.style=null
 
 			if ( productwrapper.dataset.variation ) {
 				
-				var selectedattributes,
-					variationdata = JSON.parse(productwrapper.dataset.variation)
+				var selectedattributes = [];
 
 				selectorsgroup.querySelectorAll('.options-wrapper').forEach( row => {
 
@@ -405,7 +392,7 @@
 									productwrapper.id = 'product-'+variationdata[i].variation_id
 									
 									if(variationdata[i].variation_price && variationdata[i].is_purchasable){
-										pricebox.innerHTML = '<p class="m-0">'+variationdata[i].variation_price+' <?=get_woocommerce_currency_symbol();?></p>'
+										pricebox.innerHTML = '<p class="m-0">'+(variationdata[i].variation_price*parseInt(numberfield.value)).toFixed(2)+' <?=get_woocommerce_currency_symbol();?></p>'
 										warning.classList.add('d-none')
 									}
 
@@ -430,9 +417,42 @@
 
 					}
 
+
 				})
 
 			}
+
+			let price_bdi  = pricebox.querySelectorAll('bdi'),
+				startprice = []
+
+			price_bdi.forEach( bdi => { startprice.push( parseFloat(bdi.innerText.replace(/\s/g,'').replace(/\,/g, '.')) ) })
+
+			numberfield.addEventListener('change',()=>{
+
+				if(  pricebox.querySelectorAll('bdi').length>0 ) {
+
+					startprice.forEach( (price,i) => {
+						price_bdi[i].innerHTML = parseFloat(price*parseInt(numberfield.value)).toFixed(2)+'&nbsp;'+'<?=get_woocommerce_currency_symbol()?>'
+						i++
+					})
+
+				}
+				
+				else {
+
+					variationdata.forEach( (data,i) => {
+
+						if( variationdata[i].variation_id == productwrapper.id.split("product-")[1] ){
+							pricebox.innerHTML = '<p class="m-0">'+(variationdata[i].variation_price*parseInt(numberfield.value)).toFixed(2)+' <?=get_woocommerce_currency_symbol();?></p>'
+							return false;
+						}
+
+					})
+
+				}
+
+			})
+
 
 		})
 
