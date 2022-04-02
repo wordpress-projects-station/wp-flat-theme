@@ -16,6 +16,10 @@
     display: unset;
 }
 
+*>p:last-child {
+    margin-bottom: 0;
+}
+
 /* - - - - - - - - - - - - - - - - - - - - */
 
 /* selectable product options */

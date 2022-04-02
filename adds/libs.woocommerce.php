@@ -55,6 +55,15 @@
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
+
+        function add_woo_scripts() {
+            wp_enqueue_script('wooscripts-js', get_template_directory_uri().'/woocommerce/wooscripts.js', null, false, 'all');
+        }
+        add_action( 'wp_enqueue_scripts', 'add_woo_scripts' );
+
+
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
         // set OFF the page title
         // add_filter( 'woocommerce_show_page_title', '__return_false' );
 
@@ -341,5 +350,4 @@
 
 
     // }
-
 ?>

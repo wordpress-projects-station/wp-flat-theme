@@ -43,4 +43,4 @@
 
 	get_footer( 'shop' );
 
-?> /* Omit closing PHP to avoid "headers already sent" issues. */
+?>

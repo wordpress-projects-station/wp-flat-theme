@@ -41,18 +41,21 @@
 				ob_start();
 				wc_cart_totals_shipping_html();
 				$shipping_html = ob_get_clean();
+				ob_end_flush();
 				
 				// echo htmlspecialchars($shipping_html);
-				$shipping_output = preg_replace('/tr/', 'tr class="mt-2"', $shipping_html,1);
-				$shipping_output = preg_replace('/tr/', 'div', $shipping_output);
-				$shipping_output = preg_replace('/th/', 'b', $shipping_output);
+				$shipping_output = preg_replace('/<tr/', '<div class="mt-2"', $shipping_html,1);
+				$shipping_output = preg_replace('/<\/tr/', '</div', $shipping_output);
+				$shipping_output = preg_replace('/<th/', '<b', $shipping_output);
 				$shipping_output = preg_replace('/<b>/', '<b><i class="bi bi-box2-heart"></i>&nbsp;', $shipping_output,1);
-				$shipping_output = preg_replace('/woocommerce-shipping-mebods/', 'woocommerce-shipping-methods list-unstyled', $shipping_output);
-				$shipping_output = preg_replace('/<li>/', '<li style="padding-left:13px;">', $shipping_output);
+				$shipping_output = preg_replace('/woocommerce-shipping-methods/', 'woocommerce-shipping-methods list-unstyled', $shipping_output);
+				$shipping_output = preg_replace('/woocommerce-shipping-destination/', 'woocommerce-shipping-destination m-0', $shipping_output);
+				$shipping_output = preg_replace('/<li/', '<li style="padding-left:13px;"', $shipping_output);
 				$shipping_output = preg_replace('/<label/', '&nbsp; <label', $shipping_output);
 
 				echo $shipping_output;
-								
+
+
 				do_action( 'woocommerce_cart_totals_after_shipping' );
 
 			}

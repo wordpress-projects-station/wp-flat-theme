@@ -1,10 +1,10 @@
 <? defined( 'ABSPATH' ) || exit; ?>
 
 <? do_action( 'woocommerce_before_cart' ); ?>
+
 <div class="row">
 
 	<div class="col-9">
-
 		<form class="woocommerce-cart-form" action="<?= esc_url( wc_get_cart_url() ); ?>" method="post">
 
 			<? do_action( 'woocommerce_before_cart_table' ); ?>
@@ -204,14 +204,26 @@
 
 							<? if ( wc_coupons_enabled() ) { ?>
 
-								<div class="coupon">
-									<label for="coupon_code"><? esc_html_e( 'Coupon:', 'woocommerce' ); ?></label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<? esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" /> <button type="submit" class="button" name="apply_coupon" value="<? esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>"><? esc_attr_e( 'Apply coupon', 'woocommerce' ); ?></button>
+								<div class="coupon mt-2">
+
+									<label class="mb-2" for="coupon_code"><? esc_html_e( 'Coupon:', 'woocommerce' ); ?></label>
+
+									<div class="row">
+										<div class="col col-sm-12 col-md-9">
+											<input type="text" name="coupon_code" class="form-control input-text" id="coupon_code" value="" placeholder="<? esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" />
+										</div>
+										<div class="col col-sm-12 col-md-3">
+											<button type="submit" class="button btn btn-small btn-outline-secondary" name="apply_coupon" value="<? esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>"><? esc_attr_e( 'Apply coupon', 'woocommerce' ); ?></button>
+										</div>
+									</div>
 									<? do_action( 'woocommerce_cart_coupon' ); ?>
 								</div>
 
 							<? } ?>
 
-							<button type="submit" class="button" name="update_cart" value="<? esc_attr_e( 'Update cart', 'woocommerce' ); ?>"><? esc_html_e( 'Update cart', 'woocommerce' ); ?></button>
+							<hr>
+
+							<button type="submit" class="button btn btn-small btn-outline-primary" name="update_cart" value="<? esc_attr_e( 'Update cart', 'woocommerce' ); ?>"><? esc_html_e( 'Update cart', 'woocommerce' ); ?></button>
 
 							<? do_action( 'woocommerce_cart_actions' ); ?>
 
@@ -223,6 +235,7 @@
 					<? do_action( 'woocommerce_after_cart_contents' ); ?>
 
 				</tbody>
+
 			</table>
 
 			<? do_action( 'woocommerce_after_cart_table' ); ?>
