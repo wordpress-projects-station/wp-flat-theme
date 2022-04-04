@@ -92,10 +92,10 @@
 				}
 				else {
 					?>
-					<tr class="tax-total">
-						<th><?= esc_html( WC()->countries->tax_or_vat() ); ?></th>
-						<td><? wc_cart_totals_taxes_total_html(); ?></td>
-					</tr>
+						<tr class="tax-total">
+							<th><?= esc_html( WC()->countries->tax_or_vat() ); ?></th>
+							<td><? wc_cart_totals_taxes_total_html(); ?></td>
+						</tr>
 					<?
 				}
 			} 

@@ -11,15 +11,15 @@
                 
         <? } else { ?> 
 
-            <p class="h1">Welcome on <?php echo get_bloginfo('name');?> shop</p>
+            <p class="h1">Welcome on <?= get_bloginfo('name');?> shop</p>
 
-        <?php } ?>
+        <? } ?>
 
     </div>
 
     <div class="row">
 
-        <?php
+        <?
 
             $args = [
                 'taxonomy' => 'product_cat',
@@ -40,7 +40,7 @@
 
                     <div class="archivie-post card mx-auto">
 
-                        <?php
+                        <?
 
                             $bkgId = get_term_meta( $category->term_id, 'thumbnail_id', true ); //get_the_post_thumbnail_url( $category->term_id );
                             $bkgUrl = wp_get_attachment_url( $bkgId );
@@ -55,17 +55,17 @@
 
                         <div class="card-body">
 
-                            <h2 class="card-title"><?php echo $category->name;?></h2>
+                            <h2 class="card-title"><?= $category->name;?></h2>
                             <div class="card-text" style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">
                                 <p>
-                                    <?php 
+                                    <? 
                                         $abstract = $category->description;
                                         if(strlen($abstract)>=150){ $abstract = substr($abstract,0,150); };
                                         echo $abstract;
                                     ?>
                                 </p>
                             </div>
-                            <a class="btn card-link" href="<?php echo get_category_link($category->term_id);?>">Read now ...</a>
+                            <a class="btn card-link" href="<?= get_category_link($category->term_id);?>">Read now ...</a>
 
                         </div>
 
@@ -73,10 +73,10 @@
 
                 </div>
 
-        <?php }} ?>
+        <? }} ?>
         
     </div>
 
-    <?php //loop_pagination($wp_query); ?>
+    <? //loop_pagination($wp_query); ?>
 
 </div>

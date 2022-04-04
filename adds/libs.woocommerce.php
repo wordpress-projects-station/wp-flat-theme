@@ -56,10 +56,19 @@
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
 
+        function add_woo_style() {    
+            wp_enqueue_style( 'woostyle-css', get_template_directory_uri().'/woocommerce/woostyle.css' );
+        }
+        add_action( 'wp_enqueue_scripts', 'add_woo_style' );
+
+
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
         function add_woo_scripts() {
             wp_enqueue_script('wooscripts-js', get_template_directory_uri().'/woocommerce/wooscripts.js', null, false, 'all');
         }
         add_action( 'wp_enqueue_scripts', 'add_woo_scripts' );
+
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
