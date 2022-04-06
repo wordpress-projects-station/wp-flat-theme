@@ -2,9 +2,14 @@
 
 <? do_action( 'woocommerce_before_cart' ); ?>
 
+<? bootsrapped_breadcrumb();  ?>
+
+<hr class="mb-5">
+
 <div class="row">
 
 	<div class="col-9">
+
 		<form class="woocommerce-cart-form" action="<?= esc_url( wc_get_cart_url() ); ?>" method="post">
 
 			<? do_action( 'woocommerce_before_cart_table' ); ?>

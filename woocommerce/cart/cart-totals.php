@@ -41,7 +41,7 @@
 				ob_start();
 				wc_cart_totals_shipping_html();
 				$shipping_html = ob_get_clean();
-				ob_end_flush();
+				// ob_end_flush();
 				
 				// echo htmlspecialchars($shipping_html);
 				$shipping_output = preg_replace('/<tr/', '<div class="mt-2"', $shipping_html,1);

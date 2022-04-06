@@ -1,10 +1,18 @@
+                    <? require_once __DIR__.'/layout-right.php'; ?>
 
-        </div>
-        
-        <? include __DIR__.'/template/ending.php'; ?>
+                </div>
+
+            </div>
+
+            <footer>
+
+                <? require_once __DIR__.'/layout-end.php'; ?>
+
+            </footer>
     
-    </body>
+        </body>
 
     <? wp_footer(); ?>
+
 
 </html>

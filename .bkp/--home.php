@@ -2,7 +2,7 @@
 
     echo '<hr><h3>YOU ARE IN HOME<h3><hr>';
 
-    $pagetype='home';
+    $looptype='home';
 
     get_header();
 

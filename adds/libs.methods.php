@@ -1,82 +1,179 @@
 <?
 
-    add_action( 'wp_head', 'loop_page_type' );
-    function loop_page_type(){
+    // function mods($opt) {
+    //     return get_theme_mod(''.$opt);
+    // }
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    function generateKeywords() {
+
+        $site_excerpt   = wp_filter_nohtml_kses(get_the_excerpt());
+        $site_description = get_bloginfo( 'description' );
+
+        $site_content = $site_excerpt?$site_excerpt:$site_description;
+
+        $banned = [
+            'the','to','i','am','is','are','he','she','a','an','and','here','there','can','could','were','has','have','had','been','welcome','of','home','&nbsp;','&ldquo;','words','into','this','there',
+            '&nbsp;','&ldquo;','&hellip','[...]','di','a','da','in','con','su','per','tra','fra','ad','un','un\'','non','uno','una','il','lo','la','i','gli','le','qui','qua','questo','quello','o','oppure','anche','che','chi','cosa','come','quando','perchè','per'
+        ];
+
+        $symbols = [' ',',','.' ,';',':','_','-','+','*','/','<','>','\\','\'','\"','\"','(',')','[',']','{','}','!','?','$','£','ç'];
+
+        $lowerstring    = strtolower($site_content);
+        $no_tags        = strip_tags($lowerstring);
+        $no_symbols     = str_replace( $symbols, ' ', $no_tags);
+        $no_spaced      = preg_replace('/\s+/', ',', $no_symbols);
+        $cleaned        = preg_replace('/[^A-Za-z0-9\s\/\-\.\,]/', '', $no_spaced);
+        $wordslist      = explode(',', get_option( 'blogname' ).','.get_the_title().','.$cleaned);
+
+        $final = [];
+        
+        foreach($wordslist as $word) {
+
+            if( strlen($word) >= 4 && ! in_array( $word, $banned ) )
+            array_push($final,$word);
+
+        }
+
+        return implode(',', $final);
+
+    }
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    add_action ( 'wp', 'theme_file_name' );
+    function theme_file_name(){
+
+        global $filename;
+        return $filename = isset($template) ? basename($template) : '';
+
+    }
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    add_action ( 'wp', 'loop_page_types' );
+    function loop_page_types(){
+
+        // woocommerce
 
         if( is_product() ) {
-
-            $origin = 'wooc';
+            $folder = 'woocommerce/...';
             $type = 'product';
 
         }
 
         elseif( is_tax( 'product_cat' ) || is_product_category() ||  is_page( 'categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/ ) {
 
-            $origin = 'wooc';
+            $folder = 'woocommerce/...';
             $type =  is_page( 'categories' ) || is_page( 'product-category' ) ? 'categories-list' : 'category' ; //if main cat is first cat: get_queried_object()->parent == 0 ||
 
         }
 
         elseif( is_page() && is_shop() ) {
 
-            $origin = 'wooc';
+            $folder = 'woocommerce/...';
             $type = 'home';
 
         }
 
         elseif( is_shop() && is_woocommerce() ) {
 
-            $origin = 'wooc';
+            $folder = 'woocommerce/...';
             $type = 'page';
 
         }
         
         elseif( is_cart() ) {
 
-            $origin = 'wooc';
+            $folder = 'woocommerce/...';
             $type = 'cart';
 
         }
 
         elseif( is_checkout() ) {
 
-            $origin = 'wooc';
+            $folder = 'woocommerce/...';
             $type = 'checkout';
 
         }
 
+        if( is_product() ) {
+
+            $folder = 'woocommerce/...';
+            $type = 'product';
+
+        }
+
+        elseif( is_tax( 'product_cat' ) || is_product_category() ||  is_page( 'categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/ ) {
+
+            $folder = 'woocommerce/...';
+            $type =  is_page( 'categories' ) || is_page( 'product-category' ) ? 'categories-list' : 'category' ; //if main cat is first cat: get_queried_object()->parent == 0 ||
+
+        }
+
+        elseif( is_page() && is_shop() ) {
+
+            $folder = 'woocommerce/...';
+            $type = 'home';
+
+        }
+
+        elseif( is_shop() && is_woocommerce() ) {
+
+            $folder = 'woocommerce/...';
+            $type = 'page';
+
+        }
+        
+        elseif( is_cart() ) {
+
+            $folder = 'woocommerce/...';
+            $type = 'cart';
+
+        }
+
+        elseif( is_checkout() ) {
+
+            $folder = 'woocommerce/...';
+            $type = 'checkout';
+
+        }
+
+        // wordpress
+        
         elseif( is_account_page() || is_page('account') )
         {
 
-            $origin = 'wprs';
+            $folder = 'wordpress/';
             $type = 'account';
 
         }
 
         elseif( is_search() || is_tag() ) {
 
-            $origin = 'wprs';
+            $folder = 'wordpress';
             $type = 'search';
+
+        }
+
+        elseif( is_single() /*|| is_post()*/ ) {
+
+            $folder = 'wordpress';
+            $type = 'post';
 
         }
         
         elseif( is_page() || is_singular() ) {
 
-            $origin = 'wprs';
+            $folder = 'wordpress';
             $type = 'page';
-
-        }
-
-        elseif( is_single() || is_post() ) {
-
-            $origin = 'wprs';
-            $type = 'post';
 
         }
 
         elseif( is_archive() || is_category() ) {
 
-            $origin = 'wprs';
+            $folder = 'wordpress';
             $type = 'category';
 
         }
@@ -84,18 +181,21 @@
         else {
 
             // return the pages unkonwed page type
-            $origin = 'wprs';
+            $folder = 'wordpress';
             $type = get_post_type();
 
         }
 
-        $path = str_replace('adds/','', (__DIR__.'/contents/'.$origin.'-'.$type.'.php') );
+        $path = str_replace('adds/','', (__DIR__.'/'.$folder.'/'.$type.'.php') );
 
-        return ['origin'=>$origin,'type'=>$type,'path'=>$path];
+        global $looptype;
+        
+        return $looptype = [ 'folder'=>$folder, 'type'=>$type, 'path'=>$path ];
 
     }
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
 
     function bootsrapped_breadcrumb() {
 
@@ -186,7 +286,19 @@
 
     }
 
+
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    function getPostBanner($POSTID){
+
+        $bkgUrl = strtolower( get_the_post_thumbnail_url( $POSTID ) );
+        $okExt  = ['gif','jpg','jpeg','png','webp','mp4'];
+        $bkgExt = substr( $bkgUrl, strrpos($bkgUrl,'.') + 1);
+        $bkgSrc = $bkgUrl && $bkgExt && in_array($bkgExt,$okExt) ?: get_template_directory_uri().'/adds/404IMAGE.PNG';
+        return '<div style="height:200px; background: url('.$bkgSrc.') center/cover;"></div>';
+
+    }
 
     // paginate the looped list
     // add_action( 'wp_loaded', 'loop_pagination' );
@@ -214,7 +326,7 @@
 
     //     }
 
-    //     // original wp:
+    //     // folderal wp:
     //     // echo paginate_links([
     //     //     'base'=> str_replace($max,'%#%',esc_url( get_pagenum_link($max))),
     //     //     'format' => '?page=%#%',

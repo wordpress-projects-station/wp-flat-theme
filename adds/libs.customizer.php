@@ -1,8 +1,75 @@
-<?php
+<?
     
+    /*
 
-    // more info: https://developer.wordpress.org/themes/customize-api/
-    // more info: https://www.youtube.com/watch?v=o0eb_Cv0zVA
+        more info: https://developer.wordpress.org/themes/customize-api/
+        more info: https://www.youtube.com/watch?v=o0eb_Cv0zVA
+
+        //:
+        //: DESIGN MODEL
+        //:
+
+        // ADD PANEL "Design Options"
+
+        $customizer->add_panel('options_panel',[
+            'title'=>'Design Options',
+            'description'=> 'Collection of themes options',
+            'priority'=> 10,
+        ]);
+
+        // "Design Options" > "tab_1"
+
+        $customizer->add_section('tab_1',[
+            'panel'=>'options_panel',
+            'priority'=>10,
+            'title'=>'TAB 1',
+        ]);
+
+        // "Design Options" > "tab_1" > ...
+
+        $customizer->add_setting('demo_text_sets',[ 'default'=>'a' ]);
+        $customizer->add_control('contrl_demo_text',[
+            'section'=>'tab_1',
+            'label'=>'Text',
+            'type'=>'text',
+            'settings'=>'demo_text_sets',
+        ]);
+
+        $customizer->add_setting('demo_checkbox_sets',[ 'default'=>'false' ]);
+        $customizer->add_control('contrl_demo_check',[
+            'section'=>'tab_1',
+            'label'=>'Choose Y/N',
+            'type'=>'checkbox',
+            'settings'=>'demo_checkbox_sets',
+        ]);
+
+        $customizer->add_setting( 'demo_radio_sets', ['default' => 'blue']);
+        $customizer->add_control( 'demo_radio_sets', [
+            'section' => 'tab_1',
+            'label' => 'Radio Selection',
+            'description' => 'This is a custom radio input.',
+            'type' => 'radio',
+            'choices' => [
+                'red' => 'Red',
+                'blue' => 'Blue',
+                'green' => 'Green',
+            ],
+        ]);
+
+        $customizer->add_setting( 'demo_select_sets', ['default' => 'blue']);
+        $customizer->add_control( 'demo_select_sets', [
+            'section' => 'tab_1',
+            'label' => 'Select Selection',
+            'description' => 'This is a custom select input.',
+            'type' => 'select',
+            'choices' => [
+                'red' => 'Red',
+                'blue' => 'Blue',
+                'green' => 'Green',
+            ],
+        ]);
+
+    */
 
     
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -51,8 +118,55 @@
 
         $customizer->get_section( 'custom_css' )->title = 'CSS override';
 
-    } , 100 );
+    } , 10 );
 
+
+    // expand Site Controllers
+
+    add_action( 'customize_register', function( $customizer ) {
+
+
+        $customizer->add_section('site_settings',[
+            'priority' => 2,
+            'title'    => 'Site settings',
+        ]);
+
+        $customizer->add_setting('site_debug_path_line_settings',[ 'default'=>'false' ]);
+        $customizer->add_control('site_debug_line_data',[
+            'section'     => 'site_settings',
+            'label'       => 'Debug template path line',
+            'descriptino' => 'Active/hide the editor line for page information',
+            'settings'    => 'site_debug_path_line_settings',
+            'type'        => 'checkbox',
+        ]);
+
+        $customizer->add_setting('site_debug_notices_settings',[ 'default'=>'false' ]);
+        $customizer->add_control('site_debug_notices_data',[
+            'section'     => 'site_settings',
+            'label'       => 'Debug notice boxes',
+            'descriptino' => 'Active/hide the editor notice for page information',
+            'settings'    => 'site_debug_notices_settings',
+            'type'        => 'checkbox',
+        ]);
+
+        $customizer->add_setting('site_warning_status_settings',[ 'default'=>'false' ]);
+        $customizer->add_control('site_warning_status_data',[
+            'section'  => 'site_settings',
+            'label'    => 'Warning message',
+            'settings' => 'site_warning_status_settings',
+            'type'     => 'checkbox',
+        ]);
+
+        $customizer->add_setting('site_warning_message_settings',[ 'default'=>'WARNING! THIS IS A DEMO SITE! <b>DO NOT BUY OR USE IT!</b>' ]);
+        $customizer->add_control('site_warning_message_data',[
+            'section'  => 'site_settings',
+            'label'    => '',
+            'settings' => 'site_warning_message_settings',
+            'type'     => 'text',
+        ]);
+
+
+    } , 10 );
 
     // expand Menu Controllers
     
@@ -66,27 +180,27 @@
             'priority' => 50,
         ]);
 
-        $customizer->add_setting('topmenu_status_settings',[ 'default'=>'true' ]);
-        $customizer->add_control('topmenu_status_data',[
+        $customizer->add_setting('top_menu_status_settings',[ 'default'=>'true' ]);
+        $customizer->add_control('top_menu_status_data',[
             'section'=>'design_of_top_menu',
             'label'=>'[show/hide] top main menu',
             'type'=>'checkbox',
-            'settings'=>'topmenu_status_settings',
+            'settings'=>'top_menu_status_settings',
         ]);
 
-        $customizer->add_setting('topmenu_search_settings',[ 'default'=>'true' ]);
-        $customizer->add_control('topmenu_search_data',[
+        $customizer->add_setting('top_finder_settings',[ 'default'=>'true' ]);
+        $customizer->add_control('top_finder_data',[
             'section'=>'design_of_top_menu',
             'label'=>'[show/hide] search bar',
-            'settings'=>'topmenu_search_settings',
+            'settings'=>'top_finder_settings',
             'type'=>'checkbox',
         ]);
 
-        $customizer->add_setting('topmenu_alignment_settings',[ 'default'=>'left' ]);
-        $customizer->add_control('topmenu_alignment_data',[
+        $customizer->add_setting('top_menu_alignment_settings',[ 'default'=>'left' ]);
+        $customizer->add_control('top_menu_alignment_data',[
             'section'=>'design_of_top_menu',
             'label'=>'menu list alignment',
-            'settings'=>'topmenu_alignment_settings',
+            'settings'=>'top_menu_alignment_settings',
             'type'     => 'radio',
             'choices'  => [
                 'left'   => 'align left',
@@ -95,11 +209,11 @@
             ],
         ]);
 
-        $customizer->add_setting('topmenu_layout_settings',[ 'default'=>'relative' ]);
-        $customizer->add_control('topmenu_layout_data',[
+        $customizer->add_setting('top_menu_layout_settings',[ 'default'=>'relative' ]);
+        $customizer->add_control('top_menu_layout_data',[
             'section'=>'design_of_top_menu',
             'label'=>'define layout of top main menu',
-            'settings'=>'topmenu_layout_settings',
+            'settings'=>'top_menu_layout_settings',
             'type'     => 'radio',
             'choices'  => [
                 'relative' => 'relative to page',
@@ -108,43 +222,8 @@
             ],
         ]);
 
-    } , 100 );
+    } , 10 );
 
-
-    add_action( 'customize_register', function( $customizer ) {
-
-
-        $customizer->add_section('site_settings',[
-            'priority' => 2,
-            'title'    => 'Site settings',
-        ]);
-
-        $customizer->add_setting('site_debug_line_settings',[ 'default'=>'true' ]);
-        $customizer->add_control('site_debug_line_data',[
-            'section'     => 'site_settings',
-            'label'       => 'Small debug line',
-            'descriptino' => 'Active/hide the editor line for page information',
-            'settings'    => 'site_debug_line_settings',
-            'type'        => 'checkbox',
-        ]);
-
-        $customizer->add_setting('site_warning_status_settings',[ 'default'=>'false' ]);
-        $customizer->add_control('site_warning_status_data',[
-            'section'  => 'site_settings',
-            'label'    => 'Warning message',
-            'settings' => 'site_warning_status_settings',
-            'type'     => 'checkbox',
-        ]);
-
-        $customizer->add_setting('site_warning_message_settings',[ 'default'=>'- WARNING! THIS SITE IS A DEMO SITE! <b>DO NOT BUY OR USE IT!</b> -' ]);
-        $customizer->add_control('site_warning_message_data',[
-            'section'  => 'site_settings',
-            'settings' => 'site_warning_message_settings',
-            'type'     => 'text',
-        ]);
-
-
-    } , 100 );
 
     // set Design of the pages
 
@@ -166,9 +245,9 @@
             'settings'  => [],
             'type'      => 'button',
             'input_attrs' => [
-                'value' => 'Open the sample page',
+                'value' => 'Open a home page',
                 'class' => 'button button-border button-primary',
-                'data-url' => get_site_url().'/sample-pages/',
+                'data-url' => get_home_url(),
             ],
         ]);
 
@@ -241,7 +320,7 @@
         ]);
 
 
-    } , 100 );
+    } , 10 );
 
     // set Design of the archive
 
@@ -266,7 +345,7 @@
             'input_attrs' => [
                 'value' => 'Open the customized page',
                 'class' => 'button button-border button-primary',
-                'data-url' => get_site_url().'/blog/',
+                'data-url' => get_site_url().'/search/',
             ],
         ]);
 
@@ -338,7 +417,7 @@
             ],
         ]);
 
-    } , 100 );
+    } , 10 );
 
     // set Design of the posts
 
@@ -363,7 +442,7 @@
             'input_attrs' => [
                 'value' => 'Open the customized page',
                 'class' => 'button button-border button-primary',
-                'data-url' => get_site_url().'/blog/random-post/',
+                'data-url' => get_site_url().'/random-post/',
             ],
         ]);
 
@@ -435,83 +514,127 @@
             ],
         ]);
 
-    } , 100 );
+    } , 10 );
 
 
 
-    function custom_customize_enqueue() {
+    function add_customize_sub_controllers() {
+
         wp_enqueue_script('wp-customizer-js', get_stylesheet_directory_uri() . '/adds/libs.customizer.js', ['jquery', 'customize-controls'], false, 'all'); 
         wp_enqueue_style('wp-customizer-css', get_stylesheet_directory_uri() . '/adds/libs.customizer.css', null, false, 'all');
+
     }
-    add_action( 'customize_controls_init', 'custom_customize_enqueue' );
+    add_action( 'customize_controls_init', 'add_customize_sub_controllers' );
+
+
+    function release_customization() {
+
+        global $mods, $looptype;
+
+        $mods = (object)[];
+
+
+
+        /*
+        //  DEBUG
+        */
+
+        $mods->debug_path_line = get_theme_mod( 'site_debug_path_line_settings' ) == 'true' && isset( $wp_customize ) ? true : false;
+
+        /* - - - - - - - - - - */
+
+        $mods->debug_notices = get_theme_mod( 'site_debug_notices_settings' ) == 'true' && isset( $wp_customize ) ? true : false;
+
+
+
+        /*
+        //  COMMON SITE OPTION
+        */
+
+
+        $mods->custom_site_logo = get_theme_mod( 'custom-logo' )?:false;
+
+
+
+        /*
+        //  NAVIGATION & HEADER
+        */
+
+       
+        $mods->top_warning = get_theme_mod( 'site_warning_status_settings' )=='true' ? get_theme_mod( 'site_warning_message_settings' ) : false;
+
+        /* - - - - - - - - - - */
+
+        $mods->top_menu_status   = get_theme_mod( 'top_menu_status_settings' ) == 'true' ? true : false;
+
+        /* - - - - - - - - - - */
+
+        $mods->top_finder_status = get_theme_mod( 'top_finder_settings' ) == 'true' ? true : false;
+
+        /* - - - - - - - - - - */
+
+        $tas = get_theme_mod( 'top_menu_alignment_settings' );
+
+        if($tas=='right')          $mods->top_menu_position = "justify-content-end";
+        elseif($tas=='center')     $mods->top_menu_position = "justify-content-center";
+        else                       $mods->top_menu_position = "justify-content-start";
+
+        $mods->top_menu_row_type = $tas=='left' || $tas=='center' ? 'style="width:100%"': false;
+
+        /* - - - - - - - - - - */
+        
+        $tls = get_theme_mod( 'top_menu_layout_settings' );
+
+        if( str_contains( $tls,'relative' ) ) $mods->top_menu_layout = 'relative';
+        if( str_contains( $tls,'framed' ) )   $mods->top_menu_layout = 'framed';
+        if( str_contains( $tls,'wide' ) )     $mods->top_menu_layout = 'wide';
+
+        /* - - - - - - - - - - */
+
+        $hss = get_theme_mod( $looptype['type'].'_header_style_settings' );
+
+        $mods->heading_status     = str_contains( $hss,'off' ) ? false : true;
+        $mods->heading_frame      = str_contains( $hss,'framed' ) ? 'container' : false;
+        $mods->heading_size       = str_contains( $hss,'big' ) ? 'height:33vh;' : false;
+
+        /* - - - - - - - - - - */
+
+        $hbs = get_theme_mod( $looptype['type'].'_banner_settings' );
+        $mods->header_banner_mode =  str_contains( $hbs,'in-body' ) ? 'in-body' : str_contains( $hbs,'in-head' ) ? 'in-head' : false ; 
+
+
+
+        /*
+        //  SIDEBARS
+        */
+
+        /* - - - - - - - - - - */
+
+        $sss = get_theme_mod( $looptype['type'].'_small_side_settings' );
+        $mods->sidebar_small_position = str_contains( $sss , 'left' ) ? 'left' : str_contains( $sss , 'right' ) ? 'right' : false ;
+        $mods->sidebar_small_type = str_contains( $sss, 'dynamic') ? 'dynamic' : 'static';
+
+        /* - - - - - - - - - - */
+
+        $sbs = get_theme_mod( $looptype['type'].'_big_side_settings' );
+        $mods->sidebar_big_position = str_contains( $sbs , 'left' ) ? 'left' : str_contains( $sbs , 'right' ) ? 'right' : false ;
+        $mods->sidebar_big_type = str_contains( $sbs, 'dynamic') ? 'dynamic' : 'static';
+
+
+
+        /*
+        //  SIDEBARS
+        */
+
+        /* - - - - - - - - - - */
+
+
+        return $mods;
+
+    }
+
+    add_action( 'wp', 'release_customization' );
 
  
- 
-    /****
 
-        //:
-        //: DESIGN MODEL
-        //:
-
-        // ADD PANEL "Design Options"
-
-        $customizer->add_panel('options_panel',[
-            'title'=>'Design Options',
-            'description'=> 'Collection of themes options',
-            'priority'=> 10,
-        ]);
-
-        // "Design Options" > "tab_1"
-
-        $customizer->add_section('tab_1',[
-            'panel'=>'options_panel',
-            'priority'=>10,
-            'title'=>'TAB 1',
-        ]);
-
-        // "Design Options" > "tab_1" > ...
-
-        $customizer->add_setting('demo_text_sets',[ 'default'=>'a' ]);
-        $customizer->add_control('contrl_demo_text',[
-            'section'=>'tab_1',
-            'label'=>'Text',
-            'type'=>'text',
-            'settings'=>'demo_text_sets',
-        ]);
-
-        $customizer->add_setting('demo_checkbox_sets',[ 'default'=>'false' ]);
-        $customizer->add_control('contrl_demo_check',[
-            'section'=>'tab_1',
-            'label'=>'Choose Y/N',
-            'type'=>'checkbox',
-            'settings'=>'demo_checkbox_sets',
-        ]);
-
-        $customizer->add_setting( 'demo_radio_sets', ['default' => 'blue']);
-        $customizer->add_control( 'demo_radio_sets', [
-            'section' => 'tab_1',
-            'label' => 'Radio Selection',
-            'description' => 'This is a custom radio input.',
-            'type' => 'radio',
-            'choices' => [
-                'red' => 'Red',
-                'blue' => 'Blue',
-                'green' => 'Green',
-            ],
-        ]);
-
-        $customizer->add_setting( 'demo_select_sets', ['default' => 'blue']);
-        $customizer->add_control( 'demo_select_sets', [
-            'section' => 'tab_1',
-            'label' => 'Select Selection',
-            'description' => 'This is a custom select input.',
-            'type' => 'select',
-            'choices' => [
-                'red' => 'Red',
-                'blue' => 'Blue',
-                'green' => 'Green',
-            ],
-        ]);
-
-    ****/
 ?>

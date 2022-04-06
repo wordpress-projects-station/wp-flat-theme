@@ -2,6 +2,44 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+
+    // refresh standard actual jquery
+    function refresh_jquery(){
+
+        // wp_deregister_script('jquery');
+        // wp_enqueue_script('jquery', 'https://code.jquery.com/jquery-3.6.0.min.js', [], '', false );
+
+    }
+    add_action('init','refresh_jquery');
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    // add bootstrap
+    function add_bootstrap(){
+        wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css', null, true, 'all'); 
+        wp_enqueue_style('bootstrap-min', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', null, true, 'all');
+        wp_enqueue_style('bootstrap-theme', get_template_directory_uri().'/theme.css', null, true, 'all');
+        wp_enqueue_script('bootstrap-bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', ['jquery'], '', false );
+    }
+    add_action('wp_footer','add_bootstrap');
+
+
+    // add bootstrap walkers
+    function add_bootstrap_walkers(){
+
+        // bootstrap coverter: add navigations
+        include get_template_directory().'/adds/libs.bootstrap.navwalker.php';
+
+        // bootstrap coverter: add comments 
+        include get_template_directory().'/adds/libs.bootstrap.comments.php';
+
+    }
+    add_action( 'after_setup_theme', 'add_bootstrap_walkers' );
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
     // add random post url
     add_filter( 'pre_get_posts', 'random_post' );
     function random_post( $query ) {
@@ -10,7 +48,7 @@
 
             global $wpdb;
 
-            if ( $post_id = $wpdb->get_var( "SELECT ID from $wpdb->posts WHERE post_type LIKE 'post' AND post_status LIKE 'publish' ORDER BY RAND() LIMIT 1;" ) ) {
+            if ( $post_id = $wpdb->get_var( "SELECT ID from $wpdb->posts WHERE post_type LIKE 'post' AND post_password LIKE '' AND post_status LIKE 'publish' ORDER BY RAND() LIMIT 1;" ) ) {
                 $post = get_post( $post_id );
                 $query->set( 'name', $post->post_name );
             }
@@ -19,6 +57,7 @@
 
     }
 
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
     function shortcode_user_avatar() {
 
@@ -111,5 +150,10 @@
 
     ]);
 
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    // load customizable style
+    wp_enqueue_style('custom-css', get_stylesheet_directory_uri() . 'style.css', null, false, 'all');
 
 ?>

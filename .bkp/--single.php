@@ -3,7 +3,7 @@
 
     echo '<hr><h3>YOU ARE IN SINGLE<h3><hr>';
 
-    $pagetype='post';
+    $looptype='post';
     
     get_header();
 

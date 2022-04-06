@@ -2,7 +2,7 @@
 
     echo '<hr><h3>YOU ARE IN FRONT PAGE<h3><hr>';
 
-    $pagetype='front-page';
+    $looptype='front-page';
 
     get_header();
 

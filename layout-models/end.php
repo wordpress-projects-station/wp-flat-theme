@@ -1,4 +1,5 @@
-<footer class="bg-dark text-white">
+
+<div class="bg-dark text-white">
     <div class="border-bottom border-light border-2">
 
             <div class="container">
@@ -50,4 +51,4 @@
             </div>
 
     </div>
-</footer>
+</div>

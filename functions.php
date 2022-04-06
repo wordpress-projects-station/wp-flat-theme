@@ -1,12 +1,8 @@
-<?php
+<?
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
     include_once __DIR__.'/adds/libs.methods.php';
-
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
-    include_once __DIR__.'/adds/libs.woocommerce.php';
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
     
@@ -18,11 +14,6 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-    include_once __DIR__.'/adds/libs.bootstrap.php';
-
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
-    include_once __DIR__.'/adds/wp.style.php';
-
+    include_once __DIR__.'/adds/libs.woocommerce.php';
     
 ?>

@@ -3,3 +3,8 @@
 #ppc-button { 
     max-width:300px
 }
+
+/* account list of menu hide */
+.woocommerce-MyAccount-navigation:not(.btn-group) ul{ 
+    display:none; 
+} 
