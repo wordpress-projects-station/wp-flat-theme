@@ -108,6 +108,13 @@
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
+    // bypass error of oversized images
+    add_filter( 'big_image_size_threshold', '__return_false' );
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
     // add categories for attachments
     function support_categories_for_attachments() {
         register_taxonomy_for_object_type( 'category', 'attachment' );

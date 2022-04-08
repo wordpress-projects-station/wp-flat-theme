@@ -731,3 +731,5 @@
     }
 
     add_action( 'wp', 'release_customization' );
+
+    ?>
