@@ -108,8 +108,19 @@
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    // bypass error of oversized images
-    add_filter( 'big_image_size_threshold', '__return_false' );
+    // unlock oversized images
+    // function support_big_image_size_threshold( $threshold ) {
+    //     unset( $sizes['1536x1536']); // disable 2x medium-large size
+    //     unset( $sizes['2048x2048']); // disable 2x large size
+    //     return 9999;
+    // }
+    // add_filter('big_image_size_threshold', 'support_big_image_size_threshold', 100, 1);
+
+    // // prevent error oversized images
+    // function prevent_server_oversize_image_error($editors) {
+    //     return ['WP_Image_Editor_GD', 'WP_Image_Editor_Imagick'];
+    // }
+    // add_filter('wp_image_editors', 'prevent_server_oversize_image_error');
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/

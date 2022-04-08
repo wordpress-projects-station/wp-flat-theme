@@ -188,7 +188,6 @@
 
             if ( isset( $_FILES['image'] ) ) {
 
-
                 try {
 
                     require_once( ABSPATH . 'wp-admin/includes/image.php' );
@@ -199,24 +198,59 @@
                     // $attachment_id = media_handle_upload( 'image', 0 );
                     // or below alterntaive (more info : https://wordpress.stackexchange.com/questions/305192/media-handle-upload-for-local-files)
 
-                    $file_mime          = $_FILES['image']['type'];
+                    // if need to trails windows
+                    // $path = (DIRECTORY_SEPARATOR === '\\')
+                    // ? str_replace('/', '\\', $subject)
+                    // : str_replace('\\', '/', $subject);
 
+
+                    // generete main folder
+                    $user_files_path = wp_upload_dir()['basedir'].'/users_files/'.$user_id;
+                    is_dir($user_files_path) ?: mkdir($user_files_path, 0775, true);
+
+
+                    // set base file properties
                     $ext                = explode('.', $_FILES['image']['name']);
                     $file_extension     = end($ext);
+                    $file_name          = 'user_avatar_'.$user_id.'.'.'png';
+                    $file_mime          = $_FILES['image']['type'];//'image/png'
 
-                    $file_name          = 'profile_picture_'.$user_id.'.'.$file_extension;
 
-                    $path_source        = $_FILES['image']['tmp_name'];
-                    $path_destination   = wp_upload_dir()['basedir'].'/users_pics/'.$file_name;
+                    // check extension
+                    if( ! in_array($file_extension,['png','jpg','jpeg']) )
+                    throw new Exception("<p>file wrong! only png or jpg.</p>");
+
+
+                    // limit file size KB
+                    if( $file['size']/1024 > 1500)
+                    throw new Exception("<p>file wrong! maximum 1.5mb.</p>");
+
+
+                    //limit size of file
+                    $image_size = getimagesize($file['tmp_name']);
+                    if( /*W*/$image_size[0]>2000 || /*H*/$image_size[1]>2000 )
+                    throw new Exception("<p>file wrong! image size max: 2000 x 2000 px</p>");
+
+
+                    // generete paths
+                    $original_source    = $_FILES['image']['tmp_name'];
+                    $path_destination   = $user_files_path.'/'.$file_name;
                     $local_file         = $path_destination.'.'.$file_extension;
 
-                    if( file_exists( $path_destination ) ) {
 
-                        move_uploaded_file( $path_source , $path_destination );
+                    // clear all (eventually) ex files
+                    $files = glob( $user_files_path.'/user_avatar_'.$user_id.'-*');
+                    foreach ( $files as $file ) unlink($file);
 
-                    } else {
 
-                        move_uploaded_file( $path_source , $path_destination );
+                    $file_exist = sizeof($files);
+
+
+                    // from upload to folder
+                    move_uploaded_file( $original_source , $path_destination );
+
+                    // generate attach id
+                    if( ! $file_exist ) {
 
                         $attachment = [
                             'post_mime_type' => $file_mime,
@@ -224,39 +258,49 @@
                             'post_content' => '',
                             'post_status' => 'inherit'
                         ];
+    
+                        $attach_id = wp_insert_attachment( $attachment, $path_destination );
 
-                        $attach_id      = wp_insert_attachment( $attachment, $path_destination );
-                        $attach_data    = wp_generate_attachment_metadata( $attach_id, $path_destination );
-                                          wp_update_attachment_metadata( $attach_id, $attach_data );
+                    }
 
+                    // get attach id
+                    else {
+
+                        $attach_id = get_user_meta( $user_id, 'avatar', true );
+
+                    }
+
+                    // generate thumbnails
+                    $attach_data   = wp_generate_attachment_metadata( $attach_id, $path_destination );
+
+
+                    // final assingment
+                    if( ! $file_exist ) {
+                        wp_update_attachment_metadata( $attach_id, $attach_data );
                         wp_set_object_terms($attach_id, 'profile-picture', 'category', true);
-
-                        update_user_meta( $user_id, 'image', $attach_id );
-
+                        update_user_meta( $user_id, 'avatar', $attach_id );
                     }
 
                 }
 
                 catch (Exception $e) {
 
-                    if( $e->getMessage() ) {
+                    $errors = $e->getMessage() ?:false;
+
+                    if( $errors ) {
                         echo '<p> Image uploaded -> Operation fail </p>';
-                        echo 'Caught exception: ',  $e->getMessage(), "\n";
+                        echo 'Caught exception: ',  $errors, "\n";
                     }
 
                     else {
                         echo '<p> Image uploaded -> Operation success </p>';
-                        echo '<p> Image base: '.wp_upload_dir()['basedir'].'/users_pics/'.$file_name.'</p>';
+                        echo '<p> Image base: .../users_avatars/'.$file_name.'</p>';
                     }
 
-                    echo '<p> Refresh in 5 seconds</p>';
-                    echo "<meta http-equiv='refresh' content='7'>";
+                    // echo '<p> Refresh in 5 seconds</p>';
+                    // echo "<meta http-equiv='refresh' content='7'>";
 
                 }
-
-                // finally{
-                //     echo "<meta http-equiv='refresh' content='5'>";
-                // }
 
             }
 
@@ -265,7 +309,7 @@
 
         //: E ➔ Call result... the attached url
         function get_profile_image($currentUserId) {
-            $attachment_id = get_user_meta( $currentUserId, 'image', true );
+            $attachment_id = get_user_meta( $currentUserId, 'avatar', true );
             if ( $attachment_id ) {
                 return wp_get_attachment_url( $attachment_id );
             }
