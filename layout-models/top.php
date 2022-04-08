@@ -65,24 +65,12 @@
     <? if( $mods->heading_status ) { ?>
 
         <? 
-
-            $banner='';
-            if( $mods->header_banner_mode == 'in-head' ){
-
-                $banner_url = get_the_post_thumbnail_url( get_the_ID() );
-
-                // $banner_url = get_the_post_thumbnail_url( $post->ID );
-
-                $banner = $banner_url
-                    ? ' background: url('.$banner_url.') center/cover; '
-                    : ' background: url('.get_template_directory_uri().'/adds/404IMAGE.PNG) center/cover; ';
-
-            }
-
+            if( $mods->header_banner_mode == 'in-head' )
+            $banner = get_banner_background(get_the_ID());
         ?>
         
         <div class="bg-light" id="page-heading-title">
-            <div style="<?= $mods->heading_size.$banner; ?>">
+            <div style="<?= $mods->heading_size.' '.$banner; ?>">
                 <div class="<?= $mods->heading_frame; ?>">
 
                     <?

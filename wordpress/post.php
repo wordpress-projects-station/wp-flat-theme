@@ -14,19 +14,8 @@
         </h2>
 
         <? 
-
-            $banner = '';
-            if( $mods->header_banner_mode == 'in-body' ) {
-
-                $banner_url = get_the_post_thumbnail_url( get_the_ID() );
-
-                $banner = $banner_url
-                    ? '<div style="height:40vh; background: url('.$banner_url.') center/cover;"></div>'
-                    : '<div style="height:40vh; background: url('.get_template_directory_uri().'/adds/404IMAGE.PNG) center/cover;"></div>';
-
-                echo $banner;
-            }
-
+            if( $mods->header_banner_mode == 'in-body' )
+            echo '<div style="height:40vh; '.get_banner_background(get_the_ID()).'"></div>';
         ?>
 
         <?= get_post_field('post_content', $post->ID); ?>
@@ -47,7 +36,7 @@
             if ( empty( $display_name ) ) $display_name = get_the_author_meta( 'nickname', $pa );
 
             $user_avatar = get_avatar_url( get_the_author_meta('user_email'), $size = '200');
-            if ( empty( $user_avatar ) || $user_avatar == 'https://secure.gravatar.com/avatar/e6934513e6f201ee33c293bf346abe5d?s=96&d=blank&r=g' ) $user_avatar = 'https://source.unsplash.com/200x200';
+            if ( empty( $user_avatar ) || str_contains($user_avatar,'d=blank') ) $user_avatar = 'https://source.unsplash.com/200x200';
 
             $user_description = get_the_author_meta( 'user_description', $pa );
             $user_website = get_the_author_meta('url', $pa);
@@ -98,7 +87,7 @@
     <section>
 
         <div class="mt-4 mb-4">
-            <b>In date : <?= get_post_field('post_date', $post->ID); ?></b>  &nbsp;&nbsp;⋮&nbsp;&nbsp;<b>Categories :&nbsp;&nbsp;</b> <? $categories = get_the_category(); foreach ($categories as $cat) {echo '<span class="car"><a class="btn btn-outline-info btn-sm" href="'.get_category_link($cat->term_id).'"> '.$cat->name.' </a></span>&nbsp; ';}?> &nbsp;&nbsp;⋮&nbsp;&nbsp;<b>Arguments :&nbsp;</b> <? $tags = get_the_tags(); foreach ($tags as $tag) {echo '<span class="category"><a class="btn btn-info btn-sm" href="'.get_tag_link($tag->term_id).'"> '.$tag->name.' </a></span>&nbsp; ';}?>
+            <b>In date : <?= get_post_field('post_date', $post->ID); ?></b>&nbsp;&nbsp;<?$categories = get_the_category(); if($categories){ ?>⋮&nbsp;&nbsp;<b>Categories :&nbsp;&nbsp;</b> <? foreach ($categories as $cat) {echo '<span class="car"><a class="btn btn-outline-info btn-sm" href="'.get_category_link($cat->term_id).'"> '.$cat->name.' </a></span>&nbsp; ';}} $tags = get_the_tags(); if($tags) {?> &nbsp;&nbsp;⋮&nbsp;&nbsp;<b>Arguments :&nbsp;</b> <? foreach ($tags as $tag) {echo '<span class="category"><a class="btn btn-info btn-sm" href="'.get_tag_link($tag->term_id).'"> '.$tag->name.' </a></span>&nbsp; ';}}?>
         </div>
 
     </section>
@@ -113,7 +102,7 @@
             <?= ($post->comment_count>0) ? "{$post->comment_count} Commenti":null; ?>
         </h3>
 
-        <ol class="list-unstyled border border-2 border-white p-3">
+        <ol class="list-unstyled border border-2 p-3">
 
             <? 
 
@@ -129,7 +118,7 @@
                     'callback' => 'bootstrap_comments'
                 ], $comments );
 
-                echo'<li>';
+                // echo'<li>';
 
             ?>
 

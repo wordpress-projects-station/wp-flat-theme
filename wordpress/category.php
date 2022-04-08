@@ -1,5 +1,7 @@
+<? if ( ! defined ( 'ABSPATH' )) exit (); ?>
 
 <?
+
     $queryed = the_search_query();
     if(!$queryed) $queryed = basename($_SERVER['REQUEST_URI']);
 
@@ -63,7 +65,7 @@
 
                 <div class="archivie-post card mx-auto">
 
-                    <?= getPostBanner(get_the_ID()); ?>
+                    <div style="height:200px; <?= get_banner_background(get_the_ID()); ?>"></div>
 
                     <div class="card-body">
 
@@ -86,4 +88,4 @@
 
 </div>
 
-<? loop_pagination($wp_query); ?>
+<? //loop_pagination($wp_query); ?>

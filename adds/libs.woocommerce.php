@@ -1,6 +1,6 @@
 <?
 
-    // if ( class_exists( 'WooCommerce' ) ) {
+    if ( class_exists( 'WooCommerce' ) ) {
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
@@ -48,15 +48,16 @@
 
 
         function add_woo_style() {    
-            wp_enqueue_style( 'woostyle-css', get_template_directory_uri().'/woocommerce/woostyle.css' );
+            wp_enqueue_style( 'woostyle', get_template_directory_uri().'/woocommerce/woostyle.css' );
         }
         add_action( 'wp_enqueue_scripts', 'add_woo_style' );
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
+
         function add_woo_scripts() {
-            wp_enqueue_script('wooscripts-js', get_template_directory_uri().'/woocommerce/wooscripts.js', ['jquery','jquery-blockui-js'], true );
+            wp_enqueue_script('wooscripts', get_template_directory_uri().'/woocommerce/wooscripts.js', ['jquery','jquery-blockui-js'], true );
         }
         add_action( 'wp_enqueue_scripts', 'add_woo_scripts' );
 
@@ -143,26 +144,6 @@
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
-        //? function bootstrap_products_grid_start() {
-        //?     ob_start(); 
-        //? }
-        //? function bootstrap_products_grid_loop() {
-        //?     $html = ob_get_clean();
-        //?     $html = preg_replace(['/\>[^\S ]+/s','/[^\S ]+\</s','/(\s)+/s'],['>','<','\\1'],$html);
-        //?     $html = preg_replace('/<ul class="/', '<div class="row mt-3 mb-3 ', $html ,1);
-        //?     $html = preg_replace('/ul>/', 'div>', $html ,1);
-        //?     echo $html;
-        //? }
-        //? function bootstrap_products_grid_end() {
-        //?     ob_end_flush(); 
-        //? }
-        //? add_filter( 'woocommerce_before_shop_loop', 'bootstrap_products_grid_start' );
-        //? add_action( 'woocommerce_after_shop_loop', 'bootstrap_products_grid_loop' );
-        //? add_filter( 'woocommerce_after_shop_loop', 'bootstrap_products_grid_end' );
-
-
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
         // add_action('init','woo_filter_sidebar');
         // function woo_filter_sidebar(){ register_sidebar([ 'name' => 'woo_filter_sidebar','id' => 'woo_filter_sidebar' ]); }
 
@@ -171,60 +152,157 @@
 
         /*
         // add upload image in profile
-        // info: https://nuomiphp.com/a/stackoverflow/en/62196e0866630118d6380851.html
+        // info : https://nuomiphp.com/a/stackoverflow/en/62196e0866630118d6380851.html
+        //      : https://stackoverflow.com/questions/62016183/add-a-profile-picture-file-upload-on-my-account-edit-account-in-woocommerce/62021104#62021104
         */
 
         //: A ➔ expand the form to allow image upload
 
-        add_action( 'woocommerce_edit_account_form_tag', 'account_form_in_multipart' );
         function account_form_in_multipart() {
             echo 'enctype="multipart/form-data"';
         } 
+        add_action( 'woocommerce_edit_account_form_tag', 'account_form_in_multipart' );
 
         //: B ➔ add profile image field in edit account 
 
-        add_action( 'woocommerce_edit_account_form_start', 'edit_account_image_field' );
         function edit_account_image_field() {
             ?>
-            <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                <label class="custom-file-label" for="image"><?php esc_html_e( 'Image', 'woocommerce' ); ?>&nbsp;<span class="required">*</span></label>
-                <input type="file" class="fwoocommerce-Input custom-file-input" name="image" accept="image/x-png,image/gif,image/jpeg">
+            <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide mb-2">
+                <label class="custom-file-label" for="image"><? esc_html_e( 'Image', 'woocommerce' ); ?>&nbsp;<span class="required">*</span></label>
+                <input type="file" class="fwoocommerce-Input custom-file-input form-control" name="image" accept="jpg,jpeg,png,webp" multiple="false">
             </div>
             <?
         }
+        add_action( 'woocommerce_edit_account_form_start', 'edit_account_image_field' );
 
         //: C ➔  Validate image file
 
-        add_action( 'woocommerce_save_account_details_errors','check_errors_of_image', 10, 1 );
         function check_errors_of_image( $args ){
             if ( isset($_POST['image']) && empty($_POST['image']) ) $args->add( 'image_error', __( 'Please provide a valid image', 'woocommerce' ) );
         }
+        add_action( 'woocommerce_save_account_details_errors','check_errors_of_image', 10, 1 );
 
         //: D ➔ Save the data
 
-        add_action( 'woocommerce_save_account_details', 'save_account_details_with_the_image', 10, 1 );
-        function save_account_details_with_the_image( $user_id ) {  
+        function save_account_details_with_the_image( $user_id ) {
 
             if ( isset( $_FILES['image'] ) ) {
 
-                require_once( ABSPATH . 'wp-admin/includes/image.php' );
-                require_once( ABSPATH . 'wp-admin/includes/file.php' );
-                require_once( ABSPATH . 'wp-admin/includes/media.php' );
 
-                $attachment_id = media_handle_upload( 'image', 0 );
+                try {
 
-                if ( is_wp_error( $attachment_id ) )
-                update_user_meta( $user_id, 'image', $_FILES['image'] . ": " . $attachment_id->get_error_message() );
-                else
-                update_user_meta( $user_id, 'image', $attachment_id );
+                    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+                    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+                    
+                    // require_once( ABSPATH . 'wp-admin/includes/media.php' );
+                    // direct attach in normal folder:
+                    // $attachment_id = media_handle_upload( 'image', 0 );
+                    // or below alterntaive (more info : https://wordpress.stackexchange.com/questions/305192/media-handle-upload-for-local-files)
+
+                    $file_mime          = $_FILES['image']['type'];
+
+                    $ext                = explode('.', $_FILES['image']['name']);
+                    $file_extension     = end($ext);
+
+                    $file_name          = 'profile_picture_'.$user_id.'.'.$file_extension;
+
+                    $path_source        = $_FILES['image']['tmp_name'];
+                    $path_destination   = wp_upload_dir()['basedir'].'/users_pics/'.$file_name;
+                    $local_file         = $path_destination.'.'.$file_extension;
+
+                    if( file_exists( $path_destination ) ) {
+
+                        move_uploaded_file( $path_source , $path_destination );
+
+                    } else {
+
+                        move_uploaded_file( $path_source , $path_destination );
+
+                        $attachment = [
+                            'post_mime_type' => $file_mime,
+                            'post_title' => sanitize_file_name( $file_name ),
+                            'post_content' => '',
+                            'post_status' => 'inherit'
+                        ];
+
+                        $attach_id      = wp_insert_attachment( $attachment, $path_destination );
+                        $attach_data    = wp_generate_attachment_metadata( $attach_id, $path_destination );
+                                          wp_update_attachment_metadata( $attach_id, $attach_data );
+
+                        wp_set_object_terms($attach_id, 'profile-picture', 'category', true);
+
+                        update_user_meta( $user_id, 'image', $attach_id );
+
+                    }
+
+                }
+
+                catch (Exception $e) {
+
+                    if( $e->getMessage() ) {
+                        echo '<p> Image uploaded -> Operation fail </p>';
+                        echo 'Caught exception: ',  $e->getMessage(), "\n";
+                    }
+
+                    else {
+                        echo '<p> Image uploaded -> Operation success </p>';
+                        echo '<p> Image base: '.wp_upload_dir()['basedir'].'/users_pics/'.$file_name.'</p>';
+                    }
+
+                    echo '<p> Refresh in 5 seconds</p>';
+                    echo "<meta http-equiv='refresh' content='7'>";
+
+                }
+
+                // finally{
+                //     echo "<meta http-equiv='refresh' content='5'>";
+                // }
 
             }
 
         }
+        add_action( 'woocommerce_save_account_details', 'save_account_details_with_the_image', 10, 1 );
+
+        //: E ➔ Call result... the attached url
+        function get_profile_image($currentUserId) {
+            $attachment_id = get_user_meta( $currentUserId, 'image', true );
+            if ( $attachment_id ) {
+                return wp_get_attachment_url( $attachment_id );
+            }
+        } 
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
+
+        // function woo_attachment_category( $attach_ID ) {
+
+        //     // if( wp_get_object_terms( $attach_ID, 'category' ) ) { null } else{
+
+        //         wp_set_object_terms( $attach_ID, 'products-shop', 'category', true);
+
+        //     // }
+        //     // wp_set_post_categories( $attachment_ID, 'shop-woocommerce' );
+        // }
+        // add_action('add_attachment', 'woo_attachment_category');
+        // add_action('edit_attachment', 'woo_attachment_category');
+
+        // function add_category_automatically($post_ID) {
+
+        //     // $attach = get_post($post_ID);
+        //     // $parentid = $attach->post_parent;
+        //     // $post_type = get_post_type($attach->post_parent);
+
+        //     // if ( $parentid /*&& $post_type == 'product'*/ ) {
+        //         wp_set_object_terms($post_ID, 'shop-woocommerce', 'category', true);
+        //         // $cats = get_the_category()($post->post_parent);
+        //         // foreach ($cats as $cat)
+        //         // wp_set_object_terms($parentID, $cat->slug, 'category', true);
+        //     // }
+        // }
+        // add_action('add_attachment', 'add_category_automatically');
+        
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
         /*
         // Mod Form field of woocommerce for add bootstrap
@@ -233,102 +311,110 @@
 
         //: A) Not all woo fields are in B, so... Get HTML and rewrote their class..
 
-        function start_mod_html_inWooEditAccount() {
-            if( basename($_SERVER['REQUEST_URI']) == 'edit-account' ) { ob_start(); }
-        }
-        function end_mod_html_inWooEditAccount() {
-            if( basename($_SERVER['REQUEST_URI']) == 'edit-account' ) {
-                $html = ob_get_clean();
-                echo str_replace( 'input-text', 'input-text form-control', $html );
-            }
-        }
-        add_action( 'wp_head', 'start_mod_html_inWooEditAccount' );
-        add_action( 'wp_footer', 'end_mod_html_inWooEditAccount' );
+        // function start_mod_html_inWooEditAccount() {
+        //     if( basename($_SERVER['REQUEST_URI']) == 'edit-account' ) { ob_start(); }
+        // }
+        // function end_mod_html_inWooEditAccount() {
+        //     if( basename($_SERVER['REQUEST_URI']) == 'edit-account' ) {
+        //         $html = ob_get_clean();
+        //         echo str_replace( 'input-text', 'input-text form-control', $html );
+        //     }
+        // }
+        // add_action( 'wp_head', 'start_mod_html_inWooEditAccount' );
+        // add_action( 'wp_footer', 'end_mod_html_inWooEditAccount' );
     
 
-        //: B) regual walker of fields arguments for add the class
+        // //: B) regual walker of fields arguments for add the class
 
-        function woo_bootstrap_input_classes( $args, $key, $value = null  ) {
+        // function woo_bootstrap_input_classes( $args, $key, $value = null  ) {
 
-            /* This is not meant to be here, but it serves as a reference
-            of what is possible to be changed.
-            $defaults = array(
-                'type'			  => 'text',
-                'label'			 => '',
-                'description'	   => '',
-                'placeholder'	   => '',
-                'maxlength'		 => false,
-                'required'		  => false,
-                'id'				=> $key,
-                'class'			 => array(),
-                'label_class'	   => array(),
-                'input_class'	   => array(),
-                'return'			=> false,
-                'options'		   => array(),
-                'custom_attributes' => array(),
-                'validate'		  => array(),
-                'default'		   => '',
-            ); */
+        //     /* This is not meant to be here, but it serves as a reference
+        //     of what is possible to be changed.
+        //     $defaults = array(
+        //         'type'			  => 'text',
+        //         'label'			 => '',
+        //         'description'	   => '',
+        //         'placeholder'	   => '',
+        //         'maxlength'		 => false,
+        //         'required'		  => false,
+        //         'id'				=> $key,
+        //         'class'			 => array(),
+        //         'label_class'	   => array(),
+        //         'input_class'	   => array(),
+        //         'return'			=> false,
+        //         'options'		   => array(),
+        //         'custom_attributes' => array(),
+        //         'validate'		  => array(),
+        //         'default'		   => '',
+        //     ); */
         
-            // Start field type switch case
-            $args['class'][] = 'form-group';
+        //     // Start field type switch case
+        //     $args['class'][] = 'form-group';
 
-            switch ( $args['type'] ) {
+        //     switch ( $args['type'] ) {
         
-                case 'selectselect' :  /* Targets all select input type elements, except the country and state select input types */
-                    $args['class'][] = 'form-group'; // Add a class to the field's html element wrapper - woocommerce input types (fields) are often wrapped within a <p></p> tag
-                    $args['input_class'] = array('form-control', 'input-lg'); // Add a class to the form input itself
-                    //$args['custom_attributes']['data-plugin'] = 'select2';
-                    $args['label_class'] = array('control-label');
-                    $args['custom_attributes'] = array( 'data-plugin' => 'select2', 'data-allow-clear' => 'true', 'aria-hidden' => 'true',  ); // Add custom data attributes to the form input itself
-                break;
+        //         case 'selectselect' :
+        //             $args['class'][] = 'form-group';
+        //             $args['input_class'] = array('form-control', 'input-lg');
+        //             //$args['custom_attributes']['data-plugin'] = 'select2';
+        //             $args['label_class'] = array('control-label');
+        //             $args['custom_attributes'] = array( 'data-plugin' => 'select2', 'data-allow-clear' => 'true', 'aria-hidden' => 'true',  );
+        //         break;
         
-                case 'country' : /* By default WooCommerce will populate a select with the country names - $args defined for this specific input type targets only the country select element */
-                    $args['class'][] = 'form-group single-country';
-                    $args['label_class'] = array('control-label');
-                break;
+        //         case 'country' :
+        //             $args['class'][] = 'form-group single-country';
+        //             $args['label_class'] = array('control-label');
+        //         break;
         
-                case "state" : /* By default WooCommerce will populate a select with state names - $args defined for this specific input type targets only the country select element */
-                    $args['class'][] = 'form-group'; // Add class to the field's html element wrapper
-                    $args['input_class'] = array('form-control', 'input-lg'); // add class to the form input itself
-                    //$args['custom_attributes']['data-plugin'] = 'select2';
-                    $args['label_class'] = array('control-label');
-                    $args['custom_attributes'] = array( 'data-plugin' => 'select2', 'data-allow-clear' => 'true', 'aria-hidden' => 'true',  );
-                break;
+        //         case "state" :
+        //             $args['class'][] = 'form-group';
+        //             $args['input_class'] = array('form-control', 'input-lg');
+        //             //$args['custom_attributes']['data-plugin'] = 'select2';
+        //             $args['label_class'] = array('control-label');
+        //             $args['custom_attributes'] = array( 'data-plugin' => 'select2', 'data-allow-clear' => 'true', 'aria-hidden' => 'true',  );
+        //         break;
         
         
-                case "password" :
-                case "text" :
-                case "email" :
-                case "tel" :
-                case "number" :
-                    $args['class'][] = 'form-group';
-                    //$args['input_class'][] = 'form-control input-lg'; // will return an array of classes, the same as bellow
-                    $args['input_class'] = array('form-control', 'input-lg');
-                    $args['label_class'] = array('control-label');
-                break;
+        //         case "password" :
+        //         case "text" :
+        //         case "email" :
+        //         case "tel" :
+        //         case "number" :
+        //             $args['class'][] = 'form-group';
+        //             //$args['input_class'][] = 'form-control input-lg';
+        //             $args['input_class'] = array('form-control', 'input-lg');
+        //             $args['label_class'] = array('control-label');
+        //         break;
         
-                case 'textarea' :
-                    $args['input_class'] = array('form-control', 'input-lg');
-                    $args['label_class'] = array('control-label');
-                break;
+        //         case 'textarea' :
+        //             $args['input_class'] = array('form-control', 'input-lg');
+        //             $args['label_class'] = array('control-label');
+        //         break;
         
-                case 'checkbox' :
-                break;
+        //         case 'checkbox' :
+        //         break;
         
-                case 'radio' :
-                break;
+        //         case 'radio' :
+        //         break;
+
+        //         case 'submit' :
+        //         $args['class'][] = 'mt-3 mr-1 btn btn-outline-primary';
+        //         break;
+
+        //         case 'reset' :
+        //         $args['class'][] = 'mt-3 mr-1 btn btn-outline-secondary';
+        //         break;
+                
+        //         default :
+        //             $args['class'][] = 'form-group';
+        //             $args['input_class'] = array('form-control', 'input-lg');
+        //             $args['label_class'] = array('control-label');
+        //         break;
+        //     }
         
-                default :
-                    $args['class'][] = 'form-group';
-                    $args['input_class'] = array('form-control', 'input-lg');
-                    $args['label_class'] = array('control-label');
-                break;
-            }
-        
-            return $args;
-        }
-        add_filter('woocommerce_form_field_args','woo_bootstrap_input_classes',10,3);
+        //     return $args;
+        // }
+        // add_filter('woocommerce_form_field_args','woo_bootstrap_input_classes',10,3);
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
@@ -349,5 +435,8 @@
         // }
 
 
-    // }
-?>
+
+        
+    }
+    
+    ?>

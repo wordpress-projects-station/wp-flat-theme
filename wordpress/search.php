@@ -1,3 +1,4 @@
+<? if ( ! defined ( 'ABSPATH' )) exit (); ?>
 
 <div class="mb-5 border-bottom border-dark">
 
@@ -21,7 +22,7 @@
 
                 <div class="archivie-post card mx-auto">
 
-                    <?= getPostBanner(get_the_ID()); ?>
+                    <div style="height:200px; <?= get_banner_background(get_the_ID()); ?>"></div>
 
                     <div class="card-body">
 

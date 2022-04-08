@@ -322,6 +322,103 @@
 
     } , 10 );
 
+    // set Design of the Account
+
+    add_action( 'customize_register', function( $customizer ) {
+
+        // tab-title
+
+        $customizer->add_section('design_of_account',[
+            'panel'    => 'design_controller',
+            'priority' => 4,
+            'title'    => 'Design of Account',
+        ]);
+
+        // tab-action
+
+        $customizer->add_control( 'button_open_random_page', [
+            'section'   => 'design_of_account',
+            'priority'  => 0,
+            'settings'  => [],
+            'type'      => 'button',
+            'input_attrs' => [
+                'value' => 'Open a profile page',
+                'class' => 'button button-border button-primary',
+                'data-url' => get_home_url().'/account',
+            ],
+        ]);
+
+        $customizer->add_control('blank', [ 'label'=> '&#8206;', 'section'=>'design_of_account', 'type'=>'hidden', 'settings' => [] ]);
+
+        // thumbnail
+
+        $customizer->add_setting('account_banner_settings',[ 'default'=>'in-head' ]);
+        $customizer->add_control('account_banner_data',[
+            'section'   => 'design_of_account',
+            'label'     => 'Main banner status',
+            'settings'  => 'account_banner_settings',
+            'type'      => 'radio',
+            'choices'   => [
+                'off'      => 'OFF',
+                'in-head'  => 'in head',
+                'in-body'  => 'in body',
+            ],
+        ]);
+
+        // thumbnail-stle
+
+        $customizer->add_setting('account_header_style_settings',[ 'default'=>'framed-big' ]);
+        $customizer->add_control('account_header_style_data',[
+            'section'  => 'design_of_account',
+            'label'    => 'Header style',
+            'settings' => 'account_header_style_settings',
+            'type'     => 'radio',
+            'choices'  => [
+                'off'         => 'OFF',
+                'framed-slim' => 'framed slim',
+                'framed-big'  => 'framed big',
+                'wide-slim'   => 'wide slim',
+                'wide-big'    => 'wide big',
+            ],
+        ]);
+
+        // sidebar-small
+
+        $customizer->add_setting( 'account_small_side_settings', ['default'=>'dynamic-left'] );
+        $customizer->add_control( 'account_small_side_data', [
+            'section'   => 'design_of_account',
+            'label'     => 'Small Sidebar position',
+            'type'      => 'radio',
+            'settings'  => 'account_small_side_settings',  
+            'choices'   => [
+                'off'  => 'OFF',
+                'static-left'  => 'static left',
+                'static-right' => 'static right',
+                'dynamic-left'  => 'dynamic left',
+                'dynamic-right' => 'dynamic right',
+            ],
+        ]);
+
+        // sidebar-big
+
+        $customizer->add_setting( 'account_big_side_settings', ['default'=>'dynamic-right'] );
+        $customizer->add_control( 'account_big_side_data', [
+            'section'  => 'design_of_account',
+            'label'    => 'Big Sidebar position',
+            'type'     => 'radio',
+            'settings' => 'account_big_side_settings',
+            'choices'  => [
+                'off'  => 'OFF',
+                'static-left'  => 'static left',
+                'static-right' => 'static right',
+                'dynamic-left'  => 'dynamic left',
+                'dynamic-right' => 'dynamic right',
+            ],
+        ]);
+
+
+    } , 10 );
+
     // set Design of the archive
 
     add_action( 'customize_register', function( $customizer ) {
@@ -524,7 +621,7 @@
         wp_enqueue_style('wp-customizer-css', get_stylesheet_directory_uri() . '/adds/libs.customizer.css', null, false, 'all');
 
     }
-    add_action( 'customize_controls_init', 'add_customize_sub_controllers' );
+    add_action( 'admin_enqueue_scripts', 'add_customize_sub_controllers' );
 
 
     function release_customization() {
@@ -579,7 +676,7 @@
         elseif($tas=='center')     $mods->top_menu_position = "justify-content-center";
         else                       $mods->top_menu_position = "justify-content-start";
 
-        $mods->top_menu_row_type = $tas=='left' || $tas=='center' ? 'style="width:100%"': false;
+        $mods->top_menu_row_type = $tas=='left' || $tas=='center' ? 'style="width:100%"' : false;
 
         /* - - - - - - - - - - */
         
@@ -600,7 +697,7 @@
         /* - - - - - - - - - - */
 
         $hbs = get_theme_mod( $looptype['type'].'_banner_settings' );
-        $mods->header_banner_mode =  str_contains( $hbs,'in-body' ) ? 'in-body' : str_contains( $hbs,'in-head' ) ? 'in-head' : false ; 
+        $mods->header_banner_mode =  ( str_contains( $hbs,'in-body' ) ? 'in-body' : str_contains( $hbs,'in-head' ) ) ? 'in-head' : false ; 
 
 
 
@@ -611,13 +708,13 @@
         /* - - - - - - - - - - */
 
         $sss = get_theme_mod( $looptype['type'].'_small_side_settings' );
-        $mods->sidebar_small_position = str_contains( $sss , 'left' ) ? 'left' : str_contains( $sss , 'right' ) ? 'right' : false ;
+        $mods->sidebar_small_position = ( str_contains( $sss , 'left' ) ? 'left' : str_contains( $sss , 'right' ) ) ? 'right' : false ;
         $mods->sidebar_small_type = str_contains( $sss, 'dynamic') ? 'dynamic' : 'static';
 
         /* - - - - - - - - - - */
 
         $sbs = get_theme_mod( $looptype['type'].'_big_side_settings' );
-        $mods->sidebar_big_position = str_contains( $sbs , 'left' ) ? 'left' : str_contains( $sbs , 'right' ) ? 'right' : false ;
+        $mods->sidebar_big_position = ( str_contains( $sbs , 'left' ) ? 'left' : str_contains( $sbs , 'right' ) ) ? 'right' : false ;
         $mods->sidebar_big_type = str_contains( $sbs, 'dynamic') ? 'dynamic' : 'static';
 
 
@@ -634,7 +731,3 @@
     }
 
     add_action( 'wp', 'release_customization' );
-
- 
-
-?>

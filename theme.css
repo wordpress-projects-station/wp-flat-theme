@@ -1,3 +1,19 @@
+html{
+    margin-top: 0px !important;
+}
+
+#wpadminbar{
+    position: absolute;
+    height: 2px;
+    overflow: hidden;
+    background: transparent;
+}
+#wpadminbar:hover{
+    position: absolute;
+    height: 32px;
+    background: var(--wp--preset--color--black);
+}
+
 /* - - - - - - - - - - - - - - - - - - - - */
 
 /* bootstrap add-on */

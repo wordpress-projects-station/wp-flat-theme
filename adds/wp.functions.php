@@ -1,16 +1,5 @@
 <? 
 
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
-
-    // refresh standard actual jquery
-    function refresh_jquery(){
-
-        // wp_deregister_script('jquery');
-        // wp_enqueue_script('jquery', 'https://code.jquery.com/jquery-3.6.0.min.js', [], '', false );
-
-    }
-    add_action('init','refresh_jquery');
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
@@ -22,7 +11,7 @@
         wp_enqueue_style('bootstrap-theme', get_template_directory_uri().'/theme.css', null, true, 'all');
         wp_enqueue_script('bootstrap-bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', ['jquery'], '', false );
     }
-    add_action('wp_footer','add_bootstrap');
+    add_action('wp_enqueue_scripts','add_bootstrap');
 
 
     // add bootstrap walkers
@@ -59,25 +48,25 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-    function shortcode_user_avatar() {
+    // function shortcode_user_avatar() {
 
-        if(is_user_logged_in()) {
-            global $current_user;
-            get_currentuserinfo();
-            $url = get_avatar_url( $current_user -> ID, 120 );            
-        }
+    //     if(is_user_logged_in()) {
+    //         global $current_user;
+    //         get_currentuserinfo();
+    //         $url = get_avatar_url( $current_user -> ID, 120 );            
+    //     }
         
-        if(!is_user_logged_in() || str_starts_with($url, 'https://secure.gravatar.com/') ) {
+    //     if(!is_user_logged_in() || str_starts_with($url, 'https://secure.gravatar.com/') ) {
 
-            $url = get_template_directory_uri().'/adds/404IMAGE.PNG';
+    //         $url = get_template_directory_uri().'/adds/404IMAGE.PNG';
 
-        }
+    //     }
 
-        return '<div class="rounded-3" style="text-align:right; aspect-ratio: 1; min-height:350px; width:100%; background: url('.$url.') center/cover;"></div>';
+    //     return '<div class="rounded-3" style="text-align:right; aspect-ratio: 1; min-height:350px; width:100%; background: url('.$url.') center/cover;"></div>';
 
-    }
+    // }
 
-    add_shortcode('display-user-avatar','shortcode_user_avatar');
+    // add_shortcode('display-user-avatar','shortcode_user_avatar');
 
     
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -116,6 +105,25 @@
 
     }
 
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    // add categories for attachments
+    function support_categories_for_attachments() {
+        register_taxonomy_for_object_type( 'category', 'attachment' );
+    }
+    add_action( 'init' , 'support_categories_for_attachments' );
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    // add tags for attachments
+    // function support_tags_for_attachments() {
+    //     register_taxonomy_for_object_type( 'post_tag', 'attachment' );
+    // }
+    // add_action( 'init' , 'support_tags_for_attachments' );
+
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
@@ -150,10 +158,40 @@
 
     ]);
 
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    // Replace default Gravatar Image used in WordPress
+    // function filter_get_avatar( $avatar, $id_or_email, $size, $default, $alt ) {    
+    //     // If is email, try and find user ID
+    //     if ( ! is_numeric( $id_or_email ) && is_email( $id_or_email->comment_author_email ) ) {
+    //         $user = get_user_by( 'email', $id_or_email );
+    //         if ( $user ) {
+    //             $id_or_email = $user->ID;
+    //         }
+    //     }
+
+    //     // If not user ID, return
+    //     if( ! is_numeric( $id_or_email ) ) {
+    //         return $avatar;
+    //     }
+
+    //     // Get attachment id
+    //     $attachment_id  = get_user_meta( $id_or_email, 'image', true );
+        
+    //     // NOT empty
+    //     if ( ! empty ( $attachment_id  ) ) {
+    //         // Return saved image
+    //         return wp_get_attachment_image( $attachment_id, [ $size, $size ], false, ['alt' => $alt] );
+    //     }
+
+    //     return $avatar;
+    // }
+    // add_filter( 'get_avatar', 'filter_get_avatar', 10, 5 );
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
     // load customizable style
-    wp_enqueue_style('custom-css', get_stylesheet_directory_uri() . 'style.css', null, false, 'all');
-
-?>
+    function add_standard_style() {
+        wp_enqueue_style('standard', get_stylesheet_directory_uri() . 'style.css', null, false, 'all');
+    }
+    add_action('wp_enqueue_scripts','add_standard_style');

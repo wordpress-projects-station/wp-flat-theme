@@ -20,7 +20,14 @@
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
 
-        <title> <?= get_option( 'blogname' ).' : '.the_title(); ?> </title>
+        <title>
+
+            <? 
+                $titles = explode(',', get_option( 'blogname' ).','.get_the_title());
+                echo implode(' : ',$titles);
+            ?>
+            
+        </title>
 
         <meta name="description" content="<?= get_bloginfo( 'description' ); ?>" />
         <meta name="keywords" content="<?= generateKeywords(); ?>">
