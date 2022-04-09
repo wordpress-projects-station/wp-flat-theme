@@ -82,9 +82,9 @@
 
             </div>
 
-        <? } else { include __DIR__.'contents/not-accessible.php'; } ?>
+        <? } else { include __DIR__.'/contents/not-accessible.php'; } ?>
 
-    <? } } else { include __DIR__.'contents/not-in-database.php'; } ?>
+    <? } } else { include __DIR__.'/contents/not-in-database.php'; } ?>
 
 </div>
 

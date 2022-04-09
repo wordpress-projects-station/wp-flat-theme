@@ -123,8 +123,7 @@
     // add_filter('wp_image_editors', 'prevent_server_oversize_image_error');
 
 
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
+     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
     // add categories for attachments
     function support_categories_for_attachments() {

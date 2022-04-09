@@ -151,7 +151,12 @@
             $type = 'search';
 
         }
+        elseif(is_attachment()){
 
+            $folder = 'wordpress';
+            $type = 'attachments';
+
+        }
         elseif( is_single() /*|| is_post()*/ ) {
 
             $folder = 'wordpress';

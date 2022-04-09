@@ -5,6 +5,7 @@
     <?
         $queryed = the_search_query();
         if(!$queryed) $queryed = basename($_SERVER['REQUEST_URI']);
+        if(strpos($queryed,'?s=') !== false) $queryed = preg_replace('/\?s\=/', '',$queryed)
     ?>
 
     <p class="h1">Result for : <b>"<?= $queryed; ?>"</b></p>
@@ -39,10 +40,10 @@
 
             </div>
 
-        <? } else { include __DIR__.'contents/not-accessible.php'; } ?>
+        <? } else { include __DIR__.'/contents/not-accessible.php'; } ?>
 
-    <? } } else { include __DIR__.'contents/not-in-database.php'; } ?>
+    <? } } else { include __DIR__.'/contents/not-in-database.php'; } ?>
 
 </div>
 
-<? loop_pagination($wp_query); ?>
+<? //loop_pagination($wp_query); ?>

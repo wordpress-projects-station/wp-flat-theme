@@ -12,7 +12,35 @@
                     </span>
                 </button>
 
-                <a class="navbar-brand" href="<?= home_url();?>">HELLO!</a>
+                <div>
+
+                    <?
+                        $custom_logo_id = get_theme_mod( 'custom_logo' );
+                        $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+                        if(has_custom_logo()){
+                            echo $mods->custom_logo_flyout
+                                    ? '<a class="navbar-brand" style="float:left; padding:0; width:'.$mods->custom_logo_ratio.'px; position:absolute;aspect-ratio:1;top:0;" href="<?= home_url();?>"><img style="height:100%;"  src="'.esc_url( $logo[0] ).'" alt=" ... "></a>'
+                                    : '<a class="navbar-brand" style="float:left; padding:0;" href="<?= home_url();?>"><img style="width:'.$mods->custom_logo_ratio.'px; aspect-ratio: 1; display:flex;"  src="'.esc_url( $logo[0] ).'" alt=" ... "></a>';
+                        }
+
+                    ?>
+
+                    <? if($mods->custom_logo_title || $mods->custom_logo_slogan) { ?>
+                        <span style="float:left; clear: right;  <?=  $mods->custom_logo_flyout ? 'position:relative; left:'.(intval($mods->custom_logo_ratio)+20).'px;' : 'transform: translate(0, -50%); top: 50%; position: absolute;'; ?>">
+                            <?
+
+                                if( $mods->custom_logo_title )
+                                echo '<p class="m-0 text-light"><strong>'.$mods->custom_logo_title.'</strong></p>';
+
+                                if( $mods->custom_logo_slogan )
+                                echo '<p class="m-0 text-secondary">'.$mods->custom_logo_slogan.'</p>';
+
+                            ?>
+                        </span>
+                    <?}?>
+
+                </div>
+
 
                 <div class="row" <?= $mods->top_menu_row_type; ?>>
 
@@ -56,7 +84,7 @@
 
                 </div>
 
-            </div>
+            </>
 
         </nav>
     <? } ?>
@@ -72,11 +100,6 @@
         <div class="bg-light" id="page-heading-title">
             <div style="<?= $mods->heading_size.' '.$banner; ?>">
                 <div class="<?= $mods->heading_frame; ?>">
-
-                    <?
-                        $logo = wp_get_attachment_image_src( $mods->custom_site_logo , 'full' );
-                        echo $logo /*has_custom_logo()*/ ? '<img src="'.esc_url( $logo[0] ).'" alt=" ... ">':null;
-                    ?>
 
                     <h1>
                         <?= ! empty(get_option('blogname')) ? get_option( 'blogname' ) : get_the_title() ?>

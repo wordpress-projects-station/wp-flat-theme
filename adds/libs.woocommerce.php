@@ -325,35 +325,35 @@
 
         add_action( 'woocommerce_save_account_details', 'custom__woocommerce_save_account_details__redirect', 90, 1 );
         
+
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
 
-        // function woo_attachment_category( $attach_ID ) {
+        function add_category_automatically($post_ID) {
 
-        //     // if( wp_get_object_terms( $attach_ID, 'category' ) ) { null } else{
+            $attach = get_post($post_ID);
+            $parentid = $attach->post_parent;
+            $post_type = get_post_type($attach->post_parent);
 
-        //         wp_set_object_terms( $attach_ID, 'products-shop', 'category', true);
+            if ( $parentid ){
 
-        //     // }
-        //     // wp_set_post_categories( $attachment_ID, 'shop-woocommerce' );
-        // }
-        // add_action('add_attachment', 'woo_attachment_category');
-        // add_action('edit_attachment', 'woo_attachment_category');
+                if ( $post_type == 'product' ) {
+                    wp_set_object_terms($post_ID, 'shop-products', 'category', true);
+                }
 
-        // function add_category_automatically($post_ID) {
+                elseif ( $post_type == 'post' ) {
+                    wp_set_object_terms($post_ID, 'post-media', 'category', true);
+                }
 
-        //     // $attach = get_post($post_ID);
-        //     // $parentid = $attach->post_parent;
-        //     // $post_type = get_post_type($attach->post_parent);
+                else {
 
-        //     // if ( $parentid /*&& $post_type == 'product'*/ ) {
-        //         wp_set_object_terms($post_ID, 'shop-woocommerce', 'category', true);
-        //         // $cats = get_the_category()($post->post_parent);
-        //         // foreach ($cats as $cat)
-        //         // wp_set_object_terms($parentID, $cat->slug, 'category', true);
-        //     // }
-        // }
-        // add_action('add_attachment', 'add_category_automatically');
+                    wp_set_object_terms($post_ID, 'uncategorized', 'category', true);
+
+                }
+
+            }
+        }
+        add_action('add_attachment', 'add_category_automatically');
         
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 

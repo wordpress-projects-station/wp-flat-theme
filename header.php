@@ -32,7 +32,17 @@
         <meta name="description" content="<?= get_bloginfo( 'description' ); ?>" />
         <meta name="keywords" content="<?= generateKeywords(); ?>">
 
-        <link rel="shortcut icon"  type="image/x-icon" href="<?= get_template_directory_uri().'/favicon.png'; ?>" />
+        <? if(!has_site_icon()){ ?>
+
+            <link rel="apple-touch-icon" href="<?= get_template_directory_uri(); ?>/favicon.png">
+            <link rel="shortcut icon"  type="image/x-icon" href="<?= get_template_directory_uri().'/favicon.png'; ?>" />
+
+        <?}else{?>
+
+            <link rel="apple-touch-icon" href="<?= wp_get_attachment_image_url(get_option('site_icon'),'full'); ?>">
+            <link rel="shortcut icon"  type="image/x-icon" href="<?= wp_get_attachment_image_url(get_option('site_icon'),'full'); ?>" />
+
+        <?}?>
         
         <? wp_head(); ?>
     
@@ -45,7 +55,7 @@
         <? if ( $mods->debug_path_line ){ ?>
             <p style="background:#8b8b8b;font-size:10px;margin:0;padding:3px 5px;"> 
                 you are in : <b><?=$filename;?></b> / option type : <b><?=$looptype['type']?></b> / type post data: <b><?=get_post_type();?></b>  / ...
-            </p>';
+            </p>
         <? } ?>
         
         <? if ( $mods->top_warning ) { ?>
