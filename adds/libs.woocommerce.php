@@ -178,13 +178,22 @@
         //: C ➔  Validate image file
 
         function check_errors_of_image( $args ){
-            if ( isset($_POST['image']) && empty($_POST['image']) ) $args->add( 'image_error', __( 'Please provide a valid image', 'woocommerce' ) );
+            if ( isset($_POST['image']) && empty($_POST['image']) )
+            $args->add( 'image_error', __( 'Please provide a valid image', 'woocommerce' ) );
         }
         add_action( 'woocommerce_save_account_details_errors','check_errors_of_image', 10, 1 );
 
-        //: D ➔ Save the data
+        //: D1 ➔ prevent return to dashboard
+        function woo_action_save_safe_redirect( $ID ) {
+            wp_safe_redirect( wc_get_endpoint_url( 'edit-account' ) );
+            exit();
+        }
+        add_action( 'woocommerce_save_account_details', 'woo_action_save_safe_redirect', 90, 1 );
 
+        //: D2 ➔ Save the data
         function save_account_details_with_the_image( $user_id ) {
+
+            $error=false;
 
             if ( isset( $_FILES['image'] ) ) {
 
@@ -192,17 +201,6 @@
 
                     require_once( ABSPATH . 'wp-admin/includes/image.php' );
                     require_once( ABSPATH . 'wp-admin/includes/file.php' );
-                    
-                    // require_once( ABSPATH . 'wp-admin/includes/media.php' );
-                    // direct attach in normal folder:
-                    // $attachment_id = media_handle_upload( 'image', 0 );
-                    // or below alterntaive (more info : https://wordpress.stackexchange.com/questions/305192/media-handle-upload-for-local-files)
-
-                    // if need to trails windows
-                    // $path = (DIRECTORY_SEPARATOR === '\\')
-                    // ? str_replace('/', '\\', $subject)
-                    // : str_replace('\\', '/', $subject);
-
 
                     // generete main folder
                     $user_files_path = wp_upload_dir()['basedir'].'/users_files/'.$user_id;
@@ -210,97 +208,109 @@
 
 
                     // set base file properties
-                    $ext                = explode('.', $_FILES['image']['name']);
+                    $file               = $_FILES['image'];
+                    $ext                = explode('.', $file['name']);
                     $file_extension     = end($ext);
                     $file_name          = 'user_avatar_'.$user_id.'.'.'png';
-                    $file_mime          = $_FILES['image']['type'];//'image/png'
+                    $file_mime          = $file['type'];//'image/png'
 
 
                     // check extension
                     if( ! in_array($file_extension,['png','jpg','jpeg']) )
-                    throw new Exception("<p>file wrong! only png or jpg.</p>");
+                    $error = '<p> Image uploading -> Operation fail </p><p>Wrong file! <b>only PMG or JPG.</b></p>';
 
 
                     // limit file size KB
-                    if( $file['size']/1024 > 1500)
-                    throw new Exception("<p>file wrong! maximum 1.5mb.</p>");
+                    if( $file['size']/1024 > 2048)
+                    $error = '<p> Image uploading -> Operation fail </p><p>Wrong file! <b>maximum 2mb.</b></p>';
 
 
                     //limit size of file
                     $image_size = getimagesize($file['tmp_name']);
-                    if( /*W*/$image_size[0]>2000 || /*H*/$image_size[1]>2000 )
-                    throw new Exception("<p>file wrong! image size max: 2000 x 2000 px</p>");
+                    $iw = $image_size[0];
+                    $ih = $image_size[1];
+                    if ($iw > 3000 || $ih >3000 )
+                    $error = '<p> Image uploading -> Operation fail </p><p>Wrong file! <b>image size max: 3000 x 3000 px</b></p>';
+
+                    if($error){
+
+                        throw new Exception($error);
+
+                    } else { // save in wordpress:
 
 
-                    // generete paths
-                    $original_source    = $_FILES['image']['tmp_name'];
-                    $path_destination   = $user_files_path.'/'.$file_name;
-                    $local_file         = $path_destination.'.'.$file_extension;
+                        // generete paths
+                        $original_source    = $file['tmp_name'];
+                        $path_destination   = $user_files_path.'/'.$file_name;
+                        $local_file         = $path_destination.'.'.$file_extension;
 
 
-                    // clear all (eventually) ex files
-                    $files = glob( $user_files_path.'/user_avatar_'.$user_id.'-*');
-                    foreach ( $files as $file ) unlink($file);
+                        // clear all (eventually) ex files
+                        $files = glob( $user_files_path.'/user_avatar_'.$user_id.'-*');
+                        foreach ( $files as $file ) unlink($file);
 
 
-                    $file_exist = sizeof($files);
+                        $file_exist = sizeof($files);
+
+                        // from upload to folder
+                        move_uploaded_file( $original_source , $path_destination );
+
+                        // resize file
+                        $newwidth   = 450;
+                        $newheight  = round(($newwidth*$ih)/$iw);
+                        $image = wp_get_image_editor( $path_destination );
+                        if ( ! is_wp_error( $image ) ) {
+                            $image->resize( $newwidth, $newheight, true );
+                            $image->save( $path_destination );
+                        }
+
+                        // generate attach id
+                        if( ! $file_exist ) {
+
+                            $attachment = [
+                                'post_mime_type' => $file_mime,
+                                'post_title' => sanitize_file_name( $file_name ),
+                                'post_content' => '',
+                                'post_status' => 'inherit'
+                            ];
+        
+                            $attach_id = wp_insert_attachment( $attachment, $path_destination );
+
+                        }
+
+                        // get attach id
+                        else {
+
+                            $attach_id = get_user_meta( $user_id, 'custom_avatar', true );
+
+                        }
 
 
-                    // from upload to folder
-                    move_uploaded_file( $original_source , $path_destination );
-
-                    // generate attach id
-                    if( ! $file_exist ) {
-
-                        $attachment = [
-                            'post_mime_type' => $file_mime,
-                            'post_title' => sanitize_file_name( $file_name ),
-                            'post_content' => '',
-                            'post_status' => 'inherit'
-                        ];
-    
-                        $attach_id = wp_insert_attachment( $attachment, $path_destination );
-
-                    }
-
-                    // get attach id
-                    else {
-
-                        $attach_id = get_user_meta( $user_id, 'avatar', true );
-
-                    }
-
-                    // generate thumbnails
-                    $attach_data   = wp_generate_attachment_metadata( $attach_id, $path_destination );
+                        // generate thumbnails
+                        $attach_data   = wp_generate_attachment_metadata( $attach_id, $path_destination );
 
 
-                    // final assingment
-                    if( ! $file_exist ) {
-                        wp_update_attachment_metadata( $attach_id, $attach_data );
-                        wp_set_object_terms($attach_id, 'profile-picture', 'category', true);
-                        update_user_meta( $user_id, 'avatar', $attach_id );
+                        // final assingment
+                        if( ! $file_exist ) {
+                            wp_update_attachment_metadata( $attach_id, $attach_data );
+                            wp_set_object_terms($attach_id, 'profile-picture', 'category', true);
+                            update_user_meta( $user_id, 'custom_avatar', $attach_id );
+                        }
+
+
                     }
 
                 }
 
                 catch (Exception $e) {
 
-                    $errors = $e->getMessage() ?:false;
-
-                    if( $errors ) {
-                        echo '<p> Image uploaded -> Operation fail </p>';
-                        echo 'Caught exception: ',  $errors, "\n";
-                    }
-
-                    else {
-                        echo '<p> Image uploaded -> Operation success </p>';
-                        echo '<p> Image base: .../users_avatars/'.$file_name.'</p>';
-                    }
-
-                    // echo '<p> Refresh in 5 seconds</p>';
-                    // echo "<meta http-equiv='refresh' content='7'>";
+                    echo '<meta http-equiv="refresh" content="20">';
+                    echo '<div style="display:grid;width:100%;height:100%;align-items:center;text-align:center;font-size:15px;"><span>'. ($e?'<p style="font-size:80px;margin:0;">⚠</p>'.$e->getMessage():'<p> Image uploaded -> <b>Operation success</b></p>').'<a style="cursor:pointer;border:2px solid lightgray;padding:8px 10px;border-radius:8px;top:15px;position:relative;" onclick="history.back()">OK - Return back</a></span></div>';
+                    exit();
 
                 }
+
+                wp_cache_flush();
 
             }
 
@@ -309,13 +319,12 @@
 
         //: E ➔ Call result... the attached url
         function get_profile_image($currentUserId) {
-            $attachment_id = get_user_meta( $currentUserId, 'avatar', true );
-            if ( $attachment_id ) {
-                return wp_get_attachment_url( $attachment_id );
-            }
+            $attachment_id = get_user_meta( $currentUserId, 'custom_avatar', true );
+            if ( $attachment_id ) return wp_get_attachment_url( $attachment_id );
         } 
 
-
+        add_action( 'woocommerce_save_account_details', 'custom__woocommerce_save_account_details__redirect', 90, 1 );
+        
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
 

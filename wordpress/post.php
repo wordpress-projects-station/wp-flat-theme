@@ -35,9 +35,6 @@
             $display_name = get_the_author_meta( 'display_name', $pa ).' '.get_the_author_meta( 'display_surname', $pa );
             if ( empty( $display_name ) ) $display_name = get_the_author_meta( 'nickname', $pa );
 
-            $user_avatar = get_avatar_url( get_the_author_meta('user_email'), $size = '200');
-            if ( empty( $user_avatar ) || str_contains($user_avatar,'d=blank') ) $user_avatar = 'https://source.unsplash.com/200x200';
-
             $user_description = get_the_author_meta( 'user_description', $pa );
             $user_website = get_the_author_meta('url', $pa);
             $user_posts = get_author_posts_url( get_the_author_meta( 'ID' , $pa));
@@ -55,15 +52,26 @@
 
         <div class="border rounded">
 
-            <p class="h2 p-3" style="margin:0">
-                <img class="rounded-circle" src="<?= $user_avatar?>" style="height:50px; aspect:1/1;" alt="..." />&nbsp; 
-                <b><?= $display_name; ?></b>
-            </p>
-            <? if(!empty( $user_description )){?>
-            <div class="border-top p-3">
-                <p style="margin:0"><?= $user_description; ?></p>
+            <div class="p-3 justify-content-between">
+
+                <?
+                    $avatarurl = get_profile_image( $post->post_author ) ?: get_avatarurl( $post->post_author, 100 );
+                    if( empty( $avatarurl ) || str_contains($avatarurl,'d=blank')) $avatarurl = get_template_directory_uri().'/adds/404IMAGE.PNG';
+                ?>
+
+                <span class="rounded-circle float-start" style="margin-right: 20px; display: inline-block; vertical-align: middle; aspect-ratio:1/1; width:70px; height:70px; background: url(<?= $avatarurl;?>) center/cover;"></span>
+
+                <span>
+                    <p>
+                        <b class="h2"><?= $display_name; ?></b><br>
+                        <? if(!empty( $user_description )){?>
+                            <?= $user_description; ?></p>
+                        <? } ?>
+                    </p>
+                </span>
+
             </div>
-            <? } ?>
+
             <div class="border-top p-2">
                 <a class="btn link" rel="follow" href="<?= $user_posts; ?>">BIO</a>&nbsp;⋮&nbsp; 
                 <a class="btn link" rel="follow" href="<?= $user_website; ?>">WEBSITE</a>&nbsp;⋮&nbsp;
@@ -102,7 +110,7 @@
             <?= ($post->comment_count>0) ? "{$post->comment_count} Commenti":null; ?>
         </h3>
 
-        <ol class="list-unstyled border border-2 p-3">
+        <ol class="list-unstyled">
 
             <? 
 
@@ -118,7 +126,7 @@
                     'callback' => 'bootstrap_comments'
                 ], $comments );
 
-                // echo'<li>';
+                echo'</li>';
 
             ?>
 

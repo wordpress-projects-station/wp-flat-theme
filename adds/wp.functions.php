@@ -179,32 +179,28 @@
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
     // Replace default Gravatar Image used in WordPress
-    // function filter_get_avatar( $avatar, $id_or_email, $size, $default, $alt ) {    
-    //     // If is email, try and find user ID
-    //     if ( ! is_numeric( $id_or_email ) && is_email( $id_or_email->comment_author_email ) ) {
-    //         $user = get_user_by( 'email', $id_or_email );
-    //         if ( $user ) {
-    //             $id_or_email = $user->ID;
-    //         }
-    //     }
+    function filter_get_avatar( $avatar, $id_or_email, $size, $default, $alt ) {    
 
-    //     // If not user ID, return
-    //     if( ! is_numeric( $id_or_email ) ) {
-    //         return $avatar;
-    //     }
+        // If is email, try and find user ID
+        if ( ! is_numeric( $id_or_email ) && is_email( $id_or_email->comment_author_email ) ) {
+            $user = get_user_by( 'email', $id_or_email );
+            if ( $user ) $id_or_email = $user->ID;
+        }
 
-    //     // Get attachment id
-    //     $attachment_id  = get_user_meta( $id_or_email, 'image', true );
+        // If not user ID, return
+        if( ! is_numeric( $id_or_email ) ) return $avatar;
+
+        // Get attachment id
+        $attachment_id  = get_user_meta( $id_or_email, 'custom_avatar', true );
         
-    //     // NOT empty
-    //     if ( ! empty ( $attachment_id  ) ) {
-    //         // Return saved image
-    //         return wp_get_attachment_image( $attachment_id, [ $size, $size ], false, ['alt' => $alt] );
-    //     }
+        // NOT empty Return saved image
+        if ( ! empty ( $attachment_id  ) )
+        return wp_get_attachment_image( $attachment_id, [ $size, $size ], false, ['alt' => $alt] );
 
-    //     return $avatar;
-    // }
-    // add_filter( 'get_avatar', 'filter_get_avatar', 10, 5 );
+        return $avatar;
+
+    }
+    add_filter( 'get_avatar', 'filter_get_avatar', 10, 5 );
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
