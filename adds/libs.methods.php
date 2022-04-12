@@ -50,90 +50,49 @@
     add_action ( 'wp', 'loop_page_types' );
     function loop_page_types(){
 
-        // woocommerce
+        global $looptype; 
 
         if( is_product() ) {
-            $folder = 'woocommerce/...';
+
+            $folder = 'woocommerce';
             $type = 'product';
 
         }
 
-        elseif( is_tax( 'product_cat' ) || is_product_category() ||  is_page( 'categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/ ) {
-
-            $folder = 'woocommerce/...';
-            $type =  is_page( 'categories' ) || is_page( 'product-category' ) ? 'categories-list' : 'category' ; //if main cat is first cat: get_queried_object()->parent == 0 ||
+        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/ ) {
+            $folder = 'woocommerce';
+            $type =  is_page( 'categories' ) || is_page( 'product-category' ) ? 'shop-categories' : 'shop-category' ; //if main cat is first cat: get_queried_object()->parent == 0 ||
 
         }
 
         elseif( is_page() && is_shop() ) {
 
-            $folder = 'woocommerce/...';
+            $folder = 'woocommerce';
             $type = 'home';
 
         }
 
         elseif( is_shop() && is_woocommerce() ) {
 
-            $folder = 'woocommerce/...';
+            $folder = 'woocommerce';
             $type = 'page';
 
         }
         
         elseif( is_cart() ) {
 
-            $folder = 'woocommerce/...';
+            $folder = 'woocommerce';
             $type = 'cart';
 
         }
 
         elseif( is_checkout() ) {
 
-            $folder = 'woocommerce/...';
+            $folder = 'woocommerce';
             $type = 'checkout';
 
         }
 
-        if( is_product() ) {
-
-            $folder = 'woocommerce/...';
-            $type = 'product';
-
-        }
-
-        elseif( is_tax( 'product_cat' ) || is_product_category() ||  is_page( 'categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/ ) {
-
-            $folder = 'woocommerce/...';
-            $type =  is_page( 'categories' ) || is_page( 'product-category' ) ? 'categories-list' : 'category' ; //if main cat is first cat: get_queried_object()->parent == 0 ||
-
-        }
-
-        elseif( is_page() && is_shop() ) {
-
-            $folder = 'woocommerce/...';
-            $type = 'home';
-
-        }
-
-        elseif( is_shop() && is_woocommerce() ) {
-
-            $folder = 'woocommerce/...';
-            $type = 'page';
-
-        }
-        
-        elseif( is_cart() ) {
-
-            $folder = 'woocommerce/...';
-            $type = 'cart';
-
-        }
-
-        elseif( is_checkout() ) {
-
-            $folder = 'woocommerce/...';
-            $type = 'checkout';
-
-        }
 
         // wordpress
         
@@ -151,19 +110,37 @@
             $type = 'search';
 
         }
-        elseif(is_attachment()){
+
+        elseif( is_attachment() ) {
 
             $folder = 'wordpress';
             $type = 'attachments';
 
         }
+
         elseif( is_single() /*|| is_post()*/ ) {
 
             $folder = 'wordpress';
             $type = 'post';
 
         }
-        
+
+        // elseif( is_page( 'categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/  ) {
+            
+        //     echo 'shop-categories';
+        //     $folder = 'woocommerce';
+        //     $type = 'shop-categories';
+
+        // }
+
+        else if(is_tax( 'product_cat' ) || is_product_category() ) {
+
+            echo 'shop-category';
+            $folder = 'woocommerce';
+            $type = 'shop-category';
+
+        }
+
         elseif( is_page() || is_singular() ) {
 
             $folder = 'wordpress';
@@ -181,16 +158,16 @@
         else {
 
             // return the pages unkonwed page type
+            echo 'ALL TYPES';
             $folder = 'wordpress';
             $type = get_post_type();
 
         }
 
-        $path = str_replace('adds/','', (__DIR__.'/'.$folder.'/'.$type.'.php') );
-
-        global $looptype;
+        $position = str_replace('adds/','',(__DIR__.'/'.$folder));
+        $path = $position.'/'.$type.'.php';
         
-        return $looptype = [ 'folder'=>$folder, 'type'=>$type, 'path'=>$path ];
+        return $looptype = [ 'folder'=>$folder, 'position'=> $position, 'path'=>$path, 'type'=>$type  ];
 
     }
 

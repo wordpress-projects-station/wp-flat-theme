@@ -2,5 +2,5 @@
 
 <? 
     global $mods, $looptype;
-    include __DIR__.'/layout-models/end.php';
+    include __DIR__.'/wordpress/contents/site-end.php';
 ?>

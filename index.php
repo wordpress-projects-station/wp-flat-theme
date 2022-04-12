@@ -7,14 +7,14 @@
 
         echo '<p> the path:'.$looptype['path'].'</p>';
 
-        if( $looptype['folder'] != 'woocommerce/...' )
-        include_once $looptype['path'];
+        is_file($looptype['path'])
+            ? include_once $looptype['path']
+            : the_content();
 
-        else
-        the_content();
-        
 
-        // ! file_exists($looptype['path']) 
+
+
+        // is_file($looptype['path']) 
         //     ? print_classic_theme($looptype)
         //     : print_file_check($looptype) ;
 

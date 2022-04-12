@@ -1,13 +1,10 @@
-<? if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+<? if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
 <?
 
 	get_header( 'shop' );
 
-	$woobar_left = false;
-	$woobar_right = true;
-
-	?><main class="<?= $woobar_left||$woobar_right ? 'col-xs-12 col-sm-12 col-md-9' : 'col col-sm-12'; ?>"><?
+	?><main class="<?= $mods->shopbar != 'off' ? 'col-xs-12 col-sm-12 col-md-9' : 'col col-sm-12'; ?>"><?
 
 		bootsrapped_breadcrumb();
 

@@ -85,6 +85,7 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+    // remove controllers
     add_action( 'customize_register', function( $customizer ) {
 
         $customizer->remove_panel( 'widgets' );
@@ -92,6 +93,7 @@
 
     } , 20 );
 
+    // expand standards Controllers
 
     add_action( 'customize_register', function( $customizer ) {
 
@@ -120,7 +122,9 @@
 
     } , 10 );
 
+    /* - - - - - - - - - - */
 
+    // expand Site Identity Controllers
 
     add_action( 'customize_register', function( $customizer ) {
         
@@ -270,6 +274,7 @@
 
     } , 10 );
 
+    /* - - - - - - - - - - */
 
     // set Design of the pages
 
@@ -309,8 +314,10 @@
             'type'      => 'radio',
             'choices'   => [
                 'off'      => 'OFF',
-                'in-head'  => 'in head',
-                'in-body'  => 'in body',
+                'in-head-framed' => 'in head framed',
+                'in-head'  => 'in head full',
+                'in-body-framed'  => 'in body framed',
+                'in-body'  => 'in body full',
             ],
         ]);
 
@@ -377,7 +384,7 @@
         $customizer->add_section('design_of_account',[
             'panel'    => 'design_controller',
             'priority' => 4,
-            'title'    => 'Design of Account',
+            'title'    => 'Design of account',
         ]);
 
         // tab-action
@@ -406,8 +413,10 @@
             'type'      => 'radio',
             'choices'   => [
                 'off'      => 'OFF',
-                'in-head'  => 'in head',
-                'in-body'  => 'in body',
+                'in-head-framed' => 'in head framed',
+                'in-head'  => 'in head full',
+                'in-body-framed'  => 'in body framed',
+                'in-body'  => 'in body full',
             ],
         ]);
 
@@ -504,8 +513,10 @@
             'type'      => 'radio',
             'choices'   => [
                 'off'      => 'OFF',
-                'in-head'  => 'in head',
-                'in-body'  => 'in body',
+                'in-head-framed' => 'in head framed',
+                'in-head'  => 'in head full',
+                'in-body-framed'  => 'in body framed',
+                'in-body'  => 'in body full',
             ],
         ]);
 
@@ -601,8 +612,10 @@
             'type'      => 'radio',
             'choices'   => [
                 'off'      => 'OFF',
-                'in-head'  => 'in head',
-                'in-body'  => 'in body',
+                'in-head-framed' => 'in head framed',
+                'in-head'  => 'in head full',
+                'in-body-framed'  => 'in body framed',
+                'in-body'  => 'in body full',
             ],
         ]);
         
@@ -741,12 +754,13 @@
 
         $mods->heading_status     = str_contains( $hss,'off' ) ? false : true;
         $mods->heading_frame      = str_contains( $hss,'framed' ) ? 'container' : false;
-        $mods->heading_size       = str_contains( $hss,'big' ) ? 'height:33vh;' : false;
+        $mods->heading_size       = str_contains( $hss,'big' ) ? 'height:45vh;' : false;
 
         /* - - - - - - - - - - */
 
         $hbs = get_theme_mod( $looptype['type'].'_banner_settings' );
         $mods->header_banner_mode =  ( str_contains( $hbs,'in-body' ) ? 'in-body' : str_contains( $hbs,'in-head' ) ) ? 'in-head' : false ; 
+        $mods->header_banner_frame =  str_contains( $hbs,'framed' ) ? true : false ; 
 
 
 
@@ -765,6 +779,10 @@
         $sbs = get_theme_mod( $looptype['type'].'_big_side_settings' );
         $mods->sidebar_big_position = ( str_contains( $sbs , 'left' ) ? 'left' : str_contains( $sbs , 'right' ) ) ? 'right' : false ;
         $mods->sidebar_big_type = str_contains( $sbs, 'dynamic') ? 'dynamic' : 'static';
+
+        /* - - - - - - - - - - */
+
+        $mods->shopbar = 'right';
 
 
 

@@ -2,5 +2,5 @@
 
 <?
     global $mods, $looptype;
-    include_once __DIR__.'/layout-models/top.php';
+    include_once __DIR__.'/wordpress/contents/site-top.php';
 ?>

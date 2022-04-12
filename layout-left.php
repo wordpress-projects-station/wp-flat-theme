@@ -22,8 +22,7 @@
     /* - - - - - - - - - - */
 
 
-    $woobar_left = false;
-    if( $woobar_left && is_woocommerce() || is_shop() || is_product() ) {
+    if( $mods->shopbar == 'left' && is_woocommerce() || is_shop() || is_product() ) {
 
         echo '<aside class="col-3">';
         do_action( 'woocommerce_sidebar' );

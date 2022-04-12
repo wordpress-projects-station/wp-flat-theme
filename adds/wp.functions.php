@@ -208,3 +208,6 @@
         wp_enqueue_style('standard', get_stylesheet_directory_uri() . 'style.css', null, false, 'all');
     }
     add_action('wp_enqueue_scripts','add_standard_style');
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
