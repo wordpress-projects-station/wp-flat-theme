@@ -58,7 +58,6 @@
         return $result;
     }
 
-
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
@@ -92,14 +91,15 @@
         elseif( is_page('product-catalog') ) {
 
             $folder = 'woocommerce';
-            $type = 'shop-catalog';
+            $type = 'archive-catalog';
 
         }
 
-        elseif( is_page() && is_shop() ) {
+        elseif( ( is_page() && is_shop() ) || is_front_page() || is_home() || is_page('front-page') || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop ) ) {
 
+            echo 'IS FRONTPAGE';
             $folder = 'woocommerce';
-            $type = 'home';
+            $type = 'front-page';
 
         }
 

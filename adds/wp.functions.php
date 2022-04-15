@@ -153,11 +153,27 @@
 
 
     // add sides slots support
-    add_action('init','page_side_small');
-    function page_side_small(){ register_sidebar([ 'name' => 'page_side_small', 'id' => 'page_side_small' ]); } 
+    add_action('widgets_init','sidebar_small');
+    function sidebar_small(){ register_sidebar([
+        'name' => 'Sidebar small', 
+        'id' => 'sidebar_small',
+        'description' => 'if active on the theme customizer, it generates an utility icons side on pages',
+        'before_widget' => '<div>',
+        'after_widget'  => '</div>',
+        'before_title'  => '<b>',
+        'after_title'   => '</b>',
+    ]); } 
 
-    add_action('init','page_side_big');
-    function page_side_big(){ register_sidebar([ 'name' => 'page_side_big','id' => 'page_side_big' ]); }
+    add_action('widgets_init','sidebar_big');
+    function sidebar_big(){ register_sidebar([ 
+        'name' => 'Sidebar big',
+        'id' => 'sidebar_big',
+        'description' => 'if active on the theme customizer, it generates a standard sidebar on pages',
+        'before_widget' => '<div>',
+        'after_widget'  => '</div>',
+        'before_title'  => '<b>',
+        'after_title'   => '</b>',
+    ]); }
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/

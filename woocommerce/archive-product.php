@@ -8,6 +8,8 @@
 	
 	$wp_query_data = $wp_query->get_queried_object();
 
+	echo '<pre><code>'; print_r($wp_query_data); echo '</pre></code>';
+
 	$bannerid = get_term_meta( $wp_query_data->term_id, 'thumbnail_id', true );
 	$title = $wp_query_data->name;
 

@@ -6,13 +6,6 @@
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
 
-        // remove standard woo css
-        add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
-
-
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
-
         // add custom woo theme
         add_theme_support( 'woocommerce' );
 
@@ -43,25 +36,48 @@
             return $options;
         });
 
+        
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+        // add sidebar of shop
+        add_action('widgets_init','sidebar_shop');
+        function sidebar_shop() { register_sidebar([ 
+            'name' => 'Sidebar shop',
+            'id' => 'sidebar_shop',
+            'description' => 'if active on the theme customizer, it generates a sidebar on the pages of the shop',
+            'before_widget' => '<div>',
+            'after_widget'  => '</div>',
+            'before_title'  => '<b>',
+            'after_title'   => '</b>',
+        ]); }
+
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
 
-        function add_woo_style() {    
-            wp_enqueue_style( 'woostyle', get_template_directory_uri().'/woocommerce/woostyle.css' );
-        }
+        // remove standard woo css
+        add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
+
+        // add new woo css
         add_action( 'wp_enqueue_scripts', 'add_woo_style' );
+        function add_woo_style() { wp_enqueue_style( 'woostyle', get_template_directory_uri().'/woocommerce/woostyle.css' ); }
 
-
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
-
-        function add_woo_scripts() {
-            wp_enqueue_script('wooscripts', get_template_directory_uri().'/woocommerce/wooscripts.js', ['jquery','jquery-blockui-js'], true );
-        }
+        // add new woo scripts
+        function add_woo_scripts() { wp_enqueue_script('wooscripts', get_template_directory_uri().'/woocommerce/wooscripts.js', ['jquery','jquery-blockui-js'], true ); }
         add_action( 'wp_enqueue_scripts', 'add_woo_scripts' );
 
 
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+        // set qnt of related posts
+        add_filter( 'woocommerce_output_related_products_args', function ( $args ) { 
+            $args['posts_per_page'] = 8;
+            return $args; 
+        } );
+
+        
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
         // set OFF the page title
@@ -73,16 +89,6 @@
 
         // set N woo product per page
         // add_filter( 'loop_shop_per_page', function( $cols ) { return 12; } );
-
-
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
-        // set qnt of related posts
-        add_filter( 'woocommerce_output_related_products_args', function ( $args ) { 
-            $args['posts_per_page'] = 8;
-            return $args; 
-        } );
-
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
