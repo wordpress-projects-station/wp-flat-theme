@@ -7,7 +7,7 @@
 
 	$columns = 12/wc_get_loop_prop( 'columns' );
 	// $classes = wc_get_product_class('',$product); $classes = preg_replace('/class="/','', $classes); $classes = preg_replace('/"/','',$classes);
-	$banner = (wp_get_attachment_url( $product->image_id ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');
+	// $banner = (wp_get_attachment_url( $product->image_id ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');
 	$link = get_post_permalink($product->id);
 	$title = $product->name;
 	$price = $product->price;
@@ -19,7 +19,7 @@
 	<div class="card <?//=$classes;?>" style="cursor:pointer" onclick="window.location='<?=$link?>'">
 
 		<div class="card-header p-0">
-			<img style="height:15vw;object-fit:cover;" class="card-img-top" src="<?=$banner?>" alt=" ... " />
+			<div style="height:200px; <?= get_banner_background($product->ID); ?>"></div>
 		</div>
 
 		<div class="card-body text-center">

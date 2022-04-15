@@ -1,5 +1,6 @@
 <?
 
+
     function generateKeywords() {
 
         $site_excerpt   = wp_filter_nohtml_kses(get_the_excerpt());
@@ -35,7 +36,9 @@
 
     }
 
+
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
 
     add_action ( 'wp', 'theme_file_name' );
     function theme_file_name(){
@@ -44,13 +47,32 @@
         return $filename = isset($template) ? basename($template) : '';
 
     }
+    
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    function is_woo() {
+        global $looptype;
+        $result = $looptype['folder'] == 'woocommerce' || $looptype['type'] == 'shop-categories' || $looptype['type'] == 'shop-category' ? true : false;
+        return $result;
+    }
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
 
     add_action ( 'wp', 'loop_page_types' );
     function loop_page_types(){
 
         global $looptype; 
+
+        // check if parent is shop
+
+        // $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ?'shop' : false;
+        $sub_page_of_shop = true;
+
+        // check membership
 
         if( is_product() ) {
 
@@ -59,9 +81,18 @@
 
         }
 
-        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/ ) {
+        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'product-category' ) /*of woocommerce*/  ||  is_page( 'shop-categories')  /*permalink alterantive*/ || ( is_page( 'categories' ) && $sub_page_of_shop )  /*permalink shop/categories*/ ) {
+
             $folder = 'woocommerce';
-            $type =  is_page( 'categories' ) || is_page( 'product-category' ) ? 'shop-categories' : 'shop-category' ; //if main cat is first cat: get_queried_object()->parent == 0 ||
+            // archive-product is auto getted. go on woocommerce/archivie-product.php
+            $type = is_page( 'categories' ) ? 'archivie-categories' : 'archivie-product' ; 
+
+        }
+
+        elseif( is_page('product-catalog') ) {
+
+            $folder = 'woocommerce';
+            $type = 'shop-catalog';
 
         }
 
@@ -124,23 +155,7 @@
             $type = 'post';
 
         }
-
-        // elseif( is_page( 'categories' ) /*of theme*/ || is_page( 'product-category' ) /*of woocommerce*/  ) {
-            
-        //     echo 'shop-categories';
-        //     $folder = 'woocommerce';
-        //     $type = 'shop-categories';
-
-        // }
-
-        else if(is_tax( 'product_cat' ) || is_product_category() ) {
-
-            echo 'shop-category';
-            $folder = 'woocommerce';
-            $type = 'shop-category';
-
-        }
-
+        
         elseif( is_page() || is_singular() ) {
 
             $folder = 'wordpress';
@@ -158,7 +173,7 @@
         else {
 
             // return the pages unkonwed page type
-            echo 'ALL TYPES';
+            echo 'ALL';
             $folder = 'wordpress';
             $type = get_post_type();
 
@@ -166,10 +181,13 @@
 
         $position = str_replace('adds/','',(__DIR__.'/'.$folder));
         $path = $position.'/'.$type.'.php';
+
+        echo $path;
         
         return $looptype = [ 'folder'=>$folder, 'position'=> $position, 'path'=>$path, 'type'=>$type  ];
 
     }
+
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
@@ -277,7 +295,9 @@
 
     }
 
+
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
 
     // add_action( 'wp_loaded', 'loop_pagination' );
     // function loop_pagination($wp_query){

@@ -719,8 +719,18 @@
         //  NAVIGATION & HEADER
         */
 
-       
-        $mods->top_warning = get_theme_mod( 'site_warning_status_settings' )=='true' ? get_theme_mod( 'site_warning_message_settings' ) : false;
+
+
+        if( is_woo() && is_store_notice_showing() && strlen(get_option('woocommerce_demo_store_notice'))>1 )
+        $mods->top_site_warning = get_option('woocommerce_demo_store_notice');
+
+        elseif(get_theme_mod( 'site_warning_status_settings' )=='true'){
+            var_dump(get_theme_mod( 'site_warning_message_settings' ));
+        $mods->top_site_warning = get_theme_mod( 'site_warning_message_settings' );
+}
+        else
+        $mods->top_site_warning = false;
+
 
         /* - - - - - - - - - - */
 
@@ -787,7 +797,7 @@
 
 
         /*
-        //  SIDEBARS
+        //  WOOCOMMERCE
         */
 
         /* - - - - - - - - - - */

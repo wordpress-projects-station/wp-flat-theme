@@ -58,10 +58,15 @@
             </p>
         <? } ?>
         
-        <? if ( $mods->top_warning ) { ?>
+
+        <? if( $mods->top_site_warning ) { ?>
+
             <div class="bg-warning text-center">
-                <p class="p-2 m-0"><?= $mods->top_warning; ?></p>
+                <p class="p-2 m-0">
+                    <?= $mods->top_site_warning; ?>
+                </p>
             </div>
+
         <? } ?>
 
         <header>

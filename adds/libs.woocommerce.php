@@ -62,7 +62,6 @@
         add_action( 'wp_enqueue_scripts', 'add_woo_scripts' );
 
 
-
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
         // set OFF the page title

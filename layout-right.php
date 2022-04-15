@@ -20,7 +20,7 @@
 
     /* - - - - - - - - - - */
 
-    if( $mods->shopbar == 'right' && is_woocommerce() || is_shop() || is_product() ) {
+    if( $mods->shopbar == 'right' && is_woo() ) {
 
         echo '<aside class="col-3">';
         do_action( 'woocommerce_sidebar' );

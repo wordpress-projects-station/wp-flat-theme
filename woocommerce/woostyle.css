@@ -8,3 +8,8 @@
 .woocommerce-MyAccount-navigation:not(.btn-group) ul{ 
     display:none; 
 } 
+
+/* remove classic shop notice */
+.woocommerce-store-notice.demo_store{
+    display: none !important;
+}
