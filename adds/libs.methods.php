@@ -68,7 +68,7 @@
 
         // check if parent is shop
 
-        // $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ?'shop' : false;
+        // $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
         $sub_page_of_shop = true;
 
         // check membership
@@ -95,13 +95,21 @@
 
         }
 
-        elseif( ( is_page() && is_shop() ) || is_front_page() || is_home() || is_page('front-page') || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop ) ) {
+        elseif( is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop) ){
 
-            echo 'IS FRONTPAGE';
-            $folder = 'woocommerce';
-            $type = 'front-page';
+                echo 'IT S SHOP FRONTPAGE';
+        //     $folder = '';
+        //     $type = 'home';
 
         }
+
+        // elseif( ( is_page() && is_shop() ) || is_front_page() || is_home() || is_page('front-page') || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop ) ) {
+
+        //     echo 'IT S A FRONTPAGE';
+        //     $folder = '';
+        //     $type = 'home';
+
+        // }
 
         elseif( is_shop() && is_woocommerce() ) {
 
