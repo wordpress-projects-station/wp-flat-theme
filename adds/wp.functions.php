@@ -191,7 +191,9 @@
 
     ]);
 
+
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
 
     // Replace default Gravatar Image used in WordPress
     function filter_get_avatar( $avatar, $id_or_email, $size, $default, $alt ) {    
@@ -217,7 +219,9 @@
     }
     add_filter( 'get_avatar', 'filter_get_avatar', 10, 5 );
 
+
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
 
     // load customizable style
     function add_standard_style() {

@@ -802,9 +802,7 @@
 
         /* - - - - - - - - - - */
 
-        $mods->shopbar = 'right';
-
-
+        $mods->sidebar_shop_position = 'right';
 
         /*
         //  WOOCOMMERCE

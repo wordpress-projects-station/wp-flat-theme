@@ -68,8 +68,8 @@
 
         // check if parent is shop
 
-        // $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
-        $sub_page_of_shop = true;
+        $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
+        // $sub_page_of_shop = true;
 
         // check membership
 
@@ -84,14 +84,14 @@
 
             $folder = 'woocommerce';
             // archive-product is auto getted. go on woocommerce/archivie-product.php
-            $type = is_page( 'categories' ) ? 'archivie-categories' : 'archivie-product' ; 
+            $type = is_page( 'categories' ) ? 'page-categories' : 'archive-product' ; 
 
         }
 
         elseif( is_page('product-catalog') ) {
 
             $folder = 'woocommerce';
-            $type = 'archive-catalog';
+            $type = 'page-catalog';
 
         }
 
@@ -292,6 +292,20 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+    function center_column_size(){
+
+        global $mods;
+
+        $occupiedcols = 0;
+
+        if( $mods->sidebar_small_position != false ) $occupiedcols += 1; 
+        if( $mods->sidebar_shop_position != false || $mods->sidebar_big_position != false ) $occupiedcols += 3; 
+
+        echo $col = 'col col-xs-12 col-sm-12 col-md-'.(12-$occupiedcols);
+
+    }
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
     function get_banner_background($POSTID){
 

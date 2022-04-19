@@ -3,85 +3,32 @@
 <? 
 
 	get_header( 'shop' );
-	
+
 	global $wp_query;
-	
+
 	$wp_query_data = $wp_query->get_queried_object();
 
-	echo '<pre><code>'; print_r($wp_query_data); echo '</pre></code>';
+	// what archive/page type is it?
+	// echo '<pre><code>'; print_r($wp_query_data); echo '</pre></code>';
+	$archive_type 	= isset($wp_query_data->has_archive)?$wp_query_data->has_archive:false;
+	$taxonomy_type 	= isset($wp_query_data->taxonomy)?$wp_query_data->taxonomy:false;
+	$is_sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
 
-	$bannerid = get_term_meta( $wp_query_data->term_id, 'thumbnail_id', true );
-	$title = $wp_query_data->name;
+	?><main class="<?= center_column_size(); ?>"><?
 
-	?><main class="<?= $mods->shopbar != 'off' ? 'col-xs-12 col-sm-12 col-md-9' : 'col col-sm-12'; ?>"><?
 
-		bootsrapped_breadcrumb().'<hr class="mb-5">';
+		if( $archive_type == 'shop' || $archive_type == 'shop-home' || ($archive_type == 'home' && $is_sub_page_of_shop) )
+		include_once 'content-archive-shop.php';
 
-		?>
+		elseif( $taxonomy_type = 'product_cat')
+		include_once 'content-archive-category.php';
 
-			<header class="row">
+		else 
+		echo '<p>PAGE TYPE ERROR: TYPE UNKNOWN</p>';
 
-				<div class="col-lg-6 col-md-12">
-
-					<?$banner = (wp_get_attachment_url( $bannerid ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');?>
-					<img style="height:15vw;object-fit:cover;" class="card-img-top" src="<?=$banner?>" alt=" ... " />
-
-				</div>
-
-				<div class="col-lg-6 col-md-6 d-flex align-items-center ">
-
-					<div>
-						<? if ( apply_filters( 'woocommerce_show_page_title', true ) ) { ?>
-							<h1 class="display-2"><?=$title;?></h1>
-						<? } ?>
-						<? do_action( 'woocommerce_archive_description' ); ?>
-					</div>
-
-				</div>
-
-			</header>
-			
-			<hr class="mt-5 mb-5">
-		
-		<?
-
-			if ( woocommerce_product_loop() ) {
-
-				?>
-					<div class="d-flex justify-content-between mb-4">
-						<? do_action( 'woocommerce_before_shop_loop' ); ?>
-						<style>.woocommerce-notices-wrapper:empty{display:none;}</style>
-					</div>
-				<?
-
-				woocommerce_product_loop_start();
-
-				if ( wc_get_loop_prop( 'total' ) ) {
-					while ( have_posts() ) {
-
-						the_post();
-
-						do_action( 'woocommerce_shop_loop' );
-
-						wc_get_template_part( 'content', 'product' );
-
-					}
-				}
-
-				woocommerce_product_loop_end();
-
-				do_action( 'woocommerce_after_shop_loop' );
-
-			} else {
-
-				do_action( 'woocommerce_no_products_found' );
-
-			}
 
 	?></main><?
 	
-	// overrided: do_action( 'woocommerce_after_main_content' );
-
 	get_footer( 'shop' );
 
 ?>

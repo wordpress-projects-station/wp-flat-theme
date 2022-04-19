@@ -3,7 +3,6 @@
 <? bootsrapped_breadcrumb(); ?>
 
 <hr class="mb-5">
-<p>HELLO SHOP-CATEGORIES.PHP</p>
 
 <div class="row">
 

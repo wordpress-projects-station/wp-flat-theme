@@ -3,7 +3,7 @@
 
     include_once __DIR__.'/header.php';
 
-    ?><main class="col-xs-12 col-sm-12 col-md-9"><?
+    ?><main class="<?= center_column_size(); ?>"><?
 
         echo 'da wordpress page a : <p> including'.$looptype['path'].'</p>';
 

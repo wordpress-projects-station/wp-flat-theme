@@ -1,0 +1,1 @@
+<p>This is the shop's archive: The home of the shop.</p>
