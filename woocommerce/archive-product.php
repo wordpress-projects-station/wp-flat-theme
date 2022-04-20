@@ -4,7 +4,7 @@
 
 	get_header( 'shop' );
 
-	global $wp_query;
+	global $mods, $wp_query;
 
 	$wp_query_data = $wp_query->get_queried_object();
 
@@ -24,7 +24,7 @@
 		include_once 'content-archive-category.php';
 
 		else 
-		echo '<p>PAGE TYPE ERROR: TYPE UNKNOWN</p>';
+		echo '<p>PAGE TYPE ERROR: TYPE UNKNOWN<br>Please, contact the administration</p>';
 
 
 	?></main><?

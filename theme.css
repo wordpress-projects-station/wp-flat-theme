@@ -1,5 +1,13 @@
-html{
-    margin-top: 0px !important;
+html,body{
+    margin: 0px !important;
+    padding: 0px !important;
+    min-height: 100vh;
+}
+
+body{
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
 }
 
 #wpadminbar{

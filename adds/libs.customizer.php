@@ -399,19 +399,19 @@
 
         // tab-action
 
-        $customizer->add_control( 'button_open_random_page', [
-            'section'   => 'design_of_account',
-            'priority'  => 0,
-            'settings'  => [],
-            'type'      => 'button',
-            'input_attrs' => [
-                'value' => 'Open a profile page',
-                'class' => 'button button-border button-primary',
-                'data-url' => get_home_url().'/account',
-            ],
-        ]);
+        // $customizer->add_control( 'button_open_random_page', [
+        //     'section'   => 'design_of_account',
+        //     'priority'  => 0,
+        //     'settings'  => [],
+        //     'type'      => 'button',
+        //     'input_attrs' => [
+        //         'value' => 'Open a profile page',
+        //         'class' => 'button button-border button-primary',
+        //         'data-url' => get_home_url().'/account',
+        //     ],
+        // ]);
 
-        $customizer->add_control('blank', [ 'label'=> '&#8206;', 'section'=>'design_of_account', 'type'=>'hidden', 'settings' => [] ]);
+        // $customizer->add_control('blank', [ 'label'=> '&#8206;', 'section'=>'design_of_account', 'type'=>'hidden', 'settings' => [] ]);
 
         // thumbnail
 
@@ -731,11 +731,10 @@
 
 
 
-        if( is_woo() && is_store_notice_showing() && strlen(get_option('woocommerce_demo_store_notice'))>1 )
+        if( is_part_of_woo() && is_store_notice_showing() && strlen(get_option('woocommerce_demo_store_notice'))>1 )
         $mods->top_site_warning = get_option('woocommerce_demo_store_notice');
 
         elseif(get_theme_mod( 'site_warning_status_settings' )=='true'){
-            var_dump(get_theme_mod( 'site_warning_message_settings' ));
         $mods->top_site_warning = get_theme_mod( 'site_warning_message_settings' );
 }
         else

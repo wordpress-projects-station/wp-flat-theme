@@ -29,6 +29,7 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+
     // add random post url
     add_filter( 'pre_get_posts', 'random_post' );
     function random_post( $query ) {
@@ -45,30 +46,8 @@
         }
 
     }
-
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
-    // function shortcode_user_avatar() {
-
-    //     if(is_user_logged_in()) {
-    //         global $current_user;
-    //         get_currentuserinfo();
-    //         $url = get_avatar_url( $current_user -> ID, 120 );            
-    //     }
-        
-    //     if(!is_user_logged_in() || str_starts_with($url, 'https://secure.gravatar.com/') ) {
-
-    //         $url = get_template_directory_uri().'/adds/404IMAGE.PNG';
-
-    //     }
-
-    //     return '<div class="rounded-3" style="text-align:right; aspect-ratio: 1; min-height:350px; width:100%; background: url('.$url.') center/cover;"></div>';
-
-    // }
-
-    // add_shortcode('display-user-avatar','shortcode_user_avatar');
-
     
+
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
@@ -125,28 +104,32 @@
 
      /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-    // add categories for attachments
-    function support_categories_for_attachments() {
+    // add categories in media
+    function support_categories_for_media_attachments() {
         register_taxonomy_for_object_type( 'category', 'attachment' );
     }
-    add_action( 'init' , 'support_categories_for_attachments' );
+    add_action( 'init' , 'support_categories_for_media_attachments' );
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    // add tags for attachments
-    // function support_tags_for_attachments() {
+    // add tags in media
+    // function support_tags_for_media_attachments() {
     //     register_taxonomy_for_object_type( 'post_tag', 'attachment' );
     // }
-    // add_action( 'init' , 'support_tags_for_attachments' );
+    // add_action( 'init' , 'support_tags_for_media_attachments' );
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    // add widgets slots support
     add_theme_support( 'widgets' );
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    add_post_type_support( 'page', 'excerpt' );
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/

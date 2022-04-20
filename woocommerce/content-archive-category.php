@@ -1,38 +1,42 @@
 <?
 
-    $ID = get_the_id();
-    $bannerid = get_term_meta( $ID, 'thumbnail_id', true );
-    $title = $wp_query_data->name;
-
-    bootsrapped_breadcrumb().'<hr class="mb-5">';
-
-    ?>
-
-        <header class="row">
-
-            <div class="col-lg-6 col-md-12">
-
-                <?$banner = (wp_get_attachment_url( $bannerid ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');?>
-                <img style="height:15vw;object-fit:cover;" class="card-img-top" src="<?=$banner?>" alt=" ... " />
-
-            </div>
-
-            <div class="col-lg-6 col-md-6 d-flex align-items-center ">
-
-                <div>
-                    <? if ( apply_filters( 'woocommerce_show_page_title', true ) ) { ?>
-                        <h1 class="display-2"><?=$title;?></h1>
-                    <? } ?>
-                    <? do_action( 'woocommerce_archive_description' ); ?>
-                </div>
-
-            </div>
-
-        </header>
         
-        <hr class="mt-5 mb-5">
-    
-    <?
+        bootsrapped_breadcrumb().'<hr class="mb-5">';
+        
+        if( $mods->header_banner_mode == 'in-body' ) {
+     
+            ?>
+
+                <header class="row">
+
+                    <div class="col-lg-6 col-md-12">
+
+                        <?
+                            $bannerid = get_term_meta( get_the_id(), 'thumbnail_id', true ); 
+                            $banner = (wp_get_attachment_url( $bannerid ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');
+                        ?>
+
+                        <img style="height:15vw;object-fit:cover;" class="card-img-top" src="<?=$banner?>" alt=" ... " />
+
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 d-flex align-items-center ">
+
+                        <div>
+                            <? if ( apply_filters( 'woocommerce_show_page_title', true ) ) { ?>
+                                <h1 class="display-2"><?= $wp_query_data->name; ?></h1>
+                            <? } ?>
+                            <? do_action( 'woocommerce_archive_description' ); ?>
+                        </div>
+
+                    </div>
+
+                </header>
+                
+                <hr class="mt-5 mb-5">
+            
+            <?
+        }
 
         if ( woocommerce_product_loop() ) {
 

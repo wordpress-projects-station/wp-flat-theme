@@ -47,16 +47,6 @@
         return $filename = isset($template) ? basename($template) : '';
 
     }
-    
-
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
-
-    function is_woo() {
-        global $looptype;
-        $result = $looptype['folder'] == 'woocommerce' || $looptype['type'] == 'shop-categories' || $looptype['type'] == 'shop-category' ? true : false;
-        return $result;
-    }
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
@@ -69,7 +59,6 @@
         // check if parent is shop
 
         $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
-        // $sub_page_of_shop = true;
 
         // check membership
 
@@ -95,21 +84,21 @@
 
         }
 
-        elseif( is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop) ){
+        elseif( ( is_page() && is_shop() ) || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop) ) {
 
-                echo 'IT S SHOP FRONTPAGE';
-        //     $folder = '';
-        //     $type = 'home';
+            echo '<p style="padding:2px;background:white;position:absolute;left:0;">IT S SHOP FRONTPAGE</p>';
+            // $folder = '';
+            // $type = 'home';
 
         }
 
-        // elseif( ( is_page() && is_shop() ) || is_front_page() || is_home() || is_page('front-page') || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop ) ) {
+        elseif( is_front_page() || is_home() || is_page('front-page') ) {
 
-        //     echo 'IT S A FRONTPAGE';
-        //     $folder = '';
-        //     $type = 'home';
+            echo '<p style="padding:2px;background:white;position:absolute;left:0;">IT S A FRONTPAGE</p>';
+            // $folder = '';
+            // $type = 'home';
 
-        // }
+        }
 
         elseif( is_shop() && is_woocommerce() ) {
 
@@ -163,6 +152,13 @@
             $type = 'post';
 
         }
+
+        elseif( is_page('blog') ) {
+
+            $folder = 'wordpress';
+            $type = 'home';
+
+        }
         
         elseif( is_page() || is_singular() ) {
 
@@ -181,19 +177,27 @@
         else {
 
             // return the pages unkonwed page type
-            echo 'ALL';
             $folder = 'wordpress';
             $type = get_post_type();
+            echo '<p>UNKNOWN: "'.$type.'"</p>';
 
         }
 
         $position = str_replace('adds/','',(__DIR__.'/'.$folder));
         $path = $position.'/'.$type.'.php';
 
-        echo $path;
-        
         return $looptype = [ 'folder'=>$folder, 'position'=> $position, 'path'=>$path, 'type'=>$type  ];
 
+    }
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    function is_part_of_woo() {
+        global $looptype;
+        $result = $looptype['folder'] == 'woocommerce' ? true : false;
+        return $result; // || $looptype['type'] == 'shop-categories' || $looptype['type'] == 'shop-category'
     }
 
 
@@ -299,9 +303,9 @@
         $occupiedcols = 0;
 
         if( $mods->sidebar_small_position != false ) $occupiedcols += 1; 
-        if( $mods->sidebar_shop_position != false || $mods->sidebar_big_position != false ) $occupiedcols += 3; 
+        if( ($mods->sidebar_shop_position != false && is_part_of_woo() ) || $mods->sidebar_big_position != false ) $occupiedcols += 3; 
 
-        echo $col = 'col col-xs-12 col-sm-12 col-md-'.(12-$occupiedcols);
+        echo 'col col-xs-12 col-sm-12 col-md-'.(12-$occupiedcols);
 
     }
 
@@ -322,7 +326,7 @@
 
 
     // add_action( 'wp_loaded', 'loop_pagination' );
-    // function loop_pagination($wp_query){
+    // function loop_pagination($wp_query) {
 
     //     $max= 99999;
 

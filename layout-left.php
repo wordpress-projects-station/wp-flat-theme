@@ -18,16 +18,17 @@
     /* - - - - - - - - - - */
 
 
-    if( $mods->sidebar_big_position == 'left' || $mods->sidebar_shop_position=='left' ) {
-        if( is_woo() && $mods->sidebar_shop_position=='left' ) {
+    // if( $mods->sidebar_big_position == 'left' || $mods->sidebar_shop_position=='left' ) {
+        if( is_part_of_woo() && $mods->sidebar_shop_position=='left' ) {
             echo '<aside class="col-3 d-none d-lg-block">';
                 get_sidebar('sidebar_shop');
             echo '</aside>';
-        }else{
+        }
+        elseif($mods->sidebar_big_position == 'left'){
             echo '<aside class="'. ( $mods->sidebar_big_type == 'dynamic' ? 'col-3 d-none d-lg-block' : /*static*/ 'col-3' ) .'">';
                 get_sidebar('sidebar_big');
             echo '</aside>';
         }
-    }
+    // }
 
 ?>

@@ -1,4 +1,3 @@
-
 <? 
     $css_banner ='';
     if( $mods->header_banner_mode == 'in-head' )
@@ -10,7 +9,7 @@
 
     <div style="<?= $mods->heading_size; ?>" class="<?= $mods->heading_frame; ?>">
 
-        <div style="position:relative;height:100%;width:100%; <?= $mods->heading_status && !$mods->header_banner_frame ? $css_banner : '' ; ?>" >
+        <div style=" position:relative; width:100%; height: inherit; <?= $mods->heading_status && !$mods->header_banner_frame ? $css_banner : '' ; ?>" >
 
             <? if( $mods->top_menu_status ) { ?>
 
@@ -107,16 +106,18 @@
 
             <? if( $mods->heading_status ) { ?>
 
-                <div <?= $mods->header_banner_frame ? 'class="container p-0" style="height:100%;width:100%; '.$css_banner.'"':''; ?>>
+                <div <?= $mods->header_banner_frame ? 'class="container p-0" style="height:100%; width:100%; '.$css_banner.'"':''; ?>>
 
-                    <div style="background:rgba(0,0,0,.5);width:100%;height:100%;display:grid;align-items:center;">
+                    <div style=" background:rgba(0,0,0,.5); width:100%; height:100%; display:grid; align-items:center; padding-top:4vh;">
 
                         <div class="text-white text-center">
-                            
+
                             <?
 
-                                $title = get_the_title();
-                                if($title) echo '<h1>'.$title.'</h1>';
+                                $title =  $wp_query->get_queried_object()->name?:get_the_title();
+
+                                if($title)
+                                echo '<h1>'.$title.'</h1>';
 
                                 elseif( !empty(get_option('blogname')) )
                                 echo '<h1>'.get_option( 'blogname' ).'</h1>';
@@ -125,8 +126,17 @@
 
                             <?
 
-                                if(! empty(get_option( 'blogdescription' )))
-                                echo '<h2>'.get_option( 'blogdescription' ).'</h2>';
+                                if( function_exists( 'get_the_subtitle' ) ) {
+                                    $subtitle = get_the_subtitle();
+                                    echo strlen($subtitle) ? '<h3 class="mt-2 mb-2 fs-4">'.$subtitle.'</h3>' : null;
+                                }
+                            
+                            ?>
+
+                            <?
+
+                                if( strlen(get_the_excerpt()) ) 
+                                echo '<p style="max-width:450px;margin:0 auto;">'.get_the_excerpt().'</p>';
                             
                             ?>
                             

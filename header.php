@@ -50,30 +50,29 @@
     
     <body>
 
+        <div>
 
-
-        <? if ( $mods->debug_path_line ){ ?>
-            <p style="background:#8b8b8b;font-size:10px;margin:0;padding:3px 5px;"> 
-                you are in : <b><?=$filename;?></b> / option type : <b><?=$looptype['type']?></b> / type post data: <b><?=get_post_type();?></b>  / ...
-            </p>
-        <? } ?>
-        
-
-        <? if( $mods->top_site_warning ) { ?>
-
-            <div class="bg-warning text-center">
-                <p class="p-2 m-0">
-                    <?= $mods->top_site_warning; ?>
+            <? if ( $mods->debug_path_line ){ ?>
+                <p style="background:#8b8b8b;font-size:10px;margin:0;padding:3px 5px;"> 
+                    you are in : <b><?=$filename;?></b> / option type : <b><?=$looptype['type']?></b> / type post data: <b><?=get_post_type();?></b>  / ...
                 </p>
-            </div>
+            <? } ?>
 
-        <? } ?>
+            <? if( $mods->top_site_warning ) { ?>
 
-        <header>
+                <div class="bg-warning text-center">
+                    <p class="p-2 m-0">
+                        <?= $mods->top_site_warning; ?>
+                    </p>
+                </div>
 
-            <? require_once __DIR__.'/layout-top.php'; ?>
+            <? } ?>
 
-        </header>
+            <header>
+                <? require_once __DIR__.'/layout-top.php'; ?>
+            </header>
+
+        </div>
 
         <div class="container p-3">
 
