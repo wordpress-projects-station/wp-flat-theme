@@ -156,7 +156,7 @@
         elseif( is_page('blog') ) {
 
             $folder = 'wordpress';
-            $type = 'home';
+            $type = 'blog-home';
 
         }
         

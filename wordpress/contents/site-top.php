@@ -106,37 +106,38 @@
 
             <? if( $mods->heading_status ) { ?>
 
-                <div <?= $mods->header_banner_frame ? 'class="container p-0" style="height:100%; width:100%; '.$css_banner.'"':''; ?>>
+                <div <?= $mods->header_banner_frame ? 'class="container p-0" style="height:inherit; width:100%; '.$css_banner.'"':'style="height:inherit; width:100%;"'; ?>>
 
-                    <div style=" background:rgba(0,0,0,.5); width:100%; height:100%; display:grid; align-items:center; padding-top:4vh;">
+                    <div style=" background:rgba(0,0,0,.5); width:100%; height:inherit; display:grid; align-items:center; padding-top:4vh; ">
 
                         <div class="text-white text-center">
 
                             <?
 
-                                $title =  $wp_query->get_queried_object()->name?:get_the_title();
+                                if( $mods->title_status ) {
 
-                                if($title)
-                                echo '<h1>'.$title.'</h1>';
+                                    $title =  $wp_query->get_queried_object()->name?:get_the_title();
 
-                                elseif( !empty(get_option('blogname')) )
-                                echo '<h1>'.get_option( 'blogname' ).'</h1>';
+                                    if($title)
+                                    echo '<h1>'.$title.'</h1>';
+    
+                                    elseif( !empty(get_option('blogname')) )
+                                    echo '<h1>'.get_option( 'blogname' ).'</h1>';
+    
+                                }
 
-                            ?>
+                                if( $mods->subtitle_status && function_exists( 'get_the_subtitle' ) ) {
 
-                            <?
-
-                                if( function_exists( 'get_the_subtitle' ) ) {
                                     $subtitle = get_the_subtitle();
                                     echo strlen($subtitle) ? '<h3 class="mt-2 mb-2 fs-4">'.$subtitle.'</h3>' : null;
+
                                 }
-                            
-                            ?>
 
-                            <?
+                                if( $mods->excerpt_status && strlen(get_the_excerpt()) ) {
 
-                                if( strlen(get_the_excerpt()) ) 
-                                echo '<p style="max-width:450px;margin:0 auto;">'.get_the_excerpt().'</p>';
+                                    echo '<p style="max-width:450px;margin:0 auto;">'.get_the_excerpt().'</p>';
+
+                                }
                             
                             ?>
                             

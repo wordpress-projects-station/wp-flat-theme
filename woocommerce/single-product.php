@@ -4,7 +4,7 @@
 
 	get_header( 'shop' );
 
-	?><main class="<?= center_column_size(); ?>"><?
+	?><main class="col <?//= center_column_size(); ?>"><?
 
 		bootsrapped_breadcrumb();
 

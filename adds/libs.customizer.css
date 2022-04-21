@@ -35,3 +35,15 @@ label[for=_customize-input-blank]+div+input{
     height: 1px;
     width: 100%;
 }
+li[id^=customize-control-][id$=_title_data]:not([id$=_logo_title_data]){
+    height: 20px !important;
+    margin: -12px 0 0 0 !important;
+}
+li[id^=customize-control-][id$=_subtitle_data]{
+    height: 20px !important;
+    margin: 0 !important;
+}
+li[id^=customize-control-][id$=_excerpt_data] {
+    height: 20px !important;
+    margin: 0 0 12px 0 !important;
+}
