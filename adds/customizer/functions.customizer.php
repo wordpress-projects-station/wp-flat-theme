@@ -53,8 +53,8 @@
 
     function add_customize_sub_controllers() {
 
-        wp_enqueue_script('wp-customizer-js', get_stylesheet_directory_uri() . '/adds/libs.customizer.js', ['jquery', 'customize-controls'], false, 'all'); 
-        wp_enqueue_style('wp-customizer-css', get_stylesheet_directory_uri() . '/adds/libs.customizer.css', null, false, 'all');
+        // wp_enqueue_script('wp-customizer-js', get_stylesheet_directory_uri() . '/adds/customizer/libs.customizer.js', ['jquery', 'customize-controls'], false, 'all'); 
+        wp_enqueue_style('wp-customizer-css', get_stylesheet_directory_uri() . '/adds/customizer/libs.customizer.css', null, false, 'all');
 
     }
     add_action( 'admin_enqueue_scripts', 'add_customize_sub_controllers' );

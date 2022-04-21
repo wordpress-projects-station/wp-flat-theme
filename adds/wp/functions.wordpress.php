@@ -3,7 +3,6 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-
     // add bootstrap
     function add_bootstrap(){
         wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css', null, true, 'all'); 
@@ -18,35 +17,13 @@
     function add_bootstrap_walkers(){
 
         // bootstrap coverter: add navigations
-        include get_template_directory().'/adds/libs.bootstrap.navwalker.php';
-
+        include get_template_directory().'/adds/bootstrap/libs.bootstrap.navwalker.php';
         // bootstrap coverter: add comments 
-        include get_template_directory().'/adds/libs.bootstrap.comments.php';
+        include get_template_directory().'/adds/bootstrap/libs.bootstrap.comments.php';
 
     }
     add_action( 'after_setup_theme', 'add_bootstrap_walkers' );
 
-
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
-
-    // add random post url
-    add_filter( 'pre_get_posts', 'random_post' );
-    function random_post( $query ) {
-
-        if ( $query->get( 'name' ) == 'random-post'  ) {
-
-            global $wpdb;
-
-            if ( $post_id = $wpdb->get_var( "SELECT ID from $wpdb->posts WHERE post_type LIKE 'post' AND post_password LIKE '' AND post_status LIKE 'publish' ORDER BY RAND() LIMIT 1;" ) ) {
-                $post = get_post( $post_id );
-                $query->set( 'name', $post->post_name );
-            }
-
-        }
-
-    }
-    
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
@@ -87,7 +64,7 @@
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    // unlock oversized images
+    // unlock oversized images (not raccomended)
     // function support_big_image_size_threshold( $threshold ) {
     //     unset( $sizes['1536x1536']); // disable 2x medium-large size
     //     unset( $sizes['2048x2048']); // disable 2x large size
@@ -95,14 +72,25 @@
     // }
     // add_filter('big_image_size_threshold', 'support_big_image_size_threshold', 100, 1);
 
-    // // prevent error oversized images
+    // // prevent error oversized images (not raccomended)
     // function prevent_server_oversize_image_error($editors) {
     //     return ['WP_Image_Editor_GD', 'WP_Image_Editor_Imagick'];
     // }
     // add_filter('wp_image_editors', 'prevent_server_oversize_image_error');
 
 
-     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    // add tags in media (not raccomended)
+    // function support_tags_for_media_attachments() {
+    //     register_taxonomy_for_object_type( 'post_tag', 'attachment' );
+    // }
+    // add_action( 'init' , 'support_tags_for_media_attachments' );
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
 
     // add categories in media
     function support_categories_for_media_attachments() {
@@ -111,14 +99,35 @@
     add_action( 'init' , 'support_categories_for_media_attachments' );
 
 
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+    /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
 
-    // add tags in media
-    // function support_tags_for_media_attachments() {
-    //     register_taxonomy_for_object_type( 'post_tag', 'attachment' );
-    // }
-    // add_action( 'init' , 'support_tags_for_media_attachments' );
+    function add_to_media_category_automatically($post_ID) {
+
+        $attach = get_post($post_ID);
+        $parentid = $attach->post_parent;
+        $post_type = get_post_type($attach->post_parent);
+
+        if ( $parentid ){
+
+            if ( $post_type == 'product' ) {
+                wp_set_object_terms($post_ID, 'shop-products', 'category', true);
+            }
+
+            elseif ( $post_type == 'post' ) {
+                wp_set_object_terms($post_ID, 'post-media', 'category', true);
+            }
+
+            else {
+
+                wp_set_object_terms($post_ID, 'uncategorized', 'category', true);
+
+            }
+
+        }
+
+    }
+    add_action('add_attachment', 'add_to_media_category_automatically');
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -216,4 +225,4 @@
     add_action('wp_enqueue_scripts','add_standard_style');
 
 
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+?>

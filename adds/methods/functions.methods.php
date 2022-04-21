@@ -40,24 +40,23 @@
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    add_action ( 'wp', 'theme_file_name' );
     function theme_file_name(){
 
         global $filename;
         return $filename = isset($template) ? basename($template) : '';
 
     }
+    add_action ( 'wp', 'theme_file_name' );
+
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
-    add_action ( 'wp', 'loop_page_types' );
     function loop_page_types(){
 
         global $looptype; 
 
         // check if parent is shop
-
         $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
 
         // check membership
@@ -69,11 +68,11 @@
 
         }
 
-        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'product-category' ) /*of woocommerce*/  ||  is_page( 'shop-categories')  /*permalink alterantive*/ || ( is_page( 'categories' ) && $sub_page_of_shop )  /*permalink shop/categories*/ ) {
+        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'product-category' ) /*of woocommerce*/  ||  is_page( 'shop-categories')  /*permalink alterantive*/ || ( is_page( 'categories' ) && $sub_page_of_shop==true )  /*permalink shop/categories*/ ) {
 
             $folder = 'woocommerce';
-            // archive-product is auto getted. go on woocommerce/archivie-product.php
             $type = is_page( 'categories' ) ? 'shop-categories' : 'archive-product' ; 
+            // warning: -> archive-product is auto getted. go on woocommerce/archivie-product.php
 
         }
 
@@ -84,7 +83,7 @@
 
         }
 
-        elseif( ( is_page() && is_shop() ) || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop) ) {
+        elseif( ( is_page() && is_shop() ) || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop==true) ) {
 
             echo '<p style="padding:2px;background:white;position:absolute;left:0;">IT S SHOP FRONTPAGE</p>';
             // $folder = '';
@@ -183,12 +182,13 @@
 
         }
 
-        $position = str_replace('adds/','',(__DIR__.'/'.$folder));
+        $position = str_replace('adds/methods/','',(__DIR__.'/'.$folder));
         $path = $position.'/'.$type.'.php';
 
         return $looptype = [ 'folder'=>$folder, 'position'=> $position, 'path'=>$path, 'type'=>$type  ];
 
     }
+    add_action ( 'wp', 'loop_page_types' );
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -203,8 +203,10 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+
     function is_shop_home() {
-        $result = ( is_page() && is_shop() ) || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop) ? true : false;
+        $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
+        $result = ( is_page() && is_shop() ) || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop==true) ? true : false;
         return $result; // || $looptype['type'] == 'shop-categories' || $looptype['type'] == 'shop-category'
     }
     
@@ -304,20 +306,18 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
-    function center_column_size(){
+    // currently off
+    // function center_column_size(){
+    //     global $mods;
+    //     $occupiedcols = 0;
+    //     if( $mods->sidebar_small_position != false ) $occupiedcols += 1; 
+    //     if( ($mods->sidebar_shop_position != false && is_part_of_woo() ) || $mods->sidebar_big_position != false ) $occupiedcols += 3; 
+    //     echo 'col col-xs-12 col-sm-12 col-md-'.(12-$occupiedcols);
+    // }
 
-        global $mods;
-
-        $occupiedcols = 0;
-
-        if( $mods->sidebar_small_position != false ) $occupiedcols += 1; 
-        if( ($mods->sidebar_shop_position != false && is_part_of_woo() ) || $mods->sidebar_big_position != false ) $occupiedcols += 3; 
-
-        echo 'col col-xs-12 col-sm-12 col-md-'.(12-$occupiedcols);
-
-    }
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
 
     function get_banner_background($POSTID){
 
@@ -329,44 +329,4 @@
 
     }
 
-
-    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
-
-
-    // add_action( 'wp_loaded', 'loop_pagination' );
-    // function loop_pagination($wp_query) {
-
-    //     $max= 99999;
-
-    //     $pages = paginate_links([
-    //         'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-    //         'format' => '?paged=%#%',
-    //         'current' => max( 1, get_query_var('paged') ),
-    //         'total' => $wp_query->max_num_pages,
-    //         'type'  => 'array',
-    //     ]);
-
-    //     if( is_array( $pages ) ) {
-
-    //         $paged = ( get_query_var('paged') == 0 ) ? 1 : get_query_var('paged');
-    //         echo '<div class="pagination-wrap"><ul class="pagination">';
-    //         foreach ( $pages as $page ) {
-    //             $page = str_replace('page-numbers','page-link page-numbers',$page);
-    //             echo "<li class='page-item'>$page</li>";
-    //         }
-    //         echo '</ul></div>';
-
-    //     }
-
-    //     // folderal wp:
-    //     // echo paginate_links([
-    //     //     'base'=> str_replace($max,'%#%',esc_url( get_pagenum_link($max))),
-    //     //     'format' => '?page=%#%',
-    //     //     'current' => __( '<li>'max(1, get_query_var('paged') ),
-    //     //     'total' => $wp_query->max_num_pages,
-    //     //     'type' => 'string',
-    //     // ])
-
-    // }
-
-    ?>
+?>

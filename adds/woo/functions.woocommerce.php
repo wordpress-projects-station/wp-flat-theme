@@ -77,37 +77,7 @@
             return $args; 
         } );
 
-        
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
-        // set OFF the page title
-        // add_filter( 'woocommerce_show_page_title', '__return_false' );
-
-
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
-
-        // set N woo product per page
-        // add_filter( 'loop_shop_per_page', function( $cols ) { return 12; } );
-
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
-        // set shop columns
-        // add_filter( 'loop_shop_columns', function ( $columns ) { return 4; } );
-        // add_filter( 'body_class', function ( $classes ) {
-        //     if ( is_shop() || is_product_category() || is_product_tag() ) { $classes[] = 'columns-4'; } return $classes;
-        // } );
-
-
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
-        //? set woo pagination        
-        //? add_filter( 'woocommerce_pagination_args', function ( $args ) {
-        //?     $args['prev_text'] = '<i class="bi bi-arrow-left-short"></i>';
-        //?     $args['next_text'] = '<i class="bi bi-arrow-right-short"></i>';
-        //?     return $args;
-        //? });
-        
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
 
@@ -333,35 +303,6 @@
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
-
-        function add_category_automatically($post_ID) {
-
-            $attach = get_post($post_ID);
-            $parentid = $attach->post_parent;
-            $post_type = get_post_type($attach->post_parent);
-
-            if ( $parentid ){
-
-                if ( $post_type == 'product' ) {
-                    wp_set_object_terms($post_ID, 'shop-products', 'category', true);
-                }
-
-                elseif ( $post_type == 'post' ) {
-                    wp_set_object_terms($post_ID, 'post-media', 'category', true);
-                }
-
-                else {
-
-                    wp_set_object_terms($post_ID, 'uncategorized', 'category', true);
-
-                }
-
-            }
-        }
-        add_action('add_attachment', 'add_category_automatically');
-        
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
         /*
         // Mod Form field of woocommerce for add bootstrap
         */
@@ -491,9 +432,6 @@
 
         //     return $args;
         // }
-
-
-
         
     }
     

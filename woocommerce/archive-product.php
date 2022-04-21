@@ -14,7 +14,7 @@
 	$taxonomy_type 	= isset($wp_query_data->taxonomy)?$wp_query_data->taxonomy:false;
 	$is_sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
 
-	?><main class="col <?//= center_column_size(); ?>"><?
+	?><main class="col"><?
 
 
 		if( $archive_type == 'shop' || $archive_type == 'shop-home' || ($archive_type == 'home' && $is_sub_page_of_shop) )
