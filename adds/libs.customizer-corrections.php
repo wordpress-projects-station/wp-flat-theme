@@ -12,7 +12,7 @@
     $customizer->get_section( 'static_front_page' )->panel = 'design_controller';
     $customizer->get_section( 'static_front_page' )->title = 'Design of home';
     $customizer->get_section( 'static_front_page' )->description = null;
-    $customizer->get_section( 'static_front_page' )->priority = '4';
+    $customizer->get_section( 'static_front_page' )->priority = '1';
 
     $customizer->get_control( 'show_on_front' )->choices = ['posts' => 'Theme Home', 'page' => 'Custom Home'];
     $customizer->get_control( 'show_on_front' )->description = 'suggest: use static custom.';

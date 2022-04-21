@@ -18,23 +18,34 @@
     add_action( 'customize_register', function( $customizer ) {
 
         // remake of standard Controllers
+
         include_once 'libs.customizer-corrections.php';
 
         // expand Site Identity Controllers
+
         include_once 'libs.customizer-siteidentity.php';
 
         // set a site options
+
         include_once 'libs.customizer-siteoptions.php';
 
         // expand Menu Controllers
+
         include_once 'libs.customizer-menus.php';
 
         // set all Designs types
-        include_once 'libs.customizer-bloghome.php';
+
         include_once 'libs.customizer-account.php';
         include_once 'libs.customizer-archives.php';
         include_once 'libs.customizer-pages.php';
+
+        include_once 'libs.customizer-bloghome.php';
         include_once 'libs.customizer-posts.php';
+
+        include_once 'libs.customizer-shopcatalog.php';
+        include_once 'libs.customizer-shopcategories.php';
+        include_once 'libs.customizer-shopcategory.php';
+        include_once 'libs.customizer-shopproducts.php';
 
     } , 10 );
 

@@ -4,8 +4,8 @@
 
     $customizer->add_section('design_of_post',[
         'panel'    => 'design_controller',
-        'priority' => 4,
-        'title'    => 'Design of post',
+        'priority' => 6,
+        'title'    => 'Design of blog : posts',
     ]);
 
     // thumbnail-stle

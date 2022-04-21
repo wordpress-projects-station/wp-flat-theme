@@ -27,8 +27,9 @@
 
 	?>
 		<style>
+			#products-releated-slider,
 			#products-slider{
-				display:block;
+				display:grid;
 				overflow:hidden;
 				position:relative;
 			}

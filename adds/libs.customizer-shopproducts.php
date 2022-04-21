@@ -2,19 +2,19 @@
 
     // tab-title
 
-    $customizer->add_section('design_of_page',[
+    $customizer->add_section('design_of_shop_product',[
         'panel'    => 'design_controller',
-        'priority' => 2,
-        'title'    => 'Design of page',
+        'priority' => 7,
+        'title'    => 'Design of shop : products',
     ]);
 
     // thumbnail-stle
 
-    $customizer->add_setting('page_header_style_settings',[ 'default'=>'framed-big' ]);
-    $customizer->add_control('page_header_style_data',[
-        'section'  => 'design_of_page',
+    $customizer->add_setting('product_header_style_settings',[ 'default'=>'framed-big' ]);
+    $customizer->add_control('product_header_style_data',[
+        'section'  => 'design_of_shop_product',
         'label'    => 'Header style',
-        'settings' => 'page_header_style_settings',
+        'settings' => 'product_header_style_settings',
         'type'     => 'radio',
         'choices'  => [
             'off'         => 'OFF',
@@ -26,41 +26,41 @@
     ]);
 
     // add titles ecc in-head
-    $customizer->add_setting('page_title_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('page_title_data',[
+    $customizer->add_setting('product_title_settings',[ 'default'=>'true' ]);
+    $customizer->add_control('product_title_data',[
         // 'priority'    => 1,
-        'section'     => 'design_of_page',
+        'section'     => 'design_of_shop_product',
         'label'       => 'Active/hide title',
         'description' => ' ',
-        'settings'    => 'page_title_settings',
+        'settings'    => 'product_title_settings',
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('page_subtitle_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('page_subtitle_data',[
+    $customizer->add_setting('product_subtitle_settings',[ 'default'=>'true' ]);
+    $customizer->add_control('product_subtitle_data',[
         // 'priority'    => 1,
-        'section'     => 'design_of_page',
+        'section'     => 'design_of_shop_product',
         'label'       => 'Active/hide sub-title',
-        'settings'    => 'page_subtitle_settings',
+        'settings'    => 'product_subtitle_settings',
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('page_excerpt_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('page_excerpt_data',[
+    $customizer->add_setting('product_excerpt_settings',[ 'default'=>'true' ]);
+    $customizer->add_control('product_excerpt_data',[
         // 'priority'    => 1,
-        'section'     => 'design_of_page',
+        'section'     => 'design_of_shop_product',
         'label'       => 'Active/hide excerpt',
-        'settings'    => 'page_excerpt_settings',
+        'settings'    => 'product_excerpt_settings',
         'type'        => 'checkbox',
     ]);
 
     // thumbnail
 
-    $customizer->add_setting('page_banner_settings',[ 'default'=>'in-head' ]);
-    $customizer->add_control('page_banner_data',[
-        'section'   => 'design_of_page',
+    $customizer->add_setting('product_banner_settings',[ 'default'=>'in-head' ]);
+    $customizer->add_control('product_banner_data',[
+        'section'   => 'design_of_shop_product',
         'label'     => 'Main banner status',
-        'settings'  => 'page_banner_settings',
+        'settings'  => 'product_banner_settings',
         'type'      => 'radio',
         'choices'   => [
             'off'      => 'OFF',
@@ -73,12 +73,12 @@
 
     // sidebar-small
 
-    $customizer->add_setting( 'page_small_side_settings', ['default'=>'dynamic-left'] );
-    $customizer->add_control( 'page_small_side_data', [
-        'section'   => 'design_of_page',
+    $customizer->add_setting( 'product_small_side_settings', ['default'=>'dynamic-left'] );
+    $customizer->add_control( 'product_small_side_data', [
+        'section'   => 'design_of_shop_product',
         'label'     => 'Small Sidebar position',
         'type'      => 'radio',
-        'settings'  => 'page_small_side_settings',  
+        'settings'  => 'product_small_side_settings',  
         'choices'   => [
             'off'  => 'OFF',
             'static-left'  => 'static left',
@@ -90,12 +90,12 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'page_big_side_settings', ['default'=>'dynamic-right'] );
-    $customizer->add_control( 'page_big_side_data', [
-        'section'  => 'design_of_page',
+    $customizer->add_setting( 'product_big_side_settings', ['default'=>'dynamic-right'] );
+    $customizer->add_control( 'product_big_side_data', [
+        'section'  => 'design_of_shop_product',
         'label'    => 'Big Sidebar position',
         'type'     => 'radio',
-        'settings' => 'page_big_side_settings',
+        'settings' => 'product_big_side_settings',
         'choices'  => [
             'off'  => 'OFF',
             'static-left'  => 'static left',

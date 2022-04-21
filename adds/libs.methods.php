@@ -73,14 +73,14 @@
 
             $folder = 'woocommerce';
             // archive-product is auto getted. go on woocommerce/archivie-product.php
-            $type = is_page( 'categories' ) ? 'page-categories' : 'archive-product' ; 
+            $type = is_page( 'categories' ) ? 'shop-categories' : 'archive-product' ; 
 
         }
 
         elseif( is_page('product-catalog') ) {
 
             $folder = 'woocommerce';
-            $type = 'page-catalog';
+            $type = 'shop-catalog';
 
         }
 
@@ -197,9 +197,17 @@
     function is_part_of_woo() {
         global $looptype;
         $result = $looptype['folder'] == 'woocommerce' ? true : false;
-        return $result; // || $looptype['type'] == 'shop-categories' || $looptype['type'] == 'shop-category'
+        return $result;
     }
 
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    function is_shop_home() {
+        $result = ( is_page() && is_shop() ) || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop) ? true : false;
+        return $result; // || $looptype['type'] == 'shop-categories' || $looptype['type'] == 'shop-category'
+    }
+    
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 

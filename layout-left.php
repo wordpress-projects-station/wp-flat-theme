@@ -17,7 +17,7 @@
     /* - - - - - - - - - - */
 
 
-        if( is_part_of_woo() && $mods->sidebar_shop_position == 'left' ) {
+        if( is_shop_home() && $mods->sidebar_shop_position == 'left' ) {
             echo '<aside class="bigsidebar col-lg-3 col-xl-3 d-xs-none d-md-none">';
                 dynamic_sidebar('sidebar_shop');
             echo '</aside>';

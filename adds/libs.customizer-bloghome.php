@@ -4,8 +4,8 @@
 
     $customizer->add_section('design_of_blog-home',[
         'panel'    => 'design_controller',
-        'priority' => 4,
-        'title'    => 'Design of blog home',
+        'priority' => 5,
+        'title'    => 'Design of blog : home',
     ]);
 
     // thumbnail-stle

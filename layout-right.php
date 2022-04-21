@@ -18,14 +18,14 @@
     /* - - - - - - - - - - */
 
 
-    if( is_part_of_woo() && $mods->sidebar_shop_position == 'right' ) {
-        echo '<aside class="bigsidebar col-lg-3 col-xl-3 d-xs-none d-md-none">';
+    if( is_shop_home() && $mods->sidebar_shop_position == 'right' ) {
+        echo '<aside class="bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 col-md-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block">';
             dynamic_sidebar('sidebar_shop');
         echo '</aside>';
     }
 
     elseif($mods->sidebar_big_position == 'right') {
-        echo '<aside class="'. ( $mods->sidebar_big_type == 'dynamic' ? 'bigsidebar d-xs-none d-sm-none d-md-block col-md-3 col-lg-3 col-xl-3' : /*static*/ 'bigsidebar col-3' ) .'">';
+        echo '<aside class="'. ( $mods->sidebar_big_type == 'dynamic' ? 'col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 col-md-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block' : /*static*/ 'bigsidebar col-3' ) .'">';
             dynamic_sidebar('sidebar_big');
         echo '</aside>';
     }

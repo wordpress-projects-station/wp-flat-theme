@@ -4,7 +4,7 @@
 
     $customizer->add_section('design_of_account',[
         'panel'    => 'design_controller',
-        'priority' => 4,
+        'priority' => 3,
         'title'    => 'Design of account',
     ]);
 
