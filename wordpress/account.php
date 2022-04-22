@@ -46,27 +46,7 @@
 
         <div>
             <div class="mb-4">
-                <?
-
-                    ob_start();
-                    echo do_shortcode('[woocommerce_my_account]');
-                    $html = ob_get_clean();
-
-                    $html = preg_replace('/u-columns woocommerce-Addresses col2-set addresses/', 'row woocommerce-Addresses addresses', $html,1);
-                    $html = preg_replace('/u-column1 col-1 woocommerce-Address/', 'col col-sm-12 col-md-6 woocommerce-Address', $html,1);
-                    $html = preg_replace('/u-column2 col-2 woocommerce-Address/', 'col col-sm-12 col-md-6 woocommerce-Address', $html,1);
-
-                    $html = preg_replace('/woocommerce-PaymentMethods/', 'list-unstyled woocommerce-PaymentMethods', $html);
-                    $html = preg_replace('/class="woocommerce-PaymentMethod/', 'class="border border-2 p-3 woocommerce-PaymentMethod', $html);
-
-                    $html = preg_replace('/input-text/', 'input-text form-control', $html );
-                    
-                    $html = preg_replace('/button" name="save_address/', 'mt-3 btn btn-outline-primary woocommerce-Button button" name="save_address', $html,1 );
-                    $html = preg_replace('/woocommerce-Button button" name="save_account_details/', 'mt-3 btn btn-outline-primary woocommerce-Button button" name="save_account_details', $html,1 );
-
-                    echo $html;
-
-                ?>
+                <?= print_my_account(); /*bootstrap*/ ?>
             </div>
         </div>
 

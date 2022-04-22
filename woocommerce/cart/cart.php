@@ -87,7 +87,7 @@
 											<?
 												$thumbnail = get_the_post_thumbnail_url($_product->get_data()['id']);
 
-												if(!$thumbnail) $thumbnail = bloginfo('template_directory').'/adds/404IMAGE.PNG';
+												if(!$thumbnail) $thumbnail = get_template_directory_uri().'/adds/404IMAGE.PNG';
 
 												echo'
 												<a href="'.esc_url( $thumbnail ).'">

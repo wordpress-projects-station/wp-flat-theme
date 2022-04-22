@@ -15,5 +15,10 @@
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
     include_once __DIR__.'/adds/woo/functions.woocommerce.php';
-    
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    include_once __DIR__.'/adds/bootstrap/functions.bootstrap.php';
+
+
 ?>

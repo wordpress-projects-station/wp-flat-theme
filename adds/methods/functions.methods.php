@@ -68,7 +68,7 @@
 
         }
 
-        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'product-category' ) /*of woocommerce*/  ||  is_page( 'shop-categories')  /*permalink alterantive*/ || ( is_page( 'categories' ) && $sub_page_of_shop==true )  /*permalink shop/categories*/ ) {
+        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'product-category' ) /*of woocommerce*/  ||  is_page( 'shop-categories')  /*permalink alterantive*/   || ( is_page( 'categories' ) && $sub_page_of_shop==true ) /*permalink "shop/categories"*/ ) {
 
             $folder = 'woocommerce';
             $type = is_page( 'categories' ) ? 'shop-categories' : 'archive-product' ; 
@@ -83,7 +83,7 @@
 
         }
 
-        elseif( ( is_page() && is_shop() ) || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop==true) ) {
+        elseif( ( is_page() && is_shop() ) || is_page('shop') ) {
 
             echo '<p style="padding:2px;background:white;position:absolute;left:0;">IT S SHOP FRONTPAGE</p>';
             // $folder = '';
@@ -205,9 +205,8 @@
 
 
     function is_shop_home() {
-        $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
-        $result = ( is_page() && is_shop() ) || is_page('shop') || is_page('shop-home') || ( is_page('home') && $sub_page_of_shop==true) ? true : false;
-        return $result; // || $looptype['type'] == 'shop-categories' || $looptype['type'] == 'shop-category'
+        $result = (( is_page() && is_shop() ) || is_page('shop')) ? true : false;
+        return $result;
     }
     
 
@@ -328,5 +327,46 @@
         return 'background: url('.$bkgSrc.') center/cover;';
 
     }
+    
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    function print_sidebar($sidebar){
+
+        global $mods;
+
+        if($sidebar == 'sidebar_big') {
+
+            // fixing of cart widget's bug : https://stackoverflow.com/questions/50033227/is-there-any-way-to-display-the-woocommerce-mini-cart-on-my-wordpress-site
+            ob_start(); woocommerce_mini_cart(); $minicart = ob_get_clean();
+            ob_start(); dynamic_sidebar('sidebar_big'); $sidebar = ob_get_clean();
+            $sidebar = preg_replace( '/<div class="widget_shopping_cart_content"><\/div>/', $minicart, $sidebar, 1 );
+
+            echo '<aside class="'. ( $mods->sidebar_big_type == 'dynamic' ? 'col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 col-md-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block' : /*static*/ 'bigsidebar col-3' ) .'">';
+            echo $sidebar;
+            echo '</aside>';
+
+        }
+
+        if($sidebar == 'sidebar_shop'){
+
+            echo '<aside class="bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 col-md-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block">';
+                dynamic_sidebar('sidebar_shop');
+            echo '</aside>';
+
+        }
+
+        if($sidebar == 'sidebar_small')
+        {
+
+            echo '<aside class="'. ( $mods->sidebar_small_type == 'dynamic' ? 'smallsidebar col-xs-1 col-sm-1 col-md-1 d-lg-none d-xl-none' : /*static*/ 'smallsidebar col-1' ) .'">';
+                dynamic_sidebar('sidebar_small');
+            echo '</aside>';
+
+        }
+
+    }
+
 
 ?>
