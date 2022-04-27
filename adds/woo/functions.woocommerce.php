@@ -77,7 +77,7 @@
         // set qnt of related posts
         add_filter( 'woocommerce_output_related_products_args', function ( $args ) { 
             $args['posts_per_page'] = 8;
-            return $args; 
+            return $args;
         } );
 
 
@@ -119,12 +119,6 @@
         // }
         // add_filter( 'body_class', 'woo_single_loops_columns_body_class' );
 
-
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
-        // add_action('init','woo_filter_sidebar');
-        // function woo_filter_sidebar(){ register_sidebar([ 'name' => 'woo_filter_sidebar','id' => 'woo_filter_sidebar' ]); }
-
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
 
@@ -162,6 +156,7 @@
         add_action( 'woocommerce_save_account_details_errors','check_errors_of_image', 10, 1 );
 
         //: D1 ➔ prevent return to dashboard
+
         function woo_action_save_safe_redirect( $ID ) {
             wp_safe_redirect( wc_get_endpoint_url( 'edit-account' ) );
             exit();
@@ -169,6 +164,7 @@
         add_action( 'woocommerce_save_account_details', 'woo_action_save_safe_redirect', 90, 1 );
 
         //: D2 ➔ Save the data
+
         function save_account_details_with_the_image( $user_id ) {
 
             $error=false;
@@ -296,146 +292,39 @@
         add_action( 'woocommerce_save_account_details', 'save_account_details_with_the_image', 10, 1 );
 
         //: E ➔ Call result... the attached url
+
         function get_profile_image($currentUserId) {
             $attachment_id = get_user_meta( $currentUserId, 'custom_avatar', true );
             if ( $attachment_id ) return wp_get_attachment_url( $attachment_id );
         } 
 
         add_action( 'woocommerce_save_account_details', 'custom__woocommerce_save_account_details__redirect', 90, 1 );
-        
-
-        /*- - - - - - - - - - - - - - - - - - - - - - - - */
-
-        /*
-        // Mod Form field of woocommerce for add bootstrap
-        */
-
-
-        //: A) Not all woo fields are in B, so... Get HTML and rewrote their class..
-
-        // function start_mod_html_inWooEditAccount() {
-        //     if( basename($_SERVER['REQUEST_URI']) == 'edit-account' ) { ob_start(); }
-        // }
-        // function end_mod_html_inWooEditAccount() {
-        //     if( basename($_SERVER['REQUEST_URI']) == 'edit-account' ) {
-        //         $html = ob_get_clean();
-        //         echo str_replace( 'input-text', 'input-text form-control', $html );
-        //     }
-        // }
-        // add_action( 'wp_head', 'start_mod_html_inWooEditAccount' );
-        // add_action( 'wp_footer', 'end_mod_html_inWooEditAccount' );
-    
-
-        // //: B) regual walker of fields arguments for add the class
-
-        // function woo_bootstrap_input_classes( $args, $key, $value = null  ) {
-
-        //     /* This is not meant to be here, but it serves as a reference
-        //     of what is possible to be changed.
-        //     $defaults = array(
-        //         'type'			  => 'text',
-        //         'label'			 => '',
-        //         'description'	   => '',
-        //         'placeholder'	   => '',
-        //         'maxlength'		 => false,
-        //         'required'		  => false,
-        //         'id'				=> $key,
-        //         'class'			 => array(),
-        //         'label_class'	   => array(),
-        //         'input_class'	   => array(),
-        //         'return'			=> false,
-        //         'options'		   => array(),
-        //         'custom_attributes' => array(),
-        //         'validate'		  => array(),
-        //         'default'		   => '',
-        //     ); */
-        
-        //     // Start field type switch case
-        //     $args['class'][] = 'form-group';
-
-        //     switch ( $args['type'] ) {
-        
-        //         case 'selectselect' :
-        //             $args['class'][] = 'form-group';
-        //             $args['input_class'] = array('form-control', 'input-lg');
-        //             //$args['custom_attributes']['data-plugin'] = 'select2';
-        //             $args['label_class'] = array('control-label');
-        //             $args['custom_attributes'] = array( 'data-plugin' => 'select2', 'data-allow-clear' => 'true', 'aria-hidden' => 'true',  );
-        //         break;
-        
-        //         case 'country' :
-        //             $args['class'][] = 'form-group single-country';
-        //             $args['label_class'] = array('control-label');
-        //         break;
-        
-        //         case "state" :
-        //             $args['class'][] = 'form-group';
-        //             $args['input_class'] = array('form-control', 'input-lg');
-        //             //$args['custom_attributes']['data-plugin'] = 'select2';
-        //             $args['label_class'] = array('control-label');
-        //             $args['custom_attributes'] = array( 'data-plugin' => 'select2', 'data-allow-clear' => 'true', 'aria-hidden' => 'true',  );
-        //         break;
-        
-        
-        //         case "password" :
-        //         case "text" :
-        //         case "email" :
-        //         case "tel" :
-        //         case "number" :
-        //             $args['class'][] = 'form-group';
-        //             //$args['input_class'][] = 'form-control input-lg';
-        //             $args['input_class'] = array('form-control', 'input-lg');
-        //             $args['label_class'] = array('control-label');
-        //         break;
-        
-        //         case 'textarea' :
-        //             $args['input_class'] = array('form-control', 'input-lg');
-        //             $args['label_class'] = array('control-label');
-        //         break;
-        
-        //         case 'checkbox' :
-        //         break;
-        
-        //         case 'radio' :
-        //         break;
-
-        //         case 'submit' :
-        //         $args['class'][] = 'mt-3 mr-1 btn btn-outline-primary';
-        //         break;
-
-        //         case 'reset' :
-        //         $args['class'][] = 'mt-3 mr-1 btn btn-outline-secondary';
-        //         break;
-                
-        //         default :
-        //             $args['class'][] = 'form-group';
-        //             $args['input_class'] = array('form-control', 'input-lg');
-        //             $args['label_class'] = array('control-label');
-        //         break;
-        //     }
-        
-        //     return $args;
-        // }
-        // add_filter('woocommerce_form_field_args','woo_bootstrap_input_classes',10,3);
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
-        /*
-        // Mod Form field of woocommerce for remove required
-        */
+        // add_action( 'wp', function() {
 
-        // add_filter( 'woocommerce_form_field_args', 'no_requireds_custom_field', 10, 3 );
-        // function no_requireds_custom_field( $args, $key, $value ){
+        //     if ( empty ( $GLOBALS['wp_widget_factory'] ) ) return;
 
-        //     if( is_wc_endpoint_url( 'edit-account' ) ) return $args;
+        //     $widgets = array_keys( $GLOBALS['wp_widget_factory']->widgets );
 
-        //     $args['class'] = array('form-input-group');
-        //     $args['required'] = false;
+        //     print '<pre>';print_r($widgets);echo'</pre>';
 
-        //     return $args;
-        // }
+        //     foreach ($widgets as $i => $name) {
 
+        //         if($name=='WC_Widget_Layered_Nav_Filters')
+        //         echo '
+        //         <div class="alert alert-danger" role="alert">finded active original woocommerce widget:"FILTER VIA ATTRIBUTES".<br>
+        //         THE BUG AND THE SOLVE: <a href="https://github.com/woocommerce/woocommerce/issues/27419#issuecomment-1077565539">READ MORE ON GITHUB</a><br>
+        //         go to <a href="'.get_admin_url().'admin.php?page=wc-settings&tab=products&section=advanced">admin page</a> and set <b>"Enable table usage"</b> OFF.
+        //         </div><br>';
+
+        //         // if($name=='WC_Widget_Product_Categories')
+
+        //     }
+
+        // });
     }
     
     ?>

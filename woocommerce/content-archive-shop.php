@@ -1,4 +1,26 @@
-<p>shop</p>
+
+
+<div class="alert alert-warning" role="alert">
+
+    <p>
+        Original woocommerce widget warning:<br>
+        <ul>
+            <li>
+                <b>FILTER VIA ATTRIBUTES BUG</b>:<br>
+                THE BUG AND THE SOLUTION: <a target="_blank" href="https://github.com/woocommerce/woocommerce/issues/27419#issuecomment-1077565539">READ MORE ON GITHUB</a><br>
+                in short go to <a target="_blank" href="<?=get_admin_url()?>admin.php?page=wc-settings&tab=products&section=advanced">admin page</a> and set <b>"Enable table usage"</b> OFF.
+            </li>
+        </ul>
+    </p>
+
+    <hr>
+
+    <p>you can deactive this warning from <i>theme customization > site options > remove warning : filters</i></p>
+
+</div>
+
+<div class=""><hr></div>
+
 <div class="row">
     <?
 
@@ -14,7 +36,7 @@
 
             'post_status' => 'publish',
             'orderby' => '_price',
-            'order' => 'desc', //asc
+            'order' => 'DESC', //ASC
 
         ]);
 

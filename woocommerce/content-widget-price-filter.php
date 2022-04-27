@@ -118,9 +118,4 @@
 
 </style>
 
-
-<script>
-
-</script>
-
 <? do_action( 'woocommerce_widget_price_filter_end', $args ); ?>
