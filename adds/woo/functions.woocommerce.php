@@ -41,16 +41,19 @@
 
 
         // add sidebar of shop
-        add_action('widgets_init','sidebar_shop');
-        function sidebar_shop() { register_sidebar([ 
-            'name' => 'Sidebar shop',
-            'id' => 'sidebar_shop',
-            'description' => 'if active on the theme customizer, it generates a sidebar on the pages of the shop',
-            'before_widget' => '<div>',
-            'after_widget'  => '</div>',
-            'before_title'  => '<b>',
-            'after_title'   => '</b>',
-        ]); }
+        add_action('init','sidebar_shop');
+        function sidebar_shop() { 
+            
+            register_sidebar([ 
+                'name' => 'Sidebar shop',
+                'id' => 'sidebar_shop',
+                'description' => 'if active on the theme customizer, it generates a sidebar on the pages of the shop',
+                'before_widget' => '<div>',
+                'after_widget'  => '</div>',
+                'before_title'  => '<b>',
+                'after_title'   => '</b>',
+            ]); 
+        }
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */

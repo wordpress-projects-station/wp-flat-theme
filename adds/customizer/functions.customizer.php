@@ -42,6 +42,7 @@
         include_once 'libs.customizer-bloghome.php';
         include_once 'libs.customizer-posts.php';
 
+        include_once 'libs.customizer-shophome.php';
         include_once 'libs.customizer-shopcatalog.php';
         include_once 'libs.customizer-shopcategories.php';
         include_once 'libs.customizer-shopcategory.php';

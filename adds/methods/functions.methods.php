@@ -61,48 +61,33 @@
 
         // check membership
 
-        if( is_product() ) {
-
-            $folder = 'woocommerce';
-            $type = 'product';
-
-        }
-
-        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'product-category' ) /*of woocommerce*/  ||  is_page( 'shop-categories')  /*permalink alterantive*/   || ( is_page( 'categories' ) && $sub_page_of_shop==true ) /*permalink "shop/categories"*/ ) {
-
-            $folder = 'woocommerce';
-            $type = is_page( 'categories' ) ? 'shop-categories' : 'archive-product' ; 
-            // warning: -> archive-product is auto getted. go on woocommerce/archivie-product.php
-
-        }
-
-        elseif( is_page('product-catalog') ) {
+        if( is_page('product-catalog') ) {
 
             $folder = 'woocommerce';
             $type = 'shop-catalog';
 
         }
 
-        elseif( ( is_page() && is_shop() ) || is_page('shop') ) {
+        elseif( is_page('shop') ||  ( is_page() && is_shop() ) || (is_shop() && is_woocommerce()) ) {
 
-            echo '<p style="padding:2px;background:white;position:absolute;left:0;">IT S SHOP FRONTPAGE</p>';
-            // $folder = '';
-            // $type = 'home';
-
-        }
-
-        elseif( is_front_page() || is_home() || is_page('front-page') ) {
-
-            echo '<p style="padding:2px;background:white;position:absolute;left:0;">IT S A FRONTPAGE</p>';
-            // $folder = '';
-            // $type = 'home';
+            // warning: -> shop is an archive: archive-product is auto getted -> go on woocommerce/archivie-product.php
+            $folder = 'woocommerce';
+            $type = 'shop';
 
         }
 
-        elseif( is_shop() && is_woocommerce() ) {
+        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'product-category' ) /*of woocommerce*/  ||  is_page( 'shop-categories')  /*permalink alterantive*/   || ( is_page( 'categories' ) && $sub_page_of_shop==true ) /*permalink "shop/categories"*/ ) {
+
+            // warning: -> archive-product is auto getted. go on woocommerce/archivie-product.php
+            $folder = 'woocommerce';
+            $type = is_page( 'categories' ) ? 'shop-categories' : 'archive-product' ; 
+
+        }
+
+        elseif( is_product() ) {
 
             $folder = 'woocommerce';
-            $type = 'page';
+            $type = 'product';
 
         }
         
@@ -120,8 +105,22 @@
 
         }
 
+        elseif( is_shop() && ispage() ) {
+
+            $folder = 'woocommerce';
+            $type = 'page';
+
+        }
+
 
         // wordpress
+        
+        elseif( is_front_page() || is_home() || is_page('front-page') ) {
+
+            $folder = '';
+            $type = 'home';
+
+        }
         
         elseif( is_account_page() || is_page('account') || is_page('profile') )
         {
@@ -205,7 +204,7 @@
 
 
     function is_shop_home() {
-        $result = (( is_page() && is_shop() ) || is_page('shop')) ? true : false;
+        $result = ( is_page('shop') ||  ( is_page() && is_shop() ) || (is_shop() && is_woocommerce()) ) ? true : false;
         return $result;
     }
     

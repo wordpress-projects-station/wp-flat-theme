@@ -1,6 +1,11 @@
 <? defined( 'ABSPATH' ) || exit; ?>
 
-THis is home!
+//:
+//: Classic way to make woocommerce front-page
+//:
+
+// this page is not supported. For better customization go
+// on "archive-product.php" + "content-archive-shop.php"
 
 <div class="row">
     <?
