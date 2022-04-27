@@ -1,6 +1,7 @@
 <? if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 
-<div class="mb-2">
+<? global $mods; ?>
+
 <?
 
 	global $product;
@@ -22,13 +23,19 @@
 	do_action( 'woocommerce_product_meta_end' );
 
 ?>
-</div>
 
-<div>
+<div class="p-2"></div>
+
+<? if( !$mods->heading_status && $mods->excerpt_status ) { ?>
+
+
 	<?
 		global $post;
 		$short_description = apply_filters( 'woocommerce_short_description', $post->post_excerpt );
 		if ( ! $short_description ) { $short_description='nothing has written...'; }
 		echo $short_description;
 	?>
-</div>
+
+	<div class="p-2"></div>
+
+<? } ?>

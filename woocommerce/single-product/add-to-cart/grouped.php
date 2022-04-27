@@ -296,6 +296,8 @@
 
 		<? do_action( 'woocommerce_before_add_to_cart_button' ); ?>
 
+		<div class="p-2"></div>
+
 		<button type="submit" class="btn btn-primary single_add_to_cart_button button alt"><?= esc_html( $product->single_add_to_cart_text() ); ?></button>
 
 		<? do_action( 'woocommerce_after_add_to_cart_button' ); ?>

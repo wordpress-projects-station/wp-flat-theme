@@ -22,6 +22,7 @@ body{
     background: var(--wp--preset--color--black);
 }
 
+
 /* - - - - - - - - - - - - - - - - - - - - */
 
 /* bootstrap add-on */
@@ -38,6 +39,10 @@ body{
     height: 0 !important;
     z-index: -1;
     display: unset;
+}
+
+[class*=rounded] {
+    overflow: hidden;
 }
 
 *>p:last-child {
@@ -136,8 +141,8 @@ ul.flex-direction-nav {
     list-style: none;
 }
 
-li.flex-nav-prev {float: left;}
-li.flex-nav-next {float: right;}
+li.flex-nav-prev {float: left; margin-left:10px;}
+li.flex-nav-next {float: right; margin-right:10px;}
 
 a.flex-next,a.flex-prev {
     visibility:hidden;
@@ -149,9 +154,51 @@ a.flex-next,a.flex-prev {
 
 a.flex-prev::before {
     visibility:visible;
-    content: '\F12D';
+    content: '\F129';
 }
 a.flex-next::after {
     visibility:visible;
-    content: '\F136';
+    content: '\F133';
+}
+
+/* WooCommerce 3.0 Gallery (ICON ZOOM) */
+
+.woocommerce-product-gallery__trigger {
+    background: #00000069;
+    font-size: 0;
+    line-height: 0;
+    color: white;
+    padding: 20px 15px;
+}
+
+.woocommerce-product-gallery__trigger:before {
+    font-family: "bootstrap-icons";
+    content: "\F62C";
+    font-size: 15px;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    text-align: center;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - */
+
+/* cart in menu correction */
+
+#menu-main-menu>li>a{
+    color: white;
+}
+
+.wpmenucart-contents{
+    display: flex;
+    width: 100px;
+    height: 100%;
+    text-decoration: none;
+    background: rgba(255,255,255,.1);
+    justify-content: center;
+    border-radius: 7px;
+    align-items: center;
+    color: white;
+
 }

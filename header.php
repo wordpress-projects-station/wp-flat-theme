@@ -76,6 +76,6 @@
 
         <div class="container p-3">
 
-            <div class="row">
+            <div class="row gx-5">
 
                 <? require_once __DIR__.'/layout-left.php'; ?>

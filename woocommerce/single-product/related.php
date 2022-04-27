@@ -8,7 +8,7 @@
 
 			$heading = apply_filters( 'woocommerce_product_related_products_heading', __( 'Related products', 'woocommerce' ) );
 
-			if ( $heading ) echo '<h2>'.esc_html( $heading ).'</h2>';
+			if ( $heading ) echo '<h4>'.esc_html( $heading ).'</h4>';
 
 			echo '<div id="products-slider" style="display:block;clear:both;overflow:hidden;">';
 				echo '<div id="slider-wrap" style="white-space:nowrap;">';
@@ -54,10 +54,12 @@
 				transform:translateY(-50%);
 			}
 			#products-slider a#prev::before{
-				content: '\F12D';
+				margin-left:10px;
+				content: '\F129';
 			}
 			#products-slider a#next::before{
-				content: '\F136';
+				margin-right:10px;
+				content: '\F133';
 			}
 			#products-slider .slider-box{
 				width:250px;

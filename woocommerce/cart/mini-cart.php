@@ -1,6 +1,6 @@
 <? defined( 'ABSPATH' ) || exit; ?>
 
-<div class="rounded-2" style="overflow:hidden;">
+<div class="rounded-2">
 
     <div class="row m-0">
         <div class="col-9 bg-primary shadow-sm">
@@ -60,7 +60,7 @@
                                             echo '<a href="'.esc_url( $thumbnail ).'"><div style="height:35px;width:35px;background: url('.$thumbnail.') center / cover no-repeat"></div></a>';
                                         ?>
 
-                                        <a class="d-inline-block text-decoration-none text-truncate text-dark" style="max-width:150px;" <?= empty( $product_permalink ) ?: 'href="'.esc_url( $product_permalink ).'"'; ?>>
+                                        <a class="d-inline-block text-decoration-none text-truncate text-dark" style="max-width: 33%;" <?= empty( $product_permalink ) ?: 'href="'.esc_url( $product_permalink ).'"'; ?>>
                                             <?= $item_product->get_name(); ?>
                                         </a>
 

@@ -227,7 +227,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) :
 				if ( $depth > 0 ) {
 					$atts['class'] = 'dropdown-item';
 				} else {
-					$atts['class'] = 'nav-link';
+					$atts['class'] = ' nav-link';
 				}
 			}
 

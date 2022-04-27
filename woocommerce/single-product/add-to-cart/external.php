@@ -3,7 +3,10 @@
 <? do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 
 <form class="cart" action="<?= esc_url( $product_url ); ?>" method="get">
+
 	<? do_action( 'woocommerce_before_add_to_cart_button' ); ?>
+
+	<div class="p-2"></div>
 
 	<button type="submit" class="btn btn-primary single_add_to_cart_button alt"><?= esc_html( $button_text ); ?></button>
 

@@ -24,9 +24,13 @@
 			do_action( 'woocommerce_before_add_to_cart_quantity' );
 		?>
 
+			<div class="p-2"></div>
+
 			<div class="row">
-				<div class="col-sm-12 col-md-3"><label class="btn" for="pa_design">Quantity</label></div>
-				<div class="col-sm-12 col-md-2">
+
+				<div class="col-sm-12 col-md-3 p-0"><label class="btn" for="pa_design">Quantity</label></div>
+
+				<div class="col-sm-12 col-md-2 p-0">
 					<?
 						woocommerce_quantity_input([
 							'classes'	  => 'form-control',

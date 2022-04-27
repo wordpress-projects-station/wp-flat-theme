@@ -12,6 +12,8 @@
 
 ?>
 
+<div class="p-2"></div>
+
 <form class="variations_form cart" action="<?= esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' data-product_id="<?= absint( $product->get_id() ); ?>" data-product_variations="<?= $variations_attr; // WPCS: XSS ok. ?>">
 
 	<?
@@ -28,91 +30,94 @@
 
 		} else { 
 			
-			foreach ( $attributes as $attribute_name => $values ) { ?>
-
-				<div class="row variations mb-2">
-
-					<div class="col-sm-12 col-md-3">
-						<label class="btn" for="<?= esc_attr( sanitize_title( $attribute_name ) ); ?>"><?= ucfirst( wc_attribute_label( $attribute_name ) ); ?></label>
-					</div>
-
-					<div class="col-sm-12 col-md-9">
-						<div class="options-wrapper">
-
-							<?
-
-								$attribute_label = strtolower(preg_replace('/pa_/','',sanitize_title( $attribute_name ),1));
-
-								if($attribute_label=='color') {
-
-									wc_dropdown_variation_attribute_options([
-										'class'		=> 'd-hidden',
-										'options'   => $values,
-										'attribute' => $attribute_name,
-										'product'   => $product,
-									]);
-
-									// for variation swatch 
-									// $attribute_terms = get_terms(['taxonomy'=>$attribute_name,'hide_empty'=>false]);
-									// foreach ($attribute_terms as $term) echo'<span class="option-data colordot" style="background-color:'.get_term_meta($term->term_id)["color"][0].';"></span>';
-
-									foreach ($values as $slugcolor)
-									echo'<span class="option-data colordot" style="background-color:#'.$slugcolor.';"></span>';
-
-								}
-
-								elseif($attribute_label=='size') {
-
-									wc_dropdown_variation_attribute_options([
-										'class'		=> 'd-hidden',
-										'options'   => $values,
-										'attribute' => $attribute_name,
-										'product'   => $product,
-									]);
-
-									foreach ( $values as $v ) 
-									echo '<span style="margin:5px 5px 0 0;display:inline-block;"><input class="option-data btn-check" type="radio" name="'.$attribute_name.'" id="'.$v.'" autocomplete="off" value="'.$v.'"><label class="btn btn-outline-secondary" for="'.$v.'">'.$v.'</label></span>';
-
-								}
-
-								elseif($attribute_label=='design' &&  count($attributes)==1 ) {
-
-									wc_dropdown_variation_attribute_options([
-										'class'		=> 'd-hidden',
-										'options'   => $values,
-										'attribute' => $attribute_name,
-										'product'   => $product,
-									]);
-
-									$variations = $product->get_available_variations();
-									foreach ( $variations as $variant)
-									echo '<span class="option-data designdot" data-variant="'.$variant['variation_id'].'" style="background:url('.$variant['image']['src'].') center / 200% no-repeat;"></span>';
-
-								}
-
-								else {
-
-									// echo 'simple selector';
-									wc_dropdown_variation_attribute_options([
-										'class'		=> 'form-select',
-										'options'   => $values,
-										'attribute' => $attribute_name,
-										'product'   => $product,
-									]);
-
-									// if( end( $attribute_keys ) === $attribute_name )
-									// echo '<span>',(wp_kses_post( apply_filters( 'woocommerce_reset_variations_link', '<a style="text-decoration:none;" class="reset_variations btn muted" href="#">🗙</a>' ) )),'</span>';
-
-								}
-
-							?>
-
-						</div>
-					</div>
-
-				</div>
+			foreach ( $attributes as $attribute_name => $values ) {
 				
-			<? }
+				?>
+
+					<div class="row variations">
+
+						<div class="col-sm-12 col-md-3 p-0">
+							<label class="btn" for="<?= esc_attr( sanitize_title( $attribute_name ) ); ?>"><?= ucfirst( wc_attribute_label( $attribute_name ) ); ?></label>
+						</div>
+
+						<div class="col-sm-12 col-md-9 p-0">
+							<div class="options-wrapper">
+
+								<?
+
+									$attribute_label = strtolower(preg_replace('/pa_/','',sanitize_title( $attribute_name ),1));
+
+									if($attribute_label=='color') {
+
+										wc_dropdown_variation_attribute_options([
+											'class'		=> 'd-hidden',
+											'options'   => $values,
+											'attribute' => $attribute_name,
+											'product'   => $product,
+										]);
+
+										// for variation swatch 
+										// $attribute_terms = get_terms(['taxonomy'=>$attribute_name,'hide_empty'=>false]);
+										// foreach ($attribute_terms as $term) echo'<span class="option-data colordot" style="background-color:'.get_term_meta($term->term_id)["color"][0].';"></span>';
+
+										foreach ($values as $slugcolor)
+										echo'<span class="option-data colordot" style="background-color:#'.$slugcolor.';"></span>';
+
+									}
+
+									elseif($attribute_label=='size') {
+
+										wc_dropdown_variation_attribute_options([
+											'class'		=> 'd-hidden',
+											'options'   => $values,
+											'attribute' => $attribute_name,
+											'product'   => $product,
+										]);
+
+										foreach ( $values as $v ) 
+										echo '<span style="margin:5px 5px 0 0;display:inline-block;"><input class="option-data btn-check" type="radio" name="'.$attribute_name.'" id="'.$v.'" autocomplete="off" value="'.$v.'"><label class="btn btn-outline-secondary" for="'.$v.'">'.$v.'</label></span>';
+
+									}
+
+									elseif($attribute_label=='design' &&  count($attributes)==1 ) {
+
+										wc_dropdown_variation_attribute_options([
+											'class'		=> 'd-hidden',
+											'options'   => $values,
+											'attribute' => $attribute_name,
+											'product'   => $product,
+										]);
+
+										$variations = $product->get_available_variations();
+										foreach ( $variations as $variant)
+										echo '<span class="option-data designdot" data-variant="'.$variant['variation_id'].'" style="background:url('.$variant['image']['src'].') center / 200% no-repeat;"></span>';
+
+									}
+
+									else {
+
+										// echo 'simple selector';
+										wc_dropdown_variation_attribute_options([
+											'class'		=> 'form-select',
+											'options'   => $values,
+											'attribute' => $attribute_name,
+											'product'   => $product,
+										]);
+
+										// if( end( $attribute_keys ) === $attribute_name )
+										// echo '<span>',(wp_kses_post( apply_filters( 'woocommerce_reset_variations_link', '<a style="text-decoration:none;" class="reset_variations btn muted" href="#">🗙</a>' ) )),'</span>';
+
+									}
+
+								?>
+
+							</div>
+						</div>
+
+					</div>
+					
+				<? 
+			}
 
 			do_action( 'woocommerce_after_variations_table' ); 
 			
