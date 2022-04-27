@@ -184,7 +184,7 @@
 
         /* - - - - - - - - - - */
 
-        $mods->sidebar_shop_position = 'right';
+        $mods->sidebar_shop_position = $mods->sidebar_big_position;
 
 
         /*
@@ -193,7 +193,7 @@
 
         /* - - - - - - - - - - */
 
-        $mods->top_site_warning = get_theme_mod( 'site_warnings_woocommercefiltersbug_status_settings' )=='true' ? true : false;
+        $mods->woocommerce_filters_bug_warning = get_theme_mod( 'site_warnings_woocommercefiltersbug_status_settings' )=='true' ? true : false;
 
 
 

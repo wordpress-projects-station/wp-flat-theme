@@ -1,5 +1,5 @@
 
-
+<? if( !$mods->woocommerce_filters_bug_warning) { ?>
 <div class="alert alert-warning" role="alert">
 
     <p>
@@ -18,27 +18,101 @@
     <p>you can deactive this warning from <i>theme customization > site options > remove warning : filters</i></p>
 
 </div>
-
 <div class=""><hr></div>
+<?}?>
 
 <div class="row">
     <?
+
+
+        $filter_min_price = isset($_GET["min_price"])?$_GET["min_price"]:'0';
+        $filter_max_price = isset($_GET["max_price"])?$_GET["max_price"]:'0';
+        $filter_size = isset($_GET["filter_size"])?$_GET["filter_size"]:'';
+
+        echo $filter_size;
+
 
         $currency = get_woocommerce_currency_symbol();
 
         $paged          = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
         $per_page       = 18;
 
-        $query = new WP_Query([
-            'post_type'      => 'product',
+
+        $finder = [
+
+            'post_type' => 'product',
+            'post_status' => 'publish',
             'posts_per_page' => $per_page,
             'paged' => $paged,
 
-            'post_status' => 'publish',
             'orderby' => '_price',
-            'order' => 'DESC', //ASC
+            'order' => 'desc', //asc, //rand, //id
 
-        ]);
+            'meta_query' => [
+
+                // [
+                //     'key' 			=> '_visibility',
+                //     'value' 		=> ['catalog', 'visible'],
+                //     'compare' 		=> 'IN'
+                // ],
+
+                [
+                    'key' => '_price',
+                    'value' => $filter_min_price,
+                    'compare' => '>='
+                ],
+
+                [
+                    'key' => '_price',
+                    'value' => $filter_max_price,
+                    'compare' => '<='
+                ],
+
+            ],
+            
+            'tax_query' => [],
+
+        ];
+        
+        if( isset($_GET["filter_color"]) ) {
+
+            array_push(
+                $finder['tax_query'], 
+                [
+                    'relation' => 'AND',
+                    [
+                        'taxonomy' 		=> 'pa_color',
+                        'terms' 		=> explode(',',$_GET["filter_color"]),
+                        'field' 		=> 'slug',
+                        'operator' 		=> 'IN'
+                    ],
+                ]
+            );
+        };
+
+        if( isset($_GET["filter_size"]) ) {
+
+            array_push(
+                $finder['tax_query'], 
+                [
+                    'relation' => 'AND',
+                    [
+                        'taxonomy' 		=> 'pa_size',
+                        'terms' 		=> explode(',',$_GET["filter_size"]),
+                        'field' 		=> 'slug',
+                        'operator' 		=> 'IN'
+                    ],
+                ]
+            );
+        };
+
+
+        $query = new WP_Query($finder);
+
+        // 'product_cat' => $category->slug,
+        // 'meta_key' => '_price',
+        // 'meta_value' => 500,
+
 
         while( $query->have_posts() ) { $query->the_post();
 

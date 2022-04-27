@@ -202,3 +202,15 @@ a.flex-next::after {
     color: white;
 
 }
+
+/* - - - - - - - - - - - - - - - - - - - - */
+
+/* wp social link correction */
+
+.wp-social-link{
+    width: 100%;
+    display: grid;
+    align-items: center;
+    text-align: center;
+    aspect-ratio: 1;
+}
