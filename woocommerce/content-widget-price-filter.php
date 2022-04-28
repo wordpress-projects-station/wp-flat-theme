@@ -2,27 +2,63 @@
 
 <? do_action( 'woocommerce_widget_price_filter_start', $args ); ?>
 
-<form method="get" action="<?= esc_url( $form_action ); ?>">
+<form id="price_widget" method="get" action="<?= esc_url( $form_action ); ?>">
 
     <div class="price_slider_wrapper">
 
         <div class="price_slider" style="display:none;"></div>
 
-        <div class="price_slider_amount" data-step="<?= esc_attr( $step ); ?>">
-			<input type="text" id="min_price" name="min_price" value="<?= esc_attr( $current_min_price ); ?>" data-min="<?= esc_attr( $min_price ); ?>" placeholder="<?= esc_attr__( 'Min price', 'woocommerce' ); ?>" />
+        <div class="price_slider_amount" data-step="1<?//= esc_attr( $step ); ?>">
+
+            <input type="text" id="min_price" name="min_price" value="<?= esc_attr( $current_min_price ); ?>" data-min="<?= esc_attr( $min_price ); ?>" placeholder="<?= esc_attr__( 'Min price', 'woocommerce' ); ?>" />
 			<input type="text" id="max_price" name="max_price" value="<?= esc_attr( $current_max_price ); ?>" data-max="<?= esc_attr( $max_price ); ?>" placeholder="<?= esc_attr__( 'Max price', 'woocommerce' ); ?>" />
-			<? /* translators: Filter: verb "to filter" */ ?>
-			<button type="submit" class="button"><?= esc_html__( 'Filter', 'woocommerce' ); ?></button>
-			<div class="price_label" style="display:none;">
+	
+            <? /* translators: Filter: verb "to filter" */ ?>
+			<button type="submit" class="button btn btn-secondary"><?= esc_html__( 'Filter', 'woocommerce' ); ?></button>
+
+            <div class="price_label" style="display:none;">
 				<?= esc_html__( 'Price:', 'woocommerce' ); ?> <span class="from"></span> &mdash; <span class="to"></span>
 			</div>
-			<?= wc_query_string_form_fields( null, array( 'min_price', 'max_price', 'paged' ), '', true ); ?>
-			<div class="clear"></div>
-		</div>
+	
+            <?= wc_query_string_form_fields( null, array( 'min_price', 'max_price', 'paged' ), '', true ); ?>
+	
+            <div class="clear"></div>
+	
+        </div>
 
     </div>
 
 </form>
+
+<div class="py-2 pb-2"><hr></div>
+
+<?
+
+    $categories = get_terms(
+        'product_cat',
+        [
+            'orderby' => 'id',
+            'order' => 'DESC',
+            'hide_empty' => true,
+            'parent' => 0
+        ]
+    );
+
+?>
+
+<div id="filter_category">
+    <? foreach ($categories as $key => $category) { ?>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="<?=$category->slug?>" id="category_selector_<?=$category->slug?>">
+            <label label class="form-check-label" for="category_selector_<?=$category->slug?>">
+                <?= $category->name; ?>
+            </label>
+        </div>
+    <? } ?>
+</div>
+
+<div class="py-2 pb-2"><hr></div>
+
 <style>
 .price_slider{ 
     margin-bottom: 1em;
@@ -70,7 +106,7 @@
 }
 
 .ui-slider .ui-slider-handle:last-child {
-    margin-left: -1em;
+    margin-left: -.5em;
 }
 
 .ui-slider .ui-slider-range {
@@ -116,6 +152,70 @@
     right: -1px;
 }
 
+.price_slider_wrapper .button{
+    font-size: 1em;
+    padding: 2px 8px;
+    margin-top: 3px;
+}
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        if ( document.readyState === "complete" || document.readyState === "interactive" ) {
+
+
+            //get query
+            const query = new URLSearchParams(window.location.search)
+
+            //set Price Slider
+            let min = query.get('min_price')
+            let max = query.get('max_price')
+
+            if(max>0) {
+
+                document.querySelectorAll('#min_price')[0].setAttribute('value',min)
+                document.querySelectorAll('#max_price')[0].setAttribute('value',max)
+
+                document.querySelectorAll('.price_label>.from')[0].innerText = min
+                document.querySelectorAll('.price_label>.from')[0].innerText = max
+
+            }
+
+            //set Categories Selector
+
+            
+            let categories = query.get('in_categories');
+
+            document.querySelectorAll('.form-check>.form-check-input')
+            .forEach( checkbox => {
+                checkbox.addEventListener('click',()=>{
+
+                    ! checkbox.checked
+                        ? checkbox.setAttribute('checked','true')
+                        : checkbox.removeAttribute('checked')
+
+
+                    let query_add = '&in_categories='
+
+                    document.querySelectorAll('.form-check>.form-check-input')
+                    .forEach( checkbox => {
+
+                        if( checkbox.checked )
+                        query_add+= checkbox.value+'+'
+
+                    })
+
+                    query_add = query_add.replace(/\+$/, '')
+
+                    console.log(query_add);
+
+                },false)
+            })
+
+        }
+    
+    },false)
+</script>
 
 <? do_action( 'woocommerce_widget_price_filter_end', $args ); ?>

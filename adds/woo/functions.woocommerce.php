@@ -297,34 +297,58 @@
             $attachment_id = get_user_meta( $currentUserId, 'custom_avatar', true );
             if ( $attachment_id ) return wp_get_attachment_url( $attachment_id );
         } 
-
         add_action( 'woocommerce_save_account_details', 'custom__woocommerce_save_account_details__redirect', 90, 1 );
 
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
+        // print widget active and check the names
         // add_action( 'wp', function() {
-
         //     if ( empty ( $GLOBALS['wp_widget_factory'] ) ) return;
-
         //     $widgets = array_keys( $GLOBALS['wp_widget_factory']->widgets );
-
         //     print '<pre>';print_r($widgets);echo'</pre>';
-
         //     foreach ($widgets as $i => $name) {
-
-        //         if($name=='WC_Widget_Layered_Nav_Filters')
-        //         echo '
-        //         <div class="alert alert-danger" role="alert">finded active original woocommerce widget:"FILTER VIA ATTRIBUTES".<br>
-        //         THE BUG AND THE SOLVE: <a href="https://github.com/woocommerce/woocommerce/issues/27419#issuecomment-1077565539">READ MORE ON GITHUB</a><br>
-        //         go to <a href="'.get_admin_url().'admin.php?page=wc-settings&tab=products&section=advanced">admin page</a> and set <b>"Enable table usage"</b> OFF.
-        //         </div><br>';
-
-        //         // if($name=='WC_Widget_Product_Categories')
-
+        //         if($name=='WC_Widget_Product_Categories')
+        //         // do...
         //     }
-
         // });
+
+
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+        function custom_woocommerce_layered_nav_term_html( $term_html, $term, $link, $count ) { 
+
+            if($term->taxonomy=='pa_color') {
+
+                $output = '<span class="colorbox '.strtolower($term->slug).'" style="background-color:'.strtolower($term->slug).'"></span> '.$term_html;
+
+            }
+
+            elseif($term->taxonomy=='pa_size') {
+
+                $output = preg_replace( '/>'.$term->name.'</', '><span class="sizebox">'.$term->name.'</span><', $term_html);
+
+            }
+
+            // elseif($term->taxonomy=='pa_merk') {
+
+            //     $output = preg_replace( '/<span class="star-rating">(.+?)<\/span><\/span>/', '<span class="starbox star-rating">'.$term->name.'</span>', $term_html);
+            
+            // }
+            
+            else {
+
+                $output=$term_html;
+
+            }
+
+            return $output;
+        }
+        add_filter('woocommerce_layered_nav_term_html', 'custom_woocommerce_layered_nav_term_html', 10, 4);
+
+
+        
+
     }
     
     ?>
