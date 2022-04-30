@@ -11,7 +11,7 @@
         'paged' => $paged
     ]);
     
-    ?><div class="row"><?
+    ?><div class="row g-4"><?
 
     if( $query->have_posts() ) {
 
@@ -25,21 +25,41 @@
 
                         <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
 
-                            <div class="archivie-post card mx-auto">
+                            <div class="post-box card">
 
-                                <div style="height:200px; <?= get_banner_background(get_the_ID()); ?>"></div>
+                                <div class="card-header p-0" onclick="window.location='<?= $link; ?>'">
+                                    <div style="<?= get_banner_background(get_the_ID()); ?>"></div>
+                                </div>
 
                                 <div class="card-body">
 
-                                    <h2 class="card-title"><? the_title();?></h2>
-                                    <p class="card-date"><? get_the_date();?></p>
-                                    <div class="card-text" style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">
-                                        <p><? the_excerpt();?></p>
+                                    <div class="card-title">
+                                        <h4>
+                                            <? the_title(); ?>
+                                        </h4>
                                     </div>
-                                    <a class="btn card-link" href="<? the_permalink();?>">Read now ...</a>
+
+                                    <? if(!empty(get_the_date())){ ?>
+                                    <p class="card-date">
+                                        <? get_the_date(); ?>
+                                    </p>
+                                    <?}?>
+
+                                    
+                                    <p class="card-date">
+                                        <? get_the_date(); ?>
+                                    </p>
+                                    
+                                    <div class="card-excerpt">
+                                        <p class="card-text"><? the_excerpt(); ?></p>
+                                    </div>
 
                                 </div>
-
+                                <div class="card-footer">                              
+                                    <a class="btn card-link" href="<? the_permalink(); ?>">
+                                        Read now ...
+                                    </a>
+                                </div>
                             </div>
 
                         </div>

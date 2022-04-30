@@ -23,7 +23,7 @@
 	echo '<tr> <th width="250"> Tag list: </th><td>';
 	foreach ( $product->tag_ids as $t ) { 
 		$tag=get_term($t);
-		echo '<span class="tag"><a class="btn btn-info btn-sm" href="'.home_url().'/search/?s='.$tag->name.'"> '.$tag->name.' </a></span>&nbsp; ';
+		echo '<span class="tag"><a class="btn btn-primary btn-sm" href="'.home_url().'/search/?s='.$tag->name.'"> '.$tag->name.' </a></span>&nbsp; ';
 	}
 	echo '</td></tr></tbody></table>';
 	echo '<div class="mt-3 mb-3 border border-1 border-clear"></div>';

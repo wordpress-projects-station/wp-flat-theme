@@ -13,7 +13,7 @@
 </div>
 
 
-<div class="row">
+<div class="row g-4">
 
     <? if ( have_posts() ) { while ( have_posts() ) { the_post(); ?>
 

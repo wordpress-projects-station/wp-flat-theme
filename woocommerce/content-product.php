@@ -15,23 +15,39 @@
 
 ?>
 
-<div class="mb-3 col-sm-12 col-md-<?=$columns?>">
-	<div class="card <?//=$classes;?>" style="cursor:pointer" onclick="window.location='<?=$link?>'">
+<div class="product-box col-sm-12 col-md-<?=$columns?>">
+	<div class="card">
 
-		<div class="card-header p-0">
-			<div style="height:200px; <?= get_banner_background($product->ID); ?>"></div>
+		<div class="card-header p-0" onclick="window.location='<?= $link; ?>'">
+			<div style="<?= get_banner_background($product->ID); ?>"></div>
 		</div>
 
 		<div class="card-body text-center">
-			<p class="card-subtitle fs-5 text-muted"><?=$price?> €</p>
-			<h5 class="card-title fs-3"><?=$title?></h5>
-			<div style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp:3;-webkit-box-orient: vertical;">
-				<p class="card-text"><?=$excerpt?></p>
+			
+			<p class="card-subtitle fs-5 text-muted">
+				<?= $price; ?> <?=get_option('woocommerce_currency');?>
+			</p>
+		
+			<div class="card-title">
+				<h4>
+					<?= $title; ?>
+				</h4>
 			</div>
+
+			<div class="card-excerpt">
+				<p class="card-text">
+					<?= $excerpt; ?>
+				</p>
+			</div>
+
 		</div>
 
 		<div class="card-footer">
-			<a href="<?=$link?>" class="btn btn-primary">OPEN DETAILS</a>
+
+			<a href="<?= $link; ?>" class="btn btn-primary">
+				OPEN DETAILS
+			</a>
+
 		</div>
 
 	</div>

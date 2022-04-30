@@ -7,7 +7,7 @@
      
             ?>
 
-                <header class="row">
+                <header class="row g-4">
 
                     <div class="col-lg-6 col-md-12">
 

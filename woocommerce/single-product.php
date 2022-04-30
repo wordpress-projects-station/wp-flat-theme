@@ -4,7 +4,7 @@
 
 	get_header( 'shop' );
 
-	?><main class="col gx-5"><?
+	?><main class="contentsidebar col g-4"><?
 
 		bootsrapped_breadcrumb();
 

@@ -21,7 +21,7 @@
 <div class=""><hr></div>
 <?}?>
 
-<div class="row">
+<div class="row g-4">
     <?
 
 
@@ -131,7 +131,6 @@
 
         }
 
-
         $query = new WP_Query($finder);
 
         if( $query->have_posts() ) {
@@ -142,30 +141,50 @@
 
                     global $product; // echo '<pre><code>'; print_r($query); echo '</code></pre>';
 
-                    $p = $product->get_data();
+                    $productdata = $product->get_data();
+
+                    $link = get_post_permalink($productdata['id']);
+                    $title = $productdata['name'];
+                    $price = $productdata['price'];
+                    $excerpt = isset($productdata['excerpt']) ? $productdata['excerpt'] : $productdata['short_description'];
+                    $banner = get_banner_background($productdata['id']);
 
                     ?>
-                        <div class="mb-3 col-sm-12 col-md-4">
-                            <div class="card <?//=$classes;?>" style="cursor:pointer" onclick="window.location='<?=$link?>'">
+
+                        <div class="product-box col-sm-12 col-md-4">
+                            <div class="card" style="cursor:pointer" onclick="window.location='<?= $link; ?>'">
 
                                 <div class="card-header p-0">
-                                    <div style="height:200px; <?= get_banner_background($p['id']); ?>"></div>
+                                    <div style="<?= $banner; ?>"></div>
                                 </div>
 
                                 <div class="card-body text-center">
-                                    <p class="card-subtitle fs-5 text-muted"><?=$p['price'].' '.$currency;?></p>
-                                    <h5 class="card-title fs-3"><?=$p['name'];?></h5>
-                                    <div style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp:3;-webkit-box-orient: vertical;">
-                                        <p class="card-text"><?=$p['excerpt'];?></p>
+
+                                    <p class="card-subtitle fs-6 text-muted">
+                                        <?= $price.' '.$currency; ?>
+                                    </p>
+		
+                                    <div class="card-title">
+                                        <h4>
+                                            <?= $title; ?>
+                                        </h4>
                                     </div>
+
+                                    <div class="card-excerpt">
+                                        <p class="card-text">
+                                            <?= $excerpt; ?>
+                                        </p>
+                                    </div>
+
                                 </div>
 
                                 <div class="card-footer">
-                                    <a href="<?=get_permalink();?>" class="btn btn-primary">OPEN DETAILS <i class="bi bi-arrow-up-right-square"></i></a>
+                                    <a href="<?= $link; ?>" class="btn btn-primary">OPEN DETAILS <i class="bi bi-arrow-up-right-square"></i></a>
                                 </div>
 
                             </div>
                         </div>
+
                     <?
 
                 }
@@ -210,7 +229,7 @@
         echo '</ul></nav></div>';
     }
 
-    wp_reset_postdata();
-    wp_reset_query();
+    // wp_reset_postdata();
+    // wp_reset_query();
 
 ?>

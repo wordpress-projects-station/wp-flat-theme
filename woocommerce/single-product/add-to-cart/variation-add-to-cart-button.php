@@ -10,7 +10,7 @@
 		do_action( 'woocommerce_before_add_to_cart_quantity' );
 	?>
 
-	<div class="row">
+	<div class="row g-4">
 
 		<div class="col-sm-12 col-md-3 p-0"><label class="btn" for="pa_design">Quantity</label></div>
 

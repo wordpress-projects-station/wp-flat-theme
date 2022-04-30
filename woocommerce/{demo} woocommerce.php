@@ -7,7 +7,7 @@
 // this page is not supported. For better customization go
 // on "archive-product.php" + "content-archive-shop.php"
 
-<div class="row">
+<div class="row g-4">
     <?
 
         $currency = get_woocommerce_currency_symbol();
@@ -28,7 +28,7 @@
 
             ?>
             <div class="mb-3 col-sm-12 col-md-4">
-                <div class="card <?//=$classes;?>" style="cursor:pointer" onclick="window.location='<?=$link?>'">
+                <div class="card" style="cursor:pointer" onclick="window.location='<?=$link?>'">
 
                     <div class="card-header p-0">
                         <div style="height:200px; <?= get_banner_background($p['id']); ?>"></div>

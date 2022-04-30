@@ -26,7 +26,7 @@
             </div>
 
             <div class="container">
-                <div class="row">
+                <div class="row g-4">
 
                     <div class="col-6 sm-12 align-self-center">
 

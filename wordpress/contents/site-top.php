@@ -1,7 +1,14 @@
+<?
+    
+    $page_id = is_shop() ? get_option( 'woocommerce_shop_page_id' ) : get_the_ID();
+
+?>
+
+
 <? 
     $css_banner ='';
     if( $mods->header_banner_mode == 'in-head' )
-    $css_banner = get_banner_background( get_the_ID() );
+    $css_banner = get_banner_background( $page_id );
 ?>
 
 
@@ -14,9 +21,9 @@
             <? if( $mods->top_menu_status ) { ?>
 
                 <div style="position:absolute;width:100%;">
-                    <nav class="navbar navbar-expand-lg bg-dark" role="navigation">
+                    <nav class="main-desktop-nav navbar navbar-expand-lg" role="navigation">
 
-                        <div class="<?= ($mods->top_menu_layout == 'framed' ? 'container' : 'wide'); ?>" style="display:flex;justify-content:space-between;width:100%;padding:0 15px;">
+                        <div class="<?= ($mods->top_menu_layout == 'framed' ? 'container' : 'wide'); ?>">
 
                             <button class="navbar-toggler bg-light rounded-3" type="button" data-toggle="collapse" data-target="#navbar_collapse_main_menu" aria-controls="navbar_collapse_main_menu" aria-expanded="false">
                                 <span class="navbar-toggler-icon">
@@ -38,14 +45,14 @@
                                 ?>
 
                                 <? if($mods->custom_logo_title || $mods->custom_logo_slogan) { ?>
-                                    <span style="float:left; clear: right;  <?=  $mods->custom_logo_flyout ? 'position:relative; left:'.(intval($mods->custom_logo_ratio)+20).'px;' : 'transform: translate(0, -50%); top: 50%; position: absolute;'; ?>">
+                                    <span class="titles" style="float:left; clear: right;  <?=  $mods->custom_logo_flyout ? 'position:relative; left:'.(intval($mods->custom_logo_ratio)+20).'px;' : 'transform: translate(0, -50%); top: 50%; position: absolute;'; ?>">
                                         <?
 
                                             if( $mods->custom_logo_title )
-                                            echo '<p class="m-0 text-light"><strong>'.$mods->custom_logo_title.'</strong></p>';
+                                            echo '<p class="m-0"><strong>'.$mods->custom_logo_title.'</strong></p>';
 
                                             if( $mods->custom_logo_slogan )
-                                            echo '<p class="m-0 text-secondary">'.$mods->custom_logo_slogan.'</p>';
+                                            echo '<p class="m-0">'.$mods->custom_logo_slogan.'</p>';
 
                                         ?>
                                     </span>
@@ -89,7 +96,7 @@
                                     <div class="col d-none d-sm-none d-md-block" style="max-width: 300px;">
                                         <form class="form-inline my-2 my-lg-0" style="display:flex;gap:10px;" role="search" method="get" id="searchform" action="<?= get_bloginfo('url').'/search/'.get_search_query(); ?>" >
                                             <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="text" value="<?= get_search_query(); ?>" name="s" id="s" />
-                                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="searchsubmit"><i class="bi bi-search"></i></button>
+                                            <button class="btn btn-primary my-2 my-sm-0" type="submit" id="searchsubmit"><i class="bi bi-search"></i></button>
                                         </form>
                                     </div>
 
@@ -97,7 +104,7 @@
 
                             </div>
 
-                        </>
+                        </div>
 
                     </nav>
                 </div>
@@ -117,26 +124,27 @@
 
                                 if( $mods->title_status ) {
 
-                                    $title =  $wp_query->get_queried_object()->name?:get_the_title();
+                                    $title =  get_the_title($page_id)?:get_the_title(); //$wp_query->get_queried_object()->name;
 
                                     if($title)
                                     echo '<h1>'.$title.'</h1>';
     
                                     elseif( !empty(get_option('blogname')) )
                                     echo '<h1>'.get_option( 'blogname' ).'</h1>';
+
     
                                 }
 
                                 if( $mods->subtitle_status && function_exists( 'get_the_subtitle' ) ) {
 
-                                    $subtitle = get_the_subtitle();
+                                    $subtitle = get_the_subtitle($page_id);
                                     echo strlen($subtitle) ? '<h3 class="mt-2 mb-2 fs-4">'.$subtitle.'</h3>' : null;
 
                                 }
 
-                                if( $mods->excerpt_status && strlen(get_the_excerpt()) ) {
+                                if( $mods->excerpt_status && strlen(get_the_excerpt($page_id)) ) {
 
-                                    echo '<p style="max-width:450px;margin:0 auto;">'.get_the_excerpt().'</p>';
+                                    echo '<p style="max-width:450px;margin:0 auto;">'.get_the_excerpt($page_id).'</p>';
 
                                 }
                             

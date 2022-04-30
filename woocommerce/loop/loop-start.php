@@ -1,2 +1,2 @@
 <? if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
-<div class="row mt-3 mb-3 products">
+<div class="products-loop row g-4">

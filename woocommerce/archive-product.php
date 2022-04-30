@@ -13,7 +13,7 @@
 	$archive_type 	= isset($wp_query_data->has_archive)?$wp_query_data->has_archive:false;
 	$taxonomy_type 	= isset($wp_query_data->taxonomy)?$wp_query_data->taxonomy:false;
 
-	?><main class="col gx-5"><?
+	?><main class="contentsidebar col g-4"><?
 
 
 		if( $archive_type == 'shop' )

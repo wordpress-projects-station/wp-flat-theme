@@ -86,15 +86,18 @@
 
                 <? do_action( 'woocommerce_widget_shopping_cart_before_buttons' ); ?>
 
-                <a class="m-0 p-2 text-center text-white bg-secondary btn btn-outline-primary" style="width:100%; border-radius:0;" href="<?=wc_get_checkout_url();?>">GO TO CHECKOUT</a>
+                <a class="m-0 p-2 text-center text-white bg-secondary btn btn-outline-primary" style="width:100%; border-top-left-radius: 0; border-top-right-radius: 0;" href="<?=wc_get_checkout_url();?>">GO TO CHECKOUT</a>
 
                 <? do_action( 'woocommerce_widget_shopping_cart_after_buttons' ); ?>
 
 
             <? } else { ?>
 
-                <p class="woocommerce-mini-cart__empty-message">
-                    <? esc_html_e( 'No products in the cart.', 'oceanwp' ); ?>
+                <p class="p-3 text-center">
+                    <? esc_html_e( 'No products in the cart.', 'oceanwp' ); ?><br>
+                    <small>
+                        There are a lot of interesting offers ... take a tour in the <a href="<?get_permalink( wc_get_page_id( 'shop' ) )?>">shop!</a>
+                    </small>
                 </p>
 
             <? } ?>

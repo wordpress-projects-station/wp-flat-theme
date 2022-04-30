@@ -247,7 +247,7 @@
 										ob_start();
 
 											?>
-												<div class="row mb-4">
+												<div class="row g-4">
 													<div class="col-sm-12 col-md-4">&nbsp;</div>
 													<div class="col-sm-12 col-md-8">
 														<div>

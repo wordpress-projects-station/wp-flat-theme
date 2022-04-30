@@ -43,7 +43,8 @@
             <link rel="shortcut icon"  type="image/x-icon" href="<?= wp_get_attachment_image_url(get_option('site_icon'),'full'); ?>" />
 
         <?}?>
-        
+
+
         <? wp_head(); ?>
     
     </head>
@@ -74,8 +75,8 @@
 
         </div>
 
-        <div class="container p-3">
+        <div class="container pt-4 pb-4">
 
-            <div class="row gx-5">
+            <div class="row g-4">
 
                 <? require_once __DIR__.'/layout-left.php'; ?>

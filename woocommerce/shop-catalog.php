@@ -1,6 +1,6 @@
 <? defined( 'ABSPATH' ) || exit; ?>
 
-<div class="p-3 border border-clear">
+<div class="p-4 border border-clear">
 
     <table class="table align-middle">
         <thead>
@@ -10,7 +10,7 @@
             <th scope="col">Name</th>
             <th scope="col">SKU</th>
             <th scope="col">price</th>
-            <th scope="col">...</th>
+            <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -47,7 +47,7 @@
                                     <td><b><?= $p['name']; ?></b></td>
                                     <td><?= $p['sku']; ?></td>
                                     <td><?= $p['price'].' '.$currency; ?></td>
-                                    <td><?= '<a class="btn btn-secondary" href="'.get_permalink().'">Open <i class="bi bi-arrow-up-right-square"></i></a>'; ?></td>
+                                    <td style="text-align:right"><?= '<a class="btn btn-secondary" href="'.get_permalink().'">Open <i class="bi bi-arrow-up-right-square"></i></a>'; ?></td>
                                 </tr>
                             <?
 
