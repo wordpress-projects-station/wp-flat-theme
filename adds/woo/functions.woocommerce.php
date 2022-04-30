@@ -63,11 +63,11 @@
         add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
 
         // add new woo css
-        add_action( 'wp_enqueue_scripts', 'add_woo_style' );
         function add_woo_style() { wp_enqueue_style( 'woostyle', get_template_directory_uri().'/woocommerce/woostyle.css' ); }
+        add_action( 'wp_enqueue_scripts', 'add_woo_style' );
 
         // add new woo scripts
-        function add_woo_scripts() { wp_enqueue_script('wooscripts', get_template_directory_uri().'/woocommerce/wooscripts.js', ['jquery','jquery-blockui-js'], true ); }
+        function add_woo_scripts() { wp_enqueue_script('wooscripts', get_template_directory_uri().'/woocommerce/wooscripts.js', ['jquery'], true ); }
         add_action( 'wp_enqueue_scripts', 'add_woo_scripts' );
 
 
@@ -303,6 +303,7 @@
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
         // print widget active and check the names
+        // 
         // add_action( 'wp', function() {
         //     if ( empty ( $GLOBALS['wp_widget_factory'] ) ) return;
         //     $widgets = array_keys( $GLOBALS['wp_widget_factory']->widgets );
@@ -316,25 +317,64 @@
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
+
+        // This is a solution for override original wc-widget-layered-nav-filters.php
+        // Unluckily work at alph: run it but not override the class
+        // 
+        // function override_woocommerce_filter_via_attributes() {
+        //     if ( class_exists( 'WC_Widget_Layered_Nav' ) ) {
+        //         // echo get_template_directory().'/woocommerce/includes/widgets/custom-wc-widget-layered-nav-filters.php';
+        //         unregister_widget( 'WC_Widget_Layered_Nav' );
+        //         include_once get_template_directory().'/woocommerce/includes/widgets/wc-widget-layered-nav-filters.php';
+        //         register_widget( 'Custom_WC_Widget_Layered_Nav' );
+        //     }
+        // }
+        // add_action( 'widgets_init', 'override_woocommerce_filter_via_attributes', 15 );
+
+
+        // add bootsrap checkbox on filtering
+
         function custom_woocommerce_layered_nav_term_html( $term_html, $term, $link, $count ) { 
 
-            if($term->taxonomy=='pa_color') {
+            $slug   = strtolower($term->slug);
+            $label  = strtoupper($term->name);
+            $type   = preg_replace('/pa_/','',$term->taxonomy);
 
-                $output = '<span class="colorbox '.strtolower($term->slug).'" style="background-color:'.strtolower($term->slug).'"></span> '.$term_html;
+            if($type=='color') {
+
+                //query: filter_color=white
+                
+                $html_checkbox = str_replace(["\r","\n"],'','
+                <div>
+                    <div class="form-check">
+                        <input type="checkbox" id="filter_selector_'.$slug.'" class="form-check-input" data-type="'.$type.'" style="background-color:'.$slug.'" value="'.$slug.'">
+                        <label class="form-check-label" for="filter_selector_'.$slug.'">
+                            '.$label.'
+                        </label>
+                    </div>
+                </div>
+                ');
+                
+                $output = preg_replace( '/<a rel=\"nofollow\" href=\"(.+?)\">(.+?)<\/a>/', $html_checkbox, $term_html);
 
             }
 
-            elseif($term->taxonomy=='pa_size') {
+            elseif($type=='size') {
 
-                $output = preg_replace( '/>'.$term->name.'</', '><span class="sizebox">'.$term->name.'</span><', $term_html);
+                //query: filter_size=large&amp;query_type_size=or
+                
+                $html_checkbox = str_replace(["\r","\n","\s\s"],'','
+                <div class="form-check">
+                    <input type="checkbox" id="filter_selector_'.$slug.'" class="form-check-input" data-type="'.$type.'" value="'.$slug.'">
+                    <label class="form-check-label" for="filter_selector_'.$slug.'">
+                        '.$label.'
+                    </label>
+                </div>
+                ');
+
+                $output = preg_replace( '/<a rel=\"nofollow\" href=\"(.+?)\">(.+?)<\/a>/', $html_checkbox, $term_html);
 
             }
-
-            // elseif($term->taxonomy=='pa_merk') {
-
-            //     $output = preg_replace( '/<span class="star-rating">(.+?)<\/span><\/span>/', '<span class="starbox star-rating">'.$term->name.'</span>', $term_html);
-            
-            // }
             
             else {
 
@@ -344,10 +384,7 @@
 
             return $output;
         }
-        add_filter('woocommerce_layered_nav_term_html', 'custom_woocommerce_layered_nav_term_html', 10, 4);
-
-
-        
+        add_filter('woocommerce_layered_nav_term_html', 'custom_woocommerce_layered_nav_term_html', 10, 4);        
 
     }
     

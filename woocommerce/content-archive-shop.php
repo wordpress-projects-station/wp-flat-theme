@@ -65,9 +65,6 @@
                     $key = explode('=',$query)[0];
                     $values = explode('=',$query)[1];
 
-                    echo '<p>'.$key.'</p>';
-                    echo '<p>'.$values.'</p>';
-
                     // set finder tag categories and tags
                     if ( str_contains($key, 'category_') ) {
                         $finder['category_name'] = $values;
@@ -217,74 +214,3 @@
     wp_reset_query();
 
 ?>
-
-
-<style>
-.wc-layered-nav-rating,
-.woocommerce-widget-layered-nav-list{
-    list-style: none;
-}
-
-.woocommerce-widget-layered-nav-list{
-    padding: 10px 0;
-}
-
-.wc-layered-nav-rating li,
-.woocommerce-widget-layered-nav-list li{
-    display: flex;
-    flex-flow: nowrap;
-    gap: 15px;
-    align-items: center;
-    margin-bottom: 7px;
-}
-
-.wc-layered-nav-rating a,
-.woocommerce-widget-layered-nav-list a{
-    text-decoration: none;
-    color:inherit;
-}
-.wc-layered-nav-rating a:hover,
-.woocommerce-widget-layered-nav-list a:hover{
-    font-weight: bolder;
-}
-
-.colorbox {
-    border: 2px solid #e1e1e19e;
-    width: 18px;
-    height: 18px;
-    display: inline-block;
-    border-radius: 5px;
-}
-
-.sizebox{
-    background: #e1e1e19e;
-    width: 30px;
-    height: 30px;
-    display: inline-grid;
-    border-radius: 5px;
-    align-items: center;
-    text-align: center;
-    font-family: monospace;
-    text-transform: uppercase;
-}
-</style>
-
-<!-- 
-<script>
-
-    document.addEventListener("DOMContentLoaded", () => {
-        
-        if ( document.readyState === "complete" || document.readyState === "interactive" ) {
-
-            //:
-            //: bootstrap price slider
-            //:
-
-
-
-
-        }
-    
-    },false)
-
-</script> -->
