@@ -4,13 +4,12 @@
 
     // add bootstrap
     function add_bootstrap(){
-        wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css', null, true, 'all'); 
-        wp_enqueue_style('bootstrap-min', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', null, true, 'all');
-        wp_enqueue_style('bootstrap-theme', get_template_directory_uri().'/theme.bootstrap.css', null, true, 'all');
-        wp_enqueue_style('bootstrap-extra', get_template_directory_uri().'/theme.extra.css', null, true, 'all');
+        wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css',null, false, 'all'); 
+        wp_enqueue_style('bootstrap-min', get_stylesheet_directory_uri().'/adds/bootstrap/bootstrap.min.css',null, false, 'all');
+        wp_enqueue_style('bootstrap-theme', get_stylesheet_directory_uri().'/adds/bootstrap/bootstrap.theme.css',null, false, 'all');
         wp_enqueue_script('bootstrap-bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', ['jquery'], '', false );
     }
-    add_action('wp_enqueue_scripts','add_bootstrap');
+    add_action('wp_enqueue_scripts','add_bootstrap',1);
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 

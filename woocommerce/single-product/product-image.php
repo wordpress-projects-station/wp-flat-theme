@@ -16,7 +16,7 @@
 						]);
 
 ?>
-<div class="bg-light rounded-2">
+<div class="bg-light">
 
 	<div class="<?= esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?= esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
 

@@ -210,9 +210,13 @@
 
     // load customizable style
     function add_standard_style() {
-        wp_enqueue_style('standard', get_stylesheet_directory_uri() . 'style.css', null, false, 'all');
+        wp_enqueue_style('style-standard', get_stylesheet_directory_uri() .'/style.css', null, false, 'all');
     }
-    add_action('wp_enqueue_scripts','add_standard_style');
+    add_action('wp_enqueue_scripts','add_standard_style',0 /*before bootstrap*/);
 
+    function add_standard_style_extra() {
+        wp_enqueue_style('style-extra', get_stylesheet_directory_uri().'/style.extra.css', ['bootstrap-theme'], false, 'all');
+    }
+    add_action('wp_enqueue_scripts','add_standard_style_extra',2 /*after bootstrap*/);
 
 ?>

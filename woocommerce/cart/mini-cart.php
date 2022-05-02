@@ -1,6 +1,6 @@
 <? defined( 'ABSPATH' ) || exit; ?>
 
-<div class="rounded-2">
+<div class="minicart">
 
     <div class="row m-0">
         <div class="col-9 bg-primary shadow-sm">

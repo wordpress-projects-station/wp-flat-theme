@@ -6,7 +6,7 @@ $product_tabs = apply_filters( 'woocommerce_product_tabs', array() );
 
 if ( ! empty( $product_tabs ) ) { ?>
 
-	<div class="mt-5 mb-5 p-3 border border-3 border-light rounded-3">
+	<div class="mt-5 mb-5 p-3 border border-3 border-light">
 
 		<nav>
 			<div class="nav nav-pills" id="nav-tab" role="tablist">

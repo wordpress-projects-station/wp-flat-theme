@@ -249,8 +249,7 @@ a.flex-next::after {
 // cart in menu correction
 */
 
-
-.wpmenucart-contents{
+.wpmenucart-contents {
     display: flex;
     width: 100px;
     height: 100%;
@@ -269,9 +268,9 @@ a.flex-next::after {
 // wp social link correction
 */
 
-.wp-social-link{
+.wp-social-link {
     width: 100%;
-    display: grid;
+    display: grid !important;
     align-items: center;
     text-align: center;
     aspect-ratio: 1;
@@ -280,20 +279,19 @@ a.flex-next::after {
 
 /* - - - - - - - - - - - - - - - - - - - - */
 
-
 /*
-// filters reset
+// Shop sidebar
 */
 
+
+/* filters reset */
 .woocommerce-filters-reset {
     padding: 0 0 25px 0;
     border-bottom: 1px solid #ccc;
     margin-bottom: 25px;
 }
 
-/*
-// price slider
-*/
+/* price slider */
 
 .price_slider { 
     margin-bottom: 1em;
@@ -321,16 +319,13 @@ a.flex-next::after {
 .ui-slider .ui-slider-handle {
     position: absolute;
     z-index: 2;
-    width: 0.9em;
-    height: 0.9em;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1em;
+    height: 1em;
     border: 1px solid rgba(0, 0, 0, 0.25);
     cursor: pointer;
     background: var(--bs-light);
-    outline: none;
-    top: -.3em;
 }
 
 .ui-slider .ui-slider-handle:last-child {
@@ -344,18 +339,9 @@ a.flex-next::after {
     display: block;
     border: 0;
     background: none repeat scroll 0 0 var(--bs-primary);
-    box-shadow: 1px 1px 1px 0.5px rgba(0, 0, 0, 0.25) inset;
-    -webkit-box-shadow: 1px 1px 1px 0.5px rgba(0, 0, 0, 0.25) inset;
-    -moz-box-shadow: 1px 1px 1px 0.5px rgba(0, 0, 0, 0.25) inset;
-    -webkit-border-radius: 1em;
-    -moz-border-radius: 1em;
-    border-radius: 1em;
 }
 
 .price_slider_wrapper .ui-widget-content {
-    -webkit-border-radius: 1em;
-    -moz-border-radius: 1em;
-    border-radius: 1em;
     background: var(--bs-body-color);
 }
 
@@ -382,9 +368,7 @@ a.flex-next::after {
     margin-top: 3px;
 }
 
-/*
-// shop filters
-*/
+/* shop checks filters */
 
 .wc-layered-nav-rating,
 .woocommerce-widget-layered-nav-list{
@@ -436,12 +420,11 @@ a.flex-next::after {
     text-transform: uppercase;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - */
 
 /*
 // shop cards
 */
-
-
 
 .product-box .card-header,
 .product-box .card-header>div,
@@ -489,6 +472,15 @@ a.flex-next::after {
     display: -webkit-box;
     -webkit-line-clamp:3;
     -webkit-box-orient: vertical;
+}
+
+
+.product-box .card-footer,
+.post-box .card-footer,
+.related-box .card-footer,
+.category-box .card-footer {
+
+    padding: .3rem;
 }
 
 .product-box .card-footer .btn,
