@@ -54,9 +54,11 @@
         <div>
 
             <? if ( $mods->debug_path_line ){ ?>
+
                 <p style="background:#8b8b8b;font-size:10px;margin:0;padding:3px 5px;"> 
                     you are in : <b><?=$filename;?></b> / option type : <b><?=$looptype['type']?></b> / type post data: <b><?=get_post_type();?></b>  / ...
                 </p>
+
             <? } ?>
 
             <? if( $mods->top_site_warning ) { ?>
