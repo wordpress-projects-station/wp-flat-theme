@@ -121,7 +121,6 @@
 
         /*- - - - - - - - - - - - - - - - - - - - - - - - */
 
-
         /*
         // add upload image in profile
         // info : https://nuomiphp.com/a/stackoverflow/en/62196e0866630118d6380851.html
@@ -384,7 +383,31 @@
 
             return $output;
         }
-        add_filter('woocommerce_layered_nav_term_html', 'custom_woocommerce_layered_nav_term_html', 10, 4);        
+        add_filter('woocommerce_layered_nav_term_html', 'custom_woocommerce_layered_nav_term_html', 10, 4);
+
+
+        /*- - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+        function is_product_on_sale ( $product ) {
+
+            $result = $product->is_on_sale() ? true : false;
+            return $result;
+
+        }
+          
+        function is_product_new ( $product ) {
+
+            $newness_days = 50;
+            $created = strtotime( $product->get_date_created() );
+            if( time() - ( 60 * 60 * 24 * $newness_days ) < $created ) {
+                return true;
+            } else {
+                return false; 
+            };
+
+        }
+
 
     }
     

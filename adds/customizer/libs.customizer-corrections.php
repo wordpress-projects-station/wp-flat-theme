@@ -15,9 +15,9 @@
     $customizer->get_section( 'static_front_page' )->priority = '1';
 
     $customizer->get_control( 'show_on_front' )->choices = ['posts' => 'Theme Home', 'page' => 'Custom Home'];
-    $customizer->get_control( 'show_on_front' )->description = 'suggest: use static custom.';
-    $customizer->get_control( 'page_on_front' )->description = 'Make your custom gutenberg page contents and select it (printed via front-page.php). If blank you print empty maintence message (home.php). ';
-    $customizer->get_control( 'page_for_posts' )->description = 'It\'s good role rename in "Blog" the main category of posts (and blank this). In alternative: select a customized page for you posts archive contents.';
+    $customizer->get_control( 'show_on_front' )->description = '"theme home" is auto getted home: the wordpress/front-page.php contents; otherwise you can set a customizable gutenberg page.';
+    $customizer->get_control( 'page_on_front' )->description = 'Make your custom gutenberg page contents and select it for populate it in gutenberg. ';
+    $customizer->get_control( 'page_for_posts' )->description = 'It\'s good role rename in "Blog" or "News" the main category of posts (and blank this). In alternative: select a customized page for you posts archive contents.';
 
     $customizer->get_section( 'custom_css' )->title = 'CSS override';
 

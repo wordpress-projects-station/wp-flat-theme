@@ -115,10 +115,11 @@
 
         // wordpress
         
-        elseif( is_front_page() || is_home() || is_page('front-page') ) {
+        elseif( is_page('front-page') || is_front_page() || is_home() ) {
 
-            $folder = '';
-            $type = 'home';
+            
+            $folder = 'wordpress';
+            $type = 'front-page';
 
         }
         
@@ -181,8 +182,9 @@
 
         }
 
+
         $position = str_replace('adds/methods/','',(__DIR__.'/'.$folder));
-        $path = $position.'/'.$type.'.php';
+        $path = preg_replace('/([^:])(\/{2,})/', '$1/', $position.'/'.$type.'.php');
 
         return $looptype = [ 'folder'=>$folder, 'position'=> $position, 'path'=>$path, 'type'=>$type  ];
 

@@ -28,16 +28,16 @@
             <div class="container">
                 <div class="row g-4">
 
-                    <div class="col-6 sm-12 align-self-center">
-
-                    LEFT
-
+                    <div class="xm-12 sm-12 col-md-4  align-self-center">
+                        <?=get_stylesheet_directory_uri();?> 
                     </div>
 
-                    <div class="col-6 sm-12 align-self-center">
-
-                    RIGHT
-
+                    <div class="xm-12 sm-12 col-md-4  align-self-center">
+                        <? include get_stylesheet_directory().'/adds/socials/instagram_box.php'; ?>
+                    </div>
+                    
+                    <div class="xm-12 sm-12 col-md-4  align-self-center">
+                        <? include get_stylesheet_directory().'/adds/socials/facebook_box.php'; ?>
                     </div>
 
                 </div>

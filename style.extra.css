@@ -26,6 +26,9 @@ body{
     padding: 18px 0 !important; 
 }
 
+.card {
+    overflow: hidden !important;
+}
 .d-hidden{
     visibility: hidden;
     width: 0 !important;
@@ -276,6 +279,40 @@ a.flex-next::after {
     aspect-ratio: 1;
 }
 
+/* - - - - - - - - - - - - - - - - - - - - */
+
+/*
+// Porducts ribbons
+*/
+
+.card-ribbon{
+    padding: 7px 50px;
+    position: absolute;
+    top: 0;
+    right: -50px;
+    transform: rotate(45deg);
+    margin: 5px;
+    right: -43px;
+    top: 10px;
+    zoom: 0.7;
+}
+
+.card-ribbon.onsale{
+    background: var(--bs-danger);
+    color: var(--bs-light);
+    border: 1px dashed var(--bs-light);
+    box-shadow:0 0 0 3px var(--bs-danger),  0 7px 10px #00000080;
+}
+
+.card-ribbon.new{
+    background: var(--bs-blue);
+    color: var(--bs-light);
+    border: 1px dashed var(--bs-light);
+    box-shadow: 0 0 0 3px var(--bs-blue),  0 7px 10px #00000080;
+}
+
+
+
 
 /* - - - - - - - - - - - - - - - - - - - - */
 
@@ -426,22 +463,14 @@ a.flex-next::after {
 // shop cards
 */
 
-.product-box .card-header,
-.product-box .card-header>div,
-.post-box .card-header,
-.post-box .card-header>div,
-.related-box .card-header,
-.related-box .card-header>div,
-.category-box .card-header,
-.category-box .card-header>div {
+
+.content-box .card-header,
+.content-box .card-header>div {
     height: 200px;
     cursor:pointer;
 }
 
-.product-box .card-title,
-.post-box .card-title,
-.related-box .card-title,
-.category-box .card-title {
+.content-box .card-title {
     overflow: hidden;
     display: flex;
 
@@ -452,10 +481,7 @@ a.flex-next::after {
     */
 }
 
-.product-box .card-title>*,
-.post-box .card-title>*,
-.related-box .card-title>*,
-.category-box .card-title>* {
+.content-box .card-title>* {
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
@@ -463,10 +489,7 @@ a.flex-next::after {
     white-space: nowrap;
 }
 
-.product-box .card-excerpt,
-.post-box .card-excerpt,
-.related-box .card-excerpt,
-.category-box .card-excerpt {
+.content-box .card-excerpt {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -474,18 +497,10 @@ a.flex-next::after {
     -webkit-box-orient: vertical;
 }
 
-
-.product-box .card-footer,
-.post-box .card-footer,
-.related-box .card-footer,
-.category-box .card-footer {
-
+.content-box .card-footer {
     padding: .3rem;
 }
 
-.product-box .card-footer .btn,
-.post-box .card-footer .btn,
-.related-box .card-footer .btn,
-.category-box .card-footer .btn {
+.content-box .card-footer .btn {
     width: 100%;
 }

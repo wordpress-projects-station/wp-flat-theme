@@ -17,8 +17,6 @@
 
             <?
 
-                $currency = get_woocommerce_currency_symbol();
-
                 $paged          = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
                 $per_page       = 18;
 
@@ -38,15 +36,15 @@
 
                             global $product;
 
-                            $p = $product->get_data();
-                            // echo '<pre><code>'; print_r($p); echo '</code></pre>';
+                            $productdata = $product->get_data();
+
                             ?>
                                 <tr>
-                                    <td><?= $p['id']; ?></td>
-                                    <td><div style="width:40px; height:40px; <?= get_banner_background($p['id']); ?>"></td>
-                                    <td><b><?= $p['name']; ?></b></td>
-                                    <td><?= $p['sku']; ?></td>
-                                    <td><?= $p['price'].' '.$currency; ?></td>
+                                    <td><?= $productdata['id']; ?></td>
+                                    <td><div style="width:40px; height:40px; <?= get_banner_background($productdata['id']); ?>"></td>
+                                    <td><b><?= $productdata['name']; ?></b></td>
+                                    <td><?= $productdata['sku']; ?></td>
+                                    <td><?= $productdata['price'].' '.get_woocommerce_currency_symbol(); ?></td>
                                     <td style="text-align:right"><?= '<a class="btn btn-secondary" href="'.get_permalink().'">Open <i class="bi bi-arrow-up-right-square"></i></a>'; ?></td>
                                 </tr>
                             <?
@@ -54,9 +52,9 @@
                         } else { 
                             ?>
                                 <tr>
-                                    <td><?= $p['id']; ?></td>
-                                    <td><div style="width:40px; height:40px; <?= get_banner_background($p['id']); ?>"></td>
-                                    <td><b><?= $p['name']; ?></b></td>
+                                    <td><?= $productdata['id']; ?></td>
+                                    <td><div style="width:40px; height:40px; <?= get_banner_background($productdata['id']); ?>"></td>
+                                    <td><b><?= $productdata['name']; ?></b></td>
                                     <td colspan="3"><b>protected resource</b></td>
                                 </tr>
                             <?

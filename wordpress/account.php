@@ -1,6 +1,6 @@
 <? if ( ! defined ( 'ABSPATH' )) exit (); ?>
 
-<? if( ! is_user_logged_in() ) { include __DIR__.'/contents/box-login.php'; } else { ?>
+<? if( ! is_user_logged_in() ) { include get_template_directory().'/elements/box-login.php'; } else { ?>
 
     <div>
 

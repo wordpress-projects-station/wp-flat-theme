@@ -1,31 +1,31 @@
 
 <? if( !$mods->woocommerce_filters_bug_warning) { ?>
-<div class="alert alert-warning" role="alert">
 
-    <p>
-        Original woocommerce widget warning:<br>
-        <ul>
-            <li>
-                <b>FILTER VIA ATTRIBUTES BUG</b>:<br>
-                THE BUG AND THE SOLUTION: <a target="_blank" href="https://github.com/woocommerce/woocommerce/issues/27419#issuecomment-1077565539">READ MORE ON GITHUB</a><br>
-                in short go to <a target="_blank" href="<?=get_admin_url()?>admin.php?page=wc-settings&tab=products&section=advanced">admin page</a> and set <b>"Enable table usage"</b> OFF.
-            </li>
-        </ul>
-    </p>
+    <div class="alert alert-warning" role="alert">
 
-    <hr>
+        <p>
+            Original woocommerce widget warning:<br>
+            <ul>
+                <li>
+                    <b>FILTER VIA ATTRIBUTES BUG</b>:<br>
+                    THE BUG AND THE SOLUTION: <a target="_blank" href="https://github.com/woocommerce/woocommerce/issues/27419#issuecomment-1077565539">READ MORE ON GITHUB</a><br>
+                    in short go to <a target="_blank" href="<?=get_admin_url()?>admin.php?page=wc-settings&tab=products&section=advanced">admin page</a> and set <b>"Enable table usage"</b> OFF.
+                </li>
+            </ul>
+        </p>
 
-    <p>you can deactive this warning from <i>theme customization > site options > remove warning : filters</i></p>
+        <hr>
 
-</div>
-<div class=""><hr></div>
+        <p>you can deactive this warning from <i>theme customization > site options > remove warning : filters</i></p>
+
+    </div>
+    <div class=""><hr></div>
+
 <?}?>
 
 <div class="row g-4">
     <?
 
-
-        $currency = get_woocommerce_currency_symbol();
 
         $paged          = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
         $per_page       = 18;
@@ -152,37 +152,9 @@
                     ?>
 
                         <div class="product-box col-sm-12 col-md-4">
-                            <div class="card" style="cursor:pointer" onclick="window.location='<?= $link; ?>'">
 
-                                <div class="card-header p-0">
-                                    <div style="<?= $banner; ?>"></div>
-                                </div>
+                            <? include get_stylesheet_directory().'/elements/box-contents.php' ?>
 
-                                <div class="card-body text-center">
-
-                                    <p class="card-subtitle fs-6 text-muted">
-                                        <?= $price.' '.$currency; ?>
-                                    </p>
-		
-                                    <div class="card-title">
-                                        <h4>
-                                            <?= $title; ?>
-                                        </h4>
-                                    </div>
-
-                                    <div class="card-excerpt">
-                                        <p class="card-text">
-                                            <?= $excerpt; ?>
-                                        </p>
-                                    </div>
-
-                                </div>
-
-                                <div class="card-footer">
-                                    <a href="<?= $link; ?>" class="btn btn-primary">OPEN DETAILS <i class="bi bi-arrow-up-right-square"></i></a>
-                                </div>
-
-                            </div>
                         </div>
 
                     <?

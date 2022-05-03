@@ -32,42 +32,19 @@
     // and set if: $category->parent!=0
 
     foreach( $categories as $category ){
+
         if( $category->parent==0 && $category->name!='Uncategorized' ) {
+            
+            $link = get_category_link($category->term_id);
+            $title = $category->name;
+            $excerpt = isset($category->short_description)? $category->short_description : substr($category->description,0,150);
+            $banner = get_banner_background($category->image_id);
             
             ?>
 
                 <div class="category-box col-md-4 col-sm-6 col-xs-12 mb-4">
-                    
-                    <div class="card" style="cursor:pointer">
 
-                        <div class="card-header p-0" onclick="window.location='<?= $link; ?>'">
-                            <div style="<?= get_banner_background($category->term_id); ?>"></div>
-                        </div>
-
-                        <div class="card-body">
-
-                            <div class="card-title">
-                                <h4>
-                                    <?= $category->name; ?>
-                                </h4>
-                            </div>
-
-                            <div class="card-text" style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">
-                                <p>
-                                    <?
-                                        $abstract = $category->description;
-                                        print strlen($abstract)>=150 ? substr($abstract,0,150) : $abstract;
-                                    ?>
-                                </p>
-                            </div>
-
-                        </div>
-
-                        <div class="card-footer">
-                            <a class="btn card-link" href="<?= get_category_link($category->term_id); ?>">Read now ...</a>
-                        </div>
-
-                    </div>
+                	<? include get_stylesheet_directory().'/elements/box-contents.php' ?>
 
                 </div>
             <?

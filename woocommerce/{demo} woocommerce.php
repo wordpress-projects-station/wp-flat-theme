@@ -10,7 +10,6 @@
 <div class="row g-4">
     <?
 
-        $currency = get_woocommerce_currency_symbol();
 
         $args = array(
             'post_type'      => 'product',
@@ -27,6 +26,7 @@
             // echo '<pre><code>'; print_r($p); echo '</code></pre>';
 
             ?>
+            
             <div class="mb-3 col-sm-12 col-md-4">
                 <div class="card" style="cursor:pointer" onclick="window.location='<?=$link?>'">
 
