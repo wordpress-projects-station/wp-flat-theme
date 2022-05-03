@@ -20,15 +20,14 @@
 
             <? if( $mods->top_menu_status ) { ?>
 
-                <div style="position:absolute;width:100%;">
-                    <nav class="main-desktop-nav navbar navbar-expand-lg" role="navigation">
+                <div class="navgroup">
 
-                        <div class="<?= ($mods->top_menu_layout == 'framed' ? 'container' : 'wide'); ?>">
+                    <nav class="navbar" role="navigation">
 
-                            <button class="navbar-toggler bg-light rounded-3" type="button" data-toggle="collapse" data-target="#navbar_collapse_main_menu" aria-controls="navbar_collapse_main_menu" aria-expanded="false">
-                                <span class="navbar-toggler-icon">
-                                    <i class="bi bi-list"></i>
-                                </span>
+                        <div class="navwrap <?= ($mods->top_menu_layout == 'framed' ? 'container' : 'wide'); ?>">
+
+                            <button class="navbar-toggler d-sx-block d-sm-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobile-toggle-menu" aria-controls="mobile-toggle-menu" aria-expanded="false">
+                                <i class="bi bi-list"></i>
                             </button>
 
                             <div>
@@ -60,54 +59,78 @@
 
                             </div>
 
+                            <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block">
+                                <div class="row " <?= $mods->top_menu_row_type; ?>>
 
-                            <div class="row" <?= $mods->top_menu_row_type; ?>>
+                                    <?
 
-                                <div class="col">
-                                    <div>
-                                        <?
+                                        // original wp:
+                                        // wp_nav_menu( [
+                                        //    'theme_location' => 'desktop-site-menu',
+                                        //    'menu_id' => 'primary-menu',
+                                        //    'container_class'=> 'ms-auto ',
+                                        //    'menu_class'=>'navbar-nav']
+                                        // );
 
-                                            // original wp:
-                                            // wp_nav_menu( [
-                                            //    'theme_location' => 'desktop-site-menu',
-                                            //    'menu_id' => 'primary-menu',
-                                            //    'container_class'=> 'ms-auto ',
-                                            //    'menu_class'=>'navbar-nav']
-                                            // );
+                                        wp_nav_menu([
+                                            'theme_location'  => 'desktop-site-menu',
+                                            'depth'           => 2, // 1 = no dropdowns, 2 = with dropdowns.
+                                            'container'       => 'div',
+                                            'container_id'    => 'navbar_main_menu',
+                                            'container_class' => 'col '.$mods->top_menu_position,
+                                            'menu_class'      => 'desktop-links',
+                                            // 'add_a_class'     => 'text-white',
+                                            'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
+                                            'walker'          => new WP_Bootstrap_Navwalker(),
+                                        ]);
 
-                                            wp_nav_menu([
-                                                'theme_location'  => 'desktop-site-menu',
-                                                'depth'           => 2, // 1 = no dropdowns, 2 = with dropdowns.
-                                                'container'       => 'nav',
-                                                'container_id'    => 'navbar_collapse_main_menu',
-                                                'container_class' => 'collapse navbar-collapse '.$mods->top_menu_position,
-                                                'menu_class'      => 'navbar-nav mr-auto',
-                                                // 'add_a_class'     => 'text-white',
-                                                'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
-                                                'walker'          => new WP_Bootstrap_Navwalker(),
-                                            ]);
+                                    ?>
 
-                                        ?>
-                                    </div>
+                                    <? if( $mods->top_finder_status ) { ?>
+
+                                        <div class="col d-none d-sm-none d-md-block" style="max-width: 300px;">
+                                            <form class="form-inline my-2 my-lg-0" style="display:flex;gap:10px;" role="search" method="get" id="searchform" action="<?= get_bloginfo('url').'/search/'.get_search_query(); ?>" >
+                                                <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="text" value="<?= get_search_query(); ?>" name="s" id="s" />
+                                                <button class="btn btn-primary my-2 my-sm-0" type="submit" id="searchsubmit"><i class="bi bi-search"></i></button>
+                                            </form>
+                                        </div>
+
+                                    <? } ?> 
+
                                 </div>
-
-                                <? if( $mods->top_finder_status ) { ?>
-
-                                    <div class="col d-none d-sm-none d-md-block" style="max-width: 300px;">
-                                        <form class="form-inline my-2 my-lg-0" style="display:flex;gap:10px;" role="search" method="get" id="searchform" action="<?= get_bloginfo('url').'/search/'.get_search_query(); ?>" >
-                                            <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="text" value="<?= get_search_query(); ?>" name="s" id="s" />
-                                            <button class="btn btn-primary my-2 my-sm-0" type="submit" id="searchsubmit"><i class="bi bi-search"></i></button>
-                                        </form>
-                                    </div>
-
-                                <? } ?> 
-
                             </div>
 
                         </div>
 
                     </nav>
+
+                    <div class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
+                        <?
+
+                            $html = ob_start();
+
+                            wp_nav_menu([
+                                'theme_location'  => 'mobile-site-menu',
+                                'depth'           => 2, // 1 = no dropdowns, 2 = with dropdowns.
+                                'container'       => 'div',
+                                'container_id'    => 'mobile-toggle-menu',
+                                'container_class' => 'mobile-links collapse',
+                                // 'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
+                                // 'walker'          => new WP_Bootstrap_Navwalker()
+                            ]);
+
+                            $html = ob_get_clean();
+
+                            $html = preg_replace('/<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children (.*?)"><a href="#wrapper">(.*?)<\/a>/', '<li class="menu-separator"> <hr/> </li>', $html);
+
+                            echo $html;
+
+                        ?>
+        
+                    </div>
                 </div>
+
+                
 
             <? } ?>
 
