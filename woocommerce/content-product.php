@@ -19,6 +19,6 @@
 
 <div class="product-box col-sm-12 col-md-<?=$columns?>">
 
-	<? include get_stylesheet_directory().'/elements/box-contents.php' ?>
+	<? include get_template_directory().'/elements/box-contents.php' ?>
 	
 </div>

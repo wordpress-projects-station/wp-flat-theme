@@ -72,7 +72,7 @@
 
             <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
 
-                <? include get_stylesheet_directory().'/elements/box-contents.php' ?>
+                <? include get_template_directory().'/elements/box-contents.php' ?>
 
             </div>
 

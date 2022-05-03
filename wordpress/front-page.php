@@ -31,42 +31,14 @@
 
                     <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
 
-                        <div class="post-box card">
-
-                            <div class="card-header p-0" onclick="window.location='<?= $link; ?>'">
-                                <div style="<?= get_banner_background(get_the_ID()); ?>"></div>
-                            </div>
-
-                            <div class="card-body">
-
-                                <div class="card-title">
-                                    <h4>
-                                        <? the_title(); ?>
-                                    </h4>
-                                </div>
-
-                                <? if(!empty(get_the_date())){ ?>
-                                <p class="card-date">
-                                    <? get_the_date(); ?>
-                                </p>
-                                <?}?>
-
-                                
-                                <p class="card-date">
-                                    <? get_the_date(); ?>
-                                </p>
-                                
-                                <div class="card-excerpt">
-                                    <p class="card-text"><? the_excerpt(); ?></p>
-                                </div>
-
-                            </div>
-                            <div class="card-footer">                              
-                                <a class="btn card-link" href="<? the_permalink(); ?>">
-                                    Read now ...
-                                </a>
-                            </div>
-                        </div>
+                        <?
+                            $link       = get_the_permalink(get_the_ID());
+                            $banner     = get_banner_background(get_the_ID());
+                            $title      = get_the_title();
+                            $date       = get_the_date();
+                            $excerpt    = get_the_excerpt();
+                        ?>
+                        <? include get_template_directory().'/elements/box-contents.php'; ?>
 
                     </div>
 
@@ -115,54 +87,14 @@
 
                     <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
 
-                        <div class="post-box card">
-
-                            <div class="card-header p-0" onclick="window.location='<?= $link; ?>'">
-                                <div style="<?= get_banner_background(get_the_ID()); ?>"></div>
-                            </div>
-
-                            <div class="card-body">
-
-                                <div class="card-title">
-                                    <h4>
-                                        <? the_title(); ?>
-                                    </h4>
-                                </div>
-
-                                <? if(!empty(get_the_date())){ ?>
-                                <p class="card-date">
-                                    <? get_the_date(); ?>
-                                </p>
-                                <?}?>
-
-                                
-                                <p class="card-date">
-                                    <? get_the_date(); ?>
-                                </p>
-                                
-                                <div class="card-excerpt">
-                                    <p class="card-text"><? the_excerpt(); ?></p>
-                                </div>
-
-                            </div>
-
-                            <div class="card-footer">                              
-                                <a class="btn card-link" href="<? the_permalink(); ?>">
-                                    Read now ...
-                                </a>
-                            </div>
-
-                            <?if ( is_product_on_sale ($product) ) {?>
-                                <div class="card-ribbon onsale">
-                                    <b>SALE!</b>
-                                </div>
-                            <?} else if ( is_product_new ($product) ) {?>
-                                <div class="card-ribbon new">
-                                    <b>NEW!</b>
-                                </div>
-                            <?}?>
-                            
-                        </div>
+                        <?
+                            $link       = get_the_permalink(get_the_ID());
+                            $banner     = get_banner_background(get_the_ID());
+                            $title      = get_the_title();
+                            $date       = get_the_date();
+                            $excerpt    = get_the_excerpt();
+                        ?>
+                        <? include get_template_directory().'/elements/box-contents.php'; ?>
 
                     </div>
 
@@ -202,53 +134,14 @@
 
                     <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
 
-                        <div class="post-box card">
-
-                            <div class="card-header p-0" onclick="window.location='<?= $link; ?>'">
-                                <div style="<?= get_banner_background(get_the_ID()); ?>"></div>
-                            </div>
-
-                            <div class="card-body">
-
-                                <div class="card-title">
-                                    <h4>
-                                        <? the_title(); ?>
-                                    </h4>
-                                </div>
-
-                                <? if(!empty(get_the_date())){ ?>
-                                <p class="card-date">
-                                    <? get_the_date(); ?>
-                                </p>
-                                <?}?>
-
-                                
-                                <p class="card-date">
-                                    <? get_the_date(); ?>
-                                </p>
-                                
-                                <div class="card-excerpt">
-                                    <p class="card-text"><? the_excerpt(); ?></p>
-                                </div>
-
-                            </div>
-
-                            <div class="card-footer">                              
-                                <a class="btn card-link" href="<? the_permalink(); ?>">
-                                    Read now ...
-                                </a>
-                            </div>
-
-                            <?if ( is_product_on_sale ($product) ) {?>
-                                <div class="card-ribbon onsale">
-                                    <b>SALE!</b>
-                                </div>
-                            <?} else if ( is_product_new ($product) ) {?>
-                                <div class="card-ribbon new">
-                                    <b>NEW!</b>
-                                </div>
-                            <?}?>
-                        </div>
+                        <?
+                            $link       = get_the_permalink(get_the_ID());
+                            $banner     = get_banner_background(get_the_ID());
+                            $title      = get_the_title();
+                            $date       = get_the_date();
+                            $excerpt    = get_the_excerpt();
+                        ?>
+                        <? include get_template_directory().'/elements/box-contents.php'; ?>
 
                     </div>
 
@@ -287,42 +180,14 @@
 
                     <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
 
-                        <div class="post-box card">
-
-                            <div class="card-header p-0" onclick="window.location='<?= $link; ?>'">
-                                <div style="<?= get_banner_background(get_the_ID()); ?>"></div>
-                            </div>
-
-                            <div class="card-body">
-
-                                <div class="card-title">
-                                    <h4>
-                                        <? the_title(); ?>
-                                    </h4>
-                                </div>
-
-                                <? if(!empty(get_the_date())){ ?>
-                                <p class="card-date">
-                                    <? get_the_date(); ?>
-                                </p>
-                                <?}?>
-
-                                
-                                <p class="card-date">
-                                    <? get_the_date(); ?>
-                                </p>
-                                
-                                <div class="card-excerpt">
-                                    <p class="card-text"><? the_excerpt(); ?></p>
-                                </div>
-
-                            </div>
-                            <div class="card-footer">                              
-                                <a class="btn card-link" href="<? the_permalink(); ?>">
-                                    Read now ...
-                                </a>
-                            </div>
-                        </div>
+                        <?
+                            $link       = get_the_permalink(get_the_ID());
+                            $banner     = get_banner_background(get_the_ID());
+                            $title      = get_the_title();
+                            $date       = get_the_date();
+                            $excerpt    = get_the_excerpt();
+                        ?>
+                        <? include get_template_directory().'/elements/box-contents.php'; ?>
 
                     </div>
 

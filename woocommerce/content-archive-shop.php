@@ -139,21 +139,21 @@
 
                 if ( ! post_password_required() ) {
 
-                    global $product; // echo '<pre><code>'; print_r($query); echo '</code></pre>';
+                    // global $product; // echo '<pre><code>'; print_r($query); echo '</code></pre>';
 
-                    $productdata = $product->get_data();
+                    $data = $product->get_data();
 
-                    $link = get_post_permalink($productdata['id']);
-                    $title = $productdata['name'];
-                    $price = $productdata['price'];
-                    $excerpt = isset($productdata['excerpt']) ? $productdata['excerpt'] : $productdata['short_description'];
-                    $banner = get_banner_background($productdata['id']);
+                    $link = get_post_permalink($data['id']);
+                    $title = $data['name'];
+                    $price = $data['price'];
+                    $excerpt = isset($data['excerpt']) ? $data['excerpt'] : $data['short_description'];
+                    $banner = get_banner_background($data['id']);
 
                     ?>
 
                         <div class="product-box col-sm-12 col-md-4">
 
-                            <? include get_stylesheet_directory().'/elements/box-contents.php' ?>
+                            <? include get_template_directory().'/elements/box-contents.php' ?>
 
                         </div>
 

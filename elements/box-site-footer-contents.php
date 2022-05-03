@@ -1,4 +1,8 @@
 
+<? if ( ! defined ( 'ABSPATH' ) ) exit (); ?>
+
+<? global $mods, $looptype; ?>
+
 <div class="bg-dark text-white">
     <div class="border-bottom border-light border-2">
 

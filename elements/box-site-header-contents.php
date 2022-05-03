@@ -1,3 +1,7 @@
+<? if ( ! defined ( 'ABSPATH' ) ) exit (); ?>
+
+<? global $mods, $looptype; ?>
+
 <?
 
     $page_id = is_shop() ? get_option( 'woocommerce_shop_page_id' ) : get_the_ID();

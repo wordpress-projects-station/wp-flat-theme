@@ -70,7 +70,7 @@
             <? } ?>
 
             <header>
-                <? require_once __DIR__.'/layout-top.php'; ?>
+                <? require_once __DIR__.'/elements/box-site-header-contents.php'; ?>
             </header>
 
         </div>
@@ -79,4 +79,4 @@
 
             <div class="row g-4">
 
-                <? require_once __DIR__.'/layout-left.php'; ?>
+                <? require_once __DIR__.'/elements/box-sidebar-selector-left.php'; ?>

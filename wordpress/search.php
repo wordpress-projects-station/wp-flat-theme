@@ -27,7 +27,7 @@
                 $excerpt    = get_the_excerpt();
             ?>
 
-            <? include get_stylesheet_directory().'/elements/box-contents.php' ?>
+            <? include get_template_directory().'/elements/box-contents.php' ?>
 
         <? } else { include get_template_directory().'/elements/box-not-accessible.php'; } ?>
 

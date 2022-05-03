@@ -1,4 +1,4 @@
-                <? require_once __DIR__.'/layout-right.php'; ?>
+                <? require_once __DIR__.'/elements/box-sidebar-selector-right.php'; ?>
 
             </div>
 
@@ -6,7 +6,7 @@
 
         <footer>
 
-            <? require_once __DIR__.'/layout-end.php'; ?>
+            <? require_once __DIR__.'/elements/box-site-footer-contents.php'; ?>
 
         </footer>
 
