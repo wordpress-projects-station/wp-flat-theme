@@ -37,13 +37,12 @@
             <link rel="apple-touch-icon" href="<?= get_template_directory_uri(); ?>/favicon.png">
             <link rel="shortcut icon"  type="image/x-icon" href="<?= get_template_directory_uri().'/favicon.png'; ?>" />
 
-        <?}else{?>
+        <? } else { ?>
 
             <link rel="apple-touch-icon" href="<?= wp_get_attachment_image_url(get_option('site_icon'),'full'); ?>">
             <link rel="shortcut icon"  type="image/x-icon" href="<?= wp_get_attachment_image_url(get_option('site_icon'),'full'); ?>" />
 
-        <?}?>
-
+        <? } ?>
 
         <? wp_head(); ?>
     

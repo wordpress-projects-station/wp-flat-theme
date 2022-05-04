@@ -34,6 +34,7 @@
         include_once 'libs.customizer-menus.php';
 
         // set all Designs types
+        include_once 'libs.customizer-front-page.php';
 
         include_once 'libs.customizer-account.php';
         include_once 'libs.customizer-archives.php';

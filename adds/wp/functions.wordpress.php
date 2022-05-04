@@ -215,8 +215,8 @@
     add_action('wp_enqueue_scripts','add_standard_style',0 /*before bootstrap*/);
 
     function add_standard_style_extra() {
-        wp_enqueue_style('style-extra', get_stylesheet_directory_uri().'/style.extra.css', ['bootstrap-theme'], false, 'all');
+        wp_enqueue_style('style-extra', get_stylesheet_directory_uri().'/style.extra.css', ['bootstrap-theme-elements'], false, 'all');
     }
-    add_action('wp_enqueue_scripts','add_standard_style_extra',2 /*after bootstrap*/);
+    add_action('wp_enqueue_scripts','add_standard_style_extra',10 /*after bootstrap*/);
 
 ?>

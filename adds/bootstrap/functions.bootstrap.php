@@ -6,7 +6,8 @@
     function add_bootstrap(){
         wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css',null, false, 'all'); 
         wp_enqueue_style('bootstrap-min', get_stylesheet_directory_uri().'/adds/bootstrap/bootstrap.min.css',null, false, 'all');
-        wp_enqueue_style('bootstrap-theme', get_stylesheet_directory_uri().'/adds/bootstrap/bootstrap.theme.css',null, false, 'all');
+        wp_enqueue_style('bootstrap-theme-colors', get_stylesheet_directory_uri().'/adds/bootstrap/bootstrap.theme.colors.css',null, false, 'all');
+        wp_enqueue_style('bootstrap-theme-elements', get_stylesheet_directory_uri().'/adds/bootstrap/bootstrap.theme.elements.css',null, false, 'all');
         wp_enqueue_script('bootstrap-bundle', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', ['jquery'], '', false );
     }
     add_action('wp_enqueue_scripts','add_bootstrap',1);

@@ -1,1 +1,1 @@
-<p><? esc_html_e( 'Sorry, no require password.' ); ?></p>
+<p><? esc_html_e( 'Sorry, password required.' ); ?></p>
