@@ -153,7 +153,7 @@
 
                         <div class="product-box col-sm-12 col-md-4">
 
-                            <? include get_template_directory().'/elements/box-contents.php' ?>
+                            <? include get_template_directory().'/elements/box-card.php' ?>
 
                         </div>
 

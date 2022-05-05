@@ -7,14 +7,18 @@
     include __DIR__.'/box-site-header-contents-navbar.php';
 ?>
 
-<div style="<? if( $mods->heading_status ) echo $mods->heading_size; ?>" class="<?= $mods->heading_frame; ?>">
+<? echo '<h1>'.$mods->heading_status.'</h1>';?>
+<? echo '<h1>'.$mods->heading_size.'</h1>';?>
+<? echo '<h1>'.$mods->heading_frame.'</h1>';?>
 
-    <?
-        $page_id = is_shop() ? get_option( 'woocommerce_shop_page_id' ) : get_the_ID();
-        $css_banner = get_banner_background( $page_id );
-    ?>
+<? if( $mods->heading_status ) { ?>
 
-    <? if( $mods->heading_status ) { ?>
+    <header style="<? if( $mods->heading_status ) echo $mods->heading_size; ?>" class="<?= $mods->heading_frame; ?>">
+
+        <?
+            $page_id = is_shop() ? get_option( 'woocommerce_shop_page_id' ) : get_the_ID();
+            $css_banner = get_banner_background( $page_id );
+        ?>
 
         <div style="height:inherit; width:100%;  <?= $mods->header_banner_mode == 'in-head' ? $css_banner : ''; ?>">
 
@@ -28,6 +32,5 @@
 
         </div>
 
-    <? } ?>
-
-</div>
+    </header>
+<? } ?>

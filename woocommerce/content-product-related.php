@@ -3,6 +3,7 @@
 <?
 
 	global $product;
+
 	if ( empty( $product ) || ! $product->is_visible() ) {return;}
 
 	// $banner = (wp_get_attachment_url( $product->image_id ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');
@@ -16,6 +17,7 @@
 <div class="slider-box">
 
 	<div class="related-box m-2">
+
 		<div class="card" style="cursor:pointer" onclick="window.location='<?=$link?>'">
 
 			<div class="card-header p-0" onclick="window.location='<?= $link; ?>'">
@@ -39,6 +41,7 @@
 			</div>
 
 		</div>
+
 	</div>
 
 </div>

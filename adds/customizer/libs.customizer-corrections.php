@@ -33,11 +33,12 @@
 
     $customizer->get_section( 'woocommerce_checkout' )->title = 'Design of shop : checkout';
     $customizer->get_section( 'woocommerce_checkout' )->panel = 'design_controller';
-    $customizer->get_section( 'woocommerce_checkout' )->title = 'Shop images options';
 
     // remove controllers
     $customizer->remove_panel( 'widgets' );
     $customizer->remove_section( 'woocommerce_product_catalog' );
+
     $customizer->add_panel('design_controller',[ 'priority' => 4, 'title' => 'Design controller', ]);
+    $customizer->add_panel('social_boxes',[ 'priority' => 5, 'title' => 'Social boxes options', ]);
 
 ?>

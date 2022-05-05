@@ -1,29 +1,58 @@
-<div class="card-facebook"  style="width:100%; position:relative">
+<? 
 
-    <? 
-        $mods->facebook_fanpage_name = "Wordpress style";
-        $mods->facebook_fanpage_link = "https://www.facebook.com/wordpress";
-        $mods->facebook_cover_image = "https://scontent.fcia4-1.fna.fbcdn.net/v/t39.30808-6/275887836_10159764773607911_7325178757313942414_n.jpg?_nc_cat=103&ccb=1-5&_nc_sid=9267fe&_nc_ohc=cd-4kLpC8uwAX8gWNLX&_nc_ht=scontent.fcia4-1.fna&oh=00_AT92iqhhE7o0n_71EWAHitsNkUTo98c38EH4gH8EG0sNrA&oe=627410B3" ; 
-        $mods->facebook_profile_image = "https://scontent.fcia4-1.fna.fbcdn.net/v/t39.30808-6/277104047_10159779877892911_3343161103863770986_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=eShQtyx_abEAX-8bAAM&_nc_ht=scontent.fcia4-1.fna&oh=00_AT-ulH8YyTMV0Dg0MFmtG9EKQcp0898QoKwMStWZXPSCmw&oe=6275C0C9" ; 
-    ?>
+    global $mods;
 
-    <div style="background: url(<?=$mods->facebook_cover_image?>) center/cover no-repeat;">
+    $mods->facebook_box_status         = get_theme_mod( 'facebook_box_sets' );
+    $mods->facebook_box_show_logo      = get_theme_mod( 'facebook_box_logo_sets' );
+    $mods->facebook_box_page_name      = get_theme_mod( 'facebook_box_page_name_sets' );
+    $mods->facebook_box_page_link      = get_theme_mod( 'facebook_box_profile_link_sets' );
+    $mods->facebook_box_cover_image    = get_theme_mod( 'facebook_box_profile_cover_sets' );
+    $mods->facebook_box_profile_image  = get_theme_mod( 'facebook_box_profile_image_sets' );
 
-        <div style=" position:absolute; width:100%; height:100%; background-color: #00000054; "></div>
+    if( $mods->facebook_box_status ) {
 
-        <div style="padding:30px;display: flex;flex-flow: row;gap: 20px; z-index: 1; position: relative;">
+?>
 
-            <div>
-                <div class="rounded" style="background: url(<?=$mods->facebook_profile_image?>) center/cover no-repeat; height: 70px; width: 70px; margin-top: 5px;"></div>
-            </div>
-            <div>
-                <h5><?= $mods->facebook_fanpage_name; ?></h5>
-                <small>Resta connesso con tutti noi nella community ufficile in facebook</small>
-                <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->facebook_fanpage_link?>">Segui ora la nostra fanpage</a>
-            </div>
+    <div class="card-facebook"  style="width:100%; position:relative">
+
+        <div style="background: url(<?=$mods->facebook_box_cover_image?>) center/cover no-repeat;">
+
+            <div style=" position:absolute; width:100%; height:100%; background-color: #00000054; "></div>
+
+            <? if( $mods->facebook_box_show_logo ) { ?>
+
+                <div style="padding:30px; z-index: 1; position: relative;">
+
+                    <div class="text-center">
+                        <img style="height:45px;" src="<?= get_stylesheet_directory_uri().'/adds/socials/facebook_logo.svg'; ?>" > <img style="height:45px;" src="<?= get_stylesheet_directory_uri().'/adds/socials/facebook_logo_text.svg'; ?>" >
+                    </div>
+
+                    <div class="text-center">
+                        <small>Resta connesso con tutti noi nella community ufficile</small><br>
+                        <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->instagram_box_page_link?>">Segui ora la nostra fanpage</a>
+                    </div>
+
+                </div>
+
+            <? } else { ?>
+
+                <div style="padding:30px;display: flex;flex-flow: row;gap: 20px; z-index: 1; position: relative;">
+
+                    <div>
+                        <div class="rounded" style="background: url(<?=$mods->facebook_box_profile_image?>) center/cover no-repeat; height: 70px; width: 70px; margin-top: 5px;"></div>
+                    </div>
+                    <div>
+                        <h5><?= $mods->facebook_box_page_name; ?></h5>
+                        <small>Resta connesso con tutti noi nella community ufficile</small>
+                        <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->facebook_box_page_link?>">Segui ora la nostra fanpage</a>
+                    </div>
+
+                </div>
+
+            <? } ?>
 
         </div>
 
     </div>
 
-</div>
+<? } ?>

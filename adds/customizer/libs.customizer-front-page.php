@@ -48,7 +48,7 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('front-page_titles_position_sets',[ 'default'=>'off' ]);
+    $customizer->add_setting('front-page_titles_position_sets',[ 'default'=>'in-head' ]);
     $customizer->add_control('front-page_titles_position',[
         // 'priority'    => 1,
         'section'     => 'static_front_page',

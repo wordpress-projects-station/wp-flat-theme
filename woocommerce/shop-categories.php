@@ -44,7 +44,7 @@
 
                 <div class="category-box col-md-4 col-sm-6 col-xs-12 mb-4">
 
-                	<? include get_template_directory().'/elements/box-contents.php' ?>
+                	<? include get_template_directory().'/elements/box-card.php' ?>
 
                 </div>
             <?

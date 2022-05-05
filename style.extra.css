@@ -631,3 +631,20 @@ a.flex-next::after {
 .content-box .card-footer .btn {
     width: 100%;
 }
+
+
+/* - - - - - - - - - - - - - - - - - - - - */
+
+
+/*
+// footer
+*/
+
+body>footer {
+    background: var(--bs-gray-800);
+    color: var(--bs-gray-100);
+}
+
+body>footer .footer-credits {
+    background: var(--bs-dark);
+}

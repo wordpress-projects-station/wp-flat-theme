@@ -29,6 +29,7 @@
 
         include_once 'libs.customizer-siteoptions.php';
 
+        
         // expand Menu Controllers
 
         include_once 'libs.customizer-menus.php';
@@ -49,6 +50,11 @@
         include_once 'libs.customizer-shopcategory.php';
         include_once 'libs.customizer-shopproducts.php';
         include_once 'libs.customizer-checkout.php';
+
+        // set the social box
+
+        include_once 'libs.customizer-socialsbox.php';
+
 
     } , 10 );
 
@@ -138,10 +144,12 @@
 
         $header_layout  = get_theme_mod( $looptype['type'].'_header_style_sets' );
 
-        $mods->heading_status     = str_contains( $header_layout,'off' ) ? false : true;
-        $mods->heading_frame      = str_contains( $header_layout,'framed' ) ? 'container' : false;
+        print_r($header_layout);
 
-        $mods->heading_size       = str_contains( $header_layout,'big' ) ? 'height:'.get_theme_mod( 'site_header_big_height_sets' ).'vh;' : 'height:'.get_theme_mod( 'site_header_big_height_sets' ).'vh;';
+        $mods->heading_status     = str_contains( $header_layout,'off' ) ? false : true ;
+        $mods->heading_frame      = str_contains( $header_layout,'framed' ) ? 'container' : '';
+
+        $mods->heading_size       = str_contains( $header_layout,'big' ) ? 'height:'.get_theme_mod( 'site_header_big_height_sets' ).'vh;' : 'height:'.get_theme_mod( 'site_header_small_height_sets' ).'vh;';
         
 
 

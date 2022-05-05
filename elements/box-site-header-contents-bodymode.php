@@ -1,6 +1,6 @@
 <? if( $mods->titles_position=='in-body' || $mods->header_banner_mode == 'in-body' ) { ?>
 
-    <div class="col-12">
+    <header class="col-12">
 
         <?
 
@@ -47,6 +47,6 @@
 
         ?>
 
-    </div>
+    </header>
 
 <? } ?>

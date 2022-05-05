@@ -34,7 +34,7 @@
     // header-style
     //
 
-    $customizer->add_setting('shop-categories_header_style_sets',[ 'default'=>'big wide' ]);
+    $customizer->add_setting('shop-categories_header_style_sets',[ 'default'=>'big-wide' ]);
     $customizer->add_control('shop-categories_header_style',[
         'section'  => 'design_of_shop_categories',
         'label'    => 'Header style',

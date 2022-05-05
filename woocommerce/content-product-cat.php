@@ -13,6 +13,6 @@
 
 <div class="category-box col-sm-12 col-md-<?=$columns?>">
 
-	<? include get_template_directory().'/elements/box-contents.php' ?>
+	<? include get_template_directory().'/elements/box-card.php' ?>
 
 </div>

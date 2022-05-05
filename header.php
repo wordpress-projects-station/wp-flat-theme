@@ -62,12 +62,7 @@
 
             <? } ?>
 
-
-            <header>
-
-                <? require_once __DIR__.'/elements/box-site-header-contents.php'; ?>
-
-            </header>
+            <? require_once __DIR__.'/elements/box-site-header-contents.php'; ?>
 
         </div>
 

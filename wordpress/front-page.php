@@ -38,7 +38,7 @@
                             $date       = get_the_date();
                             $excerpt    = get_the_excerpt();
                         ?>
-                        <? include get_template_directory().'/elements/box-contents.php'; ?>
+                        <? include get_template_directory().'/elements/box-card.php'; ?>
 
                     </div>
 
@@ -94,7 +94,7 @@
                             $date       = get_the_date();
                             $excerpt    = get_the_excerpt();
                         ?>
-                        <? include get_template_directory().'/elements/box-contents.php'; ?>
+                        <? include get_template_directory().'/elements/box-card.php'; ?>
 
                     </div>
 
@@ -141,7 +141,7 @@
                             $date       = get_the_date();
                             $excerpt    = get_the_excerpt();
                         ?>
-                        <? include get_template_directory().'/elements/box-contents.php'; ?>
+                        <? include get_template_directory().'/elements/box-card.php'; ?>
 
                     </div>
 
@@ -187,7 +187,7 @@
                             $date       = get_the_date();
                             $excerpt    = get_the_excerpt();
                         ?>
-                        <? include get_template_directory().'/elements/box-contents.php'; ?>
+                        <? include get_template_directory().'/elements/box-card.php'; ?>
 
                     </div>
 
