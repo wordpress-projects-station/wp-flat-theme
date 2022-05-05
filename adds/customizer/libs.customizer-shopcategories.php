@@ -16,7 +16,7 @@
     // menu-style
     //
 
-    $customizer->add_setting('shop-categories_menu_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('shop-categories_menu_style_sets',[ 'default'=>'wide' ]);
     $customizer->add_control('shop-categories_menu_style',[
         'section'  => 'design_of_shop_categories',
         'label'    => 'Menu style',
@@ -34,7 +34,7 @@
     // header-style
     //
 
-    $customizer->add_setting('shop-categories_header_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('shop-categories_header_style_sets',[ 'default'=>'big wide' ]);
     $customizer->add_control('shop-categories_header_style',[
         'section'  => 'design_of_shop_categories',
         'label'    => 'Header style',
@@ -54,7 +54,7 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('shop-categories_titles_position_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('shop-categories_titles_position_sets',[ 'default'=>'in-head' ]);
     $customizer->add_control('shop-categories_titles_position',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_categories',
@@ -117,7 +117,7 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'shop-categories_small_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'shop-categories_small_side_sets', ['default'=>'dynamic-right'] );
     $customizer->add_control( 'shop-categories_small_side', [
         'section'   => 'design_of_shop_categories',
         'label'     => 'Small Sidebar position',
@@ -133,7 +133,7 @@
     ]);
 
 
-    $customizer->add_setting( 'shop-categories_big_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'shop-categories_big_side_sets', ['default'=>'dynamic-left'] );
     $customizer->add_control( 'shop-categories_big_side', [
         'section'  => 'design_of_shop_categories',
         'label'    => 'Big Sidebar position',

@@ -16,7 +16,7 @@
     // menu-style
     //
 
-    $customizer->add_setting('archive-product_menu_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('archive-product_menu_style_sets',[ 'default'=>'wide' ]);
     $customizer->add_control('archive-product_menu_style',[
         'section'  => 'design_of_shop_category',
         'label'    => 'Menu style',
@@ -33,7 +33,7 @@
     // header-style
     //
 
-    $customizer->add_setting('archive-product_header_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('archive-product_header_style_sets',[ 'default'=>'big-wide' ]);
     $customizer->add_control('archive-product_header_style',[
         'section'  => 'design_of_shop_category',
         'label'    => 'Header style',
@@ -52,7 +52,7 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('archive-product_titles_position_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('archive-product_titles_position_sets',[ 'default'=>'in-head' ]);
     $customizer->add_control('archive-product_titles_position',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_category',
@@ -115,7 +115,7 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'archive-product_small_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'archive-product_small_side_sets', ['default'=>'dynamic-right'] );
     $customizer->add_control( 'archive-product_small_side', [
         'section'   => 'design_of_shop_category',
         'label'     => 'Small Sidebar position',
@@ -132,7 +132,7 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'archive-product_big_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'archive-product_big_side_sets', ['default'=>'dynamic-left'] );
     $customizer->add_control( 'archive-product_big_side', [
         'section'  => 'design_of_shop_category',
         'label'    => 'Big Sidebar position',

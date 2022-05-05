@@ -15,7 +15,7 @@
     // menu-style
     //
 
-    $customizer->add_setting('page_menu_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('page_menu_style_sets',[ 'default'=>'wide' ]);
     $customizer->add_control('page_menu_style',[
         'section'  => 'design_of_page',
         'label'    => 'Menu style',
@@ -33,7 +33,7 @@
     // header-style
     //
 
-    $customizer->add_setting('page_header_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('page_header_style_sets',[ 'default'=>'slim-wide' ]);
     $customizer->add_control('page_header_style',[
         'section'  => 'design_of_page',
         'label'    => 'Header style',
@@ -53,7 +53,7 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('page_titles_position_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('page_titles_position_sets',[ 'default'=>'in-head' ]);
     $customizer->add_control('page_titles_position',[
         // 'priority'    => 1,
         'section'     => 'design_of_page',
@@ -116,7 +116,7 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'page_small_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'page_small_side_sets', ['default'=>'off'] );
     $customizer->add_control( 'page_small_side', [
         'section'   => 'design_of_page',
         'label'     => 'Small Sidebar position',
@@ -133,7 +133,7 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'page_big_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'page_big_side_sets', ['default'=>'off'] );
     $customizer->add_control( 'page_big_side', [
         'section'  => 'design_of_page',
         'label'    => 'Big Sidebar position',

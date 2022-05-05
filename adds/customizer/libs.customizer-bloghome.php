@@ -15,7 +15,7 @@
     // menu-style
     //
 
-    $customizer->add_setting('blog-home_menu_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('blog-home_menu_style_sets',[ 'default'=>'wide' ]);
     $customizer->add_control('blog-home_menu_style',[
         'section'  => 'design_of_blog-home',
         'label'    => 'Menu style',
@@ -33,7 +33,7 @@
     // header-style
     //
 
-    $customizer->add_setting('blog-home_header_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('blog-home_header_style_sets',[ 'default'=>'big-wide' ]);
     $customizer->add_control('blog-home_header_style',[
         'section'  => 'design_of_blog-home',
         'label'    => 'Header style',
@@ -53,7 +53,7 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('blog-home_titles_position_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('blog-home_titles_position_sets',[ 'default'=>'in-head' ]);
     $customizer->add_control('blog-home_titles_position',[
         // 'priority'    => 1,
         'section'     => 'design_of_blog-home',
@@ -116,7 +116,7 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'blog-home_small_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'blog-home_small_side_sets', ['default'=>'dynamic-right'] );
     $customizer->add_control( 'blog-home_small_side', [
         'section'   => 'design_of_blog-home',
         'label'     => 'Small Sidebar position',
@@ -133,7 +133,7 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'blog-home_big_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'blog-home_big_side_sets', ['default'=>'dynamic-left'] );
     $customizer->add_control( 'blog-home_big_side', [
         'section'  => 'design_of_blog-home',
         'label'    => 'Big Sidebar position',

@@ -48,6 +48,7 @@
         include_once 'libs.customizer-shopcategories.php';
         include_once 'libs.customizer-shopcategory.php';
         include_once 'libs.customizer-shopproducts.php';
+        include_once 'libs.customizer-checkout.php';
 
     } , 10 );
 
@@ -139,7 +140,9 @@
 
         $mods->heading_status     = str_contains( $header_layout,'off' ) ? false : true;
         $mods->heading_frame      = str_contains( $header_layout,'framed' ) ? 'container' : false;
-        $mods->heading_size       = str_contains( $header_layout,'big' ) ? 'height:45vh;' : 'height:15vh;';
+
+        $mods->heading_size       = str_contains( $header_layout,'big' ) ? 'height:'.get_theme_mod( 'site_header_big_height_sets' ).'vh;' : 'height:'.get_theme_mod( 'site_header_big_height_sets' ).'vh;';
+        
 
 
         /*

@@ -15,7 +15,7 @@
     // menu-style
     //
 
-    $customizer->add_setting('account_menu_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('account_menu_style_sets',[ 'default'=>'wide' ]);
     $customizer->add_control('account_menu_style',[
         'section'  => 'design_of_account',
         'label'    => 'Menu style',
@@ -33,7 +33,7 @@
     // header-style
     //
 
-    $customizer->add_setting('account_header_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('account_header_style_sets',[ 'default'=>'off' ]);
     $customizer->add_control('account_header_style',[
         'section'  => 'design_of_account',
         'label'    => 'Header style',
@@ -53,7 +53,7 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('account_titles_position_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('account_titles_position_sets',[ 'default'=>'in-head' ]);
     $customizer->add_control('account_titles_position',[
         // 'priority'    => 1,
         'section'     => 'design_of_account',
@@ -116,7 +116,7 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'account_small_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'account_small_side_sets', ['default'=>'off'] );
     $customizer->add_control( 'account_small_side', [
         'section'   => 'design_of_account',
         'label'     => 'Small Sidebar position',
@@ -133,7 +133,7 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'account_big_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'account_big_side_sets', ['default'=>'off'] );
     $customizer->add_control( 'account_big_side', [
         'section'  => 'design_of_account',
         'label'    => 'Big Sidebar position',

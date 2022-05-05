@@ -4,22 +4,18 @@
     // tab
     //
 
+    // it's original tab of woocommerce, move by libs.customizer-corrections.php
 
-    $customizer->add_section('design_of_archivie',[
-        'panel'    => 'design_controller',
-        'priority' => 4,
-        'title'    => 'Design of archivie',
-    ]);
 
     //
     // menu-style
     //
 
-    $customizer->add_setting('archivie_menu_style_sets',[ 'default'=>'wide' ]);
-    $customizer->add_control('archivie_menu_style',[
-        'section'  => 'design_of_archivie',
+    $customizer->add_setting('checkout_menu_style_sets',[ 'default'=>'wide' ]);
+    $customizer->add_control('checkout_menu_style',[
+        'section'  => 'woocommerce_checkout',
         'label'    => 'Menu style',
-        'settings' => 'archivie_menu_style_sets',
+        'settings' => 'checkout_menu_style_sets',
         'type'     => 'radio',
         'choices'  => [
             'off'       => 'off',
@@ -33,11 +29,11 @@
     // header-style
     //
 
-    $customizer->add_setting('archivie_header_style_sets',[ 'default'=>'slim-wide' ]);
-    $customizer->add_control('archivie_header_style',[
-        'section'  => 'design_of_archivie',
+    $customizer->add_setting('checkout_header_style_sets',[ 'default'=>'off' ]);
+    $customizer->add_control('checkout_header_style',[
+        'section'  => 'woocommerce_checkout',
         'label'    => 'Header style',
-        'settings' => 'archivie_header_style_sets',
+        'settings' => 'checkout_header_style_sets',
         'type'     => 'radio',
         'choices'  => [
             'off'         => 'off',
@@ -53,12 +49,12 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('archivie_titles_position_sets',[ 'default'=>'in-head' ]);
-    $customizer->add_control('archivie_titles_position',[
+    $customizer->add_setting('checkout_titles_position_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_control('checkout_titles_position',[
         // 'priority'    => 1,
-        'section'     => 'design_of_archivie',
+        'section'     => 'woocommerce_checkout',
         'label'       => 'Titles data position',
-        'settings'    => 'archivie_titles_position_sets',
+        'settings'    => 'checkout_titles_position_sets',
         'type'        => 'radio',
         'choices'     => [
             'in-head'  => 'print in header',
@@ -66,30 +62,30 @@
         ],
     ]);
 
-    $customizer->add_setting('archivie_title_sets',[ 'default'=>'true' ]);
-    $customizer->add_control('archivie_title',[
+    $customizer->add_setting('checkout_title_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('checkout_title',[
         // 'priority'    => 1,
-        'section'     => 'design_of_archivie',
+        'section'     => 'woocommerce_checkout',
         'label'       => 'Active/hide title',
-        'settings'    => 'archivie_title_sets',
+        'settings'    => 'checkout_title_sets',
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('archivie_subtitle_sets',[ 'default'=>'true' ]);
-    $customizer->add_control('archivie_subtitle',[
+    $customizer->add_setting('checkout_subtitle_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('checkout_subtitle',[
         // 'priority'    => 1,
-        'section'     => 'design_of_archivie',
+        'section'     => 'woocommerce_checkout',
         'label'       => 'Active/hide sub-title',
-        'settings'    => 'archivie_subtitle_sets',
+        'settings'    => 'checkout_subtitle_sets',
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('archivie_excerpt_sets',[ 'default'=>'true' ]);
-    $customizer->add_control('archivie_excerpt',[
+    $customizer->add_setting('checkout_excerpt_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('checkout_excerpt',[
         // 'priority'    => 1,
-        'section'     => 'design_of_archivie',
+        'section'     => 'woocommerce_checkout',
         'label'       => 'Active/hide excerpt',
-        'settings'    => 'archivie_excerpt_sets',
+        'settings'    => 'checkout_excerpt_sets',
         'type'        => 'checkbox',
     ]);
 
@@ -98,11 +94,11 @@
     // Header banner  
     //
 
-    $customizer->add_setting('archivie_banner_sets',[ 'default'=>'in-head' ]);
-    $customizer->add_control('archivie_banner',[
-        'section'   => 'design_of_archivie',
+    $customizer->add_setting('checkout_banner_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_control('checkout_banner',[
+        'section'   => 'woocommerce_checkout',
         'label'     => 'Main banner position',
-        'settings'  => 'archivie_banner_sets',
+        'settings'  => 'checkout_banner_sets',
         'type'      => 'radio',
         'choices'   => [
             'off'      => 'off',
@@ -116,14 +112,12 @@
     // Sidebars
     //
 
-    // sidebar-small
-
-    $customizer->add_setting( 'archivie_small_side_sets', ['default'=>'dynamic-right'] );
-    $customizer->add_control( 'archivie_small_side', [
-        'section'   => 'design_of_archivie',
+    $customizer->add_setting( 'checkout_small_side_sets', ['default'=>'off'] );
+    $customizer->add_control( 'checkout_small_side', [
+        'section'   => 'woocommerce_checkout',
         'label'     => 'Small Sidebar position',
         'type'      => 'radio',
-        'settings'  => 'archivie_small_side_sets',  
+        'settings'  => 'checkout_small_side_sets',  
         'choices'   => [
             'off'  => 'off',
             'static-left'  => 'static left',
@@ -135,12 +129,12 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'archivie_big_side_sets', ['default'=>'dynamic-left'] );
-    $customizer->add_control( 'archivie_big_side', [
-        'section'  => 'design_of_archivie',
+    $customizer->add_setting( 'checkout_big_side_sets', ['default'=>'off'] );
+    $customizer->add_control( 'checkout_big_side', [
+        'section'  => 'woocommerce_checkout',
         'label'    => 'Big Sidebar position',
         'type'     => 'radio',
-        'settings' => 'archivie_big_side_sets',
+        'settings' => 'checkout_big_side_sets',
         'choices'  => [
             'off'  => 'off',
             'static-left'  => 'static left',

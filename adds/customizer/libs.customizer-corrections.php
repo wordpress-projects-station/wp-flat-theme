@@ -3,7 +3,7 @@
     $customizer->get_section('title_tagline')->title = 'Site Identity';
     $customizer->get_section('title_tagline')->priority = '1';
 
-    $customizer->get_panel( 'nav_menus' )->title = 'Site Menus';
+    $customizer->get_panel( 'nav_menus' )->title = 'Menus Options';
     $customizer->get_panel( 'nav_menus' )->priority = '2';
 
     $customizer->get_section( 'menu_locations' )->title = 'Change positions';
@@ -22,7 +22,8 @@
     $customizer->get_section( 'custom_css' )->title = 'CSS override';
 
 
-    $customizer->get_panel( 'woocommerce' )->title = 'Store options';
+    $customizer->get_panel( 'woocommerce' )->title = 'Shop options';
+    $customizer->get_panel( 'woocommerce' )->priority = '4';
 
     $customizer->get_section( 'woocommerce_store_notice' )->title = 'Store Warning';
     $customizer->get_control( 'woocommerce_demo_store_notice' )->label = 'Set a warning';
@@ -30,10 +31,13 @@
     $customizer->get_control( 'woocommerce_demo_store' )->label = 'Active/hide the shop warnings';
     
 
-    $customizer->get_section( 'woocommerce_product_catalog' )->title = 'Home options';
-
+    $customizer->get_section( 'woocommerce_checkout' )->title = 'Design of shop : checkout';
+    $customizer->get_section( 'woocommerce_checkout' )->panel = 'design_controller';
+    $customizer->get_section( 'woocommerce_checkout' )->title = 'Shop images options';
 
     // remove controllers
     $customizer->remove_panel( 'widgets' );
+    $customizer->remove_section( 'woocommerce_product_catalog' );
     $customizer->add_panel('design_controller',[ 'priority' => 4, 'title' => 'Design controller', ]);
+
 ?>

@@ -10,7 +10,7 @@
     // menu-style
     //
 
-    $customizer->add_setting('front-page_menu_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('front-page_menu_style_sets',[ 'default'=>'wide' ]);
     $customizer->add_control('front-page_menu_style',[
         'section'  => 'static_front_page',
         'label'    => 'Menu style',
@@ -28,7 +28,7 @@
     // header-style
     //
 
-    $customizer->add_setting('front-page_header_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('front-page_header_style_sets',[ 'default'=>'big-wide' ]);
     $customizer->add_control('front-page_header_style',[
         'section'  => 'static_front_page',
         'label'    => 'Header style',
@@ -48,7 +48,7 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('front-page_titles_position_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('front-page_titles_position_sets',[ 'default'=>'off' ]);
     $customizer->add_control('front-page_titles_position',[
         // 'priority'    => 1,
         'section'     => 'static_front_page',
@@ -61,7 +61,7 @@
         ],
     ]);
 
-    $customizer->add_setting('front-page_title_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('front-page_title_sets',[ 'default'=>'false' ]);
     $customizer->add_control('front-page_title',[
         // 'priority'    => 1,
         'section'     => 'static_front_page',
@@ -70,7 +70,7 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('front-page_subtitle_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('front-page_subtitle_sets',[ 'default'=>'false' ]);
     $customizer->add_control('front-page_subtitle',[
         // 'priority'    => 1,
         'section'     => 'static_front_page',
@@ -79,7 +79,7 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('front-page_excerpt_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('front-page_excerpt_sets',[ 'default'=>'false' ]);
     $customizer->add_control('front-page_excerpt',[
         // 'priority'    => 1,
         'section'     => 'static_front_page',
@@ -93,7 +93,7 @@
     // Header banner  
     //
 
-    $customizer->add_setting('front-page_banner_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('front-page_banner_sets',[ 'default'=>'off' ]);
     $customizer->add_control('front-page_banner',[
         'section'   => 'static_front_page',
         'label'     => 'Main banner position',
@@ -111,7 +111,7 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'front-page_small_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'front-page_small_side_sets', ['default'=>'off'] );
     $customizer->add_control( 'front-page_small_side', [
         'section'   => 'static_front_page',
         'label'     => 'Small Sidebar position',
@@ -128,7 +128,7 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'front-page_big_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'front-page_big_side_sets', ['default'=>'off'] );
     $customizer->add_control( 'front-page_big_side', [
         'section'  => 'static_front_page',
         'label'    => 'Big Sidebar position',

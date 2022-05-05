@@ -15,7 +15,7 @@
     // menu-style
     //
 
-    $customizer->add_setting('post_menu_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('post_menu_style_sets',[ 'default'=>'wide' ]);
     $customizer->add_control('post_menu_style',[
         'section'  => 'design_of_post',
         'label'    => 'Menu style',
@@ -33,7 +33,7 @@
     // header-style
     //
 
-    $customizer->add_setting('post_header_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_setting('post_header_style_sets',[ 'default'=>'big-wide' ]);
     $customizer->add_control('post_header_style',[
         'section'  => 'design_of_post',
         'label'    => 'Header style',
@@ -53,7 +53,7 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('post_titles_position_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('post_titles_position_sets',[ 'default'=>'in-head' ]);
     $customizer->add_control('post_titles_position',[
         // 'priority'    => 1,
         'section'     => 'design_of_post',
@@ -116,7 +116,7 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'post_small_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'post_small_side_sets', ['default'=>'dynamic-right'] );
     $customizer->add_control( 'post_small_side', [
         'section'   => 'design_of_post',
         'label'     => 'Small Sidebar position',
@@ -131,7 +131,7 @@
         ],
     ]);
 
-    $customizer->add_setting( 'post_big_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'post_big_side_sets', ['default'=>'dynamic-left'] );
     $customizer->add_control( 'post_big_side', [
         'section'  => 'design_of_post',
         'label'    => 'Big Sidebar position',
