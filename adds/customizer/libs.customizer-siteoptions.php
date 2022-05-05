@@ -4,15 +4,6 @@
         'title'    => 'Site settings',
     ]);
 
-    $customizer->add_setting('site_debug_path_line_settings',[ 'default'=>'false' ]);
-    $customizer->add_control('site_debug_line_data',[
-        'section'     => 'site_settings',
-        'label'       => 'Debug template path line',
-        'description' => 'Active/hide the editor line for page information',
-        'settings'    => 'site_debug_path_line_settings',
-        'type'        => 'checkbox',
-    ]);
-
     $customizer->add_setting('site_debug_notices_settings',[ 'default'=>'false' ]);
     $customizer->add_control('site_debug_notices_data',[
         'section'     => 'site_settings',

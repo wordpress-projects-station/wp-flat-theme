@@ -52,14 +52,6 @@
 
         <div>
 
-            <? if ( $mods->debug_path_line ){ ?>
-
-                <p style="background:#8b8b8b;font-size:10px;margin:0;padding:3px 5px;"> 
-                    you are in : <b><?=$filename;?></b> / option type : <b><?=$looptype['type']?></b> / type post data: <b><?=get_post_type();?></b>  / ...
-                </p>
-
-            <? } ?>
-
             <? if( $mods->top_site_warning ) { ?>
 
                 <div class="bg-warning text-center">
@@ -70,14 +62,19 @@
 
             <? } ?>
 
+
             <header>
+
                 <? require_once __DIR__.'/elements/box-site-header-contents.php'; ?>
+
             </header>
 
         </div>
 
-        <div class="container pt-4 pb-4">
+        <div class="container g-4 py-4">
 
-            <div class="row g-4">
+            <div class="row">
+
+                <? require_once __DIR__.'/elements/box-site-header-contents-bodymode.php'; ?>
 
                 <? require_once __DIR__.'/elements/box-sidebar-selector-left.php'; ?>

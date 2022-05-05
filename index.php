@@ -3,7 +3,7 @@
 
     include_once __DIR__.'/header.php';
 
-    ?><main class="contentsidebar col g-4"><?
+    ?><main class="contentsidebar col"><?
 
         is_file($looptype['path'])
             ? include_once $looptype['path']

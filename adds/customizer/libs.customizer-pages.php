@@ -1,6 +1,8 @@
 <?
 
-    // tab-title
+    //
+    // tab
+    //
 
     $customizer->add_section('design_of_page',[
         'panel'    => 'design_controller',
@@ -8,79 +10,120 @@
         'title'    => 'Design of page',
     ]);
 
-    // thumbnail-stle
 
-    $customizer->add_setting('page_header_style_settings',[ 'default'=>'framed-big' ]);
-    $customizer->add_control('page_header_style_data',[
+    //
+    // menu-style
+    //
+
+    $customizer->add_setting('page_menu_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_control('page_menu_style',[
         'section'  => 'design_of_page',
-        'label'    => 'Header style',
-        'settings' => 'page_header_style_settings',
+        'label'    => 'Menu style',
+        'settings' => 'page_menu_style_sets',
         'type'     => 'radio',
         'choices'  => [
-            'off'         => 'OFF',
-            'framed-slim' => 'framed slim',
-            'framed-big'  => 'framed big',
-            'wide-slim'   => 'wide slim',
-            'wide-big'    => 'wide big',
+            'off'       => 'off',
+            'wide'      => 'wide',
+            'framed'    => 'framed',
         ],
     ]);
 
-    // add titles ecc in-head
-    $customizer->add_setting('page_title_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('page_title_data',[
+
+    //
+    // header-style
+    //
+
+    $customizer->add_setting('page_header_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_control('page_header_style',[
+        'section'  => 'design_of_page',
+        'label'    => 'Header style',
+        'settings' => 'page_header_style_sets',
+        'type'     => 'radio',
+        'choices'  => [
+            'off'         => 'off',
+            'slim-framed' => 'slim framed',
+            'slim-wide'   => 'slim wide',
+            'big-framed'  => 'big framed ',
+            'big-wide'    => 'big wide',
+        ],
+    ]);
+
+
+    //
+    // Titles data settings
+    //
+
+    $customizer->add_setting('page_titles_position_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('page_titles_position',[
+        // 'priority'    => 1,
+        'section'     => 'design_of_page',
+        'label'       => 'Titles data position',
+        'settings'    => 'page_titles_position_sets',
+        'type'        => 'radio',
+        'choices'     => [
+            'in-head'  => 'print in header',
+            'in-body'  => 'print in contents',
+        ],
+    ]);
+
+    $customizer->add_setting('page_title_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('page_title',[
         // 'priority'    => 1,
         'section'     => 'design_of_page',
         'label'       => 'Active/hide title',
-        'description' => ' ',
-        'settings'    => 'page_title_settings',
+        'settings'    => 'page_title_sets',
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('page_subtitle_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('page_subtitle_data',[
+    $customizer->add_setting('page_subtitle_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('page_subtitle',[
         // 'priority'    => 1,
         'section'     => 'design_of_page',
         'label'       => 'Active/hide sub-title',
-        'settings'    => 'page_subtitle_settings',
+        'settings'    => 'page_subtitle_sets',
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('page_excerpt_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('page_excerpt_data',[
+    $customizer->add_setting('page_excerpt_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('page_excerpt',[
         // 'priority'    => 1,
         'section'     => 'design_of_page',
         'label'       => 'Active/hide excerpt',
-        'settings'    => 'page_excerpt_settings',
+        'settings'    => 'page_excerpt_sets',
         'type'        => 'checkbox',
     ]);
 
-    // thumbnail
 
-    $customizer->add_setting('page_banner_settings',[ 'default'=>'in-head' ]);
-    $customizer->add_control('page_banner_data',[
+    //
+    // Header banner  
+    //
+
+    $customizer->add_setting('page_banner_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_control('page_banner',[
         'section'   => 'design_of_page',
-        'label'     => 'Main banner status',
-        'settings'  => 'page_banner_settings',
+        'label'     => 'Main banner position',
+        'settings'  => 'page_banner_sets',
         'type'      => 'radio',
         'choices'   => [
-            'off'      => 'OFF',
-            'in-head-framed' => 'in head framed',
-            'in-head'  => 'in head full',
-            'in-body-framed'  => 'in body framed',
-            'in-body'  => 'in body full',
+            'off'      => 'off',
+            'in-head'  => 'print in header',
+            'in-body'  => 'print in contents',
         ],
     ]);
 
-    // sidebar-small
 
-    $customizer->add_setting( 'page_small_side_settings', ['default'=>'dynamic-left'] );
-    $customizer->add_control( 'page_small_side_data', [
+    //
+    // Sidebars
+    //
+
+    $customizer->add_setting( 'page_small_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_control( 'page_small_side', [
         'section'   => 'design_of_page',
         'label'     => 'Small Sidebar position',
         'type'      => 'radio',
-        'settings'  => 'page_small_side_settings',  
+        'settings'  => 'page_small_side_sets',  
         'choices'   => [
-            'off'  => 'OFF',
+            'off'  => 'off',
             'static-left'  => 'static left',
             'static-right' => 'static right',
             'dynamic-left'  => 'dynamic left',
@@ -90,14 +133,14 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'page_big_side_settings', ['default'=>'dynamic-right'] );
-    $customizer->add_control( 'page_big_side_data', [
+    $customizer->add_setting( 'page_big_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_control( 'page_big_side', [
         'section'  => 'design_of_page',
         'label'    => 'Big Sidebar position',
         'type'     => 'radio',
-        'settings' => 'page_big_side_settings',
+        'settings' => 'page_big_side_sets',
         'choices'  => [
-            'off'  => 'OFF',
+            'off'  => 'off',
             'static-left'  => 'static left',
             'static-right' => 'static right',
             'dynamic-left'  => 'dynamic left',

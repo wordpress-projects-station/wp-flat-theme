@@ -1,4 +1,5 @@
 <? if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+
 <?
 
 	$columns = 12/wc_get_loop_prop( 'columns' );

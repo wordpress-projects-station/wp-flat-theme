@@ -97,14 +97,16 @@ body {
 // main site menus
 */
 
-.navgroup {
+.mainnav {
     position: absolute;
     width: 100%;
-    background: var(--bs-dark);
     z-index: 9999;
+    /* left: 50%;
+    transform: translateX(-50%); */
 }
 
-.navgroup>.navbar {
+.navwrap>.navbar {
+    background: var(--bs-dark);
     padding: 0;
 }
 
@@ -118,18 +120,18 @@ body {
 
 
 /*
-.navgroup>.navbar>div:first-child {
+.navwrap>.navbar>div:first-child {
     display: flex;
     justify-content: space-between;
     width: 100%;
     padding: 0 15px;
 } */
 
-.navgroup>.navbar .titles>p:first-child {
+.navwrap>.navbar .titles>p:first-child {
     color: var(--bs-light);
 }
 
-.navgroup>.navbar .titles>p:last-child {
+.navwrap>.navbar .titles>p:last-child {
     color: var(--bs-gray-300);
 }
 

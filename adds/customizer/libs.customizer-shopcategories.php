@@ -1,6 +1,9 @@
 <?
 
-    // tab-title
+    //
+    // tab
+    //
+
 
     $customizer->add_section('design_of_shop_categories',[
         'panel'    => 'design_controller',
@@ -8,79 +11,120 @@
         'title'    => 'Design of shop : categories',
     ]);
 
-    // thumbnail-stle
 
-    $customizer->add_setting('shop-categories_header_style_settings',[ 'default'=>'framed-big' ]);
-    $customizer->add_control('shop-categories_header_style_data',[
+    //
+    // menu-style
+    //
+
+    $customizer->add_setting('shop-categories_menu_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_control('shop-categories_menu_style',[
         'section'  => 'design_of_shop_categories',
-        'label'    => 'Header style',
-        'settings' => 'shop-categories_header_style_settings',
+        'label'    => 'Menu style',
+        'settings' => 'shop-categories_menu_style_sets',
         'type'     => 'radio',
         'choices'  => [
-            'off'         => 'OFF',
-            'framed-slim' => 'framed slim',
-            'framed-big'  => 'framed big',
-            'wide-slim'   => 'wide slim',
-            'wide-big'    => 'wide big',
+            'off'       => 'off',
+            'wide'      => 'wide',
+            'framed'    => 'framed',
         ],
     ]);
 
-    // add titles ecc in-head
-    $customizer->add_setting('shop-categories_title_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('shop-categories_title_data',[
+
+    //
+    // header-style
+    //
+
+    $customizer->add_setting('shop-categories_header_style_sets',[ 'default'=>'framed-big' ]);
+    $customizer->add_control('shop-categories_header_style',[
+        'section'  => 'design_of_shop_categories',
+        'label'    => 'Header style',
+        'settings' => 'shop-categories_header_style_sets',
+        'type'     => 'radio',
+        'choices'  => [
+            'off'         => 'off',
+            'slim-framed' => 'slim framed',
+            'slim-wide'   => 'slim wide',
+            'big-framed'  => 'big framed ',
+            'big-wide'    => 'big wide',
+        ],
+    ]);
+
+
+    //
+    // Titles data settings
+    //
+
+    $customizer->add_setting('shop-categories_titles_position_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('shop-categories_titles_position',[
+        // 'priority'    => 1,
+        'section'     => 'design_of_shop_categories',
+        'label'       => 'Titles data position',
+        'settings'    => 'shop-categories_titles_position_sets',
+        'type'        => 'radio',
+        'choices'     => [
+            'in-head'  => 'print in header',
+            'in-body'  => 'print in contents',
+        ],
+    ]);
+
+    $customizer->add_setting('shop-categories_title_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('shop-categories_title',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_categories',
         'label'       => 'Active/hide title',
-        'description' => ' ',
-        'settings'    => 'shop-categories_title_settings',
+        'settings'    => 'shop-categories_title_sets',
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('shop-categories_subtitle_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('shop-categories_subtitle_data',[
+    $customizer->add_setting('shop-categories_subtitle_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('shop-categories_subtitle',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_categories',
         'label'       => 'Active/hide sub-title',
-        'settings'    => 'shop-categories_subtitle_settings',
+        'settings'    => 'shop-categories_subtitle_sets',
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('shop-categories_excerpt_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('shop-categories_excerpt_data',[
+    $customizer->add_setting('shop-categories_excerpt_sets',[ 'default'=>'true' ]);
+    $customizer->add_control('shop-categories_excerpt',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_categories',
         'label'       => 'Active/hide excerpt',
-        'settings'    => 'shop-categories_excerpt_settings',
+        'settings'    => 'shop-categories_excerpt_sets',
         'type'        => 'checkbox',
     ]);
 
-    // thumbnail
 
-    $customizer->add_setting('shop-categories_banner_settings',[ 'default'=>'in-head' ]);
-    $customizer->add_control('shop-categories_banner_data',[
+    //
+    // Header banner  
+    //
+
+    $customizer->add_setting('shop-categories_banner_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_control('shop-categories_banner',[
         'section'   => 'design_of_shop_categories',
-        'label'     => 'Main banner status',
-        'settings'  => 'shop-categories_banner_settings',
+        'label'     => 'Main banner position',
+        'settings'  => 'shop-categories_banner_sets',
         'type'      => 'radio',
         'choices'   => [
-            'off'      => 'OFF',
-            'in-head-framed' => 'in head framed',
-            'in-head'  => 'in head full',
-            'in-body-framed'  => 'in body framed',
-            'in-body'  => 'in body full',
+            'off'      => 'off',
+            'in-head'  => 'print in header',
+            'in-body'  => 'print in contents',
         ],
     ]);
 
-    // sidebar-small
 
-    $customizer->add_setting( 'shop-categories_small_side_settings', ['default'=>'dynamic-left'] );
-    $customizer->add_control( 'shop-categories_small_side_data', [
+    //
+    // Sidebars
+    //
+
+    $customizer->add_setting( 'shop-categories_small_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_control( 'shop-categories_small_side', [
         'section'   => 'design_of_shop_categories',
         'label'     => 'Small Sidebar position',
         'type'      => 'radio',
-        'settings'  => 'shop-categories_small_side_settings',  
+        'settings'  => 'shop-categories_small_side_sets',  
         'choices'   => [
-            'off'  => 'OFF',
+            'off'  => 'off',
             'static-left'  => 'static left',
             'static-right' => 'static right',
             'dynamic-left'  => 'dynamic left',
@@ -88,16 +132,15 @@
         ],
     ]);
 
-    // sidebar-big
 
-    $customizer->add_setting( 'shop-categories_big_side_settings', ['default'=>'dynamic-right'] );
-    $customizer->add_control( 'shop-categories_big_side_data', [
+    $customizer->add_setting( 'shop-categories_big_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_control( 'shop-categories_big_side', [
         'section'  => 'design_of_shop_categories',
         'label'    => 'Big Sidebar position',
         'type'     => 'radio',
-        'settings' => 'shop-categories_big_side_settings',
+        'settings' => 'shop-categories_big_side_sets',
         'choices'  => [
-            'off'  => 'OFF',
+            'off'  => 'off',
             'static-left'  => 'static left',
             'static-right' => 'static right',
             'dynamic-left'  => 'dynamic left',

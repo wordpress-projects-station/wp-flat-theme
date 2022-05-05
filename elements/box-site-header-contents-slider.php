@@ -1,15 +1,3 @@
-<?
-
-    $page_id = is_shop() ? get_option( 'woocommerce_shop_page_id' ) : get_the_ID();
-
-    $css_banner ='';
-    if( $mods->header_banner_mode == 'in-head' )
-    $css_banner = get_banner_background( $page_id );
-
-?>
-
-<div <?= $mods->header_banner_frame ? 'class="container p-0" style="height:inherit; width:100%; '.$css_banner.'"':'style="height:inherit; width:100%;"'; ?>>
-
 <div style=" background:rgba(0,0,0,.5); width:100%; height:inherit;">
 
     <div id="home_carousel" class="home_carousel carousel slide" data-bs-ride="carousel">
@@ -87,7 +75,5 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-
-</div>
 
 </div>
