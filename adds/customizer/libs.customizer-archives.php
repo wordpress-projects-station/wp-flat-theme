@@ -15,7 +15,9 @@
     // menu-style
     //
 
-    $customizer->add_setting('archivie_menu_style_sets',[ 'default'=>'wide' ]);
+    $customizer->add_setting('archivie_menu_style_sets');
+    get_theme_mod('archivie_menu_style_sets')?:set_theme_mod('archivie_menu_style_sets','wide');
+
     $customizer->add_control('archivie_menu_style',[
         'section'  => 'design_of_archivie',
         'label'    => 'Menu style',
@@ -33,7 +35,9 @@
     // header-style
     //
 
-    $customizer->add_setting('archivie_header_style_sets',[ 'default'=>'slim-wide' ]);
+    $customizer->add_setting('archivie_header_style_sets');
+    get_theme_mod('archivie_header_style_sets')?:set_theme_mod('archivie_header_style_sets','slim-wide');
+
     $customizer->add_control('archivie_header_style',[
         'section'  => 'design_of_archivie',
         'label'    => 'Header style',
@@ -53,7 +57,9 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('archivie_titles_position_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('archivie_titles_position_sets');
+    get_theme_mod('archivie_titles_position_sets')?:set_theme_mod('archivie_titles_position_sets','in-head');
+
     $customizer->add_control('archivie_titles_position',[
         // 'priority'    => 1,
         'section'     => 'design_of_archivie',
@@ -66,7 +72,9 @@
         ],
     ]);
 
-    $customizer->add_setting('archivie_title_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('archivie_title_sets');
+    get_theme_mod('archivie_title_sets')?:set_theme_mod('archivie_title_sets','true');
+
     $customizer->add_control('archivie_title',[
         // 'priority'    => 1,
         'section'     => 'design_of_archivie',
@@ -76,6 +84,8 @@
     ]);
 
     $customizer->add_setting('archivie_subtitle_sets',[ 'default'=>'true' ]);
+    get_theme_mod('archivie_subtitle_sets')?:set_theme_mod('archivie_subtitle_sets','true');
+
     $customizer->add_control('archivie_subtitle',[
         // 'priority'    => 1,
         'section'     => 'design_of_archivie',
@@ -85,6 +95,8 @@
     ]);
 
     $customizer->add_setting('archivie_excerpt_sets',[ 'default'=>'true' ]);
+    get_theme_mod('archivie_excerpt_sets')?:set_theme_mod('archivie_excerpt_sets','true');
+
     $customizer->add_control('archivie_excerpt',[
         // 'priority'    => 1,
         'section'     => 'design_of_archivie',
@@ -98,7 +110,9 @@
     // Header banner  
     //
 
-    $customizer->add_setting('archivie_banner_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('archivie_banner_sets');
+    get_theme_mod('archivie_banner_sets')?:set_theme_mod('archivie_banner_sets','in-head');
+
     $customizer->add_control('archivie_banner',[
         'section'   => 'design_of_archivie',
         'label'     => 'Main banner position',
@@ -118,7 +132,9 @@
 
     // sidebar-small
 
-    $customizer->add_setting( 'archivie_small_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'archivie_small_side_sets' );
+    get_theme_mod('archivie_small_side_sets')?:set_theme_mod('archivie_small_side_sets','dynamic-right');
+
     $customizer->add_control( 'archivie_small_side', [
         'section'   => 'design_of_archivie',
         'label'     => 'Small Sidebar position',
@@ -135,7 +151,9 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'archivie_big_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'archivie_big_side_sets');
+    get_theme_mod('archivie_big_side_sets')?:set_theme_mod('archivie_big_side_sets','dynamic-left');
+
     $customizer->add_control( 'archivie_big_side', [
         'section'  => 'design_of_archivie',
         'label'    => 'Big Sidebar position',

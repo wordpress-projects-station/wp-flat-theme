@@ -8,7 +8,9 @@
         'priority' => 50,
     ]);
 
-    $customizer->add_setting('top_menu_status_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('top_menu_status_sets');
+    get_theme_mod('top_menu_status_sets') ?: set_theme_mod('top_menu_status_sets','true');
+
     $customizer->add_control('top_menu_status',[
         'section'=>'design_of_top_menu',
         'label'=>'[show/hide] top main menu',
@@ -16,7 +18,9 @@
         'settings'=>'top_menu_status_sets',
     ]);
 
-    $customizer->add_setting('top_finder_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('top_finder_sets');
+    get_theme_mod('top_finder_sets') ?: set_theme_mod('top_finder_sets','true');
+
     $customizer->add_control('top_finder',[
         'section'=>'design_of_top_menu',
         'label'=>'[show/hide] search bar',
@@ -24,7 +28,9 @@
         'type'=>'checkbox',
     ]);
 
-    $customizer->add_setting('top_menu_alignment_sets',[ 'default'=>'left' ]);
+    $customizer->add_setting('top_menu_alignment_sets');
+    get_theme_mod('top_menu_alignment_sets') ?: set_theme_mod('top_menu_alignment_sets','left');
+
     $customizer->add_control('top_menu_alignment',[
         'section'=>'design_of_top_menu',
         'label'=>'menu list alignment',

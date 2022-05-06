@@ -1,6 +1,8 @@
 <?
 
-    $customizer->add_setting('site_custom_logo_position_sets',[ 'default'=>'false' ]);
+    $customizer->add_setting('site_custom_logo_position_sets');
+    get_theme_mod('site_custom_logo_position_sets') ?: set_theme_mod('site_custom_logo_position_sets','false');
+
     $customizer->add_control('site_custom_logo_position',[
         'priority'    => 1,
         'section'     => 'title_tagline',
@@ -10,7 +12,9 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('site_custom_logo_ratio_sets',[ 'default'=>'45' ]);
+    $customizer->add_setting('site_custom_logo_ratio_sets');
+    get_theme_mod('site_custom_logo_ratio_sets') ?: set_theme_mod('site_custom_logo_ratio_sets','45');
+
     $customizer->add_control('site_custom_logo_ratio',[
         'priority'    => 1,
         'section'     => 'title_tagline',
@@ -19,7 +23,9 @@
         'type'        => 'number',
     ]);
 
-    $customizer->add_setting('site_custom_logo_title_ratio_sets',[ 'default'=>'Demo text' ]);
+    $customizer->add_setting('site_custom_logo_title_ratio_sets');
+    get_theme_mod('site_custom_logo_title_ratio_sets') ?: set_theme_mod('site_custom_logo_title_ratio_sets','Demo text');
+
     $customizer->add_control('site_custom_logo_title',[
         'priority'    => 3,
         'section'     => 'title_tagline',
@@ -28,7 +34,9 @@
         'type'        => 'text',
     ]);
 
-    $customizer->add_setting('site_custom_logo_slogan_sets',[ 'default'=>'a sub demo text' ]);
+    $customizer->add_setting('site_custom_logo_slogan_sets');
+    get_theme_mod('site_custom_logo_slogan_sets') ?: set_theme_mod('site_custom_logo_slogan_sets','a sub demo text');
+
     $customizer->add_control('site_custom_logo_slogan',[
         'priority'    => 3,
         'section'     => 'title_tagline',

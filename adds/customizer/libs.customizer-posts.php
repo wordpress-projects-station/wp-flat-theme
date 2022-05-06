@@ -15,7 +15,9 @@
     // menu-style
     //
 
-    $customizer->add_setting('post_menu_style_sets',[ 'default'=>'wide' ]);
+    $customizer->add_setting('post_menu_style_sets');
+    get_theme_mod('post_menu_style_sets') ?: set_theme_mod('post_menu_style_sets','wide');
+
     $customizer->add_control('post_menu_style',[
         'section'  => 'design_of_post',
         'label'    => 'Menu style',
@@ -33,7 +35,9 @@
     // header-style
     //
 
-    $customizer->add_setting('post_header_style_sets',[ 'default'=>'big-wide' ]);
+    $customizer->add_setting('post_header_style_sets');
+    get_theme_mod('post_header_style_sets') ?: set_theme_mod('post_header_style_sets','big-wide');
+
     $customizer->add_control('post_header_style',[
         'section'  => 'design_of_post',
         'label'    => 'Header style',
@@ -53,7 +57,9 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('post_titles_position_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('post_titles_position_sets');
+    get_theme_mod('post_titles_position_sets') ?: set_theme_mod('post_titles_position_sets','in-head');
+
     $customizer->add_control('post_titles_position',[
         // 'priority'    => 1,
         'section'     => 'design_of_post',
@@ -66,7 +72,9 @@
         ],
     ]);
 
-    $customizer->add_setting('post_title_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('post_title_sets');
+    get_theme_mod('post_title_sets') ?: set_theme_mod('post_title_sets','true');
+
     $customizer->add_control('post_title',[
         // 'priority'    => 1,
         'section'     => 'design_of_post',
@@ -75,7 +83,9 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('post_subtitle_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('post_subtitle_sets');
+    get_theme_mod('post_subtitle_sets') ?: set_theme_mod('post_subtitle_sets','true');
+
     $customizer->add_control('post_subtitle',[
         // 'priority'    => 1,
         'section'     => 'design_of_post',
@@ -84,7 +94,9 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('post_excerpt_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('post_excerpt_sets');
+    get_theme_mod('post_excerpt_sets') ?: set_theme_mod('post_excerpt_sets','true');
+
     $customizer->add_control('post_excerpt',[
         // 'priority'    => 1,
         'section'     => 'design_of_post',
@@ -98,7 +110,9 @@
     // Header banner  
     //
 
-    $customizer->add_setting('post_banner_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('post_banner_sets' );
+    get_theme_mod('post_banner_sets') ?: set_theme_mod('post_banner_sets','in-head');
+
     $customizer->add_control('post_banner',[
         'section'   => 'design_of_post',
         'label'     => 'Main banner position',
@@ -116,7 +130,9 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'post_small_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'post_small_side_sets' );
+    get_theme_mod('post_small_side_sets') ?: set_theme_mod('post_small_side_sets','dynamic-right');
+
     $customizer->add_control( 'post_small_side', [
         'section'   => 'design_of_post',
         'label'     => 'Small Sidebar position',
@@ -131,7 +147,9 @@
         ],
     ]);
 
-    $customizer->add_setting( 'post_big_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'post_big_side_sets' );
+    get_theme_mod('post_big_side_sets') ?: set_theme_mod('post_big_side_sets','dynamic-left');
+
     $customizer->add_control( 'post_big_side', [
         'section'  => 'design_of_post',
         'label'    => 'Big Sidebar position',

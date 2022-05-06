@@ -141,15 +141,14 @@
         /*
         //  HEADER LAYOUT
         */
-
         $header_layout  = get_theme_mod( $looptype['type'].'_header_style_sets' );
-
-        print_r($header_layout);
 
         $mods->heading_status     = str_contains( $header_layout,'off' ) ? false : true ;
         $mods->heading_frame      = str_contains( $header_layout,'framed' ) ? 'container' : '';
 
-        $mods->heading_size       = str_contains( $header_layout,'big' ) ? 'height:'.get_theme_mod( 'site_header_big_height_sets' ).'vh;' : 'height:'.get_theme_mod( 'site_header_small_height_sets' ).'vh;';
+        $headerbigsize            = get_theme_mod( 'site_header_big_height_sets' );
+        $headersmallsize          = get_theme_mod( 'site_header_small_height_sets' );
+        $mods->heading_size       = str_contains( $header_layout,'big' ) ? 'height:'.$headerbigsize.'vh;' : 'height:'.$headersmallsize.'vh;';
         
 
 

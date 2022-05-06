@@ -7,10 +7,6 @@
     include __DIR__.'/box-site-header-contents-navbar.php';
 ?>
 
-<? echo '<h1>'.$mods->heading_status.'</h1>';?>
-<? echo '<h1>'.$mods->heading_size.'</h1>';?>
-<? echo '<h1>'.$mods->heading_frame.'</h1>';?>
-
 <? if( $mods->heading_status ) { ?>
 
     <header style="<? if( $mods->heading_status ) echo $mods->heading_size; ?>" class="<?= $mods->heading_frame; ?>">

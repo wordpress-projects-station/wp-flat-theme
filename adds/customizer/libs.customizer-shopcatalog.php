@@ -15,7 +15,9 @@
     // menu-style
     //
 
-    $customizer->add_setting('shop-catalog_menu_style_sets',[ 'default'=>'wide' ]);
+    $customizer->add_setting('shop-catalog_menu_style_sets' );
+    get_theme_mod('shop-catalog_menu_style_sets') ?: set_theme_mod('shop-catalog_menu_style_sets','wide');
+
     $customizer->add_control('shop-catalog_menu_style',[
         'section'  => 'design_of_shop_catalog',
         'label'    => 'Menu style',
@@ -32,7 +34,9 @@
     // header-style
     //
 
-    $customizer->add_setting('shop-catalog_header_style_sets',[ 'default'=>'big-wide' ]);
+    $customizer->add_setting('shop-catalog_header_style_sets' );
+    get_theme_mod('shop-catalog_header_style_sets') ?: set_theme_mod('shop-catalog_header_style_sets','big-wide');
+
     $customizer->add_control('shop-catalog_header_style',[
         'section'  => 'design_of_shop_catalog',
         'label'    => 'Header style',
@@ -52,7 +56,9 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('shop-catalog_titles_position_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('shop-catalog_titles_position_sets' );
+    get_theme_mod('shop-catalog_titles_position_sets') ?: set_theme_mod('shop-catalog_titles_position_sets','in-head');
+
     $customizer->add_control('shop-catalog_titles_position',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_catalog',
@@ -65,7 +71,9 @@
         ],
     ]);
 
-    $customizer->add_setting('shop-catalog_title_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('shop-catalog_title_sets' );
+    get_theme_mod('shop-catalog_title_sets') ?: set_theme_mod('shop-catalog_title_sets','true');
+
     $customizer->add_control('shop-catalog_title',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_catalog',
@@ -74,7 +82,9 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('shop-catalog_subtitle_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('shop-catalog_subtitle_sets' );
+    get_theme_mod('shop-catalog_subtitle_sets') ?: set_theme_mod('shop-catalog_subtitle_sets','true');
+
     $customizer->add_control('shop-catalog_subtitle',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_catalog',
@@ -83,7 +93,9 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('shop-catalog_excerpt_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('shop-catalog_excerpt_sets' );
+    get_theme_mod('shop-catalog_excerpt_sets') ?: set_theme_mod('shop-catalog_excerpt_sets','true');
+
     $customizer->add_control('shop-catalog_excerpt',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_catalog',
@@ -97,7 +109,9 @@
     // Header banner  
     //
 
-    $customizer->add_setting('shop-catalog_banner_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('shop-catalog_banner_sets' );
+    get_theme_mod('shop-catalog_banner_sets') ?: set_theme_mod('shop-catalog_banner_sets','in-head');
+
     $customizer->add_control('shop-catalog_banner',[
         'section'   => 'design_of_shop_catalog',
         'label'     => 'Main banner position',
@@ -115,7 +129,9 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'shop-catalog_small_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'shop-catalog_small_side_sets' );
+    get_theme_mod('shop-catalog_small_side_sets') ?: set_theme_mod('shop-catalog_small_side_sets','dynamic-right');
+
     $customizer->add_control( 'shop-catalog_small_side', [
         'section'   => 'design_of_shop_catalog',
         'label'     => 'Small Sidebar position',
@@ -131,7 +147,9 @@
     ]);
 
 
-    $customizer->add_setting( 'shop-catalog_big_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'shop-catalog_big_side_sets' );
+    get_theme_mod('shop-catalog_big_side_sets') ?: set_theme_mod('shop-catalog_big_side_sets','dynamic-left');
+
     $customizer->add_control( 'shop-catalog_big_side', [
         'section'  => 'design_of_shop_catalog',
         'label'    => 'Big Sidebar position',

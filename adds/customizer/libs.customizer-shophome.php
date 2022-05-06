@@ -14,7 +14,9 @@
     // menu-style
     //
 
-    $customizer->add_setting('shop_menu_style_sets',[ 'default'=>'wide' ]);
+    $customizer->add_setting('shop_menu_style_sets');
+    get_theme_mod('shop_menu_style_sets') ?: set_theme_mod('shop_menu_style_sets','wide');
+
     $customizer->add_control('shop_menu_style',[
         'section'  => 'design_of_shop_home',
         'label'    => 'Menu style',
@@ -31,7 +33,9 @@
     // header-style
     //
 
-    $customizer->add_setting('shop_header_style_sets',[ 'default'=>'big-wide' ]);
+    $customizer->add_setting('shop_header_style_sets');
+    get_theme_mod('shop_header_style_sets') ?: set_theme_mod('shop_header_style_sets','big-wide');
+
     $customizer->add_control('shop_header_style',[
         'section'  => 'design_of_shop_home',
         'label'    => 'Header style',
@@ -50,7 +54,9 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('shop_titles_position_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('shop_titles_position_sets');
+    get_theme_mod('shop_titles_position_sets') ?: set_theme_mod('shop_titles_position_sets','in-head');
+
     $customizer->add_control('shop_titles_position',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_home',
@@ -63,7 +69,9 @@
         ],
     ]);
 
-    $customizer->add_setting('shop_title_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('shop_title_sets');
+    get_theme_mod('shop_title_sets') ?: set_theme_mod('shop_title_sets','true');
+
     $customizer->add_control('shop_title',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_home',
@@ -72,7 +80,9 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('shop_subtitle_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('shop_subtitle_sets');
+    get_theme_mod('shop_subtitle_sets') ?: set_theme_mod('shop_subtitle_sets','true');
+
     $customizer->add_control('shop_subtitle',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_home',
@@ -81,7 +91,9 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('shop_excerpt_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('shop_excerpt_sets');
+    get_theme_mod('shop_excerpt_sets') ?: set_theme_mod('shop_excerpt_sets','true');
+
     $customizer->add_control('shop_excerpt',[
         // 'priority'    => 1,
         'section'     => 'design_of_shop_home',
@@ -95,7 +107,9 @@
     // Header banner  
     //
 
-    $customizer->add_setting('shop_banner_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('shop_banner_sets');
+    get_theme_mod('shop_banner_sets') ?: set_theme_mod('shop_banner_sets','in-head');
+
     $customizer->add_control('shop_banner',[
         'section'   => 'design_of_shop_home',
         'label'     => 'Main banner position',
@@ -113,7 +127,9 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'shop_small_side_sets', ['default'=>'dynamic-right'] );
+    $customizer->add_setting( 'shop_small_side_sets' );
+    get_theme_mod('shop_small_side_sets') ?: set_theme_mod('shop_small_side_sets','dynamic-right');
+
     $customizer->add_control( 'shop_small_side', [
         'section'   => 'design_of_shop_home',
         'label'     => 'Small Sidebar position',
@@ -128,7 +144,9 @@
         ],
     ]);
 
-    $customizer->add_setting( 'shop_big_side_sets', ['default'=>'dynamic-left'] );
+    $customizer->add_setting( 'shop_big_side_sets' );
+    get_theme_mod('shop_big_side_sets') ?: set_theme_mod('shop_big_side_sets','dynamic-left');
+
     $customizer->add_control( 'shop_big_side', [
         'section'  => 'design_of_shop_home',
         'label'    => 'Big Sidebar position',

@@ -11,7 +11,9 @@
     // menu-style
     //
 
-    $customizer->add_setting('checkout_menu_style_sets',[ 'default'=>'wide' ]);
+    $customizer->add_setting('checkout_menu_style_sets');
+    get_theme_mod('checkout_menu_style_sets') ?: set_theme_mod('checkout_menu_style_sets','wide');
+
     $customizer->add_control('checkout_menu_style',[
         'section'  => 'woocommerce_checkout',
         'label'    => 'Menu style',
@@ -29,7 +31,9 @@
     // header-style
     //
 
-    $customizer->add_setting('checkout_header_style_sets',[ 'default'=>'off' ]);
+    $customizer->add_setting('checkout_header_style_sets');
+    get_theme_mod('checkout_header_style_sets') ?: set_theme_mod('checkout_header_style_sets','off');
+
     $customizer->add_control('checkout_header_style',[
         'section'  => 'woocommerce_checkout',
         'label'    => 'Header style',
@@ -49,7 +53,9 @@
     // Titles data settings
     //
 
-    $customizer->add_setting('checkout_titles_position_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('checkout_titles_position_sets');
+    get_theme_mod('checkout_titles_position_sets') ?: set_theme_mod('checkout_titles_position_sets','in-head');
+
     $customizer->add_control('checkout_titles_position',[
         // 'priority'    => 1,
         'section'     => 'woocommerce_checkout',
@@ -62,7 +68,9 @@
         ],
     ]);
 
-    $customizer->add_setting('checkout_title_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('checkout_title_sets');
+    get_theme_mod('checkout_title_sets') ?: set_theme_mod('checkout_title_sets','true');
+
     $customizer->add_control('checkout_title',[
         // 'priority'    => 1,
         'section'     => 'woocommerce_checkout',
@@ -71,7 +79,9 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('checkout_subtitle_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('checkout_subtitle_sets');
+    get_theme_mod('checkout_subtitle_sets') ?: set_theme_mod('checkout_subtitle_sets','true');
+
     $customizer->add_control('checkout_subtitle',[
         // 'priority'    => 1,
         'section'     => 'woocommerce_checkout',
@@ -80,7 +90,9 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('checkout_excerpt_sets',[ 'default'=>'true' ]);
+    $customizer->add_setting('checkout_excerpt_sets');
+    get_theme_mod('checkout_excerpt_sets') ?: set_theme_mod('checkout_excerpt_sets','true');
+
     $customizer->add_control('checkout_excerpt',[
         // 'priority'    => 1,
         'section'     => 'woocommerce_checkout',
@@ -94,7 +106,9 @@
     // Header banner  
     //
 
-    $customizer->add_setting('checkout_banner_sets',[ 'default'=>'in-head' ]);
+    $customizer->add_setting('checkout_banner_sets');
+    get_theme_mod('checkout_banner_sets') ?: set_theme_mod('checkout_banner_sets','in-head');
+
     $customizer->add_control('checkout_banner',[
         'section'   => 'woocommerce_checkout',
         'label'     => 'Main banner position',
@@ -112,7 +126,9 @@
     // Sidebars
     //
 
-    $customizer->add_setting( 'checkout_small_side_sets', ['default'=>'off'] );
+    $customizer->add_setting( 'checkout_small_side_sets');
+    get_theme_mod('checkout_small_side_sets') ?: set_theme_mod('checkout_small_side_sets','off');
+
     $customizer->add_control( 'checkout_small_side', [
         'section'   => 'woocommerce_checkout',
         'label'     => 'Small Sidebar position',
@@ -129,7 +145,9 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'checkout_big_side_sets', ['default'=>'off'] );
+    $customizer->add_setting( 'checkout_big_side_sets');
+    get_theme_mod('checkout_big_side_sets') ?: set_theme_mod('checkout_smcheckout_big_side_setsall_side_sets','off');
+
     $customizer->add_control( 'checkout_big_side', [
         'section'  => 'woocommerce_checkout',
         'label'    => 'Big Sidebar position',
