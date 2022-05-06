@@ -49,6 +49,7 @@
         include_once 'libs.customizer-shopcategories.php';
         include_once 'libs.customizer-shopcategory.php';
         include_once 'libs.customizer-shopproducts.php';
+        include_once 'libs.customizer-cart.php';
         include_once 'libs.customizer-checkout.php';
 
         // set the social box

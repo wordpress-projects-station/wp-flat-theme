@@ -1,10 +1,10 @@
 <div class="mainnav" <? if( ! $mods->heading_status ) echo 'style="position:relative;"'; ?>>
 
-    <div class="navwrap <?= $mods->top_menu_layout ? 'container' : 'wide'; ?> g-4">
+    <div class="navwrap <?= $mods->top_menu_layout ? 'container' : 'wide'; ?>">
 
-        <nav class="navbar" role="navigation">
+        <nav class="d-flex justify-content-between" role="navigation" style="position:relative">
 
-            <div>
+            <div class="d-flex justify-content-start">
 
                 <button class="navbar-toggler d-sx-block d-sm-block d-md-none" type="button"
                     data-bs-toggle="collapse" data-bs-target="#mobile-toggle-menu"
@@ -12,7 +12,7 @@
                     <i class="bi bi-list"></i>
                 </button>
 
-                <span class="p-3">
+                <div class="p-3">
 
                     <?
 
@@ -27,7 +27,16 @@
                     ?>
 
                     <? if($mods->custom_logo_title || $mods->custom_logo_slogan) { ?>
-                        <span class="titles" style="float:left; clear: right;  <?=  $mods->custom_logo_flyout ? 'position:relative; left:'.(intval($mods->custom_logo_ratio)+20).'px;' : 'transform: translate(0, -50%); top: 50%; position: absolute;'; ?>">
+                        <? 
+                            if(has_custom_logo()){
+                                $bylogocss  = $mods->custom_logo_flyout
+                                            ? 'position:relative; left:'.(intval($mods->custom_logo_ratio)+20).'px; transform: translate(0, -50%); top: 50%; '
+                                            : 'left:'.(intval($mods->custom_logo_ratio)+20).'px; transform: translate(0, -50%); top: 50%; position: absolute;';
+                            } else {
+                                $bylogocss  = 'transform: translate(0, -50%); top: 50%; position: absolute;';
+                            }
+                        ?>
+                        <div class="titles" style="<?= $bylogocss; ?>">
                             <?
 
                                 if( $mods->custom_logo_title )
@@ -37,14 +46,15 @@
                                 echo '<p class="m-0">'.$mods->custom_logo_slogan.'</p>';
 
                             ?>
-                        </span>
+                        </div>
                     <?}?>
-                </span>
+                </div>
 
             </div>
 
-            <div class="d-none d-sm-none d-md-none d-lg-block d-xl-block p-3">
-                <div class="row <?= $mods->top_menu_row_type; ?>">
+            <div class="p-3 d-none d-sm-none d-md-none d-lg-block d-xl-block">
+
+                <div class="p-0 m-0 row " <?= $mods->top_menu_row_type; ?>>
 
                     <?
 
@@ -53,7 +63,7 @@
                                 'depth'           => 2, // 1 = no dropdowns, 2 = with dropdowns.
                                 'container'       => 'div',
                                 'container_id'    => 'navbar_main_menu',
-                                'container_class' => 'col '.$mods->top_menu_position,
+                                'container_class' => 'p-0 col '.$mods->top_menu_position,
                                 'menu_class'      => 'desktop-links',
                                 // 'add_a_class'     => 'text-white',
                                 'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
@@ -64,49 +74,48 @@
 
                     <? if( $mods->top_menu_finder_status ) { ?>
 
-                        <div class="col d-none d-sm-none d-md-block" style="max-width: 300px;">
-                            <form class="form-inline my-2 my-lg-0" style="display:flex;gap:10px;" role="search"
-                                method="get" id="searchform"
-                                action="<?= get_bloginfo('url').'/search/'.get_search_query(); ?>">
-                                <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search"
-                                    type="text" value="<?= get_search_query(); ?>" name="s" id="s" />
-                                <button class="btn btn-primary my-2 my-sm-0" type="submit" id="searchsubmit"><i
-                                        class="bi bi-search"></i></button>
-                            </form>
+                        <div class="p-0 m-0 col d-none d-sm-none d-md-block" style="max-width: 300px;">
+                            <div class="ps-3">
+                                <form class="form-inline pl-3" style=" display:flex; gap:10px;" role="search" method="get" id="searchform" action="<?= get_bloginfo('url').'/search/'.get_search_query(); ?>">
+
+                                    <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="text" value="<?= get_search_query(); ?>" name="s" id="s" />
+                                    <button class="btn btn-primary my-2 my-sm-0" type="submit" id="searchsubmit"><i class="bi bi-search"></i></button>
+                                </form>
+                            </div>
                         </div>
 
                     <? } ?>
 
                 </div>
+
             </div>
 
         </nav>
 
-        <div class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
-            <?
-
-                    $html = ob_start();
-
-                    wp_nav_menu([
-                        'theme_location'  => 'mobile-site-menu',
-                        'depth'           => 2,
-                        'container'       => 'div',
-                        'container_id'    => 'mobile-toggle-menu',
-                        'container_class' => 'mobile-links collapse'
-                    ]);
-
-                    $html = ob_get_clean();
-
-                    $html = preg_replace('/<ul class="sub-menu">/', '', $html);
-                    $html = preg_replace('/<\/ul>/', '', $html);
-                    $html = preg_replace('/<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children (.*?)"><a href="#wrapper">(.*?)<\/a>/', '<li class="menu-separator"> <hr/> </li>', $html);
-
-                    echo $html.'</ul>';
-
-                ?>
-
-        </div>
-
     </div>
 
+    <div class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
+        <?
+
+                $html = ob_start();
+
+                wp_nav_menu([
+                    'theme_location'  => 'mobile-site-menu',
+                    'depth'           => 2,
+                    'container'       => 'div',
+                    'container_id'    => 'mobile-toggle-menu',
+                    'container_class' => 'mobile-links collapse'
+                ]);
+
+                $html = ob_get_clean();
+
+                $html = preg_replace('/<ul class="sub-menu">/', '', $html);
+                $html = preg_replace('/<\/ul>/', '', $html);
+                $html = preg_replace('/<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children (.*?)"><a href="#wrapper">(.*?)<\/a>/', '<li class="menu-separator"> <hr/> </li>', $html);
+
+                echo $html.'</ul>';
+
+            ?>
+
+    </div>
 </div>

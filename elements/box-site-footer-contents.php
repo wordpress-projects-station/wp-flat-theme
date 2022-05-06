@@ -5,40 +5,21 @@
 
     <div class="container py-4">
 
-        <h5 class="mb-3 text-center flex-center">::: Follow on socials :::</h5>
+        <div class="row <?= is_active_sidebar('newsletter-box')?'row-cols-3':'row-cols-2'; ?> g-4">
 
-        <div class="mb-5 text-center flex-center">
-            <?
-                wp_nav_menu([
+            <? if( is_active_sidebar('newsletter-box') ) { ?>
+                <div class="col-12 col-sm-12 col-md">
+                    
+                    <? print_sidebar('newsletter-box'); ?>
 
-                    'theme_location'  => 'desktop-social-menu',
-                    'depth'           => 2, // 1 = no dropdowns, 2 = with dropdowns.
-                    'container'       => 'div',
-                    'container_class' => 'collapse navbar-collapse',
-                    'container_id'    => 'bs-example-navbar-collapse-1',
-                    'menu_class'      => 'navbar-nav mr-auto',
-                    'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
-                    'walker'          => new WP_Bootstrap_Navwalker(),
+                </div>
+            <? } ?>
 
-                ]);
-            ?>
-        </div>
-
-    </div>
-
-    <div class="container py-4">
-
-        <div class="row g-4">
-
-            <div class="xm-12 sm-12 col-md-4  align-self-center">
-                <?=get_stylesheet_directory_uri();?> 
-            </div>
-
-            <div class="xm-12 sm-12 col-md-4  align-self-center">
+            <div class="col-12 col-sm-12 col-md">
                 <? include get_stylesheet_directory().'/adds/socials/instagram_box.php'; ?>
             </div>
             
-            <div class="xm-12 sm-12 col-md-4  align-self-center">
+            <div class="col-12 col-sm-12 col-md">
                 <? include get_stylesheet_directory().'/adds/socials/facebook_box.php'; ?>
             </div>
 

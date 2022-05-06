@@ -144,6 +144,16 @@
             'before_title'  => '<b>',
             'after_title'   => '</b>',
         ]);
+
+        register_sidebar([ 
+            'name' => 'newsletter box',
+            'id' => 'newsletter-box',
+            'description' => 'in theme, in footer, your newsletter box space',
+            'before_widget' => '<div>',
+            'after_widget'  => '</div>',
+            'before_title'  => '<b>',
+            'after_title'   => '</b>',
+        ]);
     } 
 
 
@@ -155,10 +165,7 @@
     register_nav_menus([
 
         'desktop-site-menu' => 'Desktop site menu',
-        'desktop-social-menu' => 'Desktop social menu',
-
-        'mobile-site-menu' => 'Mobile site menu', 
-        'mobile-social-menu' => 'Mobile social menu',
+        'mobile-site-menu' => 'Mobile site menu'
 
     ]);
 

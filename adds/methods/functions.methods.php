@@ -358,12 +358,17 @@
 
         }
 
-        if($sidebar == 'sidebar_small')
-        {
+        if($sidebar == 'sidebar_small') {
 
             echo '<aside class="'. ( $mods->sidebar_small_type == 'dynamic' ? 'smallsidebar col-xs-1 col-sm-1 col-md-1 d-lg-none d-xl-none' : /*static*/ 'smallsidebar col-1' ) .'">';
                 dynamic_sidebar('sidebar_small');
             echo '</aside>';
+
+        }
+
+        if($sidebar == 'newsletter-box') {
+
+            dynamic_sidebar('newsletter-box');
 
         }
 
