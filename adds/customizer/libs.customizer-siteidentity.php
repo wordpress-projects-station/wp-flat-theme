@@ -1,7 +1,7 @@
 <?
 
     $customizer->add_setting('site_custom_logo_position_sets');
-    get_theme_mod('site_custom_logo_position_sets') ?: set_theme_mod('site_custom_logo_position_sets','false');
+    get_theme_mod('site_custom_logo_position_sets') ?: set_theme_mod('site_custom_logo_position_sets',false);
 
     $customizer->add_control('site_custom_logo_position',[
         'priority'    => 1,

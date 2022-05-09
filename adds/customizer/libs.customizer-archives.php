@@ -73,7 +73,7 @@
     ]);
 
     $customizer->add_setting('archivie_title_sets');
-    get_theme_mod('archivie_title_sets')?:set_theme_mod('archivie_title_sets','true');
+    get_theme_mod('archivie_title_sets')?:set_theme_mod('archivie_title_sets',true);
 
     $customizer->add_control('archivie_title',[
         // 'priority'    => 1,
@@ -83,8 +83,8 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('archivie_subtitle_sets',[ 'default'=>'true' ]);
-    get_theme_mod('archivie_subtitle_sets')?:set_theme_mod('archivie_subtitle_sets','true');
+    $customizer->add_setting('archivie_subtitle_sets');
+    get_theme_mod('archivie_subtitle_sets')?:set_theme_mod('archivie_subtitle_sets',true);
 
     $customizer->add_control('archivie_subtitle',[
         // 'priority'    => 1,
@@ -94,8 +94,8 @@
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('archivie_excerpt_sets',[ 'default'=>'true' ]);
-    get_theme_mod('archivie_excerpt_sets')?:set_theme_mod('archivie_excerpt_sets','true');
+    $customizer->add_setting('archivie_excerpt_sets');
+    get_theme_mod('archivie_excerpt_sets')?:set_theme_mod('archivie_excerpt_sets',true);
 
     $customizer->add_control('archivie_excerpt',[
         // 'priority'    => 1,

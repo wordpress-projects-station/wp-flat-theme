@@ -8,12 +8,16 @@
 
                 if( $mods->title_status ) {
 
-                    $title =  get_the_title($page_id)?:get_the_title(); //$wp_query->get_queried_object()->name;
+                    if(is_tax('product_cat'))
+                    $title = single_cat_title('', false);
+
+                    else
+                    $title = get_the_title($page_id)?:get_the_title(); //$wp_query->get_queried_object()->name;
 
                     if($title)
                     echo '<h1>'.$title.'</h1>';
 
-                    elseif( !empty(get_option('blogname')) )
+                    elseif( !$title && ! empty(get_option('blogname')) )
                     echo '<h1>'.get_option( 'blogname' ).'</h1>';
 
 
@@ -38,4 +42,4 @@
 
     </div>
 
-    <? } ?>
+<? } ?>

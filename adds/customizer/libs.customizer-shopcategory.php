@@ -68,11 +68,12 @@
         'choices'     => [
             'in-head'  => 'print in header',
             'in-body'  => 'print in contents',
+            'in-category'  => 'in category content',
         ],
     ]);
 
     $customizer->add_setting('archive-product_title_sets');
-    get_theme_mod('archive-product_title_sets') ?: set_theme_mod('archive-product_title_sets','true');
+    get_theme_mod('archive-product_title_sets') ?: set_theme_mod('archive-product_title_sets',true);
     
     $customizer->add_control('archive-product_title',[
         // 'priority'    => 1,
@@ -83,7 +84,7 @@
     ]);
 
     $customizer->add_setting('archive-product_subtitle_sets');
-    get_theme_mod('archive-product_subtitle_sets') ?: set_theme_mod('archive-product_subtitle_sets','true');
+    get_theme_mod('archive-product_subtitle_sets') ?: set_theme_mod('archive-product_subtitle_sets',true);
     
     $customizer->add_control('archive-product_subtitle',[
         // 'priority'    => 1,
@@ -94,7 +95,7 @@
     ]);
 
     $customizer->add_setting('archive-product_excerpt_sets');
-    get_theme_mod('archive-product_excerpt_sets') ?: set_theme_mod('archive-product_excerpt_sets','true');
+    get_theme_mod('archive-product_excerpt_sets') ?: set_theme_mod('archive-product_excerpt_sets',true);
     
     $customizer->add_control('archive-product_excerpt',[
         // 'priority'    => 1,
@@ -121,6 +122,8 @@
             'off'      => 'off',
             'in-head'  => 'print in header',
             'in-body'  => 'print in contents',
+            'in-category'  => 'in category content',
+            
         ],
     ]);
 

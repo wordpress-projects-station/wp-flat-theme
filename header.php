@@ -35,12 +35,12 @@
         <? if(!has_site_icon()){ ?>
 
             <link rel="apple-touch-icon" href="<?= get_template_directory_uri(); ?>/favicon.png">
-            <link rel="shortcut icon"  type="image/x-icon" href="<?= get_template_directory_uri().'/favicon.png'; ?>" />
+            <link rel="shortcut icon" type="image/x-icon" href="<?= get_template_directory_uri().'/favicon.png'; ?>" />
 
         <? } else { ?>
 
             <link rel="apple-touch-icon" href="<?= wp_get_attachment_image_url(get_option('site_icon'),'full'); ?>">
-            <link rel="shortcut icon"  type="image/x-icon" href="<?= wp_get_attachment_image_url(get_option('site_icon'),'full'); ?>" />
+            <link rel="shortcut icon" type="image/x-icon" href="<?= wp_get_attachment_image_url(get_option('site_icon'),'full'); ?>" />
 
         <? } ?>
 
@@ -50,17 +50,17 @@
 
     <body>
 
-        <div>
-
-            <? if( $mods->top_site_warning ) { ?>
-
-                <div class="bg-warning text-center">
-                    <p class="p-2 m-0">
-                        <?= $mods->top_site_warning; ?>
-                    </p>
+        <? if( $mods->debug_notices ) { ?>
+            <div class="fixed-bottom m-2">
+                <div class="m-0 alert alert-primary" role="alert">
+                    <h5 class="alert-heading">Page Debug:</h5>
+                    <hr>
+                    <p><b>File path:</b> <?= $looptype['path'];?></p>
                 </div>
+            </div>
+        <?}?>
 
-            <? } ?>
+        <div>
 
             <? require_once __DIR__.'/elements/box-site-header-contents.php'; ?>
 
@@ -68,7 +68,7 @@
 
         <div class="container g-4 py-4">
 
-            <div class="row">
+            <div class="row <?= $mods->site_reverse_layout ? 'flex-column-reverse flex-lg-row' : ''; ?>">
 
                 <? require_once __DIR__.'/elements/box-site-header-contents-bodymode.php'; ?>
 

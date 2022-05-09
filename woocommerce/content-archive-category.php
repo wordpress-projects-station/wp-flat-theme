@@ -1,32 +1,59 @@
 <?
 
-        
         bootsrapped_breadcrumb().'<hr class="mb-5">';
-        
-        if( $mods->header_banner_mode == 'in-body' ) {
+
+        if( $mods->titles_position == 'in-category' || $mods->header_banner_mode == 'in-category') {
      
             ?>
 
                 <header class="row g-4">
 
-                    <div class="col-lg-6 col-md-12">
+                    <? if( $mods->header_banner_mode == 'in-category' ) { ?>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
 
-                        <?
-                            $bannerid = get_term_meta( get_the_id(), 'thumbnail_id', true ); 
-                            $banner = (wp_get_attachment_url( $bannerid ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');
-                        ?>
+                            <?
+                                $bannerid = get_term_meta( get_the_id(), 'thumbnail_id', true ); 
+                                $banner = (wp_get_attachment_url( $bannerid ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');
+                            ?>
 
-                        <img style="height:15vw;object-fit:cover;" class="card-img-top" src="<?=$banner?>" alt=" ... " />
+                            <img style="height:15vw;object-fit:cover;" class="card-img-top" src="<?=$banner?>" alt=" ... " />
 
-                    </div>
+                        </div>
+                    <?}?>
 
-                    <div class="col-lg-6 col-md-6 d-flex align-items-center ">
+                    <div class="col-12 col-sm-12 <?= $mods->header_banner_mode = 'in-body' ? 'col-md-6 col-lg-6  col-xl-8' : 'col-md-12 col-lg-12  col-xl-12';  ?> d-flex align-items-center ">
 
                         <div>
-                            <? if ( apply_filters( 'woocommerce_show_page_title', true ) ) { ?>
-                                <h1 class="display-2"><?= $wp_query_data->name; ?></h1>
-                            <? } ?>
-                            <? do_action( 'woocommerce_archive_description' ); ?>
+                            <? 
+
+                                if ( $mods->title_status && apply_filters( 'woocommerce_show_page_title', true ) ) {
+
+                                    ?><h1><?= $wp_query_data->name; ?></h1><?
+                            
+                                }
+                            
+                                if( $mods->subtitle_status && function_exists( 'get_the_subtitle' ) ) { 
+            
+                                    $subtitle = get_the_subtitle();
+
+                                    if(strlen($subtitle)) {
+                                        ?>
+                                            <div class="p-2"></div>
+                                            <h3 class="mt-2 mb-2 fs-4">
+                                                <?=$subtitle?>
+                                            </h3>
+                                        <?
+                                    }
+                                }
+                                
+                                if($mods->excerpt_status ) { 
+                        			
+                                    ?><div class="p-2"></div><?
+                                    do_action( 'woocommerce_archive_description' );
+
+                                }
+
+                            ?>
                         </div>
 
                     </div>

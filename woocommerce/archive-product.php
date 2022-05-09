@@ -4,7 +4,7 @@
 
 	get_header( 'shop' );
 
-	global $mods, $wp_query;
+	global $mods, $looptype, $wp_query;
 
 	$wp_query_data = $wp_query->get_queried_object();
 

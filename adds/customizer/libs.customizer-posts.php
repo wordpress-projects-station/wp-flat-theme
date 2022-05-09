@@ -69,11 +69,12 @@
         'choices'     => [
             'in-head'  => 'print in header',
             'in-body'  => 'print in contents',
+            'in-post'  => 'print in post',
         ],
     ]);
 
     $customizer->add_setting('post_title_sets');
-    get_theme_mod('post_title_sets') ?: set_theme_mod('post_title_sets','true');
+    get_theme_mod('post_title_sets') ?: set_theme_mod('post_title_sets',true);
 
     $customizer->add_control('post_title',[
         // 'priority'    => 1,
@@ -84,7 +85,7 @@
     ]);
 
     $customizer->add_setting('post_subtitle_sets');
-    get_theme_mod('post_subtitle_sets') ?: set_theme_mod('post_subtitle_sets','true');
+    get_theme_mod('post_subtitle_sets') ?: set_theme_mod('post_subtitle_sets',true);
 
     $customizer->add_control('post_subtitle',[
         // 'priority'    => 1,
@@ -95,7 +96,7 @@
     ]);
 
     $customizer->add_setting('post_excerpt_sets');
-    get_theme_mod('post_excerpt_sets') ?: set_theme_mod('post_excerpt_sets','true');
+    get_theme_mod('post_excerpt_sets') ?: set_theme_mod('post_excerpt_sets',true);
 
     $customizer->add_control('post_excerpt',[
         // 'priority'    => 1,
@@ -122,6 +123,7 @@
             'off'      => 'off',
             'in-head'  => 'print in header',
             'in-body'  => 'print in contents',
+            'in-post'  => 'print in post',
         ],
     ]);
 

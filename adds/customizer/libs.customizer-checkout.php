@@ -69,7 +69,7 @@
     ]);
 
     $customizer->add_setting('checkout_title_sets');
-    get_theme_mod('checkout_title_sets') ?: set_theme_mod('checkout_title_sets','true');
+    get_theme_mod('checkout_title_sets') ?: set_theme_mod('checkout_title_sets',true);
 
     $customizer->add_control('checkout_title',[
         // 'priority'    => 1,
@@ -80,7 +80,7 @@
     ]);
 
     $customizer->add_setting('checkout_subtitle_sets');
-    get_theme_mod('checkout_subtitle_sets') ?: set_theme_mod('checkout_subtitle_sets','true');
+    get_theme_mod('checkout_subtitle_sets') ?: set_theme_mod('checkout_subtitle_sets',true);
 
     $customizer->add_control('checkout_subtitle',[
         // 'priority'    => 1,
@@ -91,7 +91,7 @@
     ]);
 
     $customizer->add_setting('checkout_excerpt_sets');
-    get_theme_mod('checkout_excerpt_sets') ?: set_theme_mod('checkout_excerpt_sets','true');
+    get_theme_mod('checkout_excerpt_sets') ?: set_theme_mod('checkout_excerpt_sets',true);
 
     $customizer->add_control('checkout_excerpt',[
         // 'priority'    => 1,

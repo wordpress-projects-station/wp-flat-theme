@@ -25,10 +25,10 @@
     $customizer->get_panel( 'woocommerce' )->title = 'Shop options';
     $customizer->get_panel( 'woocommerce' )->priority = '4';
 
+    $customizer->get_control( 'woocommerce_demo_store' )->label = 'Active/hide the shop warnings';
     $customizer->get_section( 'woocommerce_store_notice' )->title = 'Store Warning';
     $customizer->get_control( 'woocommerce_demo_store_notice' )->label = 'Set a warning';
     $customizer->get_control( 'woocommerce_demo_store_notice' )->description = 'If enabled, this text will be shown site-wide. (this text override classic site warning only in shop\'s pages)';
-    $customizer->get_control( 'woocommerce_demo_store' )->label = 'Active/hide the shop warnings';
     
 
     $customizer->get_section( 'woocommerce_checkout' )->title = 'Design of shop : checkout';

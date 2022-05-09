@@ -82,7 +82,7 @@
         //  DEBUG
         */
 
-        $mods->debug_notices = get_theme_mod( 'site_debug_notices_sets' ) == 'true' && isset( $wp_customize ) ? true : false;
+        $mods->debug_notices = boolval( get_theme_mod( 'site_debug_notices_sets' ) ); //&& isset( $wp_customize )
 
 
 
@@ -106,11 +106,12 @@
         if( is_part_of_woo() && is_store_notice_showing() && strlen(get_option('woocommerce_demo_store_notice'))>1 )
         $mods->top_site_warning = get_option('woocommerce_demo_store_notice');
 
-        elseif(get_theme_mod( 'site_top_warning_status_sets' )=='true')
-        $mods->top_site_warning = get_theme_mod( 'site_warning_message_sets' );
+        elseif( boolval( get_theme_mod( 'site_top_warning_message_status_sets' ) ) && strlen(get_theme_mod('site_top_warning_message_sets'))>1 )
+        $mods->top_site_warning = get_theme_mod( 'site_top_warning_message_sets' );
 
         else
         $mods->top_site_warning = false;
+
 
 
         /*
@@ -126,7 +127,11 @@
 
         /* - - - - - - - - - - */
 
-        $mods->top_menu_finder_status = get_theme_mod( 'top_finder_sets' ) != 'off' ? true : false;
+        $mods->top_menu_fixed_position = boolval( get_theme_mod( 'top_menu_in_fixed_position_sets' ) );
+
+        /* - - - - - - - - - - */
+
+        $mods->top_menu_finder_status = boolval( get_theme_mod( 'top_finder_sets' ) );
 
         /* - - - - - - - - - - */
 
@@ -136,12 +141,11 @@
         elseif($menu_align=='center')     $mods->top_menu_position = "justify-content-center";
         else                              $mods->top_menu_position = "justify-content-start";
 
-        $mods->top_menu_row_type = $menu_align=='left' || $menu_align=='center' ? 'style="width:100%"' : false;
-
 
         /*
         //  HEADER LAYOUT
         */
+
         $header_layout  = get_theme_mod( $looptype['type'].'_header_style_sets' );
 
         $mods->heading_status     = str_contains( $header_layout,'off' ) ? false : true ;
@@ -159,31 +163,39 @@
 
         $header_banner = get_theme_mod( $looptype['type'].'_banner_sets' );
 
-        if( str_contains( $header_banner,'in-head' ) )
+        
+
+        if( str_contains( $header_banner,'off' ) )
+        $mods->header_banner_mode =  'off';
+
+        elseif( str_contains( $header_banner,'in-head' ) )
         $mods->header_banner_mode =  'in-head';
 
         elseif( str_contains( $header_banner,'in-body' ) )
         $mods->header_banner_mode = 'in-body'; 
 
         else
-        $mods->header_banner_mode = false; 
+        $mods->header_banner_mode = $header_banner; 
 
 
         /*
         //  TITLES POSITIONS
         */
 
-        $mods->titles_position   =  get_theme_mod( $looptype['type'].'_titles_position_sets' ) == 'in-head' ? 'in-head' : 'in-body' ; 
+        $mods->titles_position   =  get_theme_mod( $looptype['type'].'_titles_position_sets' );
 
-        $mods->title_status      =  get_theme_mod( $looptype['type'].'_title_sets' ) == 'true' ? true : false ; 
-        $mods->subtitle_status   =  get_theme_mod( $looptype['type'].'_subtitle_sets' ) == 'true' ? true : false ; 
-        $mods->excerpt_status    =  get_theme_mod( $looptype['type'].'_excerpt_sets' ) == 'true' ? true : false ; 
+        $mods->title_status      =  boolval( get_theme_mod( $looptype['type'].'_title_sets' ) ); 
+        $mods->subtitle_status   =  boolval( get_theme_mod( $looptype['type'].'_subtitle_sets' ) ); 
+        $mods->excerpt_status    =  boolval( get_theme_mod( $looptype['type'].'_excerpt_sets' ) ); 
 
 
 
         /*
         //  SIDEBARS
         */
+
+
+        $mods->site_reverse_layout = boolval( get_theme_mod('site_layout_reverse_sets' ) );
 
         /* - - - - - - - - - - */
 
@@ -217,7 +229,7 @@
 
         /* - - - - - - - - - - */
 
-        $mods->woocommerce_filters_bug_warning = get_theme_mod( 'site_warnings_woocommercefiltersbug_status_sets' )=='true' ? true : false;
+        $mods->woocommerce_filters_bug_warning = boolval( get_theme_mod( 'site_warnings_wfb_status_sets' ) );
 
 
 

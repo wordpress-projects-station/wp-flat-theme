@@ -11,7 +11,7 @@
     ]);
 
     $customizer->add_setting('instagram_box_sets');
-    get_theme_mod('instagram_box_sets') ?: set_theme_mod('instagram_box_sets','false');
+    get_theme_mod('instagram_box_sets') ?: set_theme_mod('instagram_box_sets',true);
 
     $customizer->add_control('instagram_box',[
         'settings'    => 'instagram_box_sets',
@@ -22,7 +22,7 @@
     ]);
 
     $customizer->add_setting('instagram_box_logo_sets');
-    get_theme_mod('instagram_box_logo_sets') ?: set_theme_mod('instagram_box_logo_sets','false');
+    get_theme_mod('instagram_box_logo_sets') ?: set_theme_mod('instagram_box_logo_sets',true);
 
     $customizer->add_control('instagram_box_logo',[
         'settings'    => 'instagram_box_logo_sets',
@@ -83,7 +83,7 @@
     ]);
 
     $customizer->add_setting('facebook_box_sets');
-    get_theme_mod('facebook_box_sets') ?: set_theme_mod('facebook_box_sets','false');
+    get_theme_mod('facebook_box_sets') ?: set_theme_mod('facebook_box_sets',true);
 
     $customizer->add_control('facebook_box',[
         'settings'    => 'facebook_box_sets',
@@ -94,7 +94,7 @@
     ]);
 
     $customizer->add_setting('facebook_box_logo_sets');
-    get_theme_mod('facebook_box_logo_sets') ?: set_theme_mod('facebook_box_logo_sets','false');
+    get_theme_mod('facebook_box_logo_sets') ?: set_theme_mod('facebook_box_logo_sets',true);
 
     $customizer->add_control('facebook_box_logo',[
         'settings'    => 'facebook_box_logo_sets',

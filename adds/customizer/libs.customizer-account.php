@@ -8,76 +8,132 @@
         'title'    => 'Design of account',
     ]);
 
-    // thumbnail-stle
 
-    $customizer->add_setting('account_header_style_settings',[ 'default'=>'framed-big' ]);
-    $customizer->add_control('account_header_style_data',[
-        'settings' => 'account_header_style_settings',
+    //
+    // menu-style
+    //
+
+    $customizer->add_setting( 'account_menu_style_sets' );
+    get_theme_mod('account_menu_style_sets') ?: set_theme_mod('account_menu_style_sets','wide');
+
+    $customizer->add_control('account_menu_style',[
+        'settings' => 'account_menu_style_sets',
+        'section'  => 'design_of_account',
+        'label'    => 'Menu style',
+        'type'     => 'radio',
+        'choices'  => [
+            'off'       => 'off',
+            'wide'      => 'wide',
+            'framed'    => 'framed',
+        ],
+    ]);
+
+
+    //
+    // header-style
+    //
+
+    $customizer->add_setting( 'account_header_style_sets' );
+    get_theme_mod('account_header_style_sets') ?: set_theme_mod('account_header_style_sets','slim-wide');
+
+    $customizer->add_control('account_header_style',[
+        'settings' => 'account_header_style_sets',
         'section'  => 'design_of_account',
         'label'    => 'Header style',
         'type'     => 'radio',
         'choices'  => [
-            'off'         => 'OFF',
-            'framed-slim' => 'framed slim',
-            'framed-big'  => 'framed big',
-            'wide-slim'   => 'wide slim',
-            'wide-big'    => 'wide big',
+            'off'         => 'off',
+            'slim-framed' => 'slim framed',
+            'slim-wide'   => 'slim wide',
+            'big-framed'  => 'big framed ',
+            'big-wide'    => 'big wide',
         ],
     ]);
 
-    // add titles ecc in-head
-    $customizer->add_setting('account_title_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('account_title_data',[
-        'settings'    => 'account_title_settings',
+
+    //
+    // Titles data settings
+    //
+
+    $customizer->add_setting( 'account_titles_position_sets' );
+    get_theme_mod('account_titles_position_sets') ?: set_theme_mod('account_titles_position_sets','in-head');
+
+    $customizer->add_control('account_titles_position',[
+        'settings'    => 'account_titles_position_sets',
         'section'     => 'design_of_account',
-        'description' => ' ',
+        'label'       => 'Titles data position',
+        'type'        => 'radio',
+        'choices'     => [
+            'in-head'  => 'print in header',
+            'in-body'  => 'print in contents',
+        ],
+    ]);
+
+    $customizer->add_setting( 'account_title_sets' );
+    get_theme_mod('account_title_sets') ?: set_theme_mod('account_title_sets',true);
+
+    $customizer->add_control('account_title',[
+        'settings'    => 'account_title_sets',
+        'section'     => 'design_of_account',
         'label'       => 'Active/hide title',
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('account_subtitle_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('account_subtitle_data',[
-        'settings'    => 'account_subtitle_settings',
+    $customizer->add_setting( 'account_subtitle_sets' );
+    get_theme_mod('account_subtitle_sets') ?: set_theme_mod('account_subtitle_sets',true);
+
+    $customizer->add_control('account_subtitle',[
+        'settings'    => 'account_subtitle_sets',
         'section'     => 'design_of_account',
         'label'       => 'Active/hide sub-title',
         'type'        => 'checkbox',
     ]);
 
-    $customizer->add_setting('account_excerpt_settings',[ 'default'=>'true' ]);
-    $customizer->add_control('account_excerpt_data',[
-        'settings'    => 'account_excerpt_settings',
+    $customizer->add_setting( 'account_excerpt_sets' );
+    get_theme_mod('account_excerpt_sets') ?: set_theme_mod('account_excerpt_sets',true);
+
+    $customizer->add_control('account_excerpt',[
+        'settings'    => 'account_excerpt_sets',
         'section'     => 'design_of_account',
         'label'       => 'Active/hide excerpt',
         'type'        => 'checkbox',
     ]);
 
-    // thumbnail
 
-    $customizer->add_setting('account_banner_settings',[ 'default'=>'in-head' ]);
-    $customizer->add_control('account_banner_data',[
-        'settings'  => 'account_banner_settings',
+    //
+    // Header banner  
+    //
+
+    $customizer->add_setting('account_banner_sets' );
+    get_theme_mod('account_banner_sets') ?: set_theme_mod('account_banner_sets','in-head');
+
+    $customizer->add_control('account_banner',[
+        'settings'  => 'account_banner_sets',
         'section'   => 'design_of_account',
-        'label'     => 'Main banner status',
+        'label'     => 'Main banner position',
         'type'      => 'radio',
         'choices'   => [
-            'off'      => 'OFF',
-            'in-head-framed' => 'in head framed',
-            'in-head'  => 'in head full',
-            'in-body-framed'  => 'in body framed',
-            'in-body'  => 'in body full',
+            'off'      => 'off',
+            'in-head'  => 'print in header',
+            'in-body'  => 'print in contents',
         ],
     ]);
 
-    // sidebar-small
 
-    $customizer->add_setting( 'account_small_side_settings', ['default'=>'dynamic-left'] );
-    $customizer->add_control( 'account_small_side_data', [
+    //
+    // Sidebars
+    //
+
+    $customizer->add_setting( 'account_small_side_sets' );
+    get_theme_mod('account_small_side_sets') ?: set_theme_mod('account_small_side_sets','off');
+
+    $customizer->add_control( 'account_small_side', [
+        'settings'  => 'account_small_side_sets',  
         'section'   => 'design_of_account',
         'label'     => 'Small Sidebar position',
         'type'      => 'radio',
-        'settings'  => 'account_small_side_settings',  
         'choices'   => [
-            'off'  => 'OFF',
+            'off'  => 'off',
             'static-left'  => 'static left',
             'static-right' => 'static right',
             'dynamic-left'  => 'dynamic left',
@@ -87,14 +143,16 @@
 
     // sidebar-big
 
-    $customizer->add_setting( 'account_big_side_settings', ['default'=>'dynamic-right'] );
-    $customizer->add_control( 'account_big_side_data', [
-        'settings' => 'account_big_side_settings',
+    $customizer->add_setting( 'account_big_side_sets' );
+    get_theme_mod('account_big_side_sets') ?: set_theme_mod('account_big_side_sets','off');
+
+    $customizer->add_control( 'account_big_side', [
+        'settings' => 'account_big_side_sets',
         'section'  => 'design_of_account',
         'label'    => 'Big Sidebar position',
         'type'     => 'radio',
         'choices'  => [
-            'off'  => 'OFF',
+            'off'  => 'off',
             'static-left'  => 'static left',
             'static-right' => 'static right',
             'dynamic-left'  => 'dynamic left',

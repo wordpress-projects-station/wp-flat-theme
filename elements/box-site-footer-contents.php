@@ -9,9 +9,7 @@
 
             <? if( is_active_sidebar('newsletter-box') ) { ?>
                 <div class="col-12 col-sm-12 col-md">
-                    
                     <? print_sidebar('newsletter-box'); ?>
-
                 </div>
             <? } ?>
 

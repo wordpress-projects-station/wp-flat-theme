@@ -72,7 +72,7 @@
     ]);
 
     $customizer->add_setting('shop-catalog_title_sets' );
-    get_theme_mod('shop-catalog_title_sets') ?: set_theme_mod('shop-catalog_title_sets','true');
+    get_theme_mod('shop-catalog_title_sets') ?: set_theme_mod('shop-catalog_title_sets',true);
 
     $customizer->add_control('shop-catalog_title',[
         // 'priority'    => 1,
@@ -83,7 +83,7 @@
     ]);
 
     $customizer->add_setting('shop-catalog_subtitle_sets' );
-    get_theme_mod('shop-catalog_subtitle_sets') ?: set_theme_mod('shop-catalog_subtitle_sets','true');
+    get_theme_mod('shop-catalog_subtitle_sets') ?: set_theme_mod('shop-catalog_subtitle_sets',true);
 
     $customizer->add_control('shop-catalog_subtitle',[
         // 'priority'    => 1,
@@ -94,7 +94,7 @@
     ]);
 
     $customizer->add_setting('shop-catalog_excerpt_sets' );
-    get_theme_mod('shop-catalog_excerpt_sets') ?: set_theme_mod('shop-catalog_excerpt_sets','true');
+    get_theme_mod('shop-catalog_excerpt_sets') ?: set_theme_mod('shop-catalog_excerpt_sets',true);
 
     $customizer->add_control('shop-catalog_excerpt',[
         // 'priority'    => 1,

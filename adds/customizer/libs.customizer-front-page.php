@@ -68,7 +68,7 @@
     ]);
 
     $customizer->add_setting( 'front-page_title_sets' );
-    get_theme_mod('front-page_title_sets') ?: set_theme_mod('front-page_title_sets','false');
+    get_theme_mod('front-page_title_sets') ?: set_theme_mod('front-page_title_sets',false);
 
     $customizer->add_control('front-page_title',[
         // 'priority'    => 1,
@@ -79,7 +79,7 @@
     ]);
 
     $customizer->add_setting( 'front-page_subtitle_sets' );
-    get_theme_mod('front-page_subtitle_sets') ?: set_theme_mod('front-page_subtitle_sets','false');
+    get_theme_mod('front-page_subtitle_sets') ?: set_theme_mod('front-page_subtitle_sets',false);
 
     $customizer->add_control('front-page_subtitle',[
         // 'priority'    => 1,
@@ -90,7 +90,7 @@
     ]);
 
     $customizer->add_setting( 'front-page_excerpt_sets' );
-    get_theme_mod('front-page_excerpt_sets') ?: set_theme_mod('front-page_excerpt_sets','false');
+    get_theme_mod('front-page_excerpt_sets') ?: set_theme_mod('front-page_excerpt_sets',false);
 
     $customizer->add_control('front-page_excerpt',[
         // 'priority'    => 1,

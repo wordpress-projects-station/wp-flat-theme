@@ -73,7 +73,7 @@
 
 
     $customizer->add_setting('cart_title_sets');
-    get_theme_mod('cart_title_sets') ?: set_theme_mod('cart_title_sets','true');
+    get_theme_mod('cart_title_sets') ?: set_theme_mod('cart_title_sets',true);
 
     $customizer->add_control('cart_title',[
         'settings'    => 'cart_title_sets',
@@ -84,7 +84,7 @@
 
 
     $customizer->add_setting('cart_subtitle_sets');
-    get_theme_mod('cart_subtitle_sets') ?: set_theme_mod('cart_subtitle_sets','true');
+    get_theme_mod('cart_subtitle_sets') ?: set_theme_mod('cart_subtitle_sets',true);
 
     $customizer->add_control('cart_subtitle',[
         'settings'    => 'cart_subtitle_sets',
@@ -95,7 +95,7 @@
 
 
     $customizer->add_setting('cart_excerpt_sets');
-    get_theme_mod('cart_excerpt_sets') ?: set_theme_mod('cart_excerpt_sets','true');
+    get_theme_mod('cart_excerpt_sets') ?: set_theme_mod('cart_excerpt_sets',true);
 
     $customizer->add_control('cart_excerpt',[
         'settings'    => 'cart_excerpt_sets',

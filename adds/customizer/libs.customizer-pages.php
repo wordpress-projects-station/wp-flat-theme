@@ -72,7 +72,7 @@
     ]);
 
     $customizer->add_setting( 'page_title_sets' );
-    get_theme_mod('page_title_sets') ?: set_theme_mod('page_title_sets','true');
+    get_theme_mod('page_title_sets') ?: set_theme_mod('page_title_sets',true);
 
     $customizer->add_control('page_title',[
         'settings'    => 'page_title_sets',
@@ -82,7 +82,7 @@
     ]);
 
     $customizer->add_setting( 'page_subtitle_sets' );
-    get_theme_mod('page_subtitle_sets') ?: set_theme_mod('page_subtitle_sets','true');
+    get_theme_mod('page_subtitle_sets') ?: set_theme_mod('page_subtitle_sets',true);
 
     $customizer->add_control('page_subtitle',[
         'settings'    => 'page_subtitle_sets',
@@ -92,7 +92,7 @@
     ]);
 
     $customizer->add_setting( 'page_excerpt_sets' );
-    get_theme_mod('page_excerpt_sets') ?: set_theme_mod('page_excerpt_sets','true');
+    get_theme_mod('page_excerpt_sets') ?: set_theme_mod('page_excerpt_sets',true);
 
     $customizer->add_control('page_excerpt',[
         'settings'    => 'page_excerpt_sets',

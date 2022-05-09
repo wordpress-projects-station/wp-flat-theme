@@ -73,7 +73,7 @@
 
 
     $customizer->add_setting('blog-home_title_sets');
-    get_theme_mod('blog-home_title_sets') ?: set_theme_mod('blog-home_title_sets','true');
+    get_theme_mod('blog-home_title_sets') ?: set_theme_mod('blog-home_title_sets',true);
 
     $customizer->add_control('blog-home_title',[
         'settings'    => 'blog-home_title_sets',
@@ -84,7 +84,7 @@
 
 
     $customizer->add_setting('blog-home_subtitle_sets');
-    get_theme_mod('blog-home_subtitle_sets') ?: set_theme_mod('blog-home_subtitle_sets','true');
+    get_theme_mod('blog-home_subtitle_sets') ?: set_theme_mod('blog-home_subtitle_sets',true);
 
     $customizer->add_control('blog-home_subtitle',[
         'settings'    => 'blog-home_subtitle_sets',
@@ -95,7 +95,7 @@
 
 
     $customizer->add_setting('blog-home_excerpt_sets');
-    get_theme_mod('blog-home_excerpt_sets') ?: set_theme_mod('blog-home_excerpt_sets','true');
+    get_theme_mod('blog-home_excerpt_sets') ?: set_theme_mod('blog-home_excerpt_sets',true);
 
     $customizer->add_control('blog-home_excerpt',[
         'settings'    => 'blog-home_excerpt_sets',

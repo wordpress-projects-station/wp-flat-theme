@@ -7,14 +7,54 @@
     <!-- 
     ---- MAIN CONTENS BOX
     --->
+
     <main>
 
-        <h2 class="h2">
-            <?= $post->post_title ?>
-        </h2>
+        <?
+            if( $mods->titles_position == 'in-post' ) {
+
+                if ( $mods->title_status ) {
+
+                    ?><h1><?= $post->post_title; ?></h1><?
+            
+                }
+            
+                if( $mods->subtitle_status && function_exists( 'get_the_subtitle' ) ) { 
+
+                    $subtitle = get_the_subtitle();
+
+                    if(strlen($subtitle)) {
+                        ?>
+                            <div class="p-2"></div>
+                            <h3 class="mt-2 mb-2 fs-4">
+                                <?=$subtitle?>
+                            </h3>
+                        <?
+                    }
+                }
+                
+                if( $mods->excerpt_status ) { 
+                    
+                    ?><div class="p-2"></div><?
+                    do_action( 'woocommerce_archive_description' );
+
+                }
+
+            }
+        
+        ?>
 
         <? 
-            if( $mods->header_banner_mode == 'in-body' )
+
+            if( $mods->titles_position == 'in-post' ) {
+
+                if( $mods->title_status || $mods->subtitle_status || $mods->excerpt_status ){
+                    ?><div class="p-2"></div><?
+                }
+
+            }
+
+            if( $mods->header_banner_mode == 'in-post' )
             echo '<div style="height:40vh; '.get_banner_background(get_the_ID()).'"></div>';
         ?>
 
@@ -50,7 +90,7 @@
 
         ?>
 
-        <div class="border rounded">
+        <div class="border">
 
             <div class="p-3 justify-content-between">
 

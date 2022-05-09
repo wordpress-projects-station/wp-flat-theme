@@ -69,11 +69,12 @@
         'choices'     => [
             'in-head'  => 'print in header',
             'in-body'  => 'print in contents',
+            'in-product'  => 'print in product',
         ],
     ]);
 
     $customizer->add_setting('product_title_sets');
-    get_theme_mod('product_title_sets') ?: set_theme_mod('product_title_sets','true');
+    get_theme_mod('product_title_sets') ?: set_theme_mod('product_title_sets',true);
 
     $customizer->add_control('product_title',[
         // 'priority'    => 1,
@@ -84,7 +85,7 @@
     ]);
 
     $customizer->add_setting('product_subtitle_sets');
-    get_theme_mod('product_subtitle_sets') ?: set_theme_mod('product_subtitle_sets','true');
+    get_theme_mod('product_subtitle_sets') ?: set_theme_mod('product_subtitle_sets',true);
 
     $customizer->add_control('product_subtitle',[
         // 'priority'    => 1,
@@ -95,7 +96,7 @@
     ]);
 
     $customizer->add_setting('product_excerpt_sets');
-    get_theme_mod('product_excerpt_sets') ?: set_theme_mod('product_excerpt_sets','true');
+    get_theme_mod('product_excerpt_sets') ?: set_theme_mod('product_excerpt_sets',true);
 
     $customizer->add_control('product_excerpt',[
         // 'priority'    => 1,
