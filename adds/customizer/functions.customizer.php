@@ -76,6 +76,7 @@
 
         $mods = (object)[];
 
+        $mod->user_lang = get_user_locale();
 
 
         /*

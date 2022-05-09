@@ -45,7 +45,7 @@
 
                         $custom_logo_id = get_theme_mod( 'custom_logo' );
                         $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
-                        if(has_custom_logo()){
+                        if ( has_custom_logo() ) {
                             echo $mods->custom_logo_flyout
                                     ? '<a class="navbar-brand" style="display:inline-flex; padding:0; width:'.$mods->custom_logo_ratio.'px; position:absolute;aspect-ratio:1;top:0;" href="<?= home_url();?>"><img style="height:100%;" src="'.esc_url( $logo[0] ).'" alt=" ... "></a>'
                                     : '<a class="navbar-brand" style="display:inline-flex; padding:0; width:'.$mods->custom_logo_ratio.'px;" href="<?= home_url();?>"><img style="width:'.$mods->custom_logo_ratio.'px; aspect-ratio: 1; display:flex;" src="'.esc_url( $logo[0] ).'" alt=" ... "></a>';
