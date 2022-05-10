@@ -28,7 +28,7 @@
             <div class="d-flex justify-self-start" style="justify-self: start;">
 
                 <button 
-                    class="navbar-toggler d-sx-block d-sm-block d-md-none"
+                    class="navbar-toggler d-sx-block d-sm-block d-md-block d-lg-none d-xl-none"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#mobile-toggle-menu"

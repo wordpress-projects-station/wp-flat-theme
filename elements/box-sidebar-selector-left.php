@@ -7,9 +7,9 @@
 
     /* - - - - - - - - - - */
 
-
-    if( $mods->sidebar_small_position == 'left' )
-    print_sidebar('sidebar_small');
+    // moved in side of content
+    // if( $mods->sidebar_small_position == 'left' )
+    // print_sidebar('sidebar_small');
 
     if( is_shop_home() && $mods->sidebar_shop_position == 'left' )
     print_sidebar('sidebar_shop');

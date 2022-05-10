@@ -4,21 +4,45 @@
 
 	get_header( 'shop' );
 
-	?><main class="contentsidebar col"><?
+	?>
+	<div class="contentsidebar col">
 
-		bootsrapped_breadcrumb();
+		<div class="row <?= $mods->site_reverse_layout ? 'pb-4':''; ?>">
 
-		?><hr class="mb-5"><?
+			<?
+				if( $mods->sidebar_small_position == 'left' )
+				print_sidebar('sidebar_small');
+			?>
 
-		while ( have_posts() ) {
+			<main class="col">
 
-			the_post();
-			
-			wc_get_template_part( 'content', 'single-product' );
+				<?
 
-		}
+					bootsrapped_breadcrumb();
 
-	?></main><?
+					?><hr class="mb-5"><?
+
+					while ( have_posts() ) {
+
+						the_post();
+						
+						wc_get_template_part( 'content', 'single-product' );
+
+					}
+				?>
+
+			</main>
+
+			<?
+				if( $mods->sidebar_small_position == 'right' )
+				print_sidebar('sidebar_small');
+			?>
+
+		</div>
+
+	</div>
+
+	<? 
 
 	get_footer( 'shop' );
 

@@ -344,7 +344,7 @@
             ob_start(); dynamic_sidebar('sidebar_big'); $sidebar = ob_get_clean();
             $sidebar = preg_replace( '/<div class="widget_shopping_cart_content"><\/div>/', $minicart, $sidebar, 1 );
 
-            echo '<aside class="'. ( $mods->sidebar_big_type == 'dynamic' ? 'col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 col-md-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block' : /*static*/ 'bigsidebar col-3' ) .'">';
+            echo '<aside class="'. ( $mods->sidebar_big_type == 'dynamic' ? 'bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block' : /*static*/ 'bigsidebar col-3' ) .'">';
             echo $sidebar;
             echo '</aside>';
 
@@ -352,7 +352,7 @@
 
         if($sidebar == 'sidebar_shop'){
 
-            echo '<aside class="bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 col-md-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block">';
+            echo '<aside class="bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block">';
                 dynamic_sidebar('sidebar_shop');
             echo '</aside>';
 
@@ -360,9 +360,9 @@
 
         if($sidebar == 'sidebar_small') {
 
-            echo '<aside class="'. ( $mods->sidebar_small_type == 'dynamic' ? 'smallsidebar col-xs-1 col-sm-1 col-md-1 d-lg-none d-xl-none' : /*static*/ 'smallsidebar col-1' ) .'">';
+            echo '<div class="'. ( $mods->sidebar_small_type == 'dynamic' ? 'smallsidebar col-xs-2 col-sm-2 col-md-2 d-lg-none d-xl-none' : /*static*/ 'smallsidebar col-1' ) .'">';
                 dynamic_sidebar('sidebar_small');
-            echo '</aside>';
+            echo '</div>';
 
         }
 

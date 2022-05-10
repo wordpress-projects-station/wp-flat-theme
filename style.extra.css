@@ -429,6 +429,20 @@ a.flex-next::after {
 
 
 /*
+// Small sidebar
+*/
+
+.smallsidebar {
+    background: var(--bs-gray-200);
+    height: auto;
+    width: 80px;
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - */
+
+
+/*
 // Shop sidebar
 */
 
