@@ -28,7 +28,7 @@
 
             ?>
 
-                <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
+                <div class="col-xs-12 col-sm-6 col-md-4">
 
                     <? include get_template_directory().'/elements/box-card.php' ?>
 
@@ -53,7 +53,7 @@
 
     if( is_array( $pages ) ) {
 
-        echo '<div class="d-flex justify-content-center"><nav aria-label="Page navigation"><ul class="pagination">';
+        echo '<div class="d-flex justify-content-center mt-4"><nav aria-label="Page navigation"><ul class="pagination">';
 
         foreach ( $pages as $page )
         echo '<li class="page-item">'.preg_replace('/page-numbers/','page-numbers page-link',$page).'</li>';

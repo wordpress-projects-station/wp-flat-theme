@@ -38,7 +38,7 @@
 
                 foreach($categories as $subcategory) {
                     ?>
-                        <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
+                        <div class="col-xs-12 col-sm-6 col-md-4">
                             <?= '<a class="border border-2 border-secondary p-2" href="'.get_category_link( $subcategory->term_id ).'" title="' . sprintf( __( "View all posts in %s" ), $subcategory->name ) . '" ' . '>' . $subcategory->name.'</a>';?>
                         </div>
                     <?
@@ -70,7 +70,7 @@
 
         <? if ( ! post_password_required() ) { ?>
 
-            <div class="col-xs-12 col-sm-6 col-md-4 mb-4">
+            <div class="col-xs-12 col-sm-6 col-md-4">
 
                 <? include get_template_directory().'/elements/box-card.php' ?>
 

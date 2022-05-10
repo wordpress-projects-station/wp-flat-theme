@@ -96,7 +96,7 @@
                 do_action( 'woocommerce_after_shop_loop' );
                 $html = ob_get_clean();
 
-                $html = preg_replace( '/woocommerce-pagination"/', 'woocommerce-pagination" aria-label="Page navigation"', $html,1 );
+                $html = preg_replace( '/woocommerce-pagination"/', 'woocommerce-pagination mt-4" aria-label="Page navigation"', $html,1 );
                 $html = preg_replace( '/<ul.*>/', '<ul class="pagination">', $html,1 );
                 $html = preg_replace( '/<li>/', '<li class="page-item">', $html );
                 $html = preg_replace( '/page-numbers/', 'page-numbers page-link', $html );

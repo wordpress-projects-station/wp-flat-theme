@@ -63,7 +63,7 @@
 
         if( is_array( $pages ) ) {
 
-            echo '<div class="d-flex justify-content-center"><nav aria-label="Page navigation"><ul class="pagination">';
+            echo '<div class="d-flex justify-content-center"><nav aria-label="Page navigation mt-4"><ul class="pagination">';
 
             foreach ( $pages as $page )
             echo '<li class="page-item">'.preg_replace('/page-numbers/','page-numbers page-link',$page).'</li>';
