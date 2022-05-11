@@ -33,10 +33,17 @@
             "All sub categories",
             "View all posts in"
         ],
+        "shoppage": [
+            "OPS! NOTHING TO SEE...",
+            "Try to change parameters of your search."
+        ],
         "shopcatalog": [
             "Open",
             "protected resource",
             "no resources found"
+        ],
+        "shopsidebar": [
+            "Filter by price"
         ],
         "productdescription": [
             "Category : ",
@@ -92,10 +99,17 @@
             "Lista sottocategorie",
             "Visualizza post di"
         ],
+        "shoppage": [
+            "OPS! NON C'E' NULLA QUI...",
+            "Prova a cambiare i parametri della tua ricerca."
+        ],
         "shopcatalog": [
             "Apri",
             "risorsa protetta",
             "nulla da visualizzare"
+        ],
+        "shopsidebar": [
+            "Range di prezzo"
         ],
         "productdescription": [
             "Categoria : ",

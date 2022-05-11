@@ -166,8 +166,8 @@
 
             ?>
                 <div>
-                    <p><b>OPS! NOTHING TO SEE...</b></p>
-                    <p>Try to change parameters of your search.</p>
+                    <p><b><?= print_theme_lang("shoppage","OPS! NOTHING TO SEE..."); ?></b></p>
+                    <p><?= print_theme_lang("shoppage","Try to change parameters of your search."); ?></p>
                 </div>
             <?
 
