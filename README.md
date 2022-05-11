@@ -4,4 +4,12 @@
 
 {work in progress} A custom easy theme from stratch
 
-**We are structuring it. Check back in a few days.**
+**Near to first release! Check back in a few days.**
+
+This is a candidate release... Please wait.
+
+-   Cassic Posts
+-   Woocommerce
+-   Multilang
+-   Bootstrapped
+-   Ready to modding
