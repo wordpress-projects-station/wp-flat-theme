@@ -12,4 +12,5 @@ This is a candidate release... Please wait.
 -   Woocommerce
 -   Multilang
 -   Bootstrapped
+-   Detailed Customizer
 -   Ready to modding
