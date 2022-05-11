@@ -28,7 +28,7 @@
 
 			<div class="row g-4">
 
-				<div class="col-sm-12 col-md-3 p-0"><label class="btn" for="pa_design">Quantity</label></div>
+				<div class="col-sm-12 col-md-3 p-0"><label class="btn" for="quantity"><?= print_theme_lang("variationfilters","Quantity"); ?></label></div>
 
 				<div class="col-sm-12 col-md-2 p-0">
 					<?

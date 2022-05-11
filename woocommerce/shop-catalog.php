@@ -45,7 +45,7 @@
                                     <td><b><?= $productdata['name']; ?></b></td>
                                     <td><?= $productdata['sku']; ?></td>
                                     <td><?= $productdata['price'].' '.get_woocommerce_currency_symbol(); ?></td>
-                                    <td style="text-align:right"><?= '<a class="btn btn-secondary" href="'.get_permalink().'">Open <i class="bi bi-arrow-up-right-square"></i></a>'; ?></td>
+                                    <td style="text-align:right"><?= '<a class="btn btn-secondary" href="'.get_permalink().'">'.print_theme_lang("shopcatalog","Open").' <i class="bi bi-arrow-up-right-square"></i></a>'; ?></td>
                                 </tr>
                             <?
 
@@ -55,7 +55,7 @@
                                     <td><?= $productdata['id']; ?></td>
                                     <td><div style="width:40px; height:40px; <?= get_banner_background($productdata['id']); ?>"></td>
                                     <td><b><?= $productdata['name']; ?></b></td>
-                                    <td colspan="3"><b>protected resource</b></td>
+                                    <td colspan="3"><b><?= print_theme_lang("shopcatalog","protected resource"); ?></b></td>
                                 </tr>
                             <?
                         }
@@ -63,7 +63,7 @@
                 } else { 
                     ?>
                         <tr>
-                            <td><b>no resources found</b></td>
+                            <td><b><?= print_theme_lang("shopcatalog","no resources found"); ?></b></td>
                         </tr>
                     <?
                 }

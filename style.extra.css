@@ -429,6 +429,28 @@ a.flex-next::after {
 
 
 /*
+// Lang sidebar (work with plugin)
+*/
+
+.langs-box ul {
+    padding: 0;
+    margin: 0;
+}
+
+.langs-box>div {
+    height: 100%;
+    display: flex;
+    margin: 0;
+    padding: 10px;
+    line-height: 0;
+    background: rgba(255, 255, 255, .5);
+}
+
+
+/* - - - - - - - - - - - - - - - - - - - - */
+
+
+/*
 // Small sidebar
 */
 

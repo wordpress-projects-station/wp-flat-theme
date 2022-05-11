@@ -10,7 +10,7 @@
 <? global $mods; ?>
 
 <!DOCTYPE html>
-<html lang="it">
+<html lang="<?= $current_lang?>">
 
     <head>
         
@@ -49,6 +49,7 @@
     </head>
 
     <body>
+
 
         <? if( $mods->debug_notices ) { ?>
             <div class="fixed-bottom m-2">

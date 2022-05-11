@@ -8,7 +8,7 @@
         if(strpos($queryed,'?s=') !== false) $queryed = preg_replace('/\?s\=/', '',$queryed)
     ?>
 
-    <p class="h1">Result for : <b>"<?= $queryed; ?>"</b></p>
+    <p class="h1"><?= print_theme_lang("search","Result for"); ?> : <b>"<?= $queryed; ?>"</b></p>
 
 </div>
 

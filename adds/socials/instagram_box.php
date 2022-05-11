@@ -27,8 +27,8 @@
                     </div>
 
                     <div class="text-center">
-                        <small>Scopri tante pillole interessanti nel nostro profilo ufficiale</small><br>
-                        <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->instagram_box_page_link?>">Seguici su instagram</a>
+                        <small><?= print_theme_lang('socialbox','Discover many interesting pills in our official profile'); ?></small><br>
+                        <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->instagram_box_page_link?>"><?= print_theme_lang('socialbox','IG official profile'); ?></a>
                     </div>
 
                 </div>
@@ -43,8 +43,8 @@
 
                     <div>
                         <h5><?= $mods->instagram_box_page_name; ?></h5>
-                        <small>Scopri tante pillole interessanti nel nostro profilo ufficiale</small><br>
-                        <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->instagram_box_page_link?>">Seguici su instagram</a>
+                        <small><?= print_theme_lang('socialbox','Discover many interesting pills in our official profile'); ?></small><br>
+                        <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->instagram_box_page_link?>"><?= print_theme_lang('socialbox','IG official profile'); ?></a>
                     </div>
 
                 </div>

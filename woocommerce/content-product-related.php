@@ -36,7 +36,7 @@
 					</h4>
 				</div>
 
-				<a href="<?=$link?>" class="btn btn-outline-secontary">OPEN DETAILS</a>
+				<a href="<?=$link?>" class="btn btn-outline-secontary"><?= print_theme_lang("","OPEN DETAILS"); ?></a>
 
 			</div>
 

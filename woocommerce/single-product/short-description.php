@@ -11,12 +11,12 @@
 
 		echo '<p class="m-0 sku_wrapper">';
 			echo '<span class="sku">'.esc_html_e( 'SKU:', 'woocommerce' ).(( $sku = $product->get_sku() ) ? $sku : esc_html__( 'N/A', 'woocommerce' )).'</span>&nbsp;&nbsp;⁞&nbsp;&nbsp';
-			echo wc_get_product_category_list( $product->get_id(), ', ', _n( 'Category : ', 'Categories : ', count( $product->get_category_ids() ), 'woocommerce' ),'');
+			echo wc_get_product_category_list( $product->get_id(), ', ', _n( print_theme_lang("productdescription","Category : "), print_theme_lang("productdescription","Categories : "), count( $product->get_category_ids() ), 'woocommerce' ),'');
 		echo '</p>';
 
 	} else {
 
-		echo wc_get_product_category_list( $product->get_id(), ', ', '<span class="m-0"><p>'._n( 'Category:', 'Categories:', count( $product->get_category_ids() ), 'woocommerce' ).' ', '</p></span>' );
+		echo wc_get_product_category_list( $product->get_id(), ', ', '<span class="m-0"><p>'._n( print_theme_lang("productdescription","Category : "), print_theme_lang("productdescription","Categories : "), count( $product->get_category_ids() ), 'woocommerce' ).' ', '</p></span>' );
 
 	}
 
@@ -32,7 +32,7 @@
 	<?
 		global $post;
 		$short_description = apply_filters( 'woocommerce_short_description', $post->post_excerpt );
-		if ( ! $short_description ) { $short_description='nothing has written...'; }
+		if ( ! $short_description ) { $short_description = print_theme_lang("productdescription","nothing has written..."); }
 		echo $short_description;
 	?>
 

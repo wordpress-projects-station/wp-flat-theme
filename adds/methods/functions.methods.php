@@ -1,5 +1,85 @@
 <?
 
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+    /*
+    // $sublanguage is a global variable of required plugins:
+    // plugin :     https://wordpress.org/plugins/sublanguage/
+    // flags :      https://wordpress.org/plugins/sublanguage-switcher-widget/
+    // repository:  https://github.com/maximeschoeni/sublanguage
+    */
+
+    //get lang on init 
+    function support_languages($sublanguage){
+
+        global $current_lang;
+
+        $current_lang = $sublanguage->current_language->post_content
+            ? $sublanguage->current_language->post_content
+            : get_locale();
+
+        global $themelangs;
+
+        $langfile = file_get_contents( get_template_directory_uri()."/language.json");
+        $themelangs = json_decode($langfile, true);
+
+    }
+    add_action( 'init' , 'support_languages' );
+
+    //set global user lang (for woocommerce & other) 
+    function change_locale_lang($current_lang) {
+        return $current_lang;
+    }
+    add_filter('locale', 'change_locale_lang', 10);
+
+    //get text of actual lang selected
+    function print_theme_lang($sectorname,$basetext) {
+
+        global $current_lang, $themelangs;
+
+        $sector = strtolower( ($sectorname == null || $sectorname == '' || !$sectorname) ? 'common' : $sectorname );
+        $translated = 'not sector or sampler for theme transator';
+        $textindex = null;
+
+        foreach ($themelangs as $flag => &$sections)
+        {
+            foreach ($sections as $sectors)
+            {
+                foreach ($sectors[$sector] as $index => $sample)
+                {
+                    strtolower($sample)!=strtolower($basetext) ?: $textindex = $index;
+                }
+            }
+        }
+
+
+            foreach ($themelangs[$current_lang] as $sectors )
+            {
+                if(isset($sectors[$sector][$textindex]))
+                {
+                    $translated = $sectors[$sector][$textindex];
+                }
+                
+                else
+                {
+                    $translated = false;
+                }
+            }
+    
+
+
+
+        return $translated;
+
+    }
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+
+    /*
+    // simple keywords generator
+    */
 
     function generateKeywords() {
 
@@ -39,6 +119,9 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+    /*
+    // get file name
+    */
 
     function theme_file_name(){
 
@@ -51,6 +134,9 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+    /*
+    // get files model based on wp page template loop type
+    */
 
     function loop_page_types(){
 
@@ -59,7 +145,6 @@
         // check if parent is shop
         $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
 
-        // check membership
 
         if( is_page('product-catalog') ) {
 
@@ -194,6 +279,9 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+    /*
+    // get if it's a part of page for woocommerce
+    */
 
     function is_part_of_woo() {
         global $looptype;
@@ -201,18 +289,22 @@
         return $result;
     }
 
-
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+    /*
+    // get if it's a shop home
+    */
 
     function is_shop_home() {
         $result = ( is_page('shop') ||  ( is_page() && is_shop() ) || (is_shop() && is_woocommerce()) ) ? true : false;
         return $result;
     }
     
-
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+    /*
+    // make a bootsrap breadcrumbs
+    */
 
     function bootsrapped_breadcrumb() {
 
@@ -306,7 +398,10 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+    /*
     // currently off
+    */
+
     // function center_column_size(){
     //     global $mods;
     //     $occupiedcols = 0;
@@ -318,6 +413,9 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+    /*
+    // generete css for background
+    */
 
     function get_banner_background($POSTID){
 
@@ -332,6 +430,10 @@
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
+
+    /*
+    // print sidebars after eventual corrections
+    */
 
     function print_sidebar($sidebar){
 
@@ -372,7 +474,12 @@
 
         }
 
-    }
+        if($sidebar == 'langs-box') {
 
+            dynamic_sidebar('langs-box');
+
+        }
+
+    }
 
 ?>

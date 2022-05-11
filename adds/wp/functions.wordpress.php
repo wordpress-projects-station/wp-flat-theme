@@ -1,6 +1,5 @@
 <? 
 
-
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
@@ -146,9 +145,19 @@
         ]);
 
         register_sidebar([ 
-            'name' => 'newsletter box',
+            'name' => 'Newsletter box',
             'id' => 'newsletter-box',
             'description' => 'in theme, in footer, your newsletter box space',
+            'before_widget' => '<div>',
+            'after_widget'  => '</div>',
+            'before_title'  => '<b>',
+            'after_title'   => '</b>',
+        ]);
+
+        register_sidebar([ 
+            'name' => 'Languages box',
+            'id' => 'langs-box',
+            'description' => 'in nav menu bar, a space for languages flags',
             'before_widget' => '<div>',
             'after_widget'  => '</div>',
             'before_title'  => '<b>',

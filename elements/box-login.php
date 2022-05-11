@@ -1,4 +1,4 @@
-<div class="p-4 border border-3 rounded-3">
+<div class="p-4 border border-3">
 
     <h2 class="display-4">
         <?php esc_html_e( 'Login', 'woocommerce' ); ?>

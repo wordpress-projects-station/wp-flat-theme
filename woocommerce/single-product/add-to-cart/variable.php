@@ -37,7 +37,12 @@
 					<div class="row variations">
 
 						<div class="col-sm-12 col-md-3 p-0">
-							<label class="btn" for="<?= esc_attr( sanitize_title( $attribute_name ) ); ?>"><?= ucfirst( wc_attribute_label( $attribute_name ) ); ?></label>
+							<?
+								$in_lang_label 	= print_theme_lang("variationfilters",$attribute_name)
+												? print_theme_lang("variationfilters",$attribute_name)
+												: ucfirst( wc_attribute_label( $attribute_name ) );
+							?>
+							<label class="btn" for="<?= esc_attr( sanitize_title( $attribute_name ) ); ?>"><?= $in_lang_label; ?></label>
 						</div>
 
 						<div class="col-sm-12 col-md-9 p-0">
@@ -122,9 +127,11 @@
 			do_action( 'woocommerce_after_variations_table' ); 
 			
 			echo '<div class="single_variation_wrap">';
+
 				do_action( 'woocommerce_before_single_variation' );
 				do_action( 'woocommerce_single_variation' );
 				do_action( 'woocommerce_after_single_variation' );
+	
 			echo '</div>';
 
 		} 

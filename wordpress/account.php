@@ -28,7 +28,7 @@
         </div>
 
 
-        <h2 class="display-4 text-center mt-3 mb-4">YOUR ACCOUNT</h2>
+        <h2 class="display-4 text-center mt-3 mb-4"><?= print_theme_lang("account","YOUR ACCOUNT"); ?></h2>
 
         <div class="mb-5 d-flex justify-content-center">
 

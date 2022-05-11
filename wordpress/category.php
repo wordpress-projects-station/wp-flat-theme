@@ -11,11 +11,11 @@
 
     <? if ( is_category() ) { ?>
         
-        <p class="h1">Posts in archive : <b><?=$queryed?></b></p>
+        <p class="h1"><?= print_theme_lang("postcategories","Posts in archive"); ?> : <b><?=$queryed?></b></p>
             
     <? } else  { ?> 
 
-        <p class="h1">All in Blog</p>
+        <p class="h1"><?= print_theme_lang("postcategories","All in Blog"); ?></p>
 
     <? } ?>
 
@@ -32,14 +32,14 @@
 
         if(count($categories)){
 
-            ?><h3 class="mt-2 mt-3">All sub categories:</h3><?
+            ?><h3 class="mt-2 mt-3"><?= print_theme_lang("postcategories","All sub categories"); ?>:</h3><?
 
             ?><div class="row g-4"><?
 
                 foreach($categories as $subcategory) {
                     ?>
                         <div class="col-xs-12 col-sm-6 col-md-4">
-                            <?= '<a class="border border-2 border-secondary p-2" href="'.get_category_link( $subcategory->term_id ).'" title="' . sprintf( __( "View all posts in %s" ), $subcategory->name ) . '" ' . '>' . $subcategory->name.'</a>';?>
+                            <?= '<a class="border border-2 border-secondary p-2" href="'.get_category_link( $subcategory->term_id ).'" title="' . sprintf( __( print_theme_lang("postcategories","All in Blog")." %s" ), $subcategory->name ) . '" ' . '>' . $subcategory->name.'</a>';?>
                         </div>
                     <?
 

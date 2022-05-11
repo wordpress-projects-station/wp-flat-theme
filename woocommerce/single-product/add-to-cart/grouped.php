@@ -128,7 +128,12 @@
 
 														<div class="col-sm-12 col-md-4">
 															<div class="mb-1 mt-1">
-																<label class="btn" for="<?= esc_attr( sanitize_title( $attribute_name ) ); ?>"><?= ucfirst( wc_attribute_label( $attribute_name ) ); ?></label>
+																<?
+																	$in_lang_label 	= print_theme_lang("variationfilters",$attribute_name)
+																					? print_theme_lang("variationfilters",$attribute_name)
+																					: ucfirst( wc_attribute_label( $attribute_name ) );
+																?>
+																<label class="btn" for="<?= esc_attr( sanitize_title( $attribute_name ) ); ?>"><? print_theme_lang("variationfilters",$attribute_name) ?> <?= $in_lang_label; ?></label>
 															</div>
 														</div>
 									
@@ -208,7 +213,7 @@
 											
 												<div class="col-sm-12 col-md-4">
 													<div class="mb-1 mt-1">
-														<label class="btn">Quantity</label>
+														<label class="btn"><?= print_theme_lang("variationfilters","Quantity"); ?></label>
 													</div>
 												</div>
 							

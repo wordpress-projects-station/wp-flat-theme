@@ -28,8 +28,8 @@
                     </div>
 
                     <div class="text-center">
-                        <small>Resta connesso con tutti noi nella community ufficile</small><br>
-                        <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->instagram_box_page_link?>">Segui ora la nostra fanpage</a>
+                        <small><?= print_theme_lang("socialbox","Stay connected with all of us in the official community"); ?></small><br>
+                        <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->instagram_box_page_link?>"><?= print_theme_lang("socialbox","Follow us on Facebook"); ?></a>
                     </div>
 
                 </div>
@@ -43,8 +43,8 @@
                     </div>
                     <div>
                         <h5><?= $mods->facebook_box_page_name; ?></h5>
-                        <small>Resta connesso con tutti noi nella community ufficile</small>
-                        <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->facebook_box_page_link?>">Segui ora la nostra fanpage</a>
+                        <small><?= print_theme_lang("socialbox","Stay connected with all of us in the official community"); ?></small>
+                        <a style="margin-top: 10px;" class="btn btn-primary" href="<?=$mods->facebook_box_page_link?>"><?= print_theme_lang("socialbox","Follow us on Facebook"); ?></a>
                     </div>
 
                 </div>

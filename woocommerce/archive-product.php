@@ -35,7 +35,7 @@
 					include_once 'content-archive-category.php';
 
 					else 
-					echo '<p>PAGE TYPE ERROR: TYPE UNKNOWN<br>Please, contact the administration</p>';
+					echo print_theme_lang("","<p>PAGE TYPE ERROR: TYPE UNKNOWN<br>Please, contact the administration</p>");
 
 				?>
 

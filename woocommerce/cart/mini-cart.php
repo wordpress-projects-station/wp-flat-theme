@@ -4,7 +4,7 @@
 
     <div class="row m-0">
         <div class="col-9 bg-primary shadow-sm">
-            <h5 class="m-0 p-3 text-white"><i class="bi bi-bag-heart"></i> Your cart</h5>
+            <h5 class="m-0 p-3 text-white"><i class="bi bi-bag-heart"></i> <?= print_theme_lang("minicart","Your cart"); ?></h5>
         </div>
         <div class="col-3 bg-light d-flex justify-content-center shadow-sm">
             <a style="width: 100%; height: 100%; display: grid; align-items: center; text-align: center;" href="<?= wc_get_cart_url();?>"><i class="bi bi-box-arrow-in-up-right"></i></a>
@@ -94,9 +94,9 @@
             <? } else { ?>
 
                 <p class="p-3 text-center">
-                    <? esc_html_e( 'No products in the cart.', 'oceanwp' ); ?><br>
+                    <?= print_theme_lang("minicart","No products in the cart."); ?> <br>
                     <small>
-                        There are a lot of interesting offers ... take a tour in the <a href="<?get_permalink( wc_get_page_id( 'shop' ) )?>">shop!</a>
+                    <?= print_theme_lang("minicart","There are a lot of interesting offers... Take a tour in the"); ?> <a href="<?get_permalink( wc_get_page_id( 'shop' ) )?>">shop!</a>
                     </small>
                 </p>
 

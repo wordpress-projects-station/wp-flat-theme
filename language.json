@@ -1,0 +1,116 @@
+{
+    "en_US": [{
+        "common": [
+            "Posted in date",
+            "Arguments",
+            "Categories",
+            "FREE!",
+            "SALE!",
+            "NEW!",
+            "OPEN DETAILS",
+            "<p>PAGE TYPE ERROR: TYPE UNKNOWN<br>Please, contact the administration</p>"
+        ],
+        "search": [
+            "Result for"
+        ],
+        "minicart": [
+            "Your cart",
+            "No products in the cart.",
+            "There are a lot of interesting offers... Take a tour in the"
+        ],
+        "socialbox": [
+            "Stay connected with all of us in the official community",
+            "Follow us on Facebook",
+            "Discover many interesting pills in our official profile",
+            "IG official profile"
+        ],
+        "account": [
+            "YOUR ACCOUNT"
+        ],
+        "postcategories": [
+            "Posts in archive",
+            "All in Blog",
+            "All sub categories",
+            "View all posts in"
+        ],
+        "shopcatalog": [
+            "Open",
+            "protected resource",
+            "no resources found"
+        ],
+        "productdescription": [
+            "Category : ",
+            "Categories : ",
+            "Ops! Nothing has written..."
+        ],
+        "producttab": [
+            "Stock quantity",
+            "Downlodable",
+            "Tag list"
+        ],
+        "variationfilters": [
+            "Quantity",
+            "Color",
+            "Size"
+
+        ]
+
+
+    }],
+
+    "it_IT": [{
+        "common": [
+            "Pubblicato il",
+            "Argomenti",
+            "Categorie",
+            "GRATIS!",
+            "SALDI!",
+            "NUOVO!",
+            "APRI DETTAGLI",
+            "<p>PAGE TYPE ERROR: TYPE UNKNOWN<br>Tipo pagina non riconosciut. Si prega di contattare l'amministrazione</p>"
+        ],
+        "search": [
+            "Trovati per"
+        ],
+        "minicart": [
+            "Carrello",
+            "Nessun prodotto da visualizzare.",
+            "Abbiamo un sacco di offerte in giro ... Fai un salto nello"
+        ],
+        "socialbox": [
+            "Resta connesso con tutti noi nella community ufficile",
+            "Seguici su Facebook",
+            "Scopri tante pillole interessanti nel nostro profilo ufficiale",
+            "Vai al profilo Instagram"
+        ],
+        "account": [
+            "IL TUO ACCOUNT"
+        ],
+        "postcategories": [
+            "Posts in archivio",
+            "In tutto il Blog",
+            "Lista sottocategorie",
+            "Visualizza post di"
+        ],
+        "shopcatalog": [
+            "Apri",
+            "risorsa protetta",
+            "nulla da visualizzare"
+        ],
+        "productdescription": [
+            "Categoria : ",
+            "Categorie : ",
+            "Ops! Non è presente alcuna descrizione..."
+        ],
+        "producttab": [
+            "Quantità in magazzino",
+            "Disponibilità al downlaod",
+            "Argomenti correlati"
+        ],
+        "variationfilters": [
+            "Quantità",
+            "Colore",
+            "Dimensione"
+        ]
+    }]
+}

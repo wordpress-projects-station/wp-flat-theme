@@ -75,9 +75,6 @@
 
             </div>
 
-
-            <? //if($mods->top_menu_position == 'justify-content-end'){ echo '<div style=" display: inline-flex; justify-content: end; align-items: center;">'; }?>
-
             <?
 
                 wp_nav_menu([
@@ -109,7 +106,15 @@
 
             <? } ?>
 
-            <? //if($mods->top_menu_position == 'justify-content-end'){ echo '</div>'; }?>
+            <? if( is_active_sidebar('langs-box') ) { ?>
+
+                <div class="p-0 m-0 col" style="max-width: 100px; max-width: 100px; justify-self: end;">
+                    <div class="ps-3 langs-box">
+                        <? print_sidebar('langs-box'); ?>
+                    </div>
+                </div>
+
+            <? } ?>
 
         </nav>
 

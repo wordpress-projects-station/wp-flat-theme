@@ -133,6 +133,7 @@
         /* - - - - - - - - - - */
 
         $mods->top_menu_finder_status = boolval( get_theme_mod( 'top_finder_sets' ) );
+        $mods->finder_in_query_mode = boolval( get_theme_mod( 'top_finder_querymode_sets' ) );
 
         /* - - - - - - - - - - */
 

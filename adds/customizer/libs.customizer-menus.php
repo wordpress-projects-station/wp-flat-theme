@@ -46,6 +46,18 @@
 
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+    $customizer->add_setting('top_finder_querymode_sets');
+    get_theme_mod('top_finder_querymode_sets') ?: set_theme_mod('top_finder_querymode_sets',false);
+
+    $customizer->add_control('top_finder_querymode',[
+        'section'=>'design_of_top_menu',
+        'settings'=>'top_finder_querymode_sets',
+        'label'=>'finder have query (?s=)',
+        'type'=>'checkbox',
+    ]);
+
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
     $customizer->add_setting('top_menu_alignment_sets');
     get_theme_mod('top_menu_alignment_sets') ?: set_theme_mod('top_menu_alignment_sets','right');
 
