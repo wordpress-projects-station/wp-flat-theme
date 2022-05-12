@@ -9,7 +9,7 @@
 	// $banner = (wp_get_attachment_url( $product->image_id ))?:(get_template_directory_uri().'/adds/404IMAGE.PNG');
 	$link = get_post_permalink($product->id);
 	$title = $product->name;
-	$price = $product->price;
+	$price = intval($product->price)>0? $product->price.' '.get_woocommerce_currency_symbol() : 'FREE!';
 	$excerpt = $product->short_description;
 
 ?>
@@ -27,7 +27,7 @@
 			<div class="card-body text-center">
 
 				<p class="card-subtitle fs-5 text-muted">
-					<?= $price; ?> <?= get_woocommerce_currency_symbol(); ?>
+					<?= $price; ?>
 				</p>
 
 				<div class="card-title">

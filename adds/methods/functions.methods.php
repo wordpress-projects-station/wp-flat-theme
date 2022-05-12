@@ -454,16 +454,16 @@
 
         if($sidebar == 'sidebar_shop'){
 
-            ob_start(); 
+            // ob_start(); 
 
             echo '<aside class="bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block">';
                 dynamic_sidebar('sidebar_shop');
             echo '</aside>';
 
-            $sidebar = ob_get_clean();
+            // $sidebar = ob_get_clean();
 
-            $sidebar = preg_replace( '/Filter by price/', print_theme_lang("shopsidebar","Filter by price"), $sidebar, 1 );
-            echo $sidebar;
+            // $sidebar = preg_replace( '/Filter by price/', print_theme_lang("shopsidebar","Filter by price"), $sidebar, 1 );
+            // echo $sidebar;
 
 
         }
