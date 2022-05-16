@@ -58,7 +58,6 @@ An easy scheme for understand folder structure and components:
 | path  | what  |
 |----|----|
 | wp-flat-theme                 | is main folder of theme.    | 
-| |<br>|
 | ./adds/                       | little extra fot theme, exemple 404 images and the spinner. | 
 | ./adds/bootstrap/             | contains all elements of function php for bootstrap. | 
 | ./adds/customizer/            | contains all elements of function php for the customizer editor of wp. | 
@@ -66,18 +65,13 @@ An easy scheme for understand folder structure and components:
 | ./adds/socials/               | (provisory) contains social box theme extra. | 
 | ./adds/woo/                   | contains all elements of function php for woocommerce. | 
 | ./adds/wp/                    | contains all elements of function php for worpdress. | 
-| |<br>|
 | ./elements/                   | contains all box, relative to repeated common contents, of theme (an exemple the bootstrap cards) | 
-| |<br>|
 | ./woocommerce/                | It's the template override of woocommerce | 
-| |<br>|
 | ./wordpress/                  | It's the template pages of wordpress via "loop_page_types()" in functions.methods.php |
-| |<br>|
 | ./404.php                     | litterally the 404. | 
 | ./header.php                  | the first classic part of wp model (from &lt;html&gt; to first sidebar). | 
 | ./footer.php                  | the first classic part of wp model (from last sidebar to end of &lt;/html&gt;). | 
 | ./index.php                   | the main page of wp model where is printed the contents. | 
 | ./language.json               | the lang of theme for every themeplate traduction. | 
-| |<br>|
-
-the style.css it's last override;  style.extra.css it's real (and basic correction) style of theme.
+| ./style.extra.css             | style.extra.css it's real (and basic correction) style of theme. | 
+| ./style.css                   | it's last override | 
