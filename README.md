@@ -56,7 +56,7 @@ Other resource:
 An easy scheme for understand folder structure and components:
 
 | path  | what  |
-|-------------------------------|-----------------------------|
+|----|----|
 | wp-flat-theme                 | is main folder of theme.    | 
 | |<br>|
 | ./adds/                       | little extra fot theme, exemple 404 images and the spinner. | 
