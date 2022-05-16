@@ -38,7 +38,7 @@
 
         }
 
-    } else { include __DIR__.'/contents/not-in-database.php'; }
+    } else { include get_template_directory().'/elements/box-not-in-database.php'; }
         
 
     ?></div><?

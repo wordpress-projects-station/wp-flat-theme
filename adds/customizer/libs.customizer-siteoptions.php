@@ -46,6 +46,19 @@
 
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+    $customizer->add_setting('site_metasubtitles_status_sets');
+    get_theme_mod('site_metasubtitles_status_sets') ?: set_theme_mod('site_metasubtitles_status_sets',false);
+
+    $customizer->add_control('site_metasubtitles_status',[
+        'section'       => 'site_settings',
+        'settings'      => 'site_metasubtitles_status_sets',
+        'label'         => 'Add subtitle on post, page and woo products',
+        'description'   => 'Active/hide the subtitle meta (warning: this create/override "post_subtitle" taxonomy if is it pre existent)',
+        'type'          => 'checkbox',
+    ]);
+
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
     $customizer->add_setting('site_top_warning_message_status_sets');
     get_theme_mod('site_top_warning_message_status_sets') ?: set_theme_mod('site_top_warning_message_status_sets',true);
 

@@ -15,9 +15,9 @@
 
         global $current_lang;
 
-        $current_lang = $sublanguage->current_language->post_content
-            ? $sublanguage->current_language->post_content
-            : get_locale();
+        $current_lang = isset($sublanguage->current_language->post_content)
+                      ? explode( '_', $sublanguage->current_language->post_content )[0]
+                      : explode( '_', get_locale() )[0];
 
         global $themelangs;
 
@@ -44,6 +44,7 @@
 
         foreach ($themelangs as $flag => &$sections)
         {
+
             foreach ($sections as $sectors)
             {
                 foreach ($sectors[$sector] as $index => $sample)
@@ -53,23 +54,20 @@
             }
         }
 
-
-            foreach ($themelangs[$current_lang] as $sectors )
+        
+        foreach ($themelangs[$current_lang] as $sectors )
+        {
+            if(isset($sectors[$sector][$textindex]))
             {
-                if(isset($sectors[$sector][$textindex]))
-                {
-                    $translated = $sectors[$sector][$textindex];
-                }
-                
-                else
-                {
-                    $translated = false;
-                }
+                $translated = $sectors[$sector][$textindex];
             }
+            
+            else
+            {
+                $translated = false;
+            }
+        }
     
-
-
-
         return $translated;
 
     }
@@ -140,138 +138,143 @@
 
     function loop_page_types(){
 
-        global $looptype; 
+        if( ! is_admin() ) {
 
-        // check if parent is shop
-        $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
+            global $looptype; 
 
+            // check if parent is shop
+            $sub_page_of_shop = wp_get_post_parent_id() == get_page_by_path('shop')->ID ? true : false;
 
-        if( is_page('product-catalog') ) {
+            $w = function_exists( 'is_woocommerce_activated' ) ? true : false;
 
-            $folder = 'woocommerce';
-            $type = 'shop-catalog';
+            // woocommerce
+            if( $w && is_page('product-catalog') ) {
 
-        }
+                $folder = 'woocommerce';
+                $type = 'shop-catalog';
 
-        elseif( is_page('shop') ||  ( is_page() && is_shop() ) || (is_shop() && is_woocommerce()) ) {
+            }
 
-            // warning: -> shop is an archive: archive-product is auto getted -> go on woocommerce/archivie-product.php
-            $folder = 'woocommerce';
-            $type = 'shop';
+            elseif( $w && ( is_page('shop') ||  ( is_page() && is_shop() ) || ( is_shop() && is_woocommerce() ) ) ) {
 
-        }
+                // warning: -> shop is an archive: archive-product is auto getted -> go on woocommerce/archivie-product.php
+                $folder = 'woocommerce';
+                $type = 'shop';
 
-        elseif( is_tax( 'product_cat' ) || is_product_category() || is_page( 'product-category' ) /*of woocommerce*/  ||  is_page( 'shop-categories')  /*permalink alterantive*/   || ( is_page( 'categories' ) && $sub_page_of_shop==true ) /*permalink "shop/categories"*/ ) {
+            }
 
-            // warning: -> archive-product is auto getted. go on woocommerce/archivie-product.php
-            $folder = 'woocommerce';
-            $type = is_page( 'categories' ) ? 'shop-categories' : 'archive-product' ; 
+            elseif( $w && ( is_tax( 'product_cat' ) || is_product_category() || is_page( 'product-category' ) /*of woocommerce*/  ||  is_page( 'shop-categories')  /*permalink alterantive*/   || ( is_page( 'categories' ) && $sub_page_of_shop==true ) /*permalink "shop/categories"*/  ) ) {
 
-        }
+                // warning: -> archive-product is auto getted. go on woocommerce/archivie-product.php
+                $folder = 'woocommerce';
+                $type = is_page( 'categories' ) ? 'shop-categories' : 'archive-product' ; 
 
-        elseif( is_product() ) {
+            }
 
-            $folder = 'woocommerce';
-            $type = 'product';
+            elseif( $w && ( is_product() ) ) {
 
-        }
-        
-        elseif( is_cart() ) {
+                $folder = 'woocommerce';
+                $type = 'product';
 
-            $folder = 'woocommerce';
-            $type = 'cart';
-
-        }
-
-        elseif( is_checkout() ) {
-
-            $folder = 'woocommerce';
-            $type = 'checkout';
-
-        }
-
-        elseif( is_shop() && ispage() ) {
-
-            $folder = 'woocommerce';
-            $type = 'page';
-
-        }
-
-
-        // wordpress
-        
-        elseif( is_page('front-page') || is_front_page() || is_home() ) {
-
+            }
             
-            $folder = 'wordpress';
-            $type = 'front-page';
+            elseif( $w && ( is_cart() ) ) {
 
+                $folder = 'woocommerce';
+                $type = 'cart';
+
+            }
+
+            elseif( $w && ( is_checkout() ) ) {
+
+                $folder = 'woocommerce';
+                $type = 'checkout';
+
+            }
+
+            elseif( $w && ( is_shop() && ispage() ) ) {
+
+                $folder = 'woocommerce';
+                $type = 'page';
+
+            }
+
+
+            // wordpress
+            
+            elseif( is_page('front-page') || is_front_page() || is_home() ) {
+
+                
+                $folder = 'wordpress';
+                $type = 'front-page';
+
+            }
+            
+            elseif( ($w && is_account_page()) || is_page('account') || is_page('profile') )
+            {
+
+                $folder = 'wordpress';
+                $type = 'account';
+
+            }
+
+            elseif( is_search() || is_tag() ) {
+
+                $folder = 'wordpress';
+                $type = 'search';
+
+            }
+
+            elseif( is_attachment() ) {
+
+                $folder = 'wordpress';
+                $type = 'attachments';
+
+            }
+
+            elseif( is_single() /*|| is_post()*/ ) {
+
+                $folder = 'wordpress';
+                $type = 'post';
+
+            }
+
+            elseif( is_page('blog') ) {
+
+                $folder = 'wordpress';
+                $type = 'blog-home';
+
+            }
+            
+            elseif( is_page() || is_singular() ) {
+
+                $folder = 'wordpress';
+                $type = 'page';
+
+            }
+
+            elseif( is_archive() || is_category() ) {
+
+                $folder = 'wordpress';
+                $type = 'category';
+
+            }
+
+            else {
+
+                // return the pages unkonwed page type
+                $folder = 'wordpress';
+                $type = get_post_type();
+                echo '<p>UNKNOWN: "'.$type.'"</p>';
+
+            }
+
+            $position = str_replace('adds/methods/','',(__DIR__.'/'.$folder));
+            $path = preg_replace('/([^:])(\/{2,})/', '$1/', $position.'/'.$type.'.php');
+            $looptype = [ 'folder'=>$folder, 'position'=> $position, 'path'=>$path, 'type'=>$type  ];
+
+            return $looptype;
         }
-        
-        elseif( is_account_page() || is_page('account') || is_page('profile') )
-        {
-
-            $folder = 'wordpress';
-            $type = 'account';
-
-        }
-
-        elseif( is_search() || is_tag() ) {
-
-            $folder = 'wordpress';
-            $type = 'search';
-
-        }
-
-        elseif( is_attachment() ) {
-
-            $folder = 'wordpress';
-            $type = 'attachments';
-
-        }
-
-        elseif( is_single() /*|| is_post()*/ ) {
-
-            $folder = 'wordpress';
-            $type = 'post';
-
-        }
-
-        elseif( is_page('blog') ) {
-
-            $folder = 'wordpress';
-            $type = 'blog-home';
-
-        }
-        
-        elseif( is_page() || is_singular() ) {
-
-            $folder = 'wordpress';
-            $type = 'page';
-
-        }
-
-        elseif( is_archive() || is_category() ) {
-
-            $folder = 'wordpress';
-            $type = 'category';
-
-        }
-
-        else {
-
-            // return the pages unkonwed page type
-            $folder = 'wordpress';
-            $type = get_post_type();
-            echo '<p>UNKNOWN: "'.$type.'"</p>';
-
-        }
-
-
-        $position = str_replace('adds/methods/','',(__DIR__.'/'.$folder));
-        $path = preg_replace('/([^:])(\/{2,})/', '$1/', $position.'/'.$type.'.php');
-
-        return $looptype = [ 'folder'=>$folder, 'position'=> $position, 'path'=>$path, 'type'=>$type  ];
 
     }
     add_action ( 'wp', 'loop_page_types' );
@@ -296,7 +299,7 @@
     */
 
     function is_shop_home() {
-        $result = ( is_page('shop') ||  ( is_page() && is_shop() ) || (is_shop() && is_woocommerce()) ) ? true : false;
+        $result = function_exists( 'is_woocommerce_activated' ) && ( is_page('shop') ||  ( is_page() && is_shop() ) || (is_shop() && is_woocommerce()) ) ? true : false;
         return $result;
     }
     
@@ -441,30 +444,43 @@
 
         if($sidebar == 'sidebar_big') {
 
-            // fixing of cart widget's bug : https://stackoverflow.com/questions/50033227/is-there-any-way-to-display-the-woocommerce-mini-cart-on-my-wordpress-site
-            ob_start(); woocommerce_mini_cart(); $minicart = ob_get_clean();
-            ob_start(); dynamic_sidebar('sidebar_big'); $sidebar = ob_get_clean();
-            $sidebar = preg_replace( '/<div class="widget_shopping_cart_content"><\/div>/', $minicart, $sidebar, 1 );
+            if( function_exists( 'is_woocommerce_activated' ) ) {
 
-            echo '<aside class="'. ( $mods->sidebar_big_type == 'dynamic' ? 'bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block' : /*static*/ 'bigsidebar col-3' ) .'">';
-            echo $sidebar;
-            echo '</aside>';
+                // fixing of cart widget's bug : https://stackoverflow.com/questions/50033227/is-there-any-way-to-display-the-woocommerce-mini-cart-on-my-wordpress-site
+                ob_start(); woocommerce_mini_cart(); $minicart = ob_get_clean();
+                ob_start(); dynamic_sidebar('sidebar_big'); $sidebar = ob_get_clean();
+                $sidebar = preg_replace( '/<div class="widget_shopping_cart_content"><\/div>/', $minicart, $sidebar, 1 );
+
+                echo '<aside class="'. ( $mods->sidebar_big_type == 'dynamic' ? 'bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block' : /*static*/ 'bigsidebar col-3' ) .'">';
+                echo $sidebar;
+                echo '</aside>';
+
+            } else {
+
+                echo '<aside class="'. ( $mods->sidebar_big_type == 'dynamic' ? 'bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block' : /*static*/ 'bigsidebar col-3' ) .'">';
+                    dynamic_sidebar('sidebar_big');
+                echo '</aside>';
+
+            }
 
         }
 
         if($sidebar == 'sidebar_shop'){
 
-            // ob_start(); 
+            if( function_exists( 'is_woocommerce_activated' ) ) {
 
-            echo '<aside class="bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block">';
-                dynamic_sidebar('sidebar_shop');
-            echo '</aside>';
+                // ob_start(); 
 
-            // $sidebar = ob_get_clean();
+                echo '<aside class="bigsidebar col-xs-none col-sm-none col-md-none col-lg-3 col-xl-3 d-xs-none d-sm-none d-md-block d-lg-block d-xl-block">';
+                    dynamic_sidebar('sidebar_shop');
+                echo '</aside>';
 
-            // $sidebar = preg_replace( '/Filter by price/', print_theme_lang("shopsidebar","Filter by price"), $sidebar, 1 );
-            // echo $sidebar;
+                // $sidebar = ob_get_clean();
 
+                // $sidebar = preg_replace( '/Filter by price/', print_theme_lang("shopsidebar","Filter by price"), $sidebar, 1 );
+                // echo $sidebar;
+
+            }
 
         }
 

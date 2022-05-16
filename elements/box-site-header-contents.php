@@ -12,7 +12,7 @@
     <header style="<? if( $mods->heading_status ) echo $mods->heading_size; ?>" class="<?= $mods->heading_frame; ?>">
 
         <?
-            $page_id = is_shop() ? get_option( 'woocommerce_shop_page_id' ) : get_the_ID();
+            $page_id = function_exists( 'is_woocommerce_activated' ) && is_shop() ? get_option( 'woocommerce_shop_page_id' ) : get_the_ID();
             $css_banner = get_banner_background( $page_id );
         ?>
 

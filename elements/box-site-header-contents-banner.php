@@ -22,17 +22,17 @@
 
 
                 }
+                
+                if( $mods->subtitle_supported && $mods->subtitle_status && get_post_meta( $post->ID, 'subtitle_key', true)) {
 
-                if( $mods->subtitle_status && function_exists( 'get_the_subtitle' ) ) {
-
-                    $subtitle = get_the_subtitle($page_id);
-                    echo strlen($subtitle) ? '<h3 class="mt-2 mb-2 fs-4">'.$subtitle.'</h3>' : null;
+                    echo get_post_meta( $post->ID, 'subtitle_key', true);
 
                 }
 
-                if( $mods->excerpt_status && strlen(get_the_excerpt($page_id)) ) {
+                $target_excerpt = get_post_type() === 'post' ? '' : $page_id;
+                if( $mods->excerpt_status && strlen(get_the_excerpt($target_excerpt)) ) {
 
-                    echo '<p style="max-width:450px;margin:0 auto;">'.get_the_excerpt($page_id).'</p>';
+                    echo '<p style="max-width:450px;margin:0 auto;">'.the_excerpt($target_excerpt).'</p>';
 
                 }
             

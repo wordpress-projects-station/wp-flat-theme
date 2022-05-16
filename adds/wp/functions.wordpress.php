@@ -118,6 +118,44 @@
 
 
     /*- - - - - - - - - - - - - - - - - - - - - - - -*/
+    
+
+
+    function add_subtitle_meta() {
+
+        // if( boolval( get_theme_mod( 'site_metasubtitles_status_sets' ) ) ) {
+
+            //  more info: https://www.htmlgoodies.com/javascript/moving-meta-boxes-in-the-wordpress-editor/
+            //  add_meta_box( $id, $title, $callback, $post_type, [$context], [$priority], [$callback_args]);
+                add_meta_box("subtitle", "Subtitle", "subtitle_box_field", ["post","page","product"], "side", 'high', ['taxonomy' => 'subtitle']);
+
+        // }
+    }
+    add_action("add_meta_boxes", "add_subtitle_meta");
+
+    function subtitle_box_field( $post ) {
+
+        $exsubtitle = get_post_meta( $post->ID, 'subtitle_key', true );
+        echo '<label for="subtitle_field">120 character summary</label><input class="components-text-control__input" type="text" name="subtitle_field" id="subtitle_field" value="'.$exsubtitle.'"/>';
+
+    }
+
+    function save_subtitle( $post_id ) {
+
+        if ( array_key_exists( 'subtitle_field', $_POST ) ) {
+            update_post_meta(
+                $post_id,
+                'subtitle_key',
+                $_POST['subtitle_field']
+            );
+        }
+
+    }
+    add_action( 'save_post', 'save_subtitle' );
+
+
+
+    /*- - - - - - - - - - - - - - - - - - - - - - - -*/
 
 
     // add sides slots support

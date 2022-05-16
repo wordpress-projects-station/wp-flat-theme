@@ -1,5 +1,5 @@
 {
-    "en_US": [{
+    "en": [{
         "common": [
             "Posted in date",
             "Arguments",
@@ -34,7 +34,6 @@
             "View all posts in"
         ],
         "shoppage": [
-            "OPS! NOTHING TO SEE...",
             "Try to change parameters of your search."
         ],
         "shopcatalog": [
@@ -65,7 +64,7 @@
 
     }],
 
-    "it_IT": [{
+    "it": [{
         "common": [
             "Pubblicato il",
             "Argomenti",
@@ -100,7 +99,6 @@
             "Visualizza post di"
         ],
         "shoppage": [
-            "OPS! NON C'E' NULLA QUI...",
             "Prova a cambiare i parametri della tua ricerca."
         ],
         "shopcatalog": [

@@ -32,18 +32,14 @@
                             
                                 }
                             
-                                if( $mods->subtitle_status && function_exists( 'get_the_subtitle' ) ) { 
+                                if( $mods->subtitle_supported && $mods->subtitle_status ) { 
             
-                                    $subtitle = get_the_subtitle();
-
-                                    if(strlen($subtitle)) {
                                         ?>
                                             <div class="p-2"></div>
                                             <h3 class="mt-2 mb-2 fs-4">
-                                                <?=$subtitle?>
+                                                <?=get_post_meta( $post->ID, 'subtitle_key', true)?>
                                             </h3>
                                         <?
-                                    }
                                 }
                                 
                                 if($mods->excerpt_status ) { 

@@ -187,7 +187,10 @@
         $mods->titles_position   =  get_theme_mod( $looptype['type'].'_titles_position_sets' );
 
         $mods->title_status      =  boolval( get_theme_mod( $looptype['type'].'_title_sets' ) ); 
-        $mods->subtitle_status   =  boolval( get_theme_mod( $looptype['type'].'_subtitle_sets' ) ); 
+
+        $mods->subtitle_supported =  boolval( get_theme_mod( 'site_metasubtitles_status_sets' ) ); 
+        $mods->subtitle_status    =  boolval( get_theme_mod( $looptype['type'].'_subtitle_sets' ) ); 
+        
         $mods->excerpt_status    =  boolval( get_theme_mod( $looptype['type'].'_excerpt_sets' ) ); 
 
 

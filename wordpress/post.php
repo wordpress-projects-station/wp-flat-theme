@@ -7,10 +7,10 @@
     <!-- 
     ---- MAIN CONTENS BOX
     --->
-
     <main>
 
         <?
+
             if( $mods->titles_position == 'in-post' ) {
 
                 if ( $mods->title_status ) {
@@ -18,33 +18,25 @@
                     ?><h1><?= $post->post_title; ?></h1><?
             
                 }
-            
-                if( $mods->subtitle_status && function_exists( 'get_the_subtitle' ) ) { 
+               
+                if( $mods->subtitle_status && get_post_meta( $post->ID, 'subtitle_key', true)) {
 
-                    $subtitle = get_the_subtitle();
-
-                    if(strlen($subtitle)) {
-                        ?>
-                            <div class="p-2"></div>
-                            <h3 class="mt-2 mb-2 fs-4">
-                                <?=$subtitle?>
-                            </h3>
-                        <?
-                    }
+                    ?>
+                        <div class="p-2"></div>
+                        <h3 class="mt-2 mb-2 fs-4">
+                            <?= get_post_meta( $post->ID, 'subtitle_key', true); ?>
+                        </h3>
+                    <?
                 }
                 
-                if( $mods->excerpt_status ) { 
+                if( $mods->excerpt_status && strlen(get_the_excerpt($target_excerpt) ) ) { 
                     
                     ?><div class="p-2"></div><?
-                    do_action( 'woocommerce_archive_description' );
+                    echo the_excerpt();
 
                 }
 
             }
-        
-        ?>
-
-        <? 
 
             if( $mods->titles_position == 'in-post' ) {
 
@@ -55,10 +47,13 @@
             }
 
             if( $mods->header_banner_mode == 'in-post' )
-            echo '<div style="height:40vh; '.get_banner_background(get_the_ID()).'"></div>';
+            echo '<div style="height:40vh; '.get_banner_background($post->ID).'"></div>';
+
         ?>
 
-        <?= get_post_field('post_content', $post->ID); ?>
+        <div class="pb-4">
+            <?= the_content($post->ID); //get_post_field('post_content', $post->ID);?> 
+        </div>
 
     </main>
 
@@ -95,7 +90,7 @@
             <div class="p-3 justify-content-between">
 
                 <?
-                    $avatarurl = get_profile_image( $post->post_author ) ?: get_avatarurl( $post->post_author, 100 );
+                    $avatarurl = get_profile_image( $post->post_author ) ?: get_avatar_url( $post->post_author, 100 );
                     if( empty( $avatarurl ) || str_contains($avatarurl,'d=blank')) $avatarurl = get_template_directory_uri().'/adds/404IMAGE.PNG';
                 ?>
 

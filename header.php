@@ -3,7 +3,6 @@
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    wc_print_notices();
 
 ?>
 
@@ -13,7 +12,7 @@
 <html lang="<?= $current_lang?>">
 
     <head>
-        
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -50,27 +49,28 @@
 
     <body>
 
+        <div id="page_container">
 
-        <? if( $mods->debug_notices ) { ?>
-            <div class="fixed-bottom m-2">
-                <div class="m-0 alert alert-primary" role="alert">
-                    <h5 class="alert-heading">Page Debug:</h5>
-                    <hr>
-                    <p><b>File path:</b> <?= $looptype['path'];?></p>
+            <? if( $mods->debug_notices ) { ?>
+                <div class="fixed-bottom m-2">
+                    <div class="m-0 alert alert-primary" role="alert">
+                        <h5 class="alert-heading">Page Debug:</h5>
+                        <hr>
+                        <p><b>File path:</b> <?= $looptype['path'];?></p>
+                    </div>
                 </div>
+            <?}?>
+
+            <div>
+
+                <? require_once __DIR__.'/elements/box-site-header-contents.php'; ?>
+
             </div>
-        <?}?>
 
-        <div>
+            <div class="container g-4 py-4">
 
-            <? require_once __DIR__.'/elements/box-site-header-contents.php'; ?>
+                <div class="row <?= $mods->site_reverse_layout ? 'flex-column-reverse flex-lg-row' : ''; ?>">
 
-        </div>
+                    <? require_once __DIR__.'/elements/box-site-header-contents-bodymode.php'; ?>
 
-        <div class="container g-4 py-4">
-
-            <div class="row <?= $mods->site_reverse_layout ? 'flex-column-reverse flex-lg-row' : ''; ?>">
-
-                <? require_once __DIR__.'/elements/box-site-header-contents-bodymode.php'; ?>
-
-                <? require_once __DIR__.'/elements/box-sidebar-selector-left.php'; ?>
+                    <? require_once __DIR__.'/elements/box-sidebar-selector-left.php'; ?>

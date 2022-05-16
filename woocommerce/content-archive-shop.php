@@ -166,8 +166,8 @@
 
             ?>
                 <div>
-                    <p><b><?= print_theme_lang("shoppage","OPS! NOTHING TO SEE..."); ?></b></p>
-                    <p><?= print_theme_lang("shoppage","Try to change parameters of your search."); ?></p>
+                    <? include get_template_directory().'/elements/box-not-in-database.php'; ?>
+                    <p class="text-center"><?= print_theme_lang("shoppage","Try to change parameters of your search."); ?></p>
                 </div>
             <?
 
